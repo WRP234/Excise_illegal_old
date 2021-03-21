@@ -1,0 +1,17 @@
+<div class="row justify-content-between m-l-5">
+    <div clas="col">
+        <a class="icn-pagination text-secondary" href="javaScript:void(0)" (click)="previousPage()"> |&lt;&lt; </a>
+        <label> หน้าที่
+            <select name="CurrentPage" [(ngModel)]="CurrentPage" (change)="changePage()">
+                <option *ngFor="let page of paginate.pages;" [value]="page">{{page}}</option>
+            </select> จาก {{paginate.endPage}} หน้า</label>
+        <a class="icn-pagination m-r-10 text-secondary" href="javaScript:void(0)" (click)="nextPage()"> &gt;&gt;| </a>
+        รายการที่ {{paginate.startIndex}} - {{paginate.endIndex}} จาก {{paginate.totalItems}} รายการ
+    </div>
+    <div class="col col-lg-3 text-right">
+        <label>แสดง
+            <select name="PageSize" [(ngModel)]="PageSize" (change)="changePageSize()">
+                <option *ngFor="let row of RowsPerPageOptions;" [value]="row">{{row}}</option>
+            </select> รายการ</label>
+    </div>
+</div>

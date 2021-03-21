@@ -1,0 +1,195 @@
+<header class="topbar">
+    <nav class="navbar top-navbar navbar-expand-md navbar-light">
+        <div class="navbar-collapse" style="padding-right: 55px;">
+            <ul class="navbar-nav mr-auto mt-md-0">
+                <li class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickNew()">
+                            สร้างข้อมูล
+                        </a>
+                    </div>
+                </li>
+            </ul>
+            <ul *ngIf="true" class="navbar-nav my-lg-0">
+                <li class="nav-item col-8">
+                    <form autocomplete="off" class="app-search" #formSearch="ngForm"
+                        (ngSubmit)="clickSearch(formSearch.form.value)">
+                        <input type="search" name="TEXT_SEARCH" id="" [(ngModel)]="TEMP_TEXT_SEARCH"
+                            class="form-control">
+                        <a href="javaScript:void(0);" (click)="clickSearch(formSearch.form.value)" class="srh-btn">
+                            <i class="ti-search"></i>
+                        </a>
+                    </form>
+                </li>
+                <li class="nav-item col-9">
+                    <a href="javaScript:void(0);" class="btn text-white" (click)="setAdvSearch()">
+                        ค้นหาขั้นสูง
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<div *ngIf="advSearch | async" class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius">
+        <app-card-actions-close></app-card-actions-close>
+        <h4 class="card-title m-b-0">ค้นหาขั้นสูง</h4>
+    </div>
+
+    <div class="card-body">
+        <form class="form-horizontal" #advForm="ngForm" (ngSubmit)="onAdvSearch(advForm)">
+            <div>
+                <div class="row">
+                    <label for="" class="col-lg-2 col-sm-3 control-label">เลขที่โอนย้าย</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" name="EVIDENCE_OUT_CODE" ngModel [(ngModel)]="TEMP_EVIDENCE_OUT_CODE"
+                                    class="form-control form-control-sm" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <label for="" class="col-lg-2 col-sm-3 control-label">วันที่โอนย้าย</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group input-group">
+                            <my-date-picker-th ngModel name="EVIDENCE_OUT_DATE_START" placeholder="" locale="th"
+                                id="EVIDENCE_OUT_DATE_START" [options]="myDatePickerEvidenceOutFromOptions"
+                                [(ngModel)]="EVIDENCE_OUT_DATE_START" (dateChanged)="onEvidenceOutDateFromChanged($event)"
+                                class="form-control form-control-sm unset-form-control">
+                            </my-date-picker-th>
+
+                            <label for="">&nbsp;ถึง&nbsp;</label>
+
+                            <my-date-picker-th ngModel name="EVIDENCE_OUT_DATE_END" placeholder="" locale="th"
+                                id="EVIDENCE_OUT_DATE_END" [options]="myDatePickerEvidenceOutToOptions"
+                                [(ngModel)]="EVIDENCE_OUT_DATE_END" (dateChanged)="onEvidenceOutDateToChanged($event)"
+                                class="form-control form-control-sm unset-form-control">
+                            </my-date-picker-th>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="" class="col-lg-2 col-sm-3 control-label">เลขที่หนังสือนำส่ง</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" name="EVIDENCE_OUT_NO" ngModel [(ngModel)]="TEMP_EVIDENCE_OUT_NO"
+                                    class="form-control form-control-sm" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <label for="" class="col-lg-2 col-sm-3 control-label">วันที่อนุมัติ</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group input-group">
+                            <my-date-picker-th ngModel name="APPROVE_DATE_START" placeholder="" locale="th"
+                                id="APPROVE_DATE_START" [options]="myDatePickerApproveFromOptions"
+                                [(ngModel)]="APPROVE_DATE_START" (dateChanged)="onApproveDateFromChanged($event)"
+                                class="form-control form-control-sm unset-form-control">
+                            </my-date-picker-th>
+
+                            <label for="">&nbsp;ถึง&nbsp;</label>
+
+                            <my-date-picker-th ngModel name="APPROVE_DATE_END" placeholder="" locale="th"
+                                id="APPROVE_DATE_END" [options]="myDatePickerApproveToOptions"
+                                [(ngModel)]="APPROVE_DATE_END" (dateChanged)="onApproveDateToChanged($event)"
+                                class="form-control form-control-sm unset-form-control">
+                            </my-date-picker-th>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="" class="col-lg-2 col-sm-3 control-label">ผู้นำออก</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" name="EVIDENCE_OUT_STAFF" ngModel [(ngModel)]="TEMP_EVIDENCE_OUT_STAFF"
+                                    class="form-control form-control-sm" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <label for="" class="col-lg-2 col-sm-3 control-label">หน่วยงาน</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <ng-template #rt let-OFFICE_SHORT_NAME="result" let-t="term">
+                                    {{ OFFICE_SHORT_NAME }}
+                                </ng-template>
+                                <input type="text" name="OFFICE_NAME" ngModel
+                                    [(ngModel)]="TEMP_OFFICE_NAME" class="form-control form-control-sm "
+                                    [ngbTypeahead]="searchOffice_ll" [resultTemplate]="rt"
+                                    placeholder="{{staffInfo.OPERATION_OFFICE_SHORT_NAME}}"
+                                    [disabled]="canOfficeSearch()" />
+                                <!-- <input type="text" class="form-control form-control-sm" ngModel [(ngModel)]="TEMP_DELIVERY_OFFICE_NAME" name="DELIVERY_OFFICE_NAME"> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-10"></div>
+                    <div class="col-2">
+                        <button type="submit" class="btn btn-block btn-themecolor">ค้นข้อมูล</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div style="overflow: auto;">
+            <table class="table table-sm table-striped table-nowrap" style="width:2000px">
+                <thead>
+                    <tr>
+                        <th style="text-align: center;width:5%">ลำดับ</th>
+                        <th>เลขที่โอนย้าย<i
+                                [ngClass]="(EVIDENCE_OUT_CODE_SORTING | async) ? 'mdi mdi-sort-descending' : 'mdi mdi-sort-ascending'"
+                                style="margin-left: 5px;cursor: pointer;" (click)="Sorter(EVIDENCE_OUT_CODE_SORTING,'TN')"></i></th>
+                        <th>วันที่โอนย้าย <i
+                                [ngClass]="(EVIDENCE_OUT_DATE_SORTING | async) ? 'mdi mdi-sort-descending' : 'mdi mdi-sort-ascending'"
+                                style="margin-left: 5px;cursor: pointer;"
+                                (click)="Sorter(EVIDENCE_OUT_DATE_SORTING,'EVIDENCE_OUT_DATE')"></i></th>
+                        <th>เลขที่หนังสือนำส่ง</th>
+                        <th>วันที่อนุมัติ<i
+                                [ngClass]="(APPROVE_DATE_SORTING | async) ? 'mdi mdi-sort-descending' : 'mdi mdi-sort-ascending'"
+                                style="margin-left: 5px;cursor: pointer;"
+                                (click)="Sorter(APPROVE_DATE_SORTING,'APPROVE_DATE')"></i>
+                        </th>
+                        <th>ผู้นำออก</th>
+                        <th>หน่วยงาน</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of evidenceOutStorageList; let i=index;"
+                        style="cursor: pointer;">
+                        <td style="text-align: center;">{{i + 1}}</td>
+                        <td>{{item.EVIDENCE_OUT_CODE}}</td>
+                        <td>{{item.TEXT_EVIDENCE_OUT_DATE}}</td>
+                        <td>{{item.EVIDENCE_OUT_NO}}</td>
+                        <td>{{item.TEXT_APPROVE_DATE}}</td>
+                        <td>{{item.EvidenceOutStaff[0].TITLE_SHORT_NAME_TH +" "+item.EvidenceOutStaff[0].FIRST_NAME+" "+item.EvidenceOutStaff[0].LAST_NAME}}</td>
+                        <td>{{item.EvidenceOutStaff[0].OPERATION_OFFICE_SHORT_NAME}}</td>
+                        <td class="text-center;">
+                            <a href="javaScript:void(0);" class="text-secondary"
+                                (click)="clickEdit(item.EVIDENCE_OUT_ID)">
+                                <i class="mdi mdi-eye fa-lg"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer card-footer-unset">
+            <app-pagination-table [TotalItems]="paginage.TotalItems" [CurrentPage]="paginage.CurrentPage"
+                [PageSize]="paginage.PageSize" [RowsPerPageOptions]="paginage.RowsPerPageOptions"
+                (onPageChange)="pageChanges($event)">
+            </app-pagination-table>
+        </div>
+    </div>
+</div>

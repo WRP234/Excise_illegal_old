@@ -1,0 +1,20 @@
+.mydp * {
+}
+
+.mydp input, .mydp table * {
+    font-family: 'Kanit', sans-serif;
+}
+
+.mydp input {
+    width: 95%;
+}
+
+.unset-form-control-border{
+    padding: unset !important;
+    border: unset;
+}
+
+.unset-form-control {
+    padding: unset !important;
+    border: unset !important;
+}

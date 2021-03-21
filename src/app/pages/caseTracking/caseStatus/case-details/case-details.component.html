@@ -1,0 +1,346 @@
+<header class="topbar">
+  <nav class="navbar top-navbar navbar-expand-md navbar-light">
+
+    <div class="navbar-collapse" style="padding-right: 55px;">
+      <ul class="navbar-nav mr-auto mt-md-0">
+        <li *ngIf="false" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickNew()">
+              สร้างข้อมูล
+            </a>
+          </div>
+        </li>
+        <li *ngIf="false" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickPrint()">
+              พิมพ์
+            </a>
+          </div>
+        </li>
+        <li *ngIf="false" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickEdit()">
+
+              แก้ไข
+            </a>
+          </div>
+        </li>
+        <li *ngIf="false" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickDelete()"
+              style="background-color: #f47023">
+
+              ลบ
+            </a>
+          </div>
+        </li>
+        <li *ngIf="false" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickSave()">
+
+              บันทึก
+            </a>
+          </div>
+        </li>
+        <li *ngIf="false" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickCancel()">
+
+              ยกเลิก
+            </a>
+          </div>
+        </li>
+      </ul>
+      <ul *ngIf="false" class="navbar-nav my-lg-0">
+        <li class="nav-item col-8">
+          <form autocomplete="off" class="app-search" #formSearch="ngForm" (ngSubmit)="clickSearch(formSearch)">
+            <input type="search" name="TEXT_SEARCH" id="" ngModel class="form-control">
+            <a href="javaScript:void(0);" (click)="clickSearch(formSearch.form.value)" class="srh-btn">
+              <i class="ti-search"></i>
+            </a>
+          </form>
+        </li>
+        <li class="nav-item col-9">
+          <a href="javaScript:void(0);" class="btn text-white" (click)="setAdvSearch()">
+            ค้นหาขั้นสูง
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<div class="card card-outline-bluish unset-radius">
+  <div class="card-header unset-radius">
+    <app-card-actions-collapse></app-card-actions-collapse>
+    <h4 class="card-title m-b-0">รายละเอียดสถานะคดี</h4>
+  </div>
+  <div class="card-body">
+    <div class="row">
+
+      <div class="col-sm-6 col-md-6">
+        <div class="card-body" >
+          <div *ngIf="caseStatusDetail != null">
+
+            <!-- จับกุม -->
+            <div class="row mb-3" *ngIf="caseStatusDetail.ARREST_CODE != '' && caseStatusDetail.ARREST_CODE != null">
+              <div class="col-sm-1">
+                <div class="status-line-box">
+                  <div class="circle-status" [ngClass]="(caseStatusDetail.ARREST_CODE != '' && caseStatusDetail.ARREST_CODE != null) ? 'pass-status' : 'notpass-status' "></div>
+                  <div class="line-status" *ngIf="caseStatusDetail.ARREST_CODE != '' && caseStatusDetail.ARREST_CODE != null"></div>
+                </div>
+              </div>
+
+              <div class="col-sm-4" style="background-color: rgb(241, 241, 241)">
+                <div class="card-body">
+                  <div class="row">
+                    <span style="text-align: center ; font-size: 20px; color: rgb(44, 84, 202)">จับกุม</span>
+                  </div>
+                  <div class="row" style="text-align: center">
+                    <span style="text-align: center ; font-size: 13px"> {{caseStatusDetail.OCCURRENCE_DATE}} </span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-7 Vertical-Line" style="background-color: rgb(241, 241, 241)">
+                <div class="card-body">
+                  <div class="row" style="text-align: center">
+                    <div class="col-sm-12">
+                      <span style="text-align: center ; font-size: 15px">
+                        <b> {{caseStatusDetail.LawbreakerList[0].ARREST_LAWBREAKER_NAME}} </b>
+                      </span>
+                      <br />
+                      <span style="text-align: center ; font-size: 15px"><b>ผู้ต้องหา</b></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- รับคดี -->
+            <div class="row mb-3" *ngIf="caseStatusDetail.ARREST_CODE != '' && caseStatusDetail.ARREST_CODE != null" >
+              <div class="col-sm-1">
+                <div class="status-line-box">
+                  <div class="circle-status" [ngClass]="(caseStatusDetail.LAWSUIT_NO != '' && caseStatusDetail.LAWSUIT_NO != null) ? 'pass-status' : 'notpass-status' "></div>
+                  <div class="line-status" *ngIf="caseStatusDetail.LAWSUIT_NO != '' && caseStatusDetail.LAWSUIT_NO != null"></div>
+                </div>
+              </div>
+              
+              <div class="col-sm-4" style="background-color: rgb(241, 241, 241)">
+                <div class="card-body">
+                  <div class="row">
+                    <span style="text-align: center ; font-size: 20px; color: rgb(44, 84, 202)">รับคดี</span>
+                  </div>
+                  <div class="row" style="text-align: center">
+                    <span style="text-align: center ; font-size: 13px"> {{caseStatusDetail.LAWSUIT_DATE}} </span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-7 Vertical-Line" style="background-color: rgb(241, 241, 241)">
+                <div class="card-body">
+                  <div class="row" *ngIf="caseStatusDetail.LAWSUIT_NO != '' && caseStatusDetail.LAWSUIT_NO != null" style="text-align: center">
+                    <div class="col-sm-6">
+                      <span style="text-align: center ; font-size: 15px"><b> {{caseStatusDetail.LAWSUIT_NO}} </b></span>
+                      <br />
+                      <span style="text-align: center ; font-size: 15px"><b>รับเป็นคดี</b></span>
+                    </div>
+                    <div class="col-sm-6">
+                      <span style="text-align: center ; font-size: 15px"><b> {{caseStatusDetail.SUBSECTION_NAME}} </b></span>
+                      <br />
+                      <span style="text-align: center ; font-size: 15px"><b>ฐานความผิดมาตรา</b></span>
+                    </div>
+                  </div>
+                  <div class="row" *ngIf="caseStatusDetail.LAWSUIT_NO == '' || caseStatusDetail.LAWSUIT_NO == null" style="text-align: center">
+                    <div class="col-sm-12">
+                      <span style="text-align: center ;color:red; font-size: 15px"><b> ยังไม่รับเป็นคดี </b></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- พิสูจณ์ -->
+            <div class="row mb-3" *ngIf="caseStatusDetail.LAWSUIT_NO != '' && caseStatusDetail.LAWSUIT_NO != null" >
+              <div class="col-sm-1">
+                <div class="status-line-box">
+                  <div class="circle-status" [ngClass]="(caseStatusDetail.PROVE_NO != '' && caseStatusDetail.PROVE_NO != null) ? 'pass-status' : 'notpass-status' "></div>
+                  <div class="line-status" *ngIf="caseStatusDetail.PROVE_NO != '' && caseStatusDetail.PROVE_NO != null"></div>
+                </div>
+              </div>
+              <div class="col-sm-4" style="background-color: rgb(241, 241, 241)">
+                <div class="card-body">
+                  <div class="row">
+                    <span style="text-align: center ; font-size: 20px; color: rgb(44, 84, 202)">พิสูจน์</span>
+                  </div>
+                  <div class="row" style="text-align: center">
+                    <span style="text-align: center ; font-size: 13px"> {{caseStatusDetail.PROVE_DATE}} </span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-7 Vertical-Line" style="background-color: rgb(241, 241, 241)">
+                <div class="card-body">
+                  <div class="row" *ngIf="caseStatusDetail.PROVE_NO != '' && caseStatusDetail.PROVE_NO != null" style="text-align: center">
+                    <div class="col-sm-6">
+                      <span style="text-align: center ; font-size: 15px" *ngIf="caseStatusDetail.ProductList[0] != '' && caseStatusDetail.ProductList[0] != undefined">
+                        <b> {{caseStatusDetail.ProductList[0].PRODUCT_GROUP_NAME}} </b>
+                      </span>
+                      <span style="text-align: center ; font-size: 15px" *ngIf="caseStatusDetail.ProductList[0] == '' && caseStatusDetail.ProductList[0] == undefined"><b> - </b></span>
+                      <br />
+                      <span style="text-align: center ; font-size: 15px"><b>หมวดสินค้า</b></span>
+                    </div>
+                    <div class="col-sm-6">
+                      <span style="text-align: center ; font-size: 15px"><b> - </b></span>
+                      <br />
+                      <span style="text-align: center ; font-size: 15px"><b>มูลค่าภาษี</b></span>
+                    </div>
+                  </div>
+
+                  <div class="row" *ngIf="caseStatusDetail.PROVE_NO == '' || caseStatusDetail.PROVE_NO == null" style="text-align: center">
+                    <div class="col-sm-12">
+                      <span style="text-align: center ;color:red; font-size: 15px"><b> รอพิสูจณ์ </b></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- เปรียบเทียบ -->
+            <div class="row mb-3" *ngIf="caseStatusDetail.PROVE_NO != '' && caseStatusDetail.PROVE_NO != null" >
+              <div class="col-sm-1">
+                <div class="status-line-box">
+                  <div class="circle-status" [ngClass]="(caseStatusDetail.COMPARE_NO != '' && caseStatusDetail.COMPARE_NO != null) ? 'pass-status' : 'notpass-status' "></div>
+                </div>
+              </div>
+              <div class="col-sm-4" style="background-color: rgb(241, 241, 241)">
+                <div class="card-body">
+                  <div class="row">
+                    <span style="text-align: center ; font-size: 20px; color: rgb(44, 84, 202)">เปรียบเทียบ</span>
+                  </div>
+                  <div class="row" style="text-align: center">
+                    <span style="text-align: center ; font-size: 13px"> {{caseStatusDetail.COMPARE_DATE}} </span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-7 Vertical-Line" style="background-color: rgb(241, 241, 241)">
+                <div class="card-body">
+                  <div class="row" *ngIf="caseStatusDetail.COMPARE_NO == '' || caseStatusDetail.COMPARE_NO == null" style="text-align: center">
+                    <div class="col-sm-12">
+                      <span style="text-align: center ;color:red; font-size: 15px"><b> รอเปรียบเทียบและชำระ </b></span>
+                    </div>
+                  </div>
+                  <div class="row" *ngIf="caseStatusDetail.COMPARE_NO != '' && caseStatusDetail.COMPARE_NO != null" style="text-align: center">
+                    <div class="col-sm-12">
+                      <span style="text-align: center ; font-size: 15px"><b> {{ caseStatusDetail.COMPARE_NO }} </b></span>
+                      <br />
+                      <span style="text-align: center ; font-size: 15px"><b> {{ caseStatusDetail.COMPARE_STAFF_NAME }} </b></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- <div class="col-sm-4" *ngIf="c == 4" style="background-color: rgb(241, 241, 241)">
+                <div class="card-body">
+                  <div class="row">
+                    <span style="text-align: center ; font-size: 20px; color: rgb(44, 84, 202)">นำส่งเงินรายได้</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-7 Vertical-Line" *ngIf="c == 4" style="background-color: rgb(241, 241, 241)">
+                <div class="card-body">
+                  <div class="row" style="text-align: center">
+                    <div class="col-sm-12">
+                      <span style="text-align: center ;color:red; font-size: 15px"><b> {{i.CASE_STATUS}} </b></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-4" *ngIf="c == 5" style="background-color: rgb(241, 241, 241)">
+                <div class="card-body">
+                  <div class="row">
+                    <span style="text-align: center ; font-size: 20px; color: rgb(44, 84, 202)">สินบนรางวัล</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-7 Vertical-Line" *ngIf="c == 5" style="background-color: rgb(241, 241, 241)">
+                <div class="card-body">
+                  <div class="row" style="text-align: center">
+                    <div class="col-sm-12">
+                      <span style="text-align: center ;color:red; font-size: 15px"><b> {{i.CASE_STATUS}} </b></span>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+
+            </div><br><br>
+          </div>
+          <div *ngIf="listCaseStatusDetail == null">
+            <div class="row">
+              <div class="col-sm-2">
+              </div>
+              <div class="col-sm-4" style="background-color: rgb(241, 241, 241) ;color: rgb(44, 84, 202)">
+                <div class="card-body">
+                  <div class="row">
+                    <span style="text-align: center ; font-size: 20px">รับคดี</span>
+                  </div>
+                  <!-- <div class="row" style="text-align: center">
+                    <span style="text-align: center ; font-size: 13px">13 สิงหาคม 2562</span>
+                  </div> -->
+                </div>
+              </div>
+              <div class="col-sm-6 Vertical-Line" style="background-color: rgb(241, 241, 241); ">
+                <div class="card-body">
+                  <div class="row" style="text-align: center">
+                    <span style="text-align: center ; font-size: 15px; color: rgb(233, 0, 0)">ยังไม่รับเป็นคดี</span>
+                  </div>
+                  <!-- <div class="row" style="text-align: center">
+                    <span style="text-align: center ; font-size: 15px">ผู้ต้องหา</span>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <div class="card-header unset-radius">
+          <app-card-actions-collapse></app-card-actions-collapse>
+          <h4 class="card-title m-b-0">สถานะการจ่ายเงินสินบนรางวัล</h4>
+        </div>
+
+        <div class="card">
+          <div class="row" style="padding-bottom: 8px; padding-top: 8px">
+            <label style="padding-left: 25px;" class="col-lg-4 col-sm-3 col-md-3 ">สถานะการเเบ่งเงิน :
+            </label>
+            <h4 style="color: red; padding-left: 14px;">ยังไม่เเบ่งเงิน</h4>
+          </div>
+          <div class="row" style="padding-bottom: 8px;">
+            <label style="padding-left: 25px;" class="col-lg-3 col-sm-3 col-md-3 ">วันที่จ่ายเงิน :
+            </label>
+            <div class="form-group col-sm-3 col-md-4" style="margin-bottom: -4px ;padding-left: 0px;">
+              <my-date-picker-th ngModel name="DateFrom" placeholder="" locale="th"
+                class="form-control form-control-sm unset-form-control"></my-date-picker-th>
+            </div>
+            <label class=" col-sm-1 px-0" style="text-align: left">เวลา </label>
+            <input class="form-control col-lg-3 col-sm-3 col-md-3" type="text" name="xxxxxxxxx" ngModel>
+          </div>
+          <div class="row" style="padding-bottom: 8px;">
+            <label style="padding-left: 25px;" class="col-lg-3 col-sm-3 col-md-3 ">ผู้จ่ายเงิน : </label>
+            <input class="form-control col-lg-8 col-sm-8 col-md-8" type="text" name="xxxxxxxxx" ngModel>
+          </div>
+          <div class="row" style="padding-bottom: 8px;">
+            <label style="padding-left: 25px;" class="col-lg-3 col-sm-3 col-md-3 ">ตำเเหน่ง : </label>
+            <input class="form-control col-lg-8 col-sm-8 col-md-8 " type="text" name="xxxxxxxxx" ngModel>
+          </div>
+          <div class="row" style="padding-bottom: 8px;">
+            <label style="padding-left: 25px;" class="col-lg-3 col-sm-3 col-md-3 ">หน่วยงาน : </label>
+            <input class="form-control col-lg-8 col-sm-8 col-md-8" type="text" name="xxxxxxxxx" ngModel>
+          </div>
+          <div class="row" style="padding-bottom: 8px;">
+            <label style="padding-left: 25px;" class="col-lg-3 col-sm-3 col-md-3 ">หมายเหตุ : </label>
+            <input class="form-control col-lg-8 col-sm-8 col-md-8" type="text" name="xxxxxxxxx" ngModel>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

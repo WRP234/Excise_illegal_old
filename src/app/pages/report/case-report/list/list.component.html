@@ -1,0 +1,19 @@
+<header class="topbar">
+  <nav class="navbar top-navbar navbar-expand-md navbar-light"></nav>
+</header>
+
+<div class="card card-outline-bluish unset-radius">
+  <div class="card-header unset-radius">
+    <app-card-actions-collapse></app-card-actions-collapse>
+    <h5 class="card-title m-b-0">รายงานส่วนคดี</h5>
+  </div>
+  <div class="card-body">
+    <div class="form-body">
+      <ng-container *ngFor="let item of reportList; let i=index;">
+        <div class="m-b-5" style="cursor: pointer;" (click)="onClick(item)">
+          <span>{{i+1}}. {{item.reportName}}</span>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

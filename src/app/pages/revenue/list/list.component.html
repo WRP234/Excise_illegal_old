@@ -1,0 +1,216 @@
+<header class="topbar">
+    <nav class="navbar top-navbar navbar-expand-md navbar-light">
+        <div class="navbar-collapse" style="padding-right: 55px;">
+            <ul class="navbar-nav mr-auto mt-md-0">
+                <li class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickNew()">
+                            สร้างข้อมูล
+                        </a>
+                    </div>
+                </li>
+            </ul>
+            <ul class="navbar-nav my-lg-0">
+                <li class="nav-item col-8">
+                    <form autocomplete="off" class="app-search" #formSearch="ngForm"
+                        (ngSubmit)="clickSearch(formSearch.form.value)">
+                        <input type="search" name="TEXT_SEARCH" id="" ngModel [(ngModel)]="TEMP_TEXT_SEARCH"
+                            class="form-control">
+                        <a href="javaScript:void(0);" (click)="clickSearch(formSearch.form.value)" class="srh-btn">
+                            <i class="ti-search"></i>
+                        </a>
+                    </form>
+                </li>
+                <li class="nav-item col-9">
+                    <a href="javaScript:void(0);" class="btn text-white" (click)="setAdvSearch()">
+                        ค้นหาขั้นสูง
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<!-- <app-horizontal-timeline></app-horizontal-timeline> -->
+<div *ngIf="advSearch | async" class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius">
+        <app-card-actions-close></app-card-actions-close>
+        <h4 class="card-title m-b-0">ค้นหาขั้นสูง</h4>
+    </div>
+
+    <div class="card-body">
+        <form class="form-horizontal" #advForm="ngForm" (ngSubmit)="onAdvSearch(advForm.value)">
+            <div>
+                <div class="row">
+                    <label for="" class="col-lg-2 col-sm-3 control-label">เลขที่นำส่งเงิน</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" name="REVENUE_CODE" ngModel [(ngModel)]="TEMP_REVENUE_CODE"
+                                    class="form-control form-control-sm" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <label for="" class="col-lg-2 col-md-4 control-label">วันที่นำส่ง</label>
+                    <div class="form-group input-group col-lg-4 col-md-7">
+                        <my-date-picker-th style="z-index: 10 !important;" name="REVENUE_DATE_FROM"
+                            [options]="dateFromOption" class="form-control unset-form-control"
+                            [(ngModel)]="REVENUE_DATE_FROM" (dateChanged)="onSDateChange($event)"></my-date-picker-th>
+                        <label for="" class="">&nbsp; ถึง &nbsp;</label>
+                        <my-date-picker-th style="z-index: 10 !important;" name="REVENUE_DATE_TO"
+                            [options]="dateToOption" class="form-control unset-form-control"
+                            [(ngModel)]="REVENUE_DATE_TO" (dateChanged)="onEDateChange($event)"></my-date-picker-th>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="" class="col-lg-2 col-sm-3 control-label">สถานที่นำส่งเงิน</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <ng-template #rt let-OFFICE_SHORT_NAME="result" let-t="term">
+                                {{ OFFICE_SHORT_NAME }}
+                            </ng-template>
+                            <input type="text" name="DELIVERY_OFFICE_NAME" ngModel
+                                [(ngModel)]="TEMP_DELIVERY_OFFICE_NAME" class="form-control form-control-sm "
+                                [ngbTypeahead]="searchOffice_forList" [resultTemplate]="rt"
+                                [disabled]="canOfficeSearch()"
+                                placeholder="{{localStaffInfo.OPERATION_OFFICE_SHORT_NAME}}" />
+                        </div>
+                    </div>
+
+                    <label for="" class="col-lg-2 col-sm-3 control-label">ชื่อผู้นำส่งเงิน</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" name="STAFF_NAME_SEND" ngModel [(ngModel)]="TEMP_STAFF_NAME_SEND"
+                                    class="form-control form-control-sm" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="" class="col-lg-2 col-sm-3 control-label">ผู้มีอำนาจลงนาม</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" name="STAFF_NAME_SIGN" ngModel [(ngModel)]="TEMP_STAFF_NAME_SIGN"
+                                    class="form-control form-control-sm" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <label for="" class="col-lg-2 col-md-4 control-label">เลขที่คดี :</label>
+                    <div class="form-group input-group col-lg-4 col-md-7">
+                        <input type="text" name="LAWSUIT_NO" ngModel [(ngModel)]="TEMP_LAWSUIT_NO"
+                            class="form-control form-control-sm" placeholder="" (keypress)="isNumberOnly($event)">
+                        <label for="" class="">&nbsp; / &nbsp;</label>
+                        <input type="text" name="LAWSUIT_NO_YEAR" ngModel [(ngModel)]="TEMP_LAWSUIT_NO_YEAR"
+                            class="form-control form-control-sm" placeholder="" (keypress)="isNumberOnly($event)">
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="" class="col-lg-2 col-sm-3 control-label">ประเภทคดี</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-line">
+                            <select name="LAWSUIT_IS_OUTSIDE" ngModel [(ngModel)]="TEMP_LAWSUIT_IS_OUTSIDE"
+                                class="form-control form-control-sm">
+                                <option value="">ทั้งหมด</option>
+                                <option value="0">คดีในสถานที่ทำการ</option>
+                                <option value="1">คดีนอกสถานที่ทำการ</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <label for="" class="col-lg-2 col-md-4 control-label">เลขที่คดีเปรียบเทียบ</label>
+                    <div class="form-group input-group col-lg-4 col-md-7">
+                        <input type="text" name="COMPARE_NO" ngModel [(ngModel)]="TEMP_COMPARE_NO"
+                            class="form-control form-control-sm" placeholder="" (keypress)="isNumberOnly($event)">
+                        <label for="" class="">&nbsp; / &nbsp;</label>
+                        <input type="text" name="COMPARE_NO_YEAR" ngModel [(ngModel)]="TEMP_COMPARE_NO_YEAR"
+                            class="form-control form-control-sm" placeholder="" (keypress)="isNumberOnly($event)">
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="" class="col-lg-2 col-sm-3 control-label">สถานะนำส่งเงิน</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-line">
+                            <select name="REVENUE_STATUS" ngModel [(ngModel)]="TEMP_REVENUE_STATUS"
+                                class="form-control form-control-sm">
+                                <option value="">ทั้งหมด</option>
+                                <option value="1">นำส่งเงินรายได้</option>
+                                <option value="2">ระบบรายได้รับแล้ว</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <input type="hidden" name="ACCOUNT_OFFICE_CODE" ngModel>
+
+                <div class="row form-group">
+                    <div class="col-10"></div>
+                    <div class="col-2">
+                        <button type="submit" class="btn btn-block btn-themecolor">ค้นข้อมูล</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card unset-radius">
+    <div class="card-body">
+        <div class="table-responsive table-sm table-striped" style="overflow: hidden;">
+            <table #EvidenceTable class="table" style="width: 100%; max-width: unset;">
+                <thead>
+                    <tr>
+                        <th style="text-align: center;width:5%">ลำดับ</th>
+                        <th style="width:12%">เลขที่นำส่งเงิน <i
+                                [ngClass]="(REVENUE_CODE_SORTING | async) ? 'mdi mdi-sort-descending' : 'mdi mdi-sort-ascending'"
+                                style="margin-left: 5px;cursor: pointer;"
+                                (click)="Sorter(REVENUE_CODE_SORTING,'REVENUE_CODE')"></i>
+                        </th>
+                        <th style="width:13%">วันที่นำส่ง<i
+                                [ngClass]="(REVENUE_DATE_SORTING | async) ? 'mdi mdi-sort-descending' : 'mdi mdi-sort-ascending'"
+                                style="margin-left: 5px;cursor: pointer;"
+                                (click)="Sorter(REVENUE_DATE_SORTING,'REVENUE_DATE')"></i></th>
+                        <th>สถานที่นำส่งเงิน</th>
+                        <th>ชื่อผู้นำส่งเงิน</th>
+                        <th>ผู้มีอำนาจลงนาม</th>
+                        <th style="text-align: center;width:7%">จำนวนคดี</th>
+                        <th style="width:12%">สถานะนำส่งเงิน</th>
+                        <th style="text-align: center;width:3%"></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let item of showDataList; let i=index;" (click)="clickView(item.REVENUE_ID)"
+                        style="cursor: pointer;" class="text-{{item.REVENUE_STATUS == 2 ? 'danger':''}}">
+                        <td style="text-align: center;">{{i + 1}}</td>
+                        <td>{{item.REVENUE_CODE}}</td>
+                        <td>{{item.REVENUE_DATE_TEXT}}</td>
+                        <td>{{item.DELIVERY_OFFICE_NAME}}</td>
+                        <td>{{item.STAFF_NAME_SEND}}</td>
+                        <td>{{item.STAFF_NAME_SIGN}}</td>
+                        <td style="text-align: center;">{{item.REVENUE_COUNT}}</td>
+                        <td>{{item.REVENUE_STATUS_TEXT}}</td>
+                        <td style="text-align: center;">
+                            <a href="javaScript:void(0);"
+                                class="text-secondary text-{{item.REVENUE_STATUS == 2 ? 'danger':''}}"
+                                (click)="clickView(item.REVENUE_ID)">
+                                <i class="mdi mdi-eye fa-lg"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="card-footer card-footer-unset">
+            <app-pagination-table [TotalItems]="paginage.TotalItems" [CurrentPage]="paginage.CurrentPage"
+                [PageSize]="paginage.PageSize" [RowsPerPageOptions]="paginage.RowsPerPageOptions"
+                (onPageChange)="pageChanges($event)">
+            </app-pagination-table>
+        </div>
+    </div>
+</div>

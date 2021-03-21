@@ -1,0 +1,135 @@
+<header class="topbar">
+    <nav class="navbar top-navbar navbar-expand-md navbar-light">
+        <div class="navbar-collapse" style="padding-right: 55px;">
+            <ul class="navbar-nav mr-auto mt-md-0">
+                <li *ngIf="PrintButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickPrint()">
+                            พิมพ์
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="EditButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnEdit()">
+                            แก้ไข
+                        </a>
+                    </div>
+                </li>
+                <!-- <li *ngIf="DeleteButton | async" class="nav-item">
+                        <div class="nav-link text-muted waves-effect waves-dark">
+                            <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnDelete()" style="background-color: #f47023">
+                                ลบ
+                            </a>
+                        </div>
+                    </li> -->
+                <li *ngIf="SaveButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnSave()">
+                            บันทึก
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="CancelButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnCancel()">
+                            ยกเลิก
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+
+<div class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius">
+        <app-card-actions-collapse></app-card-actions-collapse>
+        <h4 class="card-title m-b-0">ตำบล</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label">Running No :</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <input type="text" name="SUB_DISTRICT_ID" [(ngModel)]="SUB_DISTRICT_ID" class="form-control " disabled>
+                </div>
+            </div>
+
+            <label for="" class="col-lg-2 col-md-4 control-label">รหัสตำบล :</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <input type="text" name="SUB_DISTRICT_CODE" [(ngModel)]="SUB_DISTRICT_CODE" class="form-control" class="form-control" [disabled]="showEditField"
+                        [ngClass]="{'ng-touched':isRequired}" required>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="" class="col-lg-2 col-md-4 control-label">ชื่อตำบลภาษาไทย :</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <input type="text" name="SUB_DISTRICT_NAME_TH" [(ngModel)]="SUB_DISTRICT_NAME_TH" class="form-control" class="form-control"
+                        [disabled]="showEditField" [ngClass]="{'ng-touched':isRequired}" required>
+                </div>
+            </div>
+
+            <label for="" class="col-lg-2 col-md-4 control-label">ชื่อตำบลภาษาอังกฤษ :</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <input type="text" name="SUB_DISTRICT_NAME_EN" [(ngModel)]="SUB_DISTRICT_NAME_EN" class="form-control" class="form-control"
+                        [disabled]="showEditField" [ngClass]="{'ng-touched':isRequired}" required>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="" class="col-lg-2 col-md-4 control-label">อำเภอ :</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <input type="text" class="form-control" [(ngModel)]="DISTRICT_NAME" name="DISTRICT_NAME" placeholder="" aria-label="Number"
+                        matInput [matAutocomplete]="auto" (input)="onAutoChange($event.target.value)" (focus)="onAutoFocus($event.target.value)"
+                        [disabled]="showEditField" [ngClass]="{'ng-touched':isRequired}" required>
+                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                        <mat-option *ngFor="let option of options" [value]="option.DISTRICT_NAME" (click)="onAutoSelecteWord(option)" (onSelectionChange)="onAutoSelecteWord(option)">
+                            {{ option.DISTRICT_NAME }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </div>
+            </div>
+
+            <label for="" class="col-lg-2 col-md-4 control-label">หน่วยงาน :</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <input type="text" class="form-control" [(ngModel)]="OFFICE_NAME" name="OFFICE_NAME" placeholder="" aria-label="Number" matInput
+                    [matAutocomplete]="auto2" (input)="OfficeonAutoChange($event.target.value)" (focus)="OfficeonAutoFocus($event.target.value)"
+                    [disabled]="showEditField" [ngClass]="{'ng-touched':isRequired}" required>
+                <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete">
+                    <mat-option *ngFor="let f of Foptions" [value]="f.OfficeName" (click)="OfficeonAutoSelecteWord(f)" (onSelectionChange)="onAutoSelecteWord(option)">
+                        {{ f.OfficeName }}
+                    </mat-option>
+                </mat-autocomplete>
+            </div>
+        </div>
+        <div class="row">
+            <label for="" class="col-lg-2 col-md-4 control-label">รหัสไปรษณีย์ :</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <input type="text" name="ZIP_CODE" [(ngModel)]="ZIP_CODE" class="form-control" class="form-control" [disabled]="showEditField"
+                        [ngClass]="{'ng-touched':isRequired}" maxlength="5" required>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2 col-sm-3">
+                <div class="row form-group">
+                    <div class="col">
+                        <input type="checkbox" id="md_isActive" [(ngModel)]="chk1" name="chk1" class="filled-in chk-col-indigo" [disabled]="showEditField"
+                            [checked]="IS_ACTIVE=='1'">
+                        <label for="md_isActive">ใช้งาน</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

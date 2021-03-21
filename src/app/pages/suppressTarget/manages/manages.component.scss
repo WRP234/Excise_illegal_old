@@ -1,0 +1,39 @@
+.inner {
+    // overflow-x: scroll;
+    // /* overflow-y: scroll; */
+    // width: 100%;
+    white-space:nowrap;
+    width: 1200px;
+    overflow-x: scroll;
+    margin-left: 5em;
+    // overflow-y: visible;
+    padding: 6px;
+    
+    /* height: 100px; */
+  }
+  .zui-table .zui-sticky-col {
+    border-left: solid 1px #DDEFEF;
+    border-right: solid 1px #DDEFEF;
+    left: 0;
+    position: absolute;
+    top: auto;
+    width: 120px;
+  }
+  .headcol {
+    position: absolute;
+    width: 5em;
+    left: 0;
+    top: auto;
+    // background-color: #e5eef4;
+    border-top-width: 1px;
+    /*only relevant for first row*/
+    margin-top: -1px;
+    // tbody tr:nth-of-type(odd) {
+    //           background-color: #e5eef4;
+    //         }
+    /*compensate for top border*/
+  }
+  .table-fix tbody tr:nth-of-type(odd) {
+    /* background: #f2f4f8;  */
+    background: #e5eef4;
+  }

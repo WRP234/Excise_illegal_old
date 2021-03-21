@@ -1,0 +1,311 @@
+<!-- <form [formGroup]="LawbreakerFG">
+    <div class="card card-outline-bluish unset-radius">
+        <div class="card-header unset-radius">
+            <div class="card-actions">
+                <a class="" (click)="card1 = !card1">
+                    <i class="fa" [ngClass]="{'fa-chevron-down': card1, 'fa-chevron-up': !card1}"></i>
+                </a>
+            </div>
+            <h4 class="card-title m-b-0">ข้อมูลส่วนต้ว</h4>
+        </div>
+        <div class="card-body" *ngIf="card1">
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-4 control-label">ประเภทผู้ต้องสงสัย</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <select formControlName="LawbreakerType" class="form-control form-control-sm" [ngClass]="{'ng-touched':isRequired}"
+                        [attr.disabled]="showEditField ? '' : null" required (change)="toggleCard()">
+                        <option value="" selected disabled></option>
+                        <option *ngFor="let item of LawbreakerTypes; let i=index;" [value]="item.value">{{item.text}}</option>
+                    </select>
+                </div>
+                <label for="" class="col-lg-2 col-sm-4 control-label">ประเภทบุคคล</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <select formControlName="EntityType" class="form-control form-control-sm" [ngClass]="{'ng-touched':isRequired}"
+                        [attr.disabled]="showEditField ? '' : null" required (change)="toggleCard()">
+                        <option value="" selected disabled></option>
+                        <option *ngFor="let item of entityTypes; let i=index;" [value]="item.value">{{item.text}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-4 control-label">เลขบัตรประชาชน</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <input type="text" formControlName="IDCard" class="form-control form-control-sm" [readonly]="showEditField || requiredCompanyRegister"
+                        [required]="LawbreakerFG.value.EntityType == 1 && LawbreakerFG.value.LawbreakerType == 1"
+                        [ngClass]="{'ng-touched': isRequired}">
+                </div>
+                <label for="" class="col-lg-2 col-sm-4 control-label">คำนำหน้าชื่อ</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <select formControlName="LawbreakerTitleCode" class="form-control form-control-sm" [attr.disabled]="(showEditField || requiredCompanyRegister) ? '' : null">
+                        <option value="" selected disabled></option>
+                        <option *ngFor="let item of typeheadTitleNames; let i=index;" [value]="item.TitleCode">{{item.TitleNameTH}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-4 control-label">ชื่อจริง</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <input type="text" formControlName="LawbreakerFirstName" class="form-control form-control-sm"
+                        [readonly]="showEditField || requiredCompanyRegister">
+                </div>
+                <label for="" class="col-lg-2 col-sm-4 control-label">นามสกุล</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <input type="text" formControlName="LawbreakerLastName" class="form-control form-control-sm"
+                        [readonly]="showEditField || requiredCompanyRegister">
+                </div>
+            </div>
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-4 control-label">ชื่ออื่น</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <input type="text" formControlName="LawbreakerOtherName" class="form-control form-control-sm"
+                        [readonly]="showEditField || requiredCompanyRegister">
+                </div>
+                <label for="" class="col-lg-2 col-sm-4 control-label">วันเกิด</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <my-date-picker-th formControlName="BirthDate" [options]="myDatePickerOptions" [disabled]="showEditField || requiredCompanyRegister">
+                    </my-date-picker-th>
+                </div>
+            </div>
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-4 control-label">กรุ๊ปเลือด</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <select formControlName="BloodType" class="form-control form-control-sm" [attr.disabled]="(showEditField || requiredCompanyRegister) ? '' : null">
+                        <option value="" selected disabled></option>
+                        <option *ngFor="let item of bloodTypes; let i=index;" [value]="item.value">{{item.text}}</option>
+                    </select>
+                </div>
+                <label for="" class="col-lg-2 col-sm-4 control-label">สัญชาติ</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <select formControlName="NationalityCode" class="form-control form-control-sm" [attr.disabled]="(showEditField || requiredCompanyRegister) ? '' : null">
+                        <option value="" selected disabled></option>
+                        <option *ngFor="let item of typeheadNationality; let i=index;" [value]="item.NationalityCode">{{item.NationalityNameTh}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-4 control-label">เชื้อชาติ</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <select #race formControlName="RaceCode" class="form-control form-control-sm" [attr.disabled]="(showEditField || requiredCompanyRegister) ? '' : null">
+                        <option value="" selected disabled></option>
+                        <option *ngFor="let item of typeheadRaces; let i=index;" [value]="item.RaceCode">{{item.RaceNameTH}}</option>
+                    </select>
+                </div>
+                <label for="" class="col-lg-2 col-sm-4 control-label">ศาสนา</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <select formControlName="ReligionCode" class="form-control form-control-sm" [attr.disabled]="(showEditField || requiredCompanyRegister) ? '' : null">
+                        <option value="" selected disabled></option>
+                        <option *ngFor="let item of typeheadReligions; let i=index;" [value]="item.ReligionCode">{{item.ReligionNameTH}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-4 control-label">สถานะภาพ</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <select formControlName="MaritalStatus" class="form-control form-control-sm" [attr.disabled]="(showEditField || requiredCompanyRegister) ? '' : null">
+                        <option value="" selected disabled></option>
+                        <option *ngFor="let item of materialStatus; let i=index;" [value]="item.value">{{item.text}}</option>
+                    </select>
+                </div>
+                <label for="" class="col-lg-2 col-sm-4 control-label">อาชีพ</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <input type="text" formControlName="Career" class="form-control form-control-sm" [readonly]="showEditField || requiredCompanyRegister">
+                </div>
+            </div>
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-4 control-label">ชื่อบิดา</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <input type="text" formControlName="FatherName" class="form-control form-control-sm" [readonly]="showEditField || requiredCompanyRegister">
+                </div>
+                <label for="" class="col-lg-2 col-sm-4 control-label">ชื่อมารดา</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <input type="text" formControlName="MotherName" class="form-control form-control-sm" [readonly]="showEditField || requiredCompanyRegister">
+                </div>
+            </div>
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-4 control-label">เบอร์โทรศัพท์</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <input type="text" formControlName="TelephoneNo" class="form-control form-control-sm" [readonly]="showEditField">
+                </div>
+                <label for="" class="col-lg-2 col-sm-4 control-label">อีเมล์</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <input type="text" formControlName="Email" class="form-control form-control-sm" [readonly]="showEditField">
+                </div>
+            </div>
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-4 control-label">รูปถ่ายผู้ต้องสงสัย</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <label for="fileImg" class="find-img">
+                        <img #imgNobody [src]="LawbreakerFG.get('LinkPhoto').value || 'assets/images/users/nobody.jpg'" 
+                        alt="" height="180px" width="180px">
+                        <span>เลือกรูปภาพ</span>
+                    </label>
+                    <input id='fileImg' (change)="changeImage($event, imgNobody)" type="file" hidden [attr.disabled]="showEditField ? '' : null">
+                </div>
+                <label for="" class="col-lg-2 col-sm-4 control-label">จำนวนครั้งกระทำผิด</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <input type="text" class="form-control form-control-sm" [value]="LawbreakerFG.get('ResultCount').value | async"
+                        readonly>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card card-outline-bluish unset-radius">
+        <div class="card-header unset-radius">
+            <div class="card-actions">
+                <a class="" (click)="card2 = !card2">
+                    <i class="fa" [ngClass]="{'fa-chevron-down': card2, 'fa-chevron-up': !card2}"></i>
+                </a>
+            </div>
+            <h4 class="card-title m-b-0">ที่อยู่/สถานที่ทำการ</h4>
+        </div>
+        <div *ngIf="card2" class="card-body">
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-4 control-label">ละติจูด</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <input #latitude (change)="onChangeGps()" type="text" class="form-control form-control-sm"
+                        formControlName="Latitude" [readonly]="showEditField">
+                </div>
+
+                <label for="" class="col-lg-2 col-sm-4 control-label">ลองจิจูด</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <input #longitude (change)="onChangeGps()" type="text" class="form-control form-control-sm"
+                        formControlName="Longitude" [readonly]="showEditField">
+                </div>
+
+                <input type="text" formControlName="GPS" style="display: none;">
+            </div>
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-4 control-label">บ้านเลขที่</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <input type="text" formControlName="Address" class="form-control form-control-sm" [readonly]="showEditField">
+                </div>
+                <label for="" class="col-lg-2 col-sm-4 control-label">หมู่ที่</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <input type="text" formControlName="Village" class="form-control form-control-sm" [readonly]="showEditField">
+                </div>
+            </div>
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-4 control-label">อาคาร/สถานที่</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <input type="text" formControlName="Building" class="form-control form-control-sm" [readonly]="showEditField">
+                </div>
+                <label for="" class="col-lg-2 col-sm-4 control-label">ห้อง</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <input type="text" formControlName="Room" class="form-control form-control-sm" [readonly]="showEditField">
+                </div>
+            </div>
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-4 control-label">ชั้น</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <input type="text" formControlName="Floor" class="form-control form-control-sm" [readonly]="showEditField">
+                </div>
+                <label for="" class="col-lg-2 col-sm-4 control-label">ตรอก/ซอย</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <input type="text" formControlName="Alley" class="form-control form-control-sm" [readonly]="showEditField">
+                </div>
+            </div>
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-4 control-label">ถนน</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <input type="text" formControlName="Road" class="form-control form-control-sm" [readonly]="showEditField">
+                </div>
+                <label for="" class="col-lg-2 col-sm-4 control-label">ต./อ./จ.</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <ng-template #rt let-r="result" let-t="term">
+                        {{ r.SubdistrictNameTH }} {{r.DistrictNameTH}} {{r.ProvinceNameTH}}
+                    </ng-template>
+
+                    <input type="text" class="form-control form-control-sm" [ngbTypeahead]="searchRegion"
+                        [resultTemplate]="rt" [readOnly]="showEditField" [inputFormatter]="formatterRegion"
+                        (selectItem)="selectItemRegion($event)" [value]="LawbreakerFG.get('Region').value" />
+                </div>
+            </div>
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-4 control-label">รหัสไปรษณีย์</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <input type="text" formControlName="ZipCode" class="form-control form-control-sm" [readonly]="showEditField">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card card-outline-bluish unset-radius">
+        <div class="card-header unset-radius">
+            <div class="card-actions">
+                <a class="" (click)="!disableForeign && card3 = !card3">
+                    <i class="fa" [ngClass]="{'fa-chevron-down': card3, 'fa-chevron-up': !card3}"></i>
+                </a>
+            </div>
+            <h4 class="card-title m-b-0">ข้อมูลชาวต่างชาติ</h4>
+        </div>
+        <div *ngIf="card3" class="card-body">
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-4 control-label">เลขหนังสือเดินทาง</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <input type="text" formControlName="PassportNo" class="form-control form-control-sm" [ngClass]="{'ng-touched':isRequired}"
+                        [required]="requiredPassport" [readonly]="showEditField">
+                </div>
+                <label for="" class="col-lg-2 col-sm-4 control-label">ประเทศที่ออกหนังสือเดินทาง</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <ng-template #rt let-r="result" let-t="term">
+                        {{ r.CountryNameEN }}
+                    </ng-template>
+
+                    <input type="text" class="form-control form-control-sm" [ngbTypeahead]="searchCountry"
+                        [resultTemplate]="rt" [readOnly]="showEditField" [inputFormatter]="formatterCountry"
+                        (selectItem)="selectItemCountry($event)" [value]="LawbreakerFG.get('PassportCountryName').value" />
+                </div>
+            </div>
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-4 control-label">วันที่เข้าประเทศ</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <my-date-picker-th formControlName="PassportDateIn" [options]="myDatePickerOptions" [disabled]="showEditField"></my-date-picker-th>
+                </div>
+                <label for="" class="col-lg-2 col-sm-4 control-label">วันที่ออกประเทศ</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <my-date-picker-th formControlName="PassportDateOut" [options]="myDatePickerOptions" [disabled]="showEditField"></my-date-picker-th>
+                </div>
+            </div>
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-4 control-label">ประเภทวีซ่า</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <select formControlName="VISAType" class="form-control form-control-sm" [attr.disabled]="showEditField ? '' : null">
+                        <option value="" selected disabled></option>
+                        <option *ngFor="let item of visaTypes; let i=index;" [value]="item.value">{{item.text}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card card-outline-bluish unset-radius">
+        <div class="card-header unset-radius">
+            <div class="card-actions">
+                <a class="" (click)="!disableCompany && card4 = !card4">
+                    <i class="fa" [ngClass]="{'fa-chevron-down': card4, 'fa-chevron-up': !card4}"></i>
+                </a>
+            </div>
+            <h4 class="card-title m-b-0">ข้อมูลผู้ประกอบการ</h4>
+        </div>
+        <div *ngIf="card4" class="card-body">
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-4 control-label">เลขทะเบียนนิติบุคคล</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <input type="text" formControlName="CompanyRegistrationNo" class="form-control form-control-sm"
+                        [ngClass]="{'ng-touched':isRequired}" [readonly]="showEditField" [required]="requiredCompanyRegister">
+                </div>
+                <label for="" class="col-lg-2 col-sm-4 control-label">เลขทะเบียนสรรพสามิต</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <input type="text" formControlName="ExciseRegNo" class="form-control form-control-sm" [readonly]="showEditField">
+                </div>
+            </div>
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-4 control-label">ชื่อสถานที่ประกอบการ</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <input type="text" formControlName="CompanyName" class="form-control form-control-sm" [readonly]="showEditField">
+                </div>
+            </div>
+        </div>
+    </div>
+</form> -->

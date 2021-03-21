@@ -1,0 +1,258 @@
+<ng-template #LawbreakerModal let-c="close" let-d="dismiss">
+  <app-ilg60-m-01-01-02-00 (c)="modal.close()" (d)="modal.dismiss()" (Output)="transferToLawBreakerModule($event)"
+    [ModeEmit]="ModeEmit" [PERSON_ID]="PERSON_ID">
+  </app-ilg60-m-01-01-02-00>
+</ng-template>
+
+<div class="modal-header bg-theme">
+  <div class="row">
+    <div class="col-lg-7">
+      <h4 class="modal-title text-white">เพิ่มผู้ต้องหา
+        <a class="btn btn-ghost" (click)="CreateViewLawBreaker('Create')">
+          สร้างข้อมูล
+        </a>
+      </h4>
+    </div>
+    <div class="col-lg-3 col-8">
+      <!-- <form autocomplete="off" class="app-search" #searchFrom="ngForm" (ngSubmit)="onSearchByKey(searchFrom.value)">
+        <input type="search" name="TEXT_SEARCH" ngModel class="form-control form-control-sm">
+        <a class="srh-btn" (click)="onSearchByKey(searchFrom.value)" href="javaScript:void(0)">
+          <i class="ti-search"></i>
+        </a>
+      </form> -->
+    </div>
+    <!-- <div class="col-lg-1 col-sm-4 p-0">
+      <a href="javaScript:void(0);" class="btn text-white" (click)="setAdvSearch()">
+        ค้นหาขั้นสูง
+      </a>
+    </div> -->
+    <a href="javaScript:void(0);" class="close text-white font-14" aria-label="Close" (click)="dismiss('Cross click')">
+      <span aria-hidden="true">
+        <i class=" ti-close"></i>
+      </span>
+    </a>
+  </div>
+</div>
+<h5 class="text-right mt-3 pr-3">ILG60_O_02_00_02_04</h5>
+<div class="modal-body font-14">
+  <div class="card card-outline-bluish unset-radius m-b-15">
+    <div *ngIf="advSearch | async" class="card-header unset-radius">
+      <app-card-actions></app-card-actions>
+      <h4 class="card-title m-b-0">ค้นหาขั้นสูง</h4>
+    </div>
+    <div class="card-body">
+      <form class="form-horizontal" #advForm="ngForm" (ngSubmit)="onAdvSearch(advForm.value)">
+        <div class="row">
+          <label for="" class="col-lg-2 col-sm-4 control-label">ประเภทผู้ต้องหา</label>
+          <div class="col-lg-4 col-sm-8 form-group">
+            <select [(ngModel)]="taskModel.priority" #PersonType name="PERSON_TYPE" ngModel
+              class="form-control form-control-sm">
+              <option *ngFor="let item of PERSON_TYPE" [value]="item.value">{{item.text}}
+              </option>
+            </select>
+          </div>
+
+          <label *ngIf="PersonType.value == 2" for="" class="col-lg-2 col-sm-4 control-label">ชื่อผู้ประกอบการ</label>
+          <div *ngIf="PersonType.value == 2" class="col-lg-4 col-sm-8 form-group">
+            <input type="text" name="COMPANY_NAME" ngModel class="form-control form-control-sm">
+          </div>
+          <label *ngIf="PersonType.value != 2" for="" class="col-lg-2 col-sm-4 control-label">ชื่อผู้ต้องหา</label>
+          <div *ngIf="PersonType.value != 2" class="col-lg-4 col-sm-8 form-group">
+            <input type="text" name="PERSON_NAME" ngModel class="form-control form-control-sm">
+          </div>
+
+        </div>
+        <ng-container [ngSwitch]="PersonType.value">
+          <div *ngSwitchCase="1">
+            <div class="row">
+              <label for="" class="col-lg-2 col-sm-4 control-label">เลขหนังสือเดินทาง</label>
+              <div class="col-lg-4 col-sm-8 form-group">
+                <input type="text" name="PASSPORT_NO" ngModel class="form-control form-control-sm">
+              </div>
+              <label for="" class="col-lg-2 col-sm-4 control-label">ประเทศที่ออกหนังสือ</label>
+              <div class="col-lg-4 col-sm-8 form-group">
+                <input type="text" name="COUNTRY_NAME" ngModel class="form-control form-control-sm">
+              </div>
+            </div>
+            <div class="row">
+              <label for="" class="col-lg-2 col-sm-4 control-label">ชื่อบิดา</label>
+              <div class="col-lg-4 col-sm-8 form-group">
+                <input type="text" name="FATHER_NAME" ngModel class="form-control form-control-sm">
+              </div>
+              <label for="" class="col-lg-2 col-sm-4 control-label">ชื่อมารดา</label>
+              <div class="col-lg-4 col-sm-8 form-group">
+                <input type="text" name="MOTHER_NAME" ngModel class="form-control form-control-sm">
+              </div>
+            </div>
+          </div>
+          <div *ngSwitchCase="2">
+            <div class="row">
+              <label for="" class="col-lg-2 col-sm-4 control-label">เลขบัตรประชาชน</label>
+              <div class="col-lg-4 col-sm-8 form-group">
+                <input type="text" name="ID_CARD" ngModel class="form-control form-control-sm">
+              </div>
+              <label for="" class="col-lg-2 col-sm-4 p-r-0 control-label">เลขทะเบียนสรรพสามิต</label>
+              <div class="col-lg-4 col-sm-8 form-group">
+                <input type="text" name="EXCISE_REGISTRATION_NO" ngModel class="form-control form-control-sm">
+              </div>
+            </div>
+            <div class="row">
+              <label for="" class="col-lg-2 col-sm-4 control-label">เลขทะเบียนนิติบุคคล</label>
+              <div class="col-lg-4 col-sm-8 form-group">
+                <input type="text" name="COMPANY_REGISTRATION_NO" ngModel class="form-control form-control-sm">
+              </div>
+              <label for="" class="col-lg-2 col-sm-4 control-label">ชื่อผู้แทน</label>
+              <div class="col-lg-4 col-sm-8 form-group">
+                <input type="text" name="RELATIONSHIP_NAME" ngModel class="form-control form-control-sm">
+              </div>
+            </div>
+          </div>
+          <div *ngSwitchDefault>
+            <div class="row">
+              <label for="" class="col-lg-2 col-sm-4 control-label">เลขบัตรประชาชน</label>
+              <div class="col-lg-4 col-sm-8 form-group">
+                <input type="text" name="ID_CARD" ngModel class="form-control form-control-sm">
+              </div>
+              <label for="" class="col-lg-2 col-sm-4 control-label">ชื่อบิดา</label>
+              <div class="col-lg-4 col-sm-8 form-group">
+                <input type="text" name="FATHER_NAME" ngModel class="form-control form-control-sm">
+              </div>
+            </div>
+            <div class="row">
+              <label for="" class="col-lg-2 col-sm-4 control-label">ชื่อมารดา</label>
+              <div class="col-lg-4 col-sm-8 form-group">
+                <input type="text" name="MOTHER_NAME" ngModel class="form-control form-control-sm">
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <div class="row form-group">
+          <div class="col-lg-8 col-4"></div>
+          <div class="col-lg-2 col-4">
+            <button type="button" class="btn btn-block" [ngClass]="{'btn-green': ArrestPersonAdded.value.length > 0}"
+              [disabled]="ArrestPersonAdded.value.length == 0" (click)="onSelect('Save click')">เลือก</button>
+          </div>
+          <div class="col-lg-2 col-4">
+            <button type="submit" class="btn btn-block btn-themecolor">ค้นข้อมูล</button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <div>
+    <div class="card unset-radius m-b-15">
+      <div class="card-body p-0">
+        <div class="table-responsive overflow-y-hidden">
+          <table style="width: 130%; max-width: unset;" class="table table-sm table-striped  table-nowrap"
+            [formGroup]="formGroup">
+            <thead>
+              <tr>
+                <th style="width: 2%" class="text-center">
+                  <input type="checkbox" id="th" class="filled-in chk-col-indigo" (change)="checkAll($event)"
+                    [checked]="checkedAll">
+                  <label for="th" class="m-t-10 m-b-0"></label>
+                </th>
+                <th style="width: 2%" class="text-center">ลำดับ</th>
+                <th style="width: 7%">ประเภทผู้ต้องหา</th>
+                <ng-container [ngSwitch]="PersonType.value">
+                  <ng-container *ngSwitchCase="1">
+                    <th style="width: 13%">ชื่อผู้ต้องหา</th>
+                    <th style="width: 13%">เลขหนังสือเดินทาง</th>
+                    <th style="width: 13%">ประเทศที่ออกหนังสือ</th>
+                    <th style="width: 13%">ชื่อบิดา</th>
+                    <th style="width: 13%">ชื่อมารดา</th>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="2">
+                    <th style="width: 12%">ชื่อผู้ประกอบการ</th>
+                    <th style="width: 8%">เลขบัตรประชาชน</th>
+                    <th style="width: 8%">เลขทะเบียนสรรพสามิต</th>
+                    <th style="width: 8%">เลขทะเบียนนิติบุคคล</th>
+                    <th style="width: 10%">ชื่อผู้แทน</th>
+                  </ng-container>
+                  <ng-container *ngSwitchDefault>
+                    <th style="width: 13%">ชื่อผู้ต้องหา</th>
+                    <th style="width: 13%">เลขบัตรประชาชน</th>
+                    <th style="width: 13%">ชื่อบิดา</th>
+                    <th style="width: 13%">ชื่อมารดา</th>
+                  </ng-container>
+                </ng-container>
+                <th style="width: 2%"></th>
+              </tr>
+            </thead>
+            <tbody formArrayName="Person">
+              <tr *ngFor="let item of Person.controls; let i=index;" [formGroupName]="i" style="cursor: pointer;">
+                <td class="text-center">
+                  <input type="checkbox" formControlName="IS_CHECKED" [id]="'IS_CHECKED_PERSON' + i"
+                    class="filled-in chk-col-indigo" (change)="checkOne($event, item.value, i)">
+                  <label [for]="'IS_CHECKED_PERSON' + i" class="m-0"></label>
+                </td>
+                <td (click)="CreateViewLawBreaker(item.get('PERSON_ID').value)" class="text-center">
+                  {{item.get('ROW_ID').value}}</td>
+                <td (click)="CreateViewLawBreaker(item.get('PERSON_ID').value)">
+                  {{getPersonType(item.get('PERSON_TYPE').value)}}</td>
+                <ng-container [ngSwitch]="PersonType.value">
+                  <ng-container *ngSwitchCase="1">
+                    <td (click)="CreateViewLawBreaker(item.get('PERSON_ID').value)">
+                      {{item.get('TITLE_SHORT_NAME_EN').value}}{{item.get('FIRST_NAME').value}}
+                      {{item.get('MIDDLE_NAME').value}}
+                      {{item.get('LAST_NAME').value}}
+                    </td>
+                    <td (click)="CreateViewLawBreaker(item.get('PERSON_ID').value)">{{item.get('PASSPORT_NO').value}}
+                    </td>
+                    <td (click)="CreateViewLawBreaker(item.get('PERSON_ID').value)">
+                      {{item.get('COUNTRY_NAME_TH')?.value}}
+                    </td>
+                    <td (click)="CreateViewLawBreaker(item.get('PERSON_ID').value)">{{item.get('FATHER_NAME')?.value}}
+                    </td>
+                    <td (click)="CreateViewLawBreaker(item.get('PERSON_ID').value)">{{item.get('MATHER_NAME')?.value}}
+                    </td>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="2">
+                    <td (click)="CreateViewLawBreaker(item.get('PERSON_ID').value)">
+                      {{item.get('TITLE_SHORT_NAME_TH').value}}{{item.get('COMPANY_NAME').value}}
+                    </td>
+                    <td (click)="CreateViewLawBreaker(item.get('PERSON_ID').value)">{{item.get('ID_CARD').value}}</td>
+                    <td (click)="CreateViewLawBreaker(item.get('PERSON_ID').value)">
+                      {{item.get('EXCISE_REGISTRATION_NO').value}}
+                    </td>
+                    <td (click)="CreateViewLawBreaker(item.get('PERSON_ID').value)">
+                      {{item.get('COMPANY_REGISTRATION_NO').value}}</td>
+                    <td (click)="CreateViewLawBreaker(item.get('PERSON_ID').value)">
+                      {{item.get('RELATIONSHIP_NAME').value}}</td>
+                  </ng-container>
+                  <ng-container *ngSwitchDefault>
+                    <td (click)="CreateViewLawBreaker(item.get('PERSON_ID').value)">
+                      {{item.get('TITLE_SHORT_NAME_TH').value}}{{item.get('FIRST_NAME').value}}
+                      {{item.get('MIDDLE_NAME').value}}
+                      {{item.get('LAST_NAME').value}}
+                    </td>
+                    <td (click)="CreateViewLawBreaker(item.get('PERSON_ID').value)">{{item.get('ID_CARD').value}}</td>
+                    <td (click)="CreateViewLawBreaker(item.get('PERSON_ID').value)">{{item.get('FATHER_NAME')?.value}}
+                    </td>
+                    <td (click)="CreateViewLawBreaker(item.get('PERSON_ID').value)">{{item.get('MATHER_NAME')?.value}}
+                    </td>
+                  </ng-container>
+                </ng-container>
+                <td class="text-center">
+                  <a class="text-center text-secondary" (click)="CreateViewLawBreaker(item.get('PERSON_ID').value)">
+                    <i class="fa fa-eye fa-lg"></i>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card-footer card-footer-unset">
+        <app-pagination-table [TotalItems]="paginage.TotalItems" [CurrentPage]="paginage.CurrentPage"
+          [PageSize]="paginage.PageSize" [RowsPerPageOptions]="paginage.RowsPerPageOptions"
+          (onPageChange)="pageChanges($event)">
+        </app-pagination-table>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,641 @@
+<header class="topbar">
+  <nav class="navbar top-navbar navbar-expand-md navbar-light">
+    <div class="navbar-collapse">
+      <ul class="navbar-nav mr-auto mt-md-0">
+        <li *ngIf="navState.print" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickPrint()">
+              พิมพ์
+            </a>
+          </div>
+        </li>
+        <li *ngIf="navState.edit" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickEdit()">
+              แก้ไข
+            </a>
+          </div>
+        </li>
+        <li *ngIf="navState.save" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickSave()">
+
+              บันทึก
+            </a>
+          </div>
+        </li>
+        <li *ngIf="navState.cancel" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickCancel()">
+              ยกเลิก
+            </a>
+          </div>
+        </li>
+        <li *ngIf="navState.delete" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickDelete()"
+              style="background-color: #f47023">
+
+              ลบ
+            </a>
+          </div>
+        </li>
+      </ul>
+      <div *ngIf="navState.next" class="navbar-nav my-lg-0">
+        <div class="nav-link text-muted waves-effect waves-dark">
+          <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickNextPage()">
+            {{ navState.next_text }} >>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<ng-template #printDocModal let-c="close" let-d="dismiss">
+  <app-print-lawsuit-modal (c)="modal.close()" (d)="modal.dismiss()" [IndictmentID]="IndictmentID"
+    [LawsuitID]="LawsuitID" [ArrestCode]="ArrestCode" [LAWSUIT_TYPE]="LAWSUIT_TYPE" [IS_LAWSUIT]="IS_LAWSUIT">
+  </app-print-lawsuit-modal>
+</ng-template>
+
+<app-step-wizard [sectionId]="3" [input]="INPUT_WIZARD"></app-step-wizard>
+
+<!-- ############################ lawsuitArrestForm ###########################-->
+<form *ngIf="lawsuitArrestForm" [formGroup]="lawsuitArrestForm">
+  <div class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius" (click)="toggleCollapse(LawsuitArrest)">
+      <div class="card-actions">
+        <a class="">
+          <i class="fa"
+            [ngClass]="{'fa-chevron-up': (LawsuitArrest | async), 'fa-chevron-down': !(LawsuitArrest | async)}"></i>
+        </a>
+      </div>
+      <h4 class="card-title m-b-0">ข้อมูลการจับกุม</h4>
+    </div>
+    <div *ngIf="LawsuitArrest | async" class="card-body">
+      <div class="form-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row">
+              <label class="control-label col-sm-3">เลขที่งาน</label>
+              <div class="form-group col-sm-9">
+                <input class="form-control form-control-sm" type="text" style="color: black;" [attr.disabled]="''"
+                  formControlName="ArrestCode">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="row">
+              <label for="" class="col-sm-3 control-label">วันที่จับกุม</label>
+              <div class="form-group input-group col-sm-9">
+                <input class="form-control form-control-sm" type="text" style="color: black;" [attr.disabled]="''"
+                  formControlName="OccurrenceDate">
+                <label for="" class="">&nbsp; เวลา &nbsp;</label>
+                <input class="form-control form-control-sm" type="text" style="color: black;" [attr.disabled]="'' "
+                  formControlName="OccurrenceTime">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row">
+              <label class="control-label col-sm-3">สถานที่เกิดเหตุ</label>
+              <div class="form-group col-sm-9">
+                <input class="form-control form-control-sm" type="text" style="color: black;" [attr.disabled]="''"
+                  formControlName="ArrestStation">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6" formArrayName="LawsuitArrestStaff" *ngIf="LawsuitArrestStaffShow">
+            <div class="row" *ngFor="let item of LawsuitArrestStaff.controls; let i=index;" [formGroupName]="i">
+              <label class="control-label col-sm-3">ชื่อผู้กล่าวหา</label>
+              <div class="form-group col-sm-9">
+                <input class="form-control form-control-sm" type="text" style="color: black;" formControlName="FullName"
+                  [attr.disabled]="''">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6" formArrayName="LawsuitArrestStaff" *ngIf="LawsuitArrestStaffShow">
+            <div class="row" *ngFor="let item of LawsuitArrestStaff.controls; let i=index;" [formGroupName]="i">
+              <label class="control-label col-sm-3">ตำแหน่ง</label>
+              <div class="form-group col-sm-9">
+                <input class="form-control form-control-sm" type="text" style="color: black;"
+                  formControlName="PositionName" [attr.disabled]="''">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6" formArrayName="LawsuitArrestStaff" *ngIf="LawsuitArrestStaffShow">
+            <div class="row" *ngFor="let item of LawsuitArrestStaff.controls; let i=index;" [formGroupName]="i">
+              <label class="control-label col-sm-3">หน่วยงาน</label>
+              <div class="form-group col-sm-9">
+                <input class="form-control form-control-sm" type="text" style="color: black;"
+                  formControlName="DepartmentName" [attr.disabled]="''">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row">
+              <label class="control-label col-sm-3">มาตรา</label>
+              <div class="form-group col-sm-9">
+                <input class="form-control form-control-sm" type="text" style="color: black;"
+                  formControlName="SubSectionType" [attr.disabled]="''">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="row">
+              <label class="control-label col-sm-3">บทลงโทษมาตรา</label>
+              <div class="form-group col-sm-9">
+                <input class="form-control form-control-sm" type="text" style="color: black;"
+                  formControlName="SectionNo" [attr.disabled]="''">
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row">
+              <label class="control-label col-sm-3">ฐานความผิด</label>
+              <div class="form-group col-sm-9">
+                <textarea class="form-control form-control-sm" type="text" style="color: black;" rows="3"
+                  [formGroup]="lawsuitArrestForm" formControlName="GuiltBaseName" [attr.disabled]="''"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="row">
+              <label class="control-label col-sm-3">อัตราโทษ</label>
+              <div class="form-group col-sm-9">
+                <textarea class="form-control form-control-sm" type="text" style="color: black;" rows="3"
+                  formControlName="PenaltyDesc" [attr.disabled]="''"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-responsive overflow-y-hidden">
+        <table class="table table-sm table-striped table-set-border table-nowrap" style="width: 130%; max-width: unset">
+          <thead>
+            <tr>
+              <th class="footable-sortable text-center">ลำดับ</th>
+              <!-- <th class="footable-sortable">ขนาดบรรจุ</th> -->
+              <!-- <th class="footable-sortable">หน่วย</th> -->
+              <th class="footable-sortable" style="width: 18%;">ของกลาง</th>
+              <th class="footable-sortable text-right">ราคาขายปลีกแนะนำ</th>
+              <th class="footable-sortable text-right">จำนวน</th>
+              <th class="footable-sortable">หน่วยบรรจุ</th>
+              <th class="footable-sortable text-right">ปริมาณสุทธิ</th>
+              <th class="footable-sortable">หน่วยปริมาณสุทธิ</th>
+              <th class="footable-sortable">ดีกรี/ความหวาน/CO2</th>
+              <th class="footable-sortable">หมายเลขเครื่อง</th>
+              <th class="footable-sortable">หมายเลขตัวถัง</th>
+              <th class="footable-sortable">หมายเลขทะเบียนรถ</th>
+              <th class="footable-sortable">ข้อมูลสินค้าเพิ่มเติม</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="footable" *ngFor="let item of LAIPDisplayOnly; let i=index;">
+              <td class="text-center">{{item.RowId}}</td>
+              <!-- <td>{{item.SIZES | number}}</td> -->
+              <!-- <td>{{item.SIZES_UNIT}}</td> -->
+              <td>{{item.PRODUCT_DESC}}</td>
+              <td class="text-right">{{item.PRICE | number :'1.2'}}</td>
+              <td class="text-right">{{item.QUANTITY | number}}</td>
+              <td>{{item.QUANTITY_UNIT}}</td>
+              <td class="text-right">{{item.VOLUMN | number : setToFixed(item.PRODUCT_GROUP_ID)}}</td>
+              <td>{{item.SIZES_UNIT}}</td>
+              <td>
+                <div [ngSwitch]="item.PRODUCT_GROUP_ID">
+                  <div *ngSwitchCase="2">
+                    {{(item.SUGAR || '') | number}}
+                  </div>
+                  <div *ngSwitchCase="6">
+                    {{(item.CO2 || '') | number}}
+                  </div>
+                  <div *ngSwitchCase="7">
+                    {{(item.CO2 || '') | number}}
+                  </div>
+                  <div *ngSwitchCase="8">
+                    {{(item.CO2 || '') | number}}
+                  </div>
+                  <div *ngSwitchCase="13">
+                    {{(item.DEGREE || '') | number}}
+                  </div>
+                </div>
+              </td>
+              <td>{{item.ENGINE_NO}}</td>
+              <td>{{item.CHASSIS_NO}}</td>
+              <td>{{item.LICENSE_PLATE}}</td>
+              <td style="max-width: 210px; width:210px;">{{item.REMARK}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</form>
+
+<!-- ############################ lawsuitForm #########################-->
+<form *ngIf="lawsuitForm" [formGroup]="lawsuitForm" novalidate>
+  <div class="card card-outline-bluish unset-radius">
+
+    <div class="card-header unset-radius" (click)="toggleCollapse(LawsuitConf)">
+      <div class="card-actions">
+        <a class="">
+          <i class="fa"
+            [ngClass]="{'fa-chevron-up': (LawsuitConf | async), 'fa-chevron-down': !(LawsuitConf | async)}"></i>
+        </a>
+      </div>
+      <h4 class="card-title m-b-0">รับคดีคำกล่าวโทษ(ส.ส. 1/55)</h4>
+    </div>
+
+    <div *ngIf="LawsuitConf | async" class="card-body">
+      <div class="form-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="row form-group">
+              <div class="col">
+                <input type="radio" id="IsLawsuit1" name="IS_LAWSUIT" class="col-form-label with-gap radio-col-indigo"
+                  [attr.disabled]="LawsuitID != 0 ? '' : null" (change)="isLawsuitCheckReq('check1')"
+                  style="color: black;" [checked]="lawsuitForm.controls['IS_LAWSUIT'].value === false">
+                <label style="font-weight: 500;" for="IsLawsuit1">รับคดี</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row">
+              <label class="control-label col-sm-4 text-right is-required">เลขที่คดี</label>
+              <div class="form-group input-group col-sm-8">
+                <label *ngIf="IsLawsuitType" for="" class="">&nbsp; {{IsLawsuitType}} &nbsp;</label>
+                <input #LAWSUIT_NO$ class="form-control form-control-sm" type="text" formControlName="LAWSUIT_NO"
+                  [readonly]="lawsuitForm.controls['IS_LAWSUIT'].value || (LawsuitID == 0 ? false : true || lawsuitForm.controls['IS_LAWSUIT'].value)"
+                  style="color: black; text-align: left" (keyup)="isReq_LawsuitNo.next(false)"
+                  [ngClass]="{'ng-invalid-req':isReq_LawsuitNo.value}" (keypress)="isNumberOnly($event)"
+                  (keydown)="validateFirstZelo(LAWSUIT_NO$, 'LAWSUIT_NO', lawsuitForm)"
+                  (blur)="validateFirstZelo(LAWSUIT_NO$, 'LAWSUIT_NO', lawsuitForm)">
+
+                <label for="" class="">&nbsp; / &nbsp;</label>
+
+                <select class="form-control form-control-sm"
+                  [attr.disabled]="(LawsuitID == 0 ? false : true || OnEdit) || lawsuitForm.controls['IS_LAWSUIT'].value ? '' : null"
+                  (change)="changeyear($event.target.value); isReq_LawsuitNoYear.next(false); lawsuitRunningLawsuitNo()"
+                  [ngClass]="{'ng-invalid-req':isReq_LawsuitNoYear.value}">
+                  <option value="item.value" selected disabled></option>
+                  <option *ngFor="let item of yearList; let i=index" [value]="item.value"
+                    [selected]="item.selected == true">{{item.year}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="row">
+              <label class="control-label col-sm-3 is-required">วันที่รับคดี</label>
+              <div class="form-group input-group col-sm-9">
+                <my-date-picker-th style="z-index: 3;" class="form-control form-control-sm unset-form-control"
+                  [options]="LawsuitDateOptions" [disabled]="OnEdit || lawsuitForm.controls['IS_LAWSUIT'].value"
+                  formControlName="LAWSUIT_DATE" [ngClass]="{'ng-invalid-req':isReq_LawsuitDate.value}"
+                  (dateChanged)="isReq_LawsuitDate.next(false)">
+                </my-date-picker-th>
+                <label for="" class="is-required">&nbsp; เวลา &nbsp;</label>
+                <input class="form-control form-control-sm" type="text" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]"
+                  style="color: black;" formControlName="LAWSUIT_TIME" (keypress)="isNumberOnly($event)"
+                  (keyup)="setFormatTimeControl($event, 'LAWSUIT_TIME', lawsuitForm)"
+                  [readonly]="OnEdit || lawsuitForm.controls['IS_LAWSUIT'].value" maxlength="5"
+                  [ngClass]="{'ng-invalid-req':isReq_LawsuitTime.value}" (keydown)="isReq_LawsuitTime.next(false)">
+              </div>
+              <div class="col-sm-7"></div>
+              <div class="form-control col-sm-5 alert alert-danger mt-0 mb-0 pt-2 pb-2 pl-0 pr-0 text-center"
+                role="alert" *ngIf="lawsuitForm.controls['LAWSUIT_TIME'].invalid">
+                กรุณาระบุข้อมูล hh:mm
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-2"></div>
+          <div class="col-md-10">
+            <div class="row form-group">
+              <div class="col">
+                <input
+                  [attr.disabled]="(LawsuitID == 0 ? false : true || OnEdit) || lawsuitForm.controls['IS_LAWSUIT'].value ? '' : null"
+                  formControlName="IS_OUTSIDE" name="IS_OUTSIDE" type="checkbox" id="IsOutSide"
+                  class="filled-in chk-col-indigo" (change)="IsOutsideCheckReq(); lawsuitRunningLawsuitNo()"
+                  style="color: rgb(2, 2, 2);">
+                <label for="IsOutSide">รับคดีคำกล่าวโทษนอกสถานที่</label><b></b>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group row">
+              <label class="control-label col-md-2 text-right is-required">ส่วนราชการ</label>
+              <div class="col-md-10">
+
+                <ng-template #rt let-r="result" let-t="term">
+                  {{ r.OFFICE_SHORT_NAME }}
+                </ng-template>
+
+                <input type="text" class="form-control form-control-sm" [ngbTypeahead]="serachOffice"
+                  [resultTemplate]="rt" [value]="lawsuitForm.controls['OFFICE_NAME'].value"
+                  [readonly]="OnEdit || lawsuitForm.controls['IS_LAWSUIT'].value" [inputFormatter]="formatterOffice"
+                  (selectItem)="selectItemOffice($event)" (blur)="blurSelectItemOffice(StationInput)" #StationInput
+                  [ngClass]="{'ng-invalid-req':isReq_OfficeName.value}" (keyup)="isReq_OfficeName.next(false)"
+                  [disabled]="canOfficeSearch()" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group row">
+              <label class="control-label col-md-2 text-right is-required">คำให้การผู้กล่าวโทษ</label>
+              <div class="col-md-10">
+                <textarea class="form-control form-control-sm" rows="5" style="color: black;" maxlength="2000"
+                  formControlName="TESTIMONY" [readonly]="OnEdit || lawsuitForm.controls['IS_LAWSUIT'].value"
+                  [ngClass]="{'ng-invalid-req':isReq_Testimony.value}" (keyup)="isReq_Testimony.next(false)"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test1 concat wording -->
+        <!-- <div class="row">
+          <div class="col-md-12">
+            <div class="form-group row">
+              <label class="control-label col-md-2 text-right is-required">คำให้การผู้กล่าวโทษ</label>
+              <div class="col-md-10">
+                <textarea class="form-control form-control-sm" rows="5" style="color: black;" maxlength="2000"
+                  *ngFor="let con of concat">{{con}}</textarea>
+              </div>
+            </div>
+          </div>
+        </div> -->
+
+        <!-- Test2 concat wording -->
+        <!-- <div class="row">
+          <div class="col-md-12">
+            <div class="form-group row">
+              <label class="control-label col-md-2 text-right is-required">คำให้การผู้กล่าวโทษ</label>
+              <div class="col-md-10 ">
+                <textarea class="form-control form-control-sm space" rows="5" style="color: black;" maxlength="2000"
+                  *ngFor="let item of LawsuitDetail.controls; let i=index;"
+                  [formGroupName]="i">วันนี้ เวลา 11.00 น. ข้าฯ พร้อมด้วยพวกได้ดำเนินการจับกุม {{ item.controls['A_LawBrakerFullName'].value }} พร้อมของกลาง ตามบัญชีของกลาง ส.ส.2/4 โดยแจ้งข้อกล่วหามีไว้เพื่อขายซึ่งสินค้ที่มิได้เสียภาษี ให้ทราบ ผู้ต้องหา
+                  ยินยอมชำระค่าปรับ ในความผิดที่ถูกกล่วหา จึงได้นำตัวส่ง สำนักงานสรรพสามิตพื้นที่กรุงเทพฯ 3 เพื่อดำเนินการต่อไป</textarea>
+              </div>
+            </div>
+          </div>
+        </div> -->
+
+        <div class="row">
+          <div class=col-md-12>
+            <div formArrayName="LawsuitDetail">
+              <div *ngFor="let item of LawsuitDetail.controls; let i=index;" [formGroupName]="i">
+                <ng-container *ngIf="i == 0">
+                  <div class="form-group row">
+                    <label class="control-label col-md-2 text-right">ลักษณะคดี</label>
+                    <div class="col-sm-2">
+                      <select formControlName="LAWSUIT_TYPE" class="form-control form-control-sm" style="width: 160px;"
+                        [attr.disabled]="!item.controls['PERSON_ID'].value || (item.controls['IS_DISMISS'].value || item.controls['IS_FINE'].value || item.controls['IS_IMPRISON'].value) || OnEdit_LawsuitType || lawsuitForm.controls['IS_LAWSUIT'].value ? '' : null"
+                        (input)="disableLawsuitEndDropdow($event.target.value, i)"
+                        (change)="LawsuitTypeChangeAll($event.target.value, i)">
+                        <option value="" disabled selected></option>
+                        <option [value]="type.id" *ngFor="let type of lawsuitType; let i=index">{{type.name}}</option>
+                      </select>
+                    </div>
+                    <div class="col-md-8 row">
+                      <label class="control-label col-md-2">คดีสิ้นสุดชั้น</label>
+                      <div class="col-md-4">
+                        <select formControlName="LAWSUIT_END" class="form-control form-control-sm" style="width: 240px;"
+                          [attr.disabled]="!item.controls['PERSON_ID'].value || OnEdit_LawsuitEnd || lawsuitForm.controls['IS_LAWSUIT'].value ? '' : null"
+                          (click)="disableLawsuitEndDropdow(item.controls['LAWSUIT_TYPE'].value, i)"
+                          (change)="LawsuitEndChangeAll(item.controls['LAWSUIT_END'].value, i)">
+                          <option value="" disabled selected></option>
+                          <option *ngFor="let type of lawsuitEnd; let i=index" [disabled]="type.disable"
+                            [value]="type.id">
+                            {{type.name}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="row form-group">
+              <div class="col-md-1">
+                <input type="radio" id="IsLawsuit2" name="IS_LAWSUIT" class="col-form-label with-gap radio-col-indigo"
+                  [attr.disabled]="LawsuitID != 0 ? '' : null" (change)="isLawsuitCheckReq('check2')"
+                  style="color: black;" [checked]="lawsuitForm.controls['IS_LAWSUIT'].value === true">
+                <label style="font-weight: 500;" for="IsLawsuit2">ไม่รับคดี</label>
+              </div><label class="control-label col-md-1 is-required text-right">เหตุผล</label>
+              <div class="col-md-10">
+                <input class="form-control form-control-sm" name="REMARK_NOT_LAWSUIT" maxlength="2000" type="text"
+                  formControlName="REMARK_NOT_LAWSUIT" maxlength="2000"
+                  [attr.disabled]="OnEdit? '' : null || lawsuitForm.controls['IS_LAWSUIT'].value ? null : ''"
+                  [ngClass]="lawsuitForm.controls['IS_LAWSUIT'].value  === true? {'ng-touched':isReq_REMARK} : '' "
+                  [required]="isReq_REMARK">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="lawsuitFormNoData">
+        <table class="table table-responsive table-sm table-striped table-set-border"
+          style="width: 100%; max-width: unset">
+          <thead>
+            <tr>
+              <th class="footable-sortable text-center" style="width: 7%">ลำดับ</th>
+              <th class="footable-sortable" style="width: 12%">ประเภทผู้ต้องหา</th>
+              <th class="footable-sortable" style="width: 12%">ประเภทบุคคล</th>
+              <th class="footable-sortable" style="width: 15%">หมายเลขอ้างอิง</th>
+              <th class="footable-sortable" style="width: 42%">ชื่อผู้ต้องหา</th>
+              <!-- <th class="footable-sortable" style="width: 15%">ลักษณะคดี</th>
+              <th class="footable-sortable" style="width: 15%">คดีสิ้นสุดชั้น</th> -->
+              <th class="footable-sortable" style="width: 10%"></th>
+            </tr>
+          </thead>
+          <tbody formArrayName="LawsuitDetail">
+            <tr class="footable" *ngFor="let item of LawsuitDetail.controls; let i=index;" [formGroupName]="i">
+              <ng-container *ngIf="item.controls['PERSON_ID'].value" else elsePerson>
+                <td class="text-center">{{i+1}}</td>
+                <td>{{item.controls['A_LawbreakerType'].value}}</td>
+                <td>{{item.controls['A_EntityType'].value}}</td>
+                <td>{{item.controls['A_LawsuitNoRef'].value}}</td>
+                <td>{{item.controls['A_LawBrakerFullName'].value}}</td>
+                <!-- <td>
+                  <select formControlName="LAWSUIT_TYPE" class="form-control form-control-sm" style="width: 160px;"
+                    [attr.disabled]="(item.controls['IS_DISMISS'].value || item.controls['IS_FINE'].value || item.controls['IS_IMPRISON'].value) || OnEdit_LawsuitType || lawsuitForm.controls['IS_LAWSUIT'].value ? '' : null"
+                    (input)="changeLawsuitEnd($event.target.value, i)">
+                    <option value="" disabled selected></option>
+                    <option [value]="type.id" *ngFor="let type of lawsuitType; let i=index">{{type.name}}</option>
+                  </select>
+                </td>
+                <td>
+                  <select formControlName="LAWSUIT_END" class="form-control form-control-sm" style="width: 234px;"
+                    [attr.disabled]="OnEdit_LawsuitEnd || lawsuitForm.controls['IS_LAWSUIT'].value ? '' : null"
+                    (click)="changeLawsuitEnd(item.controls['LAWSUIT_TYPE'].value, i)">
+                    <option value="" disabled selected></option>
+                    <option *ngFor="let type of lawsuitEnd; let i=index" [disabled]="type.disable" [value]="type.id">
+                      {{type.name}}</option>
+                  </select>
+                </td> -->
+                <td>
+                  <!-- <a *ngIf="OnEdit_JudgmentBtn == false && item.controls['LAWSUIT_TYPE'].value == '0'"
+                    href="javaScript:void(0);" class="btn btn-block btn-ct " (click)="Judgment(item.value, i)"
+                    [ngClass]="lawsuitForm.controls['LAWSUIT_ID'].value == 0? 'disabled':''">
+                    คำพิพากษา
+                  </a> -->
+                  <a *ngIf=" item.controls['LAWSUIT_TYPE'].value == '0'" href="javaScript:void(0);"
+                    class="btn btn-block btn-ct " (click)="Judgment(item.value, i)"
+                    [ngClass]="lawsuitForm.controls['LAWSUIT_ID'].value == 0? 'disabled':''">
+                    คำพิพากษา
+                  </a>
+                </td>
+              </ng-container>
+              <ng-container #elsePerson>
+                <td class="footable-sortable p-0 b-0" colspan="6"></td>
+              </ng-container>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</form>
+
+<!-- ############################ Staff #########################-->
+<div *ngIf="lawsuitForm" [formGroup]="lawsuitForm">
+  <div class="card card-outline-bluish unset-radius">
+
+    <div class="card-header unset-radius" (click)="toggleCollapse(LawsuitStf)">
+      <div class="card-actions">
+        <a class="">
+          <i class="fa"
+            [ngClass]="{'fa-chevron-up': (LawsuitStf | async), 'fa-chevron-down': !(LawsuitStf | async)}"></i>
+        </a>
+      </div>
+      <h4 class="card-title m-b-0">ข้อมูลเจ้าหน้าที่</h4>
+    </div>
+
+    <div *ngIf="LawsuitStf | async" class="table-responsive table-striped" style="overflow: hidden;padding: 20px;">
+      <table class="table table-sm table-striped" *ngIf="!errorShow">
+        <thead>
+          <tr>
+            <th style="text-align: center; width: 4%;">ลำดับ</th>
+            <th style="width: 1%;"></th>
+            <th style="width: 25%;">ชื่อเจ้าหน้าที่</th>
+            <th style="width: 25%;">ตำแหน่ง</th>
+            <th style="width: 25%;">หน่วยงาน</th>
+            <th style="width: 15%;">ฐานะ</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody formArrayName="LawsuitStaff">
+          <tr *ngFor="let item of LawsuitStaff.value; let i=index;">
+            <td class="text-center">{{i+1}}</td>
+            <td><span *ngIf="i == 0" class="text-danger">*</span> </td>
+            <td>
+              <ng-template #rt let-r="result" let-t="term">
+                {{ r.TITLE_SHORT_NAME_TH}}{{r.FIRST_NAME}} {{r.LAST_NAME}}
+              </ng-template>
+              <input type="text" #region1 class="form-control form-control-sm " [ngbTypeahead]="searchStaff"
+                [resultTemplate]="rt" [readOnly]="OnEdit || item.FULL_NAME" [inputFormatter]="formatterStaff"
+                (selectItem)="selectItemStaff($event, i)" [value]="item.FULL_NAME"
+                [ngClass]="i == 0 && !item.FULL_NAME ?{'ng-invalid-req':isRequired} : {'ng-invalid-req':false}"
+                style="color: black;" />
+            </td>
+            <td>
+              <input type="text" class="form-control form-control-sm" [value]="item.MANAGEMENT_POS_NAME"
+                [readonly]="true" disabled>
+            </td>
+            <td>
+              <input type="text" class="form-control form-control-sm" [value]="item.OPERATION_OFFICE_SHORT_NAME"
+                [readonly]="true" disabled>
+            </td>
+            <td>{{ item.CONTRIBUTOR_NAME }}</td>
+            <td>
+              <a *ngIf="!OnEdit && item.FULL_NAME" href="javaScript:void(0);" class="text-danger"
+                (click)="onDeleteStaff(i)">
+                <i class="fa fa-trash-o fa-lg"></i>
+              </a>
+            </td>
+          </tr>
+          <tr *ngIf="staffData.length == 0">
+            <td>ไม่พบข้อมูล</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ############################ Document #########################-->
+<div class="card card-outline-bluish unset-radius">
+  <div class="card-header unset-radius" (click)="toggleCollapse(LawsuitDoc)">
+    <div class="card-actions">
+      <a class="">
+        <i class="fa" [ngClass]="{'fa-chevron-up': (LawsuitDoc | async), 'fa-chevron-down': !(LawsuitDoc | async)}"></i>
+      </a>
+    </div>
+    <h4 class="card-title m-b-0">เอกสารแนบภายใน</h4>
+  </div>
+  <div *ngIf="LawsuitDoc | async" class="card-body">
+    <div class="row form-group">
+      <div class="col-lg-10 col-md-9 col-sm-8"></div>
+      <div class="col-lg-2 col-md-3 col-sm-4">
+        <button type="button" class="btn btn-block btn-themecolor" [disabled]="OnEdit || ProveOrCompareIsCompleted$"
+          (click)="openModal(document)">เพิ่มเอกสารแนบ</button>
+        <ng-template #document let-c="close" let-d="dismiss">
+          <app-document (d)="modal.dismiss()" (Output)="Output($event)">
+          </app-document>
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-1"></div>
+      <div class="col-10">
+        <owl-carousel [options]="owlOption" [items]="fileList" [carouselClasses]="['owl-theme', 'row', 'sliding']">
+          <div class="item my-1" *ngFor="let item of fileList;let i = index">
+            <a *ngIf="!OnEdit" href="javaScript:void(0);" class="times-item" (click)="deleteItem(i)">
+              <i class="fa fa-times" aria-hidden="true"></i>
+            </a>
+            <a *ngIf="item.DOCUMENT_ID" href="javaScript:void(0);" (click)="DownloadItem(item)">
+              <i class="fa fa-download" aria-hidden="true"></i>
+            </a>
+            <div class="tile"
+              [ngStyle]="{'background': 'url('+item.IMAGE_SHOW+')no-repeat scroll center center / 90px 90px'}">
+              <div class="wBg">
+                <div class="tile" style="width: 90px; height: 90px;"></div>
+                <h5 class="mt-4 text-truncate">{{item.DOCUMENT_NAME}}</h5>
+              </div>
+            </div>
+          </div>
+        </owl-carousel>
+      </div>
+      <div class="col-1"></div>
+    </div>
+
+    <span class="text-danger">หมายเหตุ : ขนาดของไฟล์เอกสาร ไม่เกินไฟล์ละ 1 MB, รูปภาพ/วีดิโอ ไม่เกินไฟล์ละ 200
+      MB</span>
+  </div>
+</div>

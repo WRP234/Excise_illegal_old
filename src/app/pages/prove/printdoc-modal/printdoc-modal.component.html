@@ -1,0 +1,54 @@
+<div class="modal-header bg-theme">
+    <div class="row">
+        <div class="col-lg-5">
+            <h4 class="modal-title text-white">พิมพ์เอกสาร</h4>
+        </div>
+
+        <a href="javaScript:void(0);" class="close text-white font-14" aria-label="Close"
+            (click)="dismiss('Cross click')">
+            <span aria-hidden="true">
+                <i class=" ti-close"></i>
+            </span>
+        </a>
+    </div>
+</div>
+<h5 class="text-right mt-3 pr-3">ILG60-04-02-01-00</h5>
+<div class="modal-body font-14">
+    <table class="table table-sm table-striped table-set-border">
+        <thead>
+            <tr>
+                <th style="text-align: center;width: 5%">
+                    <ng-container *ngIf="printDoc.length > 1">
+                        <input type="checkbox" class="filled-in chk-col-indigo" id="isCheckAll" name="isCheckAll"
+                            [(ngModel)]="isCheckAll" (change)="checkAll()">
+                        <label for="isCheckAll" class="m-0"></label>
+                    </ng-container>
+                </th>
+                <th style="text-align: center;width: 7%">ลำดับ</th>
+                <th>ชื่อเอกสาร</th>
+                <th>ประเภทเอกสาร
+                    <!-- <i class="mdi mdi-filter-variant fa-lg" style="margin-left: 5px;"></i> -->
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of printDoc; let i=index;">
+                <td class="text-center">
+                    <ng-container *ngIf="printDoc.length > 1">
+                        <input type="checkbox" class="filled-in chk-col-indigo" [id]="'td'+i" name="ListChK{{i}}"
+                            [(ngModel)]="item.IsChecked" (change)="checkOne()">
+                        <label [for]="'td'+i" class="m-0"></label>
+                    </ng-container>
+                </td>
+                <td class="text-center">{{i+1}}</td>
+                <td>{{item.DocName}}</td>
+                <td>{{item.DocTypeName}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="modal-footer">
+    <div class="col-lg-2 col-sm-4">
+        <button type="button" class="btn btn-block btn-themecolor" (click)="onPrint()">พิมพ์</button>
+    </div>
+</div>

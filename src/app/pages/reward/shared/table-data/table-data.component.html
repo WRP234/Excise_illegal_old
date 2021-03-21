@@ -1,0 +1,98 @@
+<div class="card">
+  <div class="card-body">
+    <div class="table-responsive table-striped no-wrap">
+      <table #rewardTable class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th *ngIf="showIndex">ลำดับ</th>
+            <ng-container *ngFor="let column of (columns$ | async);trackBy: column?.field">
+              <ng-container *ngIf="column?.inputType !== 'hidden' && !column?.isHiddenTable">
+                <th [class]="column?.class" [width]="column?.width">{{column?.title}}</th>
+              </ng-container>
+            </ng-container>
+            <th *ngIf="options?.action === 'VIEW'"></th>
+          </tr>
+        </thead>
+        <tbody *ngIf="pagedItems?.length > 0">
+          <ng-container *ngFor="let item of pagedItems; let i = index;">
+            <tr [className]="item.trClass">
+              <td *ngIf="showIndex">{{i + 1}}</td>
+              <ng-container *ngFor="let column of (columns$ | async); trackBy: column?.field">
+                <ng-container *ngIf="column?.inputType !== 'hidden' && !column?.isHiddenTable">
+                  <td>
+
+                    <ng-container *ngIf="column?.showInput; else showDefault;">
+                      <input class="form-control form-control-sm text-center" [type]="column?.inputType || 'text'" [(ngModel)]="ShowInputModel[i]"
+                        [value]="item[column?.field]">
+                    </ng-container>
+                    <ng-template #showDefault>
+                      <ng-container *ngIf="column?.inputType == 'date';else inputTypeAny">
+                          {{ (item[column?.field] ? (item[column?.field] | thaiDate) : '') || '' }}
+                      </ng-container>
+                      <ng-template #inputTypeAny>
+                          {{ (item[column?.field]) || '' }} 
+                      </ng-template>
+                        
+                      
+
+                      <input type="hidden" [name]="column?.field + i">
+                    </ng-template>
+                  </td>
+                </ng-container>
+
+              </ng-container>
+
+              <td *ngIf="options?.action === 'VIEW'">
+                <!-- {{item['view']}} -->
+                <!-- <a *ngIf="item['view']" href="javaScript:void(0);" class="text-secondary" [routerLink]="customRouteFor(options?.actionUrl,item, options?.actionFieldParams)">
+                  <i class="mdi mdi-eye fa-lg"></i>
+                </a> -->
+                <!-- <a *ngIf="item['view']" href="javaScript:void(0);" class="text-secondary" [routerLink]="customRouteNew(item)">
+                  <i class="mdi mdi-eye fa-lg"></i>
+                </a> -->
+                <!-- <a *ngIf="item['view']" href="javaScript:void(0);" class="text-secondary" [routerLink]="['/reward/reward/C', (RequestBribeRewardID$ | async) , (IndictmentID$ | async)]">
+                    <i class="mdi mdi-eye fa-lg"></i>
+                </a> -->
+                <a *ngIf="item['view']" href="javaScript:void(0);" class="text-secondary" [routerLink]="['/reward/reward-new/', item.INDICTMENT_ID]">
+                  <i class="mdi mdi-eye fa-lg"></i>
+                </a>
+                
+              </td>
+            </tr>
+          </ng-container>
+
+        </tbody>
+        <tfoot *ngIf="options?.isSumFooter">
+          <tr>
+            <th *ngIf="showIndex"></th>
+            <ng-container *ngFor="let column of (columns$ | async);trackBy: column?.field;let last=last">
+              <ng-container *ngIf="column?.inputType !== 'hidden'">
+                <th class="text-right">
+
+                  <ng-container *ngIf="column?.showInput; else showDefault;" >
+                    <input class="form-control form-control-sm text-center" type="text" width="50" disabled [value]="ShowInputModel | sumArray">
+                  </ng-container>
+                  <ng-template #showDefault>
+                    <span *ngIf="last">
+                      รวม :
+                    </span>
+                  </ng-template>
+                </th>
+
+              </ng-container>
+            </ng-container>
+
+            <th *ngIf="options?.action === 'VIEW'">
+
+            </th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+  <div class="card-footer card-footer-unset">
+    <app-pagination-table [TotalItems]="pager?.totalItems" [CurrentPage]="paginage.CurrentPage" [PageSize]="paginage.PageSize"
+      [RowsPerPageOptions]="paginage.RowsPerPageOptions" (onPageChange)="pageChanges($event)">
+    </app-pagination-table>
+  </div>
+</div>

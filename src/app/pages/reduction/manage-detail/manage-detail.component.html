@@ -1,0 +1,1177 @@
+<header class="topbar">
+  <nav class="navbar top-navbar navbar-expand-md navbar-light">
+
+    <div class="navbar-collapse" style="padding-right: 55px;">
+      <ul class="navbar-nav mr-auto mt-md-0">
+        <li *ngIf="disAdd" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickEdit()">
+
+              แก้ไข
+            </a>
+          </div>
+        </li>
+        <li *ngIf="!disAdd" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickSave()">
+              บันทึก
+            </a>
+          </div>
+        </li>
+        <li *ngIf="!disAdd" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickCancel()">
+              ยกเลิก
+            </a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+
+
+
+<div class="card card-outline-bluish unset-radius">
+  <div class="card-header unset-radius">
+    <app-card-actions-collapse></app-card-actions-collapse>
+    <h5 class="card-title m-b-0">รายละเอียดคดี</h5>
+  </div>
+  <div class="card-body">
+    <div class="form-body">
+      <!-- *ngIf="ADJUSTARREST" -->
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-form-label padding-adv-search col-md-4">เลขที่คดีเปรียบเทียบ : </label>
+
+            <div class="col-md-8" style="    display: inherit;">
+              <input class="form-control" style="margin-right: 10px;" type="text" [(ngModel)]="ADJUSTARREST.OPS_COMPARE.COMPARE_NO"
+                [disabled]="showField" name="COMPARE_NO">
+              <label>/</label>
+
+              <input class="form-control" style="margin-left: 10px;" type="text"
+                [(ngModel)]="ADJUSTARREST.OPS_COMPARE.COMPARE_NO_YEAR_FORMAT" [disabled]="showField" name="COMPARE_NO_YEAR_FORMAT">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-form-label padding-adv-search col-md-4">วันที่เปรียบเทียบ : </label>
+
+            <div class="col-md-8" style="    display: inherit;">
+              <div style="margin-right: 10px; width: 100%;">
+                <my-date-picker name="LAWSUIT_DATE_FROM" locale="th" [(ngModel)]="ADJUSTARREST.OPS_COMPARE.COMPARE_DATE_FROM"
+                  [disabled]="showField">
+                </my-date-picker>
+              </div>
+              <label>ถึง</label>
+              <div style="margin-left: 10px; width: 100%;">
+                <my-date-picker name="LAWSUIT_DATE_TO" locale="th" [(ngModel)]="ADJUSTARREST.OPS_COMPARE.COMPARE_DATE_TO"
+                  [disabled]="showField"></my-date-picker>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-form-label padding-adv-search col-md-4">ผู้เปรียบเทียบ : </label>
+
+            <div class="col-md-8">
+              <input class="form-control" type="text" [(ngModel)]="ADJUSTARREST.OPS_COMPARE_STAFF.TITLE_NAME_TH" name="ADJUSTARREST.OPS_COMPARE.LAWSUIT_OFFICE_NAME"
+                [disabled]="showField">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-form-label padding-adv-search col-md-4">ตำแหน่ง : </label>
+            <div class="col-md-8">
+              <input class="form-control" type="text" [(ngModel)]="ADJUSTARREST.COMPARE_POS" name="ADJUSTARREST.LAWSUIT_NAME"
+                [disabled]="showField">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-form-label padding-adv-search col-md-4">เลขที่ใบงาน : </label>
+
+            <div class="col-md-8">
+              <input class="form-control" type="text" [(ngModel)]="ADJUSTARREST.ARRESTCODE" name="ADJUSTARREST.ARRESTCODE"
+                [disabled]="showField">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-form-label padding-adv-search col-md-4">วันที่เกิดเหตุ : </label>
+
+            <div class="col-md-8" style="    display: inherit;">
+              <div style="margin-right: 10px; width: 100%;">
+                <my-date-picker name="ADJUSTARREST.LAWSUIT_DATE_FROM" locale="th" [(ngModel)]="ADJUSTARREST.LAWSUIT_DATE_FROM"
+                  [disabled]="showField">
+                </my-date-picker>
+              </div>
+              <label>ถึง</label>
+              <div style="margin-left: 10px; width: 100%;">
+                <my-date-picker name="ADJUSTARREST.LAWSUIT_DATE_TO" locale="th" [(ngModel)]="ADJUSTARREST.LAWSUIT_DATE_TO" [disabled]="showField">
+                </my-date-picker>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-form-label padding-adv-search col-md-4">ผู้กล่าวหา : </label>
+
+            <div class="col-md-8">
+              <input class="form-control" type="text" [(ngModel)]="ADJUSTARREST.LAWSUIT_OFFICE_NAME" name="ADJUSTARREST.LAWSUIT_OFFICE_NAME"
+                [disabled]="showField">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-form-label padding-adv-search col-md-4">ตำแหน่ง : </label>
+            <div class="col-md-8">
+              <input class="form-control" type="text" [(ngModel)]="ADJUSTARREST.LAWSUIT_NAME" name="ADJUSTARREST.LAWSUIT_NAME"
+                [disabled]="showField">
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-form-label padding-adv-search col-md-4">หน่วยงาน : </label>
+
+            <div class="col-md-8">
+              <input class="form-control" type="text" [(ngModel)]="ADJUSTARREST.LAWSUIT_OFFICE_NAME" name="ADJUSTARREST.LAWSUIT_OFFICE_NAME"
+                [disabled]="showField">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-form-label padding-adv-search col-md-4">สถานที่จับกุม : </label>
+            <div class="col-md-8">
+              <input class="form-control" type="text" [(ngModel)]="ADJUSTARREST.LAWSUIT_NAME" name="ADJUSTARREST.LAWSUIT_NAME"
+                [disabled]="showField">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-form-label padding-adv-search col-md-4">เลขที่คดีรับคำกล่าวโทษ : </label>
+
+            <div class="col-md-8" style="    display: inherit;">
+              <input class="form-control" style="margin-right: 10px;" type="text" [(ngModel)]="ADJUSTARREST.LAWSUIT_NO"
+                [disabled]="showField" name="ADJUSTARREST.LAWSUIT_NO">
+              <label>/</label>
+
+              <input class="form-control" style="margin-left: 10px;" type="text" [(ngModel)]="ADJUSTARREST.LAWSUIT_NO_YEAR"
+                [disabled]="showField" name="ADJUSTARREST.LAWSUIT_NO_YEAR">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-form-label padding-adv-search col-md-4">วันที่รับคดี : </label>
+
+            <div class="col-md-8" style="    display: inherit;">
+              <div style="margin-right: 10px; width: 100%;">
+                <my-date-picker name="ADJUSTARREST.LAWSUIT_DATE_FROM" locale="th" [(ngModel)]="ADJUSTARREST.LAWSUIT_DATE_FROM"
+                  [disabled]="showField">
+                </my-date-picker>
+              </div>
+              <label>ถึง</label>
+              <div style="margin-left: 10px; width: 100%;">
+                <my-date-picker name="ADJUSTARREST.LAWSUIT_DATE_TO" locale="th" [(ngModel)]="ADJUSTARREST.LAWSUIT_DATE_TO" [disabled]="showField">
+                </my-date-picker>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-form-label padding-adv-search col-md-4">ทะเบียนตรวจพิสูจน์ : </label>
+
+            <div class="col-md-8" style="    display: inherit;">
+              <input class="form-control" style="margin-right: 10px;" type="text" [(ngModel)]="ADJUSTARREST.LAWSUIT_NO"
+                [disabled]="showField" name="ADJUSTARREST.LAWSUIT_NO">
+              <label>/</label>
+
+              <input class="form-control" style="margin-left: 10px;" type="text" [(ngModel)]="ADJUSTARREST.LAWSUIT_NO_YEAR"
+                [disabled]="showField" name="ADJUSTARREST.LAWSUIT_NO_YEAR">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-form-label padding-adv-search col-md-4">วันที่พิสูจน์ : </label>
+
+            <div class="col-md-8" style="    display: inherit;">
+              <div style="margin-right: 10px; width: 100%;">
+                <my-date-picker name="ADJUSTARREST.LAWSUIT_DATE_FROM" locale="th" [(ngModel)]="ADJUSTARREST.LAWSUIT_DATE_FROM"
+                  [disabled]="showField">
+                </my-date-picker>
+              </div>
+              <label>ถึง</label>
+              <div style="margin-left: 10px; width: 100%;">
+                <my-date-picker name="ADJUSTARREST.LAWSUIT_DATE_TO" locale="th" [(ngModel)]="ADJUSTARREST.LAWSUIT_DATE_TO" [disabled]="showField">
+                </my-date-picker>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-form-label padding-adv-search col-md-4">ฐานความผิดมาตรา : </label>
+
+            <div class="col-md-8">
+              <input class="form-control" type="text" [(ngModel)]="ADJUSTARREST.LAWSUIT_NAME" name="ADJUSTARREST.LAWSUIT_NAME"
+                [disabled]="showField">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-form-label padding-adv-search col-md-4">บทกำหนดโทษ : </label>
+
+            <div class="col-md-8">
+              <input class="form-control" type="text" [(ngModel)]="ADJUSTARREST.LAWSUIT_NAME" name="ADJUSTARREST.LAWSUIT_NAME"
+                [disabled]="showField">
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-form-label padding-adv-search col-md-4">ฐานความผิด : </label>
+
+            <div class="col-md-8">
+              <textarea class="form-control" type="text" rows="5" [(ngModel)]="AdjustReason" name="positionLawName"
+                [disabled]="showField"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-form-label padding-adv-search col-md-4">อัตราโทษ : </label>
+
+
+            <div class="col-md-8">
+              <textarea class="form-control" type="text" rows="5" [(ngModel)]="AdjustReason" name="positionLawName"
+                [disabled]="showField"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+    </div>
+  </div>
+</div>
+
+
+
+<div class="card card-outline-bluish unset-radius" *ngIf="!showAdd">
+  <div class="card-header unset-radius">
+    <app-card-actions-collapse></app-card-actions-collapse>
+    <h5 class="card-title m-b-0">
+      รายการปรับเพิ่ม-ลดค่าปรับเปรียบเทียบคดี</h5>
+  </div>
+  <div class="card-body">
+    <div class="text-right m-b-10">
+      <button [ngClass]="{disabled : disAdd}" class="btn waves-effect waves-light btn-navy" [disabled]="disAdd"
+        (click)="addData()">
+        ปรับเพิ่ม-ลด
+      </button>
+    </div>
+    <!-- ปรับเพิ่ม-ลด dialog -->
+    <!-- <ng-template #reductionList let-c="close" let-d="dismiss">
+      <app-reduction-model-list [listData]="adjustDetailData" [id]="compareID" (d)="dialog.dismiss()" (result)="result($event)"></app-reduction-model-list>
+    </ng-template> -->
+    <!-- print dialog -->
+
+
+    <!-- <ng-template #printList let-c="close" let-d="dismiss">
+      <app-print-document [listData]="documentMailgetAll" [id]="compareID" (d)="print_dialog.dismiss()" (result)="printResult($event)"></app-print-document>
+    </ng-template> -->
+
+    <div class="table-responsive table-striped no-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th class="footable-sortable">ลำดับ</th>
+            <th class="footable-sortable">ชื่อผู้ต้องหา</th>
+            <th class="footable-sortable">ค่าปรับเดิม</th>
+            <th class="footable-sortable">ค่าปรับใหม่</th>
+            <th class="footable-sortable">วันที่ชำระค่าปรับ</th>
+            <th class="footable-sortable">ช่องทางชำระ</th>
+            <th class="footable-sortable">ใบเสร็จเล่มที่</th>
+            <th class="footable-sortable">สถานะคดี</th>
+            <th class="footable-sortable"></th>
+          </tr>
+        </thead>
+        <!-- <tbody>
+          <tr class="footable" *ngFor="let item of tableData; let i = index;">
+            <td>{{i+1}}</td>
+            <td>{{item.LawbreakerName}}</td>
+            <td>{{item.OLD_PAYMENT_FINE}}</td>
+            <td>{{i == 0 ? '-' : tableData[i].OLD_PAYMENT_FINE > tableData[i-1].OLD_PAYMENT_FINE ? 'ปรับเพิ่ม' : tableData[i].OLD_PAYMENT_FINE < tableData[i-1].OLD_PAYMENT_FINE ? 'ปรับลด' : '-'}}</td>
+            <td>{{item.ReceiptDateShow}}</td>
+            <td>{{(item.AdjustCompareDetailPayment[0].PAYMENT_TYPE === 1) ? 'เงินสด' : (item.AdjustCompareDetailPayment[0].PAYMENT_TYPE === 2) ? 'EDC' : (item.AdjustCompareDetailPayment[0].PAYMENT_TYPE === 3) ? 'เครดิต' : (item.AdjustCompareDetailPayment[0].PAYMENT_TYPE === 4) ? 'เดบิต' : ''}}</td>
+            <td>{{item.RECEIPT_BOOK_NO}}</td>
+            <td>{{item.RECEIPT_NO}}</td>
+            <td>{{item.AdjustCompareDetailPayment[0].REFFERENCE_NO || ''}}</td>
+            <td>{{item.IS_REVENUE === 1 ? 'นำส่งแล้ว' : 'ยังไม่ส่ง'}}</td>
+            <td>
+              <a href="javaScript:void(0);" class="text-secondary" (click)="viewData(item.AdjustCompareDetailPayment[0].COMPARE_DETAIL_ID, i)">
+                <i class="mdi mdi-eye fa-lg"></i>
+              </a>
+              <a href="javaScript:void(0);" class="text-secondary m-l-10" (click)="editData(item.AdjustCompareDetailPayment[0].COMPARE_DETAIL_ID, i)" [hidden]="showField || item.IS_REVENUE === 1">
+                <i class="ti-pencil-alt btn-action"></i>
+              </a>
+            </td>
+          </tr>
+        </tbody> -->
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<ng-container *ngIf="showAdd">
+
+  <div class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius">
+      <app-card-actions-collapse></app-card-actions-collapse>
+      <h5 class="card-title m-b-0">รายละเอียดการปรับเพิ่มหรือปรับลด</h5>
+    </div>
+    <div class="card-body">
+      <div class="form-group row">
+        <label class="col-form-label text-left col-md-2">เหตุผลในการปรับ : </label>
+        <div class="col-md-10">
+          <textarea class="form-control" type="text" rows="5" [(ngModel)]="AdjustReason" name="positionLawName"
+            [disabled]="showField"></textarea>
+        </div>
+      </div>
+      <div class="table-responsive table-striped no-wrap">
+        <table class="table" *ngIf="!errorShow">
+          <thead>
+            <tr>
+              <th class="footable-sortable">ชื่อผู้ต้องหา</th>
+              <th class="footable-sortable" style="max-width: 490px;">ของกลาง</th>
+              <th class="footable-sortable">ค่าปรับเดิม</th>
+              <th class="footable-sortable">ค่าปรับใหม่</th>
+              <th class="footable-sortable">ผลต่าง</th>
+              <th class="footable-sortable">สถานะ</th>
+              <th class="footable-sortable">{{'สินบน (' + sinbon + '%)'}}</th>
+              <th class="footable-sortable">{{'รางวัล (' + rangwan + '%)'}}</th>
+              <th class="footable-sortable">{{'ส่งคลัง (' + songkrang + '%)'}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-template ngFor let-item [ngForOf]="adjustFine" let-i="index">
+              <tr class="footable" *ngIf="i !== 0 && item.LawbreakerName !== adjustFine[i - 1].LawbreakerName">
+                <th colspan="2"></th>
+                <th>
+                  {{(i !== 0 && item.LawbreakerName !== adjustFine[i - 1].LawbreakerName) ? sumAllAdjustFine('ProductFine', adjustFine[i - 1].start_index, i) : ''}}
+                </th>
+                <th>
+                  {{(i !== 0 && item.LawbreakerName !== adjustFine[i - 1].LawbreakerName) ? sumAllAdjustFine('CompareFine', adjustFine[i - 1].start_index, i) : ''}}
+                </th>
+                <th>
+                  {{(i !== 0 && item.LawbreakerName !== adjustFine[i - 1].LawbreakerName) ? sumAllAdjustFine('CompareFineDiff', adjustFine[i - 1].start_index, i) : ''}}
+                </th>
+                <th></th>
+                <th>
+                  {{(i !== 0 && item.LawbreakerName !== adjustFine[i - 1].LawbreakerName) ? sumAllAdjustFine('CompareFineBribeMoney', adjustFine[i - 1].start_index, i) : ''}}
+                </th>
+                <th>
+                  {{(i !== 0 && item.LawbreakerName !== adjustFine[i - 1].LawbreakerName) ? sumAllAdjustFine('CompareFineRewardMoney', adjustFine[i - 1].start_index, i) : ''}}
+                </th>
+                <th>
+                  {{(i !== 0 && item.LawbreakerName !== adjustFine[i - 1].LawbreakerName) ? sumAllAdjustFine('CompareFineTreasuryMoney', adjustFine[i - 1].start_index, i) : ''}}
+                </th>
+              </tr>
+              <!-- <div [hidden]="true">{{(i !== 0 && item.LawbreakerName !== adjustFine[i - 1].LawbreakerName) ? startList.push(i): ''}}}</div> -->
+              <tr class="footable">
+                <td>{{i == 0 || item.LawbreakerName != adjustFine[i - 1].LawbreakerName ? item.LawbreakerName : ''}}
+                </td>
+                <td style="max-width: 490px; overflow-x: scroll;">{{item.ProductDesc}}</td>
+                <td style="max-width: 120px;">{{item.ProductFine}}</td>
+                <td style="max-width: 120px;">
+                  <input type="number" [(ngModel)]="item.CompareFine" name="CompareFine" class="form-control"
+                    [attr.id]="'fineText' + i" [disabled]="showField" (keyup)="enterNewValue($event, i)" value="0"
+                    required="true">
+                </td>
+                <td>{{item.CompareFineDiff}}</td>
+                <td class="status-increase" *ngIf="item.CompareFineStatus == 1">ปรับเพิ่ม</td>
+                <td class="status-decrease" *ngIf="item.CompareFineStatus == 0">ปรับลด</td>
+                <td class="status-decrease" *ngIf="item.CompareFineStatus == 2">-</td>
+                <td>{{item.CompareFineBribeMoney}}</td>
+                <td>{{item.CompareFineRewardMoney}}</td>
+                <td>{{item.CompareFineTreasuryMoney}}</td>
+              </tr>
+
+              <tr class="footable" *ngIf="i !== 0 && i === (adjustFine.length - 1)">
+                <th colspan="2"></th>
+                <th>
+                  {{(i !== 0 && i === (adjustFine.length - 1)) ? sumAllAdjustFine('ProductFine', item.start_index, i + 1) : ''}}
+                </th>
+                <th>
+                  {{(i !== 0 && i === (adjustFine.length - 1)) ? sumAllAdjustFine('CompareFine', item.start_index, i + 1) : ''}}
+                </th>
+                <th>
+                  {{(i !== 0 && i === (adjustFine.length - 1)) ? sumAllAdjustFine('CompareFineDiff', item.start_index, i + 1) : ''}}
+                </th>
+                <th></th>
+                <th>
+                  {{(i !== 0 && i === (adjustFine.length - 1)) ? sumAllAdjustFine('CompareFineBribeMoney', item.start_index, i + 1) : ''}}
+                </th>
+                <th>
+                  {{(i !== 0 && i === (adjustFine.length - 1)) ? sumAllAdjustFine('CompareFineRewardMoney', item.start_index, i + 1) : ''}}
+                </th>
+                <th>
+                  {{(i !== 0 && i === (adjustFine.length - 1)) ? sumAllAdjustFine('CompareFineTreasuryMoney', item.start_index, i + 1) : ''}}
+                </th>
+              </tr>
+            </ng-template>
+          </tbody>
+          <tfoot>
+            <tr class="footable">
+              <th colspan="2">รวม</th>
+              <th>{{sumAllAdjustFine('ProductFine')}}</th>
+              <th>{{sumAllAdjustFine('CompareFine')}}</th>
+              <th>{{sumAllAdjustFine('CompareFineDiff')}}</th>
+              <th></th>
+              <th>{{sumAllAdjustFine('CompareFineBribeMoney')}}</th>
+              <th>{{sumAllAdjustFine('CompareFineRewardMoney')}}</th>
+              <th>{{sumAllAdjustFine('CompareFineTreasuryMoney')}}</th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius">
+      <app-card-actions-collapse></app-card-actions-collapse>
+      <h5 class="card-title m-b-0">การชำระค่าปรับ</h5>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive table-striped no-wrap">
+        <table class="table" *ngIf="!errorShow">
+          <thead>
+            <tr>
+              <th class="footable-sortable text-center">ลำดับ</th>
+              <th class="footable-sortable">ชื่อผู้ต้องหา</th>
+              <th class="footable-sortable">วันที่ชำระค่าปรับ</th>
+              <!-- <th class="footable-sortable">ผู้รับชำระค่าปรับ</th> -->
+              <th class="footable-sortable">ช่องทางชำระ</th>
+              <th class="footable-sortable">ใบเสร็จเล่มที่</th>
+              <th class="footable-sortable">ใบเสร็จเลขที่</th>
+              <th class="footable-sortable">เลขที่อ้างอิง</th>
+              <th class="footable-sortable">สถานะคดี</th>
+              <!-- <th class="footable-sortable"></th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="footable" *ngFor="let item of CompareReceipt; let i = index;">
+              <td class="text-center">{{i+1}}</td>
+              <td>{{((item.LawbreakerTitleName || '')) 
+                + (item.LawbreakerFirstName || '') + ' ' + (item.LawbreakerLastName || '')}}</td>
+              <!-- <td>{{item.PaymentDate | reductionDatePipe: 'DD MMM YYYY'}}</td> -->
+              <td style="padding: 0px 12px;">
+                <my-date-picker class="form-control date-setting" type="text" locale="th" [options]="DateOption"
+                  [(ngModel)]="CompareReceipt[i].PaymentDate" [disabled]="showField">
+                </my-date-picker>
+              </td>
+              <!-- <td>Missing ผู้รับชำระ</td> -->
+              <td style="padding: 0px 12px;">
+                <!-- {{item.ReceiptChanel} -->
+                <!-- <input type="text" [(ngModel)]="item.ReceiptChanel" name="ReceiptChanel" class="form-control" [disabled]="showField"> -->
+                <select class="form-control" style="padding-top: 3px;" [value]="item.ReceiptChanel"
+                  (change)="changeReceiptChanel($event, i)" [disabled]="showField">
+                  <option value='1'>เงินสด</option>
+                  <option value='2'>EDC</option>
+                  <option value='3'>เครดิต</option>
+                  <option value='4'>เดบิต</option>
+                </select>
+              </td>
+              <!-- <td>{{item.ReceiptBookNo}}</td> -->
+              <td style="padding: 0px 12px;">
+                <input class="form-control" type="text" name="ReceiptBookNo"
+                  [(ngModel)]="CompareReceipt[i].ReceiptBookNo" [disabled]="showField">
+              </td>
+              <!-- <td>{{item.ReceiptNo}}</td> -->
+              <td style="padding: 0px 12px;">
+                <input class="form-control" type="text" name="ReceiptNo" [(ngModel)]="CompareReceipt[i].ReceiptNo"
+                  [disabled]="showField">
+              </td>
+              <!-- <td>{{item.ReferenceNo}}</td> -->
+              <td style="padding: 0px 12px;">
+                <input class="form-control" type="text" name="ReferenceNo" [(ngModel)]="CompareReceipt[i].ReferenceNo"
+                  [disabled]="showField || CompareReceipt[i].ReceiptChanel == 1">
+              </td>
+              <td style="padding: 0px 12px;" *ngIf="showField">
+                {{item.RevenueStatus === 0 ? 'ยังไม่ส่งรายได้' : 'นำส่งรายได้'}}</td>
+              <td style="padding: 0px 12px;" *ngIf="!showField">{{item.RevenueStatus === 0 ? '-' : '-'}}</td>
+              <!-- <td [hidden]="true">
+              <a href="javaScript:void(0);" class="text-secondary" (click)="viewData()" data-toggle="modal" [hidden]="mode === 'A'" data-target="#finePopup">
+                <i class="mdi mdi-eye fa-lg"></i>
+              </a>
+              <a href="javaScript:void(0);" class="text-secondary m-l-10" (click)="editData()" [hidden]="mode === 'V'" data-toggle="modal" data-target="#finePopup">
+                <i class="ti-pencil-alt btn-action"></i>
+              </a>
+            </td> -->
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="finePopup" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header top-navbar text-white">
+          ชำระค่าปรับ
+          <div class="card-actions">
+            <a data-toggle="modal" data-target="#finePopup">
+              <i class="ti-close"></i>
+            </a>
+          </div>
+        </div>
+        <div class="modal-body">
+          <div class="text-right"> ILG60-09-03-01-00 </div>
+          <div class="form-body m-t-15">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label text-left col-md-4">ชื่อผู้ต้องหา : </label>
+                  <div class="col-md-8">
+                    <input class="form-control" type="text" [(ngModel)]="fullName" name="fullName" disabled>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label text-left col-md-5">ยอดชำระค่าปรับ : </label>
+                  <div class="col-md-7">
+                    <input class="form-control" type="text" [(ngModel)]="adjustArrest.arrestCode" name="" disabled>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label text-left col-md-4">วันที่ชำระค่าปรับ : </label>
+                  <div class="form-group input-group col-md-8" style="margin-bottom: 0px;">
+                    <input class="form-control" type="text" [(ngModel)]="adjustArrest.lawsuitDate" name=""
+                      [disabled]="viewMode">
+                    <label class="col-form-label text-center col-md-3"> เวลา </label>
+                    <input class="form-control" type="text" [(ngModel)]="adjustArrest.lawsuitTime" name=""
+                      [disabled]="viewMode">
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label text-left col-md-5">เขียนที่ : </label>
+                  <div class="col-md-7">
+                    <input class="form-control" type="text" [(ngModel)]="adjustArrest.arrestCode" name=""
+                      [disabled]="viewMode">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-form-label text-left col-md-4">ผู้รับชำระค่าปรับ : </label>
+                <div class="col-md-8">
+                  <input class="form-control" type="text" [(ngModel)]="adjustArrest.arrestCode" name=""
+                    [disabled]="viewMode">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-form-label text-left col-md-5">ตำแหน่ง : </label>
+                <div class="col-md-7">
+                  <input class="form-control" type="text" [(ngModel)]="adjustArrest.arrestCode" name=""
+                    [disabled]="viewMode">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-form-label text-left col-md-4">หน่วยงาน : </label>
+                <div class="col-md-8">
+                  <input class="form-control" type="text" [(ngModel)]="adjustArrest.arrestCode" name=""
+                    [disabled]="viewMode">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-form-label text-left col-md-5">ช่องทางชำระค่าปรับ : </label>
+                <div class="col-md-7">
+                  <select class="custom-select col-12" [disabled]="viewMode">
+                    <option selected="">เงินสด</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-form-label text-left col-md-4">ใบเสร็จเล่มที่ : </label>
+                <div class="col-md-8">
+                  <input class="form-control" type="text" [(ngModel)]="adjustArrest.arrestCode" name=""
+                    [disabled]="viewMode">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-form-label text-left col-md-5">ใบเสร็จเลขที่ : </label>
+                <div class="col-md-7">
+                  <input class="form-control" type="text" [(ngModel)]="adjustArrest.arrestCode" name=""
+                    [disabled]="viewMode">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-form-label text-left col-md-4">หมายเลขอ้างอิง : </label>
+                <div class="col-md-8">
+                  <input class="form-control" type="text" [(ngModel)]="adjustArrest.arrestCode" name=""
+                    [disabled]="viewMode">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn waves-effect waves-light btn-orange m-r-10" data-toggle="modal"
+            data-target="#finePopup">ยกเลิกใบเสร็จ</button>
+          <button type="submit" class="btn waves-effect waves-light btn-navy" data-toggle="modal"
+            data-target="#finePopup">บันทึก</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius">
+      <app-card-actions-collapse></app-card-actions-collapse>
+      <h5 class="card-title m-b-0">รายงานขออนุมัติการเปรียบเทียบคดีและแบบอนุมัติ</h5>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive table-striped no-wrap">
+        <table class="table" *ngIf="!errorShow">
+          <thead>
+            <tr>
+              <th class="footable-sortable text-center">ลำดับ</th>
+              <th class="footable-sortable col-3">ชื่อผู้ต้องหา</th>
+              <th class="footable-sortable">วันที่จัดทำรายงานฯ</th>
+              <th class="footable-sortable col-6">แบบอนุมัติ</th>
+              <th class="footable-sortable"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="footable" *ngFor="let item of AdjustCompareDetail; let i = index;">
+              <td class="text-center">{{i+1}}</td>
+              <td>
+                {{(item.AdjustCompareLawbreaker[0].LawbreakerTitleName || '')
+              + (item.AdjustCompareLawbreaker[0].LawbreakerFirstName || '') + ' ' + (item.AdjustCompareLawbreaker[0].LawbreakerLastName || '')}}
+              </td>
+              <td>{{ApproveReportDate == '' ? '' : (ApproveReportDate | reductionDatePipe: 'DD MMM YYYY')}}</td>
+              <td>{{(item.ApproveReportType === '') ? '' : 'แบบอนุมัติ' + (item.ApproveReportType)}}</td>
+              <td>
+                <a href="javaScript:void(0);" class="text-secondary" (click)="ViewApproveData(item.CompareDetailID, i)"
+                  data-toggle="modal" [hidden]="mode == 'A' || mode == 'E'" data-target="#approvePopup">
+                  <i class="mdi mdi-eye fa-lg"></i>
+                </a>
+                <a href="javaScript:void(0);" class="text-secondary m-l-10"
+                  (click)="EditApproveData(item.CompareDetailID, i)" [hidden]="mode === 'V'" data-toggle="modal"
+                  data-target="#approvePopup">
+                  <i class="ti-pencil-alt btn-action"></i>
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="approvePopup" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header top-navbar text-white">
+          รายงานขออนุมัติการเปรียบเทียบคดีและแบบอนุมัติ
+          <div class="card-actions">
+            <a data-toggle="modal" data-target="#approvePopup">
+              <i class="ti-close"></i>
+            </a>
+          </div>
+        </div>
+        <div class="modal-body">
+          <div class="text-right"> ILG60-09-03-02-00 </div>
+          <div class="form-body m-t-10">
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label col-md-4">ชื่อผู้ต้องหา : </label>
+                  <div class="input-group col-md-8">
+                    <input class="form-control" type="text" name="fullName"
+                      [(ngModel)]="EditApproveCaseComparisonPopUp.fullName" disabled>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label col-md-4">วันที่ชำระค่าปรับ : </label>
+                  <div class="col-md-4">
+                    <!-- <input class="form-control" type="text" name="payDate" [(ngModel)]="EditApproveCaseComparisonPopUp.PaymentFineDate[0]"> -->
+                    <div style="width: 100%">
+                      <my-date-picker class="form-control date-setting" type="text" locale="th" [options]="DateOption"
+                        [(ngModel)]="EditApproveCaseComparisonPopUp.PaymentFineDate[0]"></my-date-picker>
+                    </div>
+                  </div>
+                  <label class="col-form-label text-center col-md-1">เวลา</label>
+                  <div class="col-md-3">
+                    <input class="form-control" type="text" name="payTime"
+                      [(ngModel)]="EditApproveCaseComparisonPopUp.PaymentFineDate[1]">
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label col-md-4">ค่าปรับคดีรวม : </label>
+                  <div class="col-md-8">
+                    <input class="form-control" type="text" name="payAmount"
+                      [(ngModel)]="EditApproveCaseComparisonPopUp.CompareFine" disabled>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label col-md-4">เขียนที่ : </label>
+                  <div class="input-group col-md-8">
+                    <input class="form-control" type="text" name="fullName"
+                      [(ngModel)]="EditApproveCaseComparisonPopUp.ApproveStation" [disabled]="viewMode">
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label col-md-4">วันที่จัดทำรายงานฯ : </label>
+                  <div class="form-group input-group col-md-8" style="margin-bottom: 0px;">
+                    <div style="width: 100%">
+                      <my-date-picker class="form-control date-setting" type="text" locale="th" [options]="DateOption"
+                        [(ngModel)]="EditApproveCaseComparisonPopUp.ApproveReportDate"></my-date-picker>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group row">
+                  <label class="col-form-label col-md-2">แบบอนุมัติ : </label>
+                  <div class="custom-control custom-radio col-form-label col-md-8">
+                    <input name="FineType" id="typeOne" class="col-form-label with-gap radio-col-indigo" type="radio"
+                      (change)="changApproveReportType()" [(ngModel)]="EditApproveCaseComparisonPopUp.ApproveReportType"
+                      value="1" [disabled]="showField">
+                    <label for="typeOne" class="col-4">แบบอนุมัติ 1 (คด.3)</label>
+                    <input name="FineType" id="typeTwo" class="col-form-label with-gap radio-col-indigo" type="radio"
+                      (change)="changApproveReportType()" [(ngModel)]="EditApproveCaseComparisonPopUp.ApproveReportType"
+                      value="2" [disabled]="showField">
+                    <label for="typeTwo" class="col-4">แบบอนุมัติ 2 (คด.4)</label>
+                    <input name="FineType" id="typeThree" class="col-form-label with-gap radio-col-indigo" type="radio"
+                      (change)="changApproveReportType()" [(ngModel)]="EditApproveCaseComparisonPopUp.ApproveReportType"
+                      value="3" [disabled]="showField">
+                    <label for="typeThree" class="col-4">แบบอนุมัติ 3 (คด.5)</label>
+                    <input name="FineType" id="typeFour" class="col-form-label with-gap radio-col-indigo" type="radio"
+                      (change)="changApproveReportType()" [(ngModel)]="EditApproveCaseComparisonPopUp.ApproveReportType"
+                      value="4" [disabled]="showField">
+                    <label for="typeFour" class="col-4">แบบอนุมัติ 4 (คด.6)</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- [disabled]="showField || (EditApproveCaseComparisonPopUp.ApproveReportType) == 1" -->
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label col-md-4">ผู้เสนอพิจารณาเห็นชอบ : </label>
+                  <div class="col-md-8">
+                    <input type="text" class="form-control" id="offerstaff"
+                      [(ngModel)]="EditApproveCaseComparisonPopUp.offerstaff" name="offerstaff"
+                      placeholder="พิมพ์ข้อความ" aria-label="Number" matInput [matAutocomplete]="autoStaff1"
+                      (input)="StaffonAutoChange($event.target.value)" (focus)="StaffonAutoFocus($event.target.value)"
+                      [required]="(EditApproveCaseComparisonPopUp.ApproveReportType) > 1"
+                      (keydown.Tab)="StaffonAutoSelecteWord(sOption, 1)"
+                      [disabled]="(EditApproveCaseComparisonPopUp.ApproveReportType) == 1 || showField">
+                    <mat-autocomplete #autoStaff1="matAutocomplete">
+                      <mat-option *ngFor="let sOption of Staffoptions"
+                        [value]="sOption.TitleName + sOption.FirstName + ' ' + sOption.LastName"
+                        (click)="StaffonAutoSelecteWord(sOption, 1)"
+                        (onSelectionChange)="StaffonAutoSelecteWord(sOption, 1)">
+                        {{ sOption.TitleName }}{{ sOption.FirstName }} {{ sOption.LastName }}
+                      </mat-option>
+                    </mat-autocomplete>
+                    <!-- <input class="form-control" type="text" [(ngModel)]="EditApproveCaseComparisonPopUp.proponentsName" [disabled]="viewMode"> -->
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label col-md-4">ตำแหน่ง : </label>
+                  <div class="input-group col-md-8">
+                    <input class="form-control" [(ngModel)]="EditApproveCaseComparisonPopUp.offerPosition" type="text"
+                      name="postion" [disabled]="true">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label col-md-4">หน่วยงาน : </label>
+                  <div class="input-group col-md-8">
+                    <input class="form-control" [(ngModel)]="EditApproveCaseComparisonPopUp.offerDepartment" type="text"
+                      name="deparment" [disabled]="true">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label col-md-4">ผู้พิจารณาเห็นชอบ : </label>
+                  <div class="input-group col-md-8">
+                    <input type="text" class="form-control" id="staff"
+                      [(ngModel)]="EditApproveCaseComparisonPopUp.staff" name="staff" placeholder="พิมพ์ข้อความ"
+                      aria-label="Number" matInput [matAutocomplete]="autoStaff2"
+                      (input)="StaffonAutoChange($event.target.value)" (focus)="StaffonAutoFocus($event.target.value)"
+                      [disabled]="showField" [required]="(EditApproveCaseComparisonPopUp.ApproveReportType) > 1"
+                      (keydown.Tab)="StaffonAutoSelecteWord(sOption, 2)">
+                    <mat-autocomplete #autoStaff2="matAutocomplete">
+                      <mat-option *ngFor="let sOption of Staffoptions"
+                        [value]="sOption.TitleName + sOption.FirstName + ' ' + sOption.LastName"
+                        (click)="StaffonAutoSelecteWord(sOption, 2)"
+                        (onSelectionChange)="StaffonAutoSelecteWord(sOption, 2)">
+                        {{ sOption.TitleName }}{{ sOption.FirstName }} {{ sOption.LastName }}
+                      </mat-option>
+                    </mat-autocomplete>
+                    <!-- <input class="form-control" type="text" name="reviewer" [disabled]="viewMode"> -->
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label col-md-4">ตำแหน่ง : </label>
+                  <div class="input-group col-md-8">
+                    <input class="form-control" type="text" [(ngModel)]="EditApproveCaseComparisonPopUp.position"
+                      name="rank" disabled>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label col-md-4">หน่วยงาน : </label>
+                  <div class="input-group col-md-8">
+                    <input class="form-control" type="text" [(ngModel)]="EditApproveCaseComparisonPopUp.department"
+                      name="deparment" disabled>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label col-md-4">ผู้มีอำนาจอนุมัติ : </label>
+                  <div class="input-group col-md-8">
+                    <input type="text" class="form-control" id="approveStaff"
+                      [(ngModel)]="EditApproveCaseComparisonPopUp.approveStaff" name="approveStaff"
+                      placeholder="พิมพ์ข้อความ" aria-label="Number" matInput [matAutocomplete]="autoStaff3"
+                      (input)="StaffonAutoChange($event.target.value)" (focus)="StaffonAutoFocus($event.target.value)"
+                      [disabled]="showField" [required]="(EditApproveCaseComparisonPopUp.ApproveReportType) > 1"
+                      (keydown.Tab)="StaffonAutoSelecteWord(sOption, 3)">
+                    <mat-autocomplete #autoStaff3="matAutocomplete">
+                      <mat-option *ngFor="let sOption of Staffoptions"
+                        [value]="sOption.TitleName + sOption.FirstName + ' ' + sOption.LastName"
+                        (click)="StaffonAutoSelecteWord(sOption, 3)"
+                        (onSelectionChange)="StaffonAutoSelecteWord(sOption, 3)">
+                        {{ sOption.TitleName }}{{ sOption.FirstName }} {{ sOption.LastName }}
+                      </mat-option>
+                    </mat-autocomplete>
+                    <!-- <input class="form-control" type="text" name="approver" [disabled]="viewMode"> -->
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label col-md-4">ตำแหน่ง : </label>
+                  <div class="input-group col-md-8">
+                    <input class="form-control" type="text" [(ngModel)]="EditApproveCaseComparisonPopUp.approvePosition"
+                      name="rank" disabled>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label col-md-4">หน่วยงาน : </label>
+                  <div class="input-group col-md-8">
+                    <input class="form-control" type="text"
+                      [(ngModel)]="EditApproveCaseComparisonPopUp.approveDepartment" name="department" disabled>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label col-md-4">คำสั่งกรมฯ ที่ : </label>
+                  <div class="input-group col-md-8">
+                    <input class="form-control" type="text" [(ngModel)]="EditApproveCaseComparisonPopUp.CommandNo"
+                      name="CommandNo" [disabled]="viewMode">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label col-md-4">วันที่ออกคำสั่ง : </label>
+                  <div class="input-group col-md-8">
+                    <!-- <input class="form-control" type="text" name="dateOfIssue" [disabled]="viewMode"> -->
+                    <div style="width: 100%">
+                      <!-- <my-date-picker class="form-control date-setting" type="text" locale="th" [options]="DateOption" [(ngModel)]="EditApproveCaseComparisonPopUp.ApproveReportDate"></my-date-picker> -->
+                      <my-date-picker class="form-control date-setting" type="text" locale="th" [options]="DateOption"
+                        [(ngModel)]="EditApproveCaseComparisonPopUp.CommandDate" [disabled]="viewMode">
+                      </my-date-picker>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group row">
+                  <label class="col-form-label col-md-4">ข้อเท็จจริงเกี่ยวกับความผิดโดยละเอียด : </label>
+                  <div class="col-md-8">
+                    <textarea class="form-control" id="Fact" [disabled]="viewMode"
+                      [(ngModel)]="EditApproveCaseComparisonPopUp.Fact" rows="5" [required]="true"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group row">
+                  <label class="col-form-label col-md-4">เหตุผลที่ควรเปรียบเทียบคดีและ/หรือจัดการของกลาง :</label>
+                  <div class="col-md-8">
+                    <textarea class="form-control" id="CompareReason" [disabled]="viewMode"
+                      [(ngModel)]="EditApproveCaseComparisonPopUp.CompareReason" rows="5" [required]="true"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn waves-effect waves-light btn-navy"
+            [attr.data-toggle]="EditApproveCaseComparisonPopUp.CompareReason != '' && EditApproveCaseComparisonPopUp.Fact != '' && EditApproveCaseComparisonPopUp.approveStaff != '' && EditApproveCaseComparisonPopUp.staff != '' && EditApproveCaseComparisonPopUp.offerstaff != '' ? 'modal' : 'on-model'"
+            data-target="#approvePopup" (click)="checkPopUp(EditApproveCaseComparisonPopUp.CompareDetailID)"
+            [disabled]="showField">
+            บันทึก
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- <div class="card card-outline-bluish unset-radius">
+  <div class="card-header unset-radius">
+    <app-card-actions-collapse></app-card-actions-collapse>
+    <h5 class="card-title m-b-0">เอกสารแนบภายใน</h5>
+  </div>
+  <div class="card-body">
+    <div class="text-right">
+      <input type="file" id="btn-browse" [disabled]="showField" (change)="attachFile(file.files)" #file>
+      <label for="btn-browse" class="btn waves-effect waves-light btn-navy"> เพิ่มเอกสารแนบ </label>
+    </div>
+    <div class="table-responsive table-striped no-wrap">
+      <table class="table">
+        <thead>
+          <tr class="row">
+            <th class="footable-sortable text-center col-md-1">ลำดับ</th>
+            <th class="footable-sortable col-md-5">ชื่อเอกสารแนบ</th>
+            <th class="footable-sortable col-me-5">ที่อยู่เอกสารแนบ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="footable row" *ngFor="let item of fileItem; let i = index;">
+            <td class="text-center col-md-1">{{i+1}}</td>
+            <td class="col-md-5">
+              <input class="form-control" type="text" nmae="fileName" [(ngModel)]="item.DocumentName" [disabled]="showField">
+            </td>
+            <td class="col-md-5">
+              <input class="form-control" type="text" name="filePath" [(ngModel)]="item.FilePath" [disabled]="showField">
+            </td>
+            <td class="col-md-1">
+              <a href="javaScript:void(0);" class="text-secondary" [hidden]="showField">
+                <i class="ti-trash btn-action"></i>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div> -->
+
+  <div class="card ">
+    <div class="card-header  unset-radius">
+      <app-card-actions-collapse></app-card-actions-collapse>
+      <h4 class="card-title m-b-0">เอกสารแนบภายใน</h4>
+    </div>
+    <div class="card-body">
+      <div class="text-right">
+        <button for="btn-browse" [ngClass]="{disabled : showField}" class="btn waves-effect waves-light btn-navy"
+          (click)="addNewFile()" [disabled]="showField">
+          เพิ่มเอกสารแนบ </button>
+      </div>
+      <div class="table-responsive">
+        <table class="dataTable table table-sm table-striped table-hover">
+          <thead>
+            <tr>
+              <th class="footable-sortable text-center">ลำดับ</th>
+              <th class="footable-sortable">ชื่อเอกสารแนบ</th>
+              <th class="footable-sortable">ที่อยู่เอกสารแนบ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="footable" *ngFor="let item of AllAddFiles; let i=index;">
+
+              <td class="text-center">{{ (i+1) }}</td>
+              <td>
+                <input class="form-control" type="text" name="fileName" [(ngModel)]="item.DocumentName"
+                  [disabled]="showField">
+              </td>
+              <td>
+                <div class="input-group">
+                  <input class="form-control" type="text" name="filePath" [(ngModel)]="item.FilePath" [disabled]="true">
+                  <div class="input-group-append">
+                    <input [id]="'arrestAttach'+i" type="file" (change)="handleFileInput($event, i)" hidden
+                      [attr.disabled]="showField ? '' : null">
+                    <label [for]="'arrestAttach'+i" class="input-group-text custom-file-upload text-secondary">
+                      <i class="ti-more-alt"></i>
+                    </label>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <a href="javaScript:void(0)" class="text-warning" *ngIf="!showField"
+                  (click)="deleteFile(item.DocumentID, i)">
+                  <i class="fa fa-trash-o fa-lg"></i>
+                </a>
+              </td>
+              <!-- 
+          <td class="text-center">{{ (i+1) }}</td>
+          <td>
+            <input class="form-control" type="text" name="fileName" [(ngModel)]="item.DocumentName"
+                   [disabled]="showEditField">
+          </td>
+          <td>
+            <input class="form-control" type="text" name="filePath" [(ngModel)]="item.FilePath"
+                   [disabled]="true">
+          </td>
+          <td>
+            <i class="ti-trash btn-action" [hidden]="showEditField"
+               (click)="deleteFile(item.DocumentID, i)"></i>
+          </td> -->
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+</ng-container>

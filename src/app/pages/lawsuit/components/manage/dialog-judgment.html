@@ -1,0 +1,585 @@
+<!-- =============== Preloader ================== -->
+<div *ngIf="showPreloader | async" style="width: 81%" class="preloader">
+  <svg class="circular" viewBox="25 25 50 50">
+    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+  </svg>
+</div>
+<div class="scollbar">
+  <div class="modal-header bg-theme">
+    <h5 class="modal-title text-white">คำพิพากษาของศาล
+      <a class="float-lg-right text-white font-14" aria-label="Close" (click)="closePopup()">
+        <i class=" ti-close"></i>
+      </a>
+    </h5>
+  </div>
+
+  <form [formGroup]="LawsuitDetailFG">
+    <div class="modal-body">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <div class="form-group row float-lg-right">
+              <label class="control-label "> ILG60_O_03_00_02_01</label>
+            </div>
+          </div>
+        </div>
+        <div class="card card-outline-bluish unset-radius">
+          <div class="card-header unset-radius">
+            <app-card-actions-collapse></app-card-actions-collapse>
+            <h5 class="card-title m-b-0">ข้อมูลศาล</h5>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="control-label col-md-4">ชื่อผู้ต้องหา</label>
+                  <div class="form-group col-sm-8">
+                    <input class="form-control form-control-sm" style="color: black;"
+                      formControlName="A_LawBrakerFullName" name="ArrestName" type="text" disabled>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="control-label col-md-2">ชื่อศาล</label>
+                  <div class="col-md-10">
+                    <ng-template #rt let-r="result" let-t="term">
+                      {{ r.COURT_NAME }}
+                    </ng-template>
+                    <input class="form-control form-control-sm" style="color: black;"
+                      [ngClass]="{'ng-touched':isRequired}" [ngbTypeahead]="serachCourt" [resultTemplate]="rt"
+                      [readOnly]="showEditField" [inputFormatter]="formatterCourt"
+                      (selectItem)="selectItemCourt($event)" [value]="LawsuitDetailFG.controls['COURT_NAME'].value"
+                      required>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-8">
+                    <div class="form-group row">
+                      <div class="col-md-6">
+                        <label class="control-label m-0">หมายเลขคดีดำ</label>
+                        <label class="m-0">ศาลชั้นต้น</label>
+                      </div>
+                      <div class="col-md-6">
+                        <input class="form-control form-control-sm" style="color: black;" type="text"
+                          name="UndecidedCaseNo" formControlName="UNDECIDE_NO_1" [readOnly]="showEditField">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group row">
+                      <label class="col-md-3">/</label>
+                      <div class="col-md-9">
+                        <select class="form-control form-control-sm" formControlName="UNDECIDE_NO_YEAR_1"
+                          [attr.disabled]="showEditField ? '': null">
+                          <option value="" selected></option>
+                          <option *ngFor="let item of data.yearList; let i=index" [value]="item.value">{{item.year}}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-8">
+                    <div class="form-group row">
+                      <div class="col-md-6">
+                        <label class="control-label m-0">หมายเลขคดีแดง</label>
+                        <label class="m-0">ศาลชั้นต้น</label>
+                      </div>
+                      <div class="col-md-6">
+                        <input class="form-control form-control-sm" style="color: black;" type="text"
+                          name="UndecidedCaseNo" formControlName="DECIDE_NO_1" [readOnly]="showEditField">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group row">
+                      <label class="col-md-2 p-0" style="text-align: center">/</label>
+                      <div class="col-md-9">
+                        <select class="form-control form-control-sm" formControlName="DECIDE_NO_YEAR_1"
+                          [attr.disabled]="showEditField ? '': null">
+                          <option value="" selected></option>
+                          <option *ngFor="let item of data.yearList; let i=index" [value]="item.value"
+                            [selected]="item.selected == true">{{item.year}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-8">
+                    <div class="form-group row">
+                      <div class="col-md-6">
+                        <label class="control-label m-0">หมายเลขคดีดำ</label>
+                        <label class="m-0">ศาลอุทธรณ์</label>
+                      </div>
+                      <div class="col-md-6">
+                        <input class="form-control form-control-sm" style="color: black;" type="text"
+                          name="UndecidedCaseNo" formControlName="UNDECIDE_NO_2" [readOnly]="showEditField">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group row">
+                      <label class="col-md-3">/</label>
+                      <div class="col-md-9">
+                        <select class="form-control form-control-sm" formControlName="UNDECIDE_NO_YEAR_2"
+                          [attr.disabled]="showEditField ? '': null">
+                          <option value="" selected></option>
+                          <option *ngFor="let item of data.yearList; let i=index" [value]="item.value">{{item.year}}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-8">
+                    <div class="form-group row">
+                      <div class="col-md-6">
+                        <label class="control-label m-0">หมายเลขคดีแดง</label>
+                        <label class="m-0">ศาลอุทธรณ์</label>
+                      </div>
+                      <div class="col-md-6">
+                        <input class="form-control form-control-sm" style="color: black;" type="text"
+                          name="UndecidedCaseNo" formControlName="DECIDE_NO_2" [readOnly]="showEditField">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group row">
+                      <label class="col-md-2 p-0" style="text-align: center">/</label>
+                      <div class="col-md-9">
+                        <select class="form-control form-control-sm" formControlName="DECIDE_NO_YEAR_2"
+                          [attr.disabled]="showEditField ? '': null">
+                          <option value="" selected></option>
+                          <option *ngFor="let item of data.yearList; let i=index" [value]="item.value"
+                            [selected]="item.selected == true">{{item.year}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-8">
+                    <div class="form-group row">
+                      <div class="col-md-6">
+                        <label class="control-label m-0">หมายเลขคดีดำ</label>
+                        <label class="m-0">ศาลฎีกา</label>
+                      </div>
+                      <div class="col-md-6">
+                        <input class="form-control form-control-sm" style="color: black;" type="text"
+                          name="UndecidedCaseNo" formControlName="UNJUDGEMENT_NO" [readOnly]="showEditField">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group row">
+                      <label class="col-md-3">/</label>
+                      <div class="col-md-9">
+                        <select class="form-control form-control-sm" formControlName="UNJUDGEMENT_NO_YEAR"
+                          [attr.disabled]="showEditField ? '': null">
+                          <option value="" selected></option>
+                          <option *ngFor="let item of data.yearList; let i=index" [value]="item.value"
+                            [selected]="item.selected == true">{{item.year}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-8">
+                    <div class="form-group row">
+                      <div class="col-md-6">
+                        <label class="control-label m-0">หมายเลขคดีแดง</label>
+                        <label class="m-0">ศาลฎีกา</label>
+                      </div>
+                      <div class="col-md-6">
+                        <input class="form-control form-control-sm" style="color: black;" type="text"
+                          name="UndecidedCaseNo" formControlName="JUDGEMENT_NO" [readOnly]="showEditField">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group row">
+                      <label class="col-md-2 p-0" style="text-align: center">/</label>
+                      <div class="col-md-9">
+                        <select class="form-control form-control-sm" formControlName="JUDGEMENT_NO_YEAR"
+                          [attr.disabled]="showEditField ? '': null">
+                          <option value="" selected></option>
+                          <option *ngFor="let item of data.yearList; let i=index" [value]="item.value"
+                            [selected]="item.selected == true">{{item.year}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group row">
+                      <label class="control-label col-md-4">วันที่อ่านคำพิพากษา</label>
+                      <div class="col-md-8">
+                        <my-date-picker-th placeholder="" locale="th" [options]="LawsuitDateOptions"
+                          name="JUDGEMENT_DATE" class="form-control form-control-sm unset-form-control"
+                          formControlName="JUDGEMENT_DATE" [disabled]="showEditField">
+                        </my-date-picker-th>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card card-outline-bluish unset-radius">
+          <div class="card-header unset-radius">
+            <app-card-actions-collapse></app-card-actions-collapse>
+            <h5 class="card-title m-b-0">คำพิพากษาศาล</h5>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6"></div>
+              <label class="col-md-12">คำพิพากษาของศาล</label>
+              <div class="col-md-12">
+                <div class="form-group row">
+                  <div class="col-6">
+                    <input class="filled-in chk-col-indigo" type="checkbox" id="CourtDismissal" name="CourtDismissal"
+                      (change)="EventChangeAll($event)" [checked]="isChk_CourtDis | async"
+                      [disabled]="CourtDismissAll.CourtDismissal || showEditField">
+                    <label class="form-check-label" for="CourtDismissal">ศาลยกฟ้อง</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <div class="col-12 row">
+                    <input name="IsCourtFine" class="filled-in chk-col-indigo" type="checkbox" id="fine" name="fine"
+                      [disabled]="CourtDismissAll.fine || showEditField || LawsuitPayment.length > 0"
+                      [checked]="isChk_Fine | async" (change)="EventChangeAll($event)">
+                    <label class="form-check-label" for="fine">สั่งปรับเป็นจำนวนเงิน : </label>
+
+                    <div class="col-2">
+                      <input #fine class="form-control form-control-sm" style="color: black;" type="text" name="FINE"
+                        formControlName="FINE" (keypress)="DotNumericOnly($event)"
+                        [ngClass]="{'ng-invalid-req':isReq_fine.value}" (keydown)="isReq_fine.next(false)"
+                        (blur)="setDecimalLawsuitDetail(fine.value,'FINE')" [readonly]="showEditField" inputWithComma>
+                    </div>
+                    <label class="" for="">บาท</label>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="col-md-6"></div> -->
+              <div *ngIf="disableFine" class="col-md-12" style="margin-bottom: 15px;">
+                <label class="col-md-12 p-0">วิธีชำระค่าปรับ</label>
+                <div class="form-check">
+                  <input class="col-form-label with-gap radio-col-indigo" type="radio" id="payRadio1" name="IsPay"
+                    (change)="EventChangeAll($event)" [checked]="CourtDismissAll.payOnceRadio1"
+                    [disabled]="LawsuitPayment.length > 1 || showEditField">
+                  <label class="form-check-label" for="payRadio1">ชำระครั้งเดียว</label>
+
+                  <div *ngIf="disablePayOne" formArrayName="LawsuitPayment">
+                    <div *ngFor="let item of LawsuitPayment.controls; let i=index;" [formGroupName]="i">
+                      <div class="row">
+
+                        <div class="col-md-6" [formGroup]="LawsuitDetailFG">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <div class="form-group row">
+                                <label class="control-label col-md-6"
+                                  style="padding-left: 60px">วันที่กำหนดชำระค่าปรับ</label>
+                                <div class="col-md-6">
+                                  <my-date-picker-th name="FINE_DATE" locale="th" [options]="LawsuitDateOptions"
+                                    class="form-control form-control-sm unset-form-control" formControlName="FINE_DATE"
+                                    [disabled]="showEditField" required>
+                                  </my-date-picker-th>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <div class="form-group row">
+                                <label class="control-label col-md-5">วันที่รับเงินจากศาล</label>
+                                <div class="col-md-7">
+                                  <my-date-picker-th name="PAYMENT_DATE" locale="th" [options]="LawsuitDateOptions"
+                                    class="form-control form-control-sm unset-form-control"
+                                    formControlName="PAYMENT_DATE" [disabled]="showEditField" required>
+                                  </my-date-picker-th>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <div class="form-group row">
+                                <label class="control-label col-md-6"
+                                  style="padding-left: 60px">ช่องทางการรับเงินจากศาล</label>
+                                <div class="col-md-6">
+                                  <!-- <select name="PAYMENT_CHANNEL" class="form-control form-control-sm"
+                                    formControlName="PAYMENT_CHANNEL" [attr.disabled]="showEditField ? '': null">
+                                    <option value="" selected disabled></option>
+                                    <option [value]="item.id" *ngFor="let item of PaymentChannel">{{item.name}}</option>
+                                  </select> -->
+                                  <input class="form-control form-control-sm" type="text" name="PAYMENT_CHANNEL"
+                                    formControlName="PAYMENT_CHANNEL_TEXT" readonly>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <div class="form-group row">
+                                <label class="control-label col-md-5">ธนาคาร</label>
+                                <div class="col-md-7">
+                                  <!-- <select name="PAYMENT_BANK" class="form-control form-control-sm"
+                                    formControlName="PAYMENT_BANK" [attr.disabled]="showEditField ? '': null">
+                                    <option value="" selected disabled></option>
+                                    <option [value]="item.id" *ngFor="let item of PaymentBank">{{item.name}}</option>
+                                  </select> -->
+                                  <ng-template #rt let-r="result" let-t="term">
+                                    {{r.BANK_NAME}}
+                                  </ng-template>
+                                  <input #bank type="text" class="form-control form-control-sm text-truncate"
+                                    [ngbTypeahead]="serachBank" [resultTemplate]="rt" [inputFormatter]="formatterBank"
+                                    (selectItem)="selectItemBank($event, i)" (blur)="deleteBank(bank,i)"
+                                    data-toggle="tooltip" title="{{getBankName(item.controls['PAYMENT_BANK'].value)}}"
+                                    [value]="getBankName(item.controls['PAYMENT_BANK'].value)" readOnly />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <div class="form-group row">
+                                <label class="control-label col-md-6 is-required"
+                                  style="padding-left: 60px">หมายเลขอ้างอิง</label>
+                                <div class="col-md-6">
+                                  <input class="form-control form-control-sm" style="color: black;" type="text"
+                                    name="PAYMENT_REF_NO" formControlName="PAYMENT_REF_NO" maxlength="12"
+                                    [ngClass]="{'ng-invalid-req': (!item.get('PAYMENT_REF_NO').value)? isReq_payRefNo.value : false}"
+                                    (keypress)="CreditNumericOnly($event)" [readOnly]="showEditField">
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <div class="form-group row">
+                                <label class="control-label col-md-5 is-required">มูลค่าเช็คจากศาล</label>
+                                <div class="col-md-7">
+                                  <input #fine class="form-control form-control-sm" style="color: black;" type="text"
+                                    name="FINE" formControlName="FINE" (keypress)="DotNumericOnly($event)"
+                                    [ngClass]="{'ng-invalid-req': (item.get('FINE').value == '')? isReq_payfine.value : false}"
+                                    (blur)="setDecimalLawsuitPayment(fine.value ,0 ,'FINE')" [readOnly]="showEditField"
+                                    inputWithComma>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-check">
+                  <input class="col-form-label with-gap radio-col-indigo" type="radio" id="payRadio2" name="IsPay"
+                    [checked]="CourtDismissAll.payOnceRadio2" (change)="EventChangeAll($event)"
+                    [disabled]="showEditField">
+                  <label class="form-check-label" for="payRadio2">แบ่งชำระเป็นงวด</label>
+                  <div *ngIf="disablePayTwo">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="form-group row">
+                              <label class="control-label col-md-6" style="padding-left: 60px">จำนวนงวดทั้งหมด</label>
+                              <div class="col-md-6">
+                                <input #PAYMENT_PERIOD class="form-control form-control-sm" style="color: black;"
+                                  type="number" name="PAYMENT_PERIOD" formControlName="PAYMENT_PERIOD"
+                                  [readOnly]="showEditField">
+                                <div class="alert alert-danger mt-3" role="alert" *ngIf="WarnPaymentPeriod.MsgShow">
+                                  {{WarnPaymentPeriod.Msg}}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6"></div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="form-group row">
+                              <label class="control-label col-md-6"
+                                style="padding-left: 60px">รอบชำระค่าปรับทุกๆ</label>
+                              <div class="col-md-6">
+                                <input class="form-control form-control-sm" style="color: black;" type="text"
+                                  name="PAYMENT_PERIOD_DUE" formControlName="PAYMENT_PERIOD_DUE"
+                                  (keypress)="DotNumericOnly($event)" [readOnly]="showEditField">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="form-group row">
+                              <label class="control-label col-md-3">หน่วย</label>
+                              <div class="col-md-6">
+                                <select name="PAYMENT_PERIOD_DUE_UNIT" class="form-control form-control-sm"
+                                  formControlName="PAYMENT_PERIOD_DUE_UNIT" [attr.disabled]="showEditField ? '': null">
+                                  <option value="" selected disabled></option>
+                                  <option [value]="item.id" *ngFor="let item of PaymentDueUnit">{{item.name}}</option>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 10px; margin-top: 5px;">
+                      <div class="col-md-10"> </div>
+                      <div class="col-md-2">
+                        <button #PAYMENT_PERIOD class="btn btn-block btn-themecolor" [disabled]="showEditField"
+                          (click)="addPaymentPeriod(PAYMENT_PERIOD)">เพิ่มงวดชำระ</button>
+                      </div>
+                    </div>
+                    <table class="table table-sm table-striped table-set-border">
+                      <thead>
+                        <tr>
+                          <th class="text-center" style="width: 5%">งวดที่</th>
+                          <th style="width: 16%">วันที่รับเงินจากศาล</th>
+                          <th style="width: 20%">ช่องทางการรับเงินจากศาล</th>
+                          <th style="width: 27%">ธนาคาร</th>
+                          <th style="width: 16%"><span class="text-danger">*</span>หมายเลขอ้างอิง</th>
+                          <th style="width: 13%"><span class="text-danger">*</span>มูลค่าเช็คจากศาล</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody formArrayName="LawsuitPayment">
+                        <tr *ngFor="let item of LawsuitPayment.controls; let i=index;" [formGroupName]="i">
+                          <td class="text-center">{{i+1}}</td>
+                          <td>
+                            <my-date-picker-th name="PAYMENT_DATE" locale="th" [options]="LawsuitDateOptions"
+                              formControlName="PAYMENT_DATE"
+                              [disabled]="item.controls['CAN_EDIT'].value || showEditField" required>
+                            </my-date-picker-th>
+                          </td>
+                          <td>
+                            <!-- <select name="PAYMENT_CHANNEL" class="form-control form-control-sm"
+                              formControlName="PAYMENT_CHANNEL"
+                              [attr.disabled]="item.controls['CAN_EDIT'].value || showEditField ? '' : null">
+                              <option value="" selected disabled></option>
+                              <option [value]="item.id" *ngFor="let item of PaymentChannel">{{item.name}}</option>
+                            </select> -->
+                            <input class="form-control form-control-sm" type="text" name="PAYMENT_CHANNEL"
+                              formControlName="PAYMENT_CHANNEL_TEXT" readonly>
+                          </td>
+                          <td>
+                            <!-- <select name="PAYMENT_BANK" class="form-control form-control-sm"
+                              formControlName="PAYMENT_BANK"
+                              [attr.disabled]="item.controls['CAN_EDIT'].value || showEditField ? '' : null">
+                              <option value="" selected disabled></option>
+                              <option [value]="item.id" *ngFor="let item of PaymentBank">{{item.name}}</option>
+                            </select> -->
+                            <ng-template #rt let-r="result" let-t="term">
+                              {{r.BANK_NAME}}
+                            </ng-template>
+                            <input #bank type="text" class="form-control form-control-sm text-truncate"
+                              [ngbTypeahead]="serachBank" [resultTemplate]="rt" [inputFormatter]="formatterBank"
+                              (selectItem)="selectItemBank($event, i)" (blur)="deleteBank(bank,i)"
+                              [value]="getBankName(item.controls['PAYMENT_BANK'].value)" data-toggle="tooltip"
+                              title="{{getBankName(item.controls['PAYMENT_BANK'].value)}}" readOnly />
+                          </td>
+                          <td>
+                            <input class="form-control form-control-sm" style="color: black;" type="text"
+                              name="PAYMENT_REF_NO" formControlName="PAYMENT_REF_NO" maxlength="12"
+                              [readonly]="item.controls['CAN_EDIT'].value || showEditField"
+                              [ngClass]="{'ng-invalid-req': (!item.get('PAYMENT_REF_NO').value)? isReq_payRefNo.value : false}"
+                              (keypress)="CreditNumericOnly($event)">
+                          </td>
+                          <td>
+                            <input #fine class="form-control form-control-sm" style="color: black;" type="text"
+                              name="FINE" formControlName="FINE" (keypress)="DotNumericOnly($event)"
+                              (blur)="setDecimalLawsuitPayment(fine.value ,i ,'FINE')"
+                              [ngClass]="{'ng-invalid-req': (item.get('FINE').value == '')? isReq_payfine.value : false}"
+                              [readonly]="item.controls['CAN_EDIT'].value || showEditField" inputWithComma>
+                          </td>
+                          <td class="text-center">
+                            <a *ngIf="!item.controls['CAN_EDIT'].value" [hidden]="showEditField"
+                              href="javaScript:void(0);" class="text-danger" (click)="DeletePayment(item , i)">
+                              <i class="fa fa-trash-o fa-lg"></i>
+                            </a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="form-group row">
+                  <div class="col-2">
+                    <input name="IsImprison" class="filled-in chk-col-indigo" type="checkbox" id="isPrison"
+                      [disabled]="CourtDismissAll.isPrison || showEditField" name="isPrison"
+                      (change)="EventChangeAll($event)"
+                      [checked]="LawsuitDetailFG.controls['IS_IMPRISON'].value == 1? true:false">
+                    <label class="form-check-label control-label" for="isPrison">สั่งจำคุกเป็นเวลา</label>
+                  </div>
+                  <div class="col-10">
+                    <input type="text" formControlName="IMPRISON_TIME"
+                      [readonly]="CourtDismissAll.ImprisonTime || showEditField" name="ImprisonTime"
+                      class="form-control form-control-sm " id="prisonDay">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </form>
+  <div class="modal-footer">
+    <button type="button" class="btn waves-effect waves-light text-white btn-themecolor" (click)="setDataBeforSubmit()"
+      [disabled]="showEditField">ตกลง</button>
+  </div>
+</div>

@@ -1,0 +1,188 @@
+// @import '../../../../styles';
+.a-center {
+  text-align: center;
+}
+
+.padding-table {
+  padding-top: 10px;
+}
+
+.red{
+  color: red;
+}
+.blue{
+  color: blue;
+}
+// .cdk-overlay-container {
+//   z-index: 99999 !important;
+// }
+//   .btn-navy {
+//     background: rgb(0, 94, 141);
+//     color: white;
+//   }
+
+//   .btn-orange {
+//     background: rgb(224, 112, 35);
+//     color: white;
+//   }
+
+//   .top-navbar {
+//     background: linear-gradient(45deg, rgb(0, 94, 141), rgb(53, 57, 147));
+//   }
+
+  // .btn-action {
+  //   color: red;
+  //   font-size: 20px;
+  //   margin-left: 5px;
+  //   cursor: pointer;
+  // }
+
+  // #btn-browse {
+  //   opacity: 0;
+  // }
+
+  // .form-popup {
+  //   margin-bottom: 0;
+  // }
+
+  // .col-form-label {
+  //   color: black;
+  //   font-weight: 400;
+  // }
+
+//  .card-header {
+//     background: #ccdeea;
+//     border-color: #ccdeea;
+// }
+
+// ::ng-deep .cdk-overlay-container
+// {
+//   background-color: none;
+// }
+
+// ::ng-deep .mat-autocomplete-panel{
+//   background-color: white;
+  // top:-2200px;
+  // left:600px;
+// }
+// td p {
+//   white-space: nowrap; 
+//   max-width: 140px; 
+//   overflow: hidden;
+//   text-overflow: ellipsis; 
+// }
+// body {
+//   font-size: 0.9rem !important;
+// }
+// input[disabled] {
+//   color: black;
+// }
+// .card {
+//   font-size: 0.9rem !important;
+//   input {
+//     padding: 0.3rem;
+//     font-size: 0.9rem !important;
+//   }
+// }
+// .without_ampm::-webkit-datetime-edit-ampm-field {
+//   display: none;
+// }
+// input[type=time]::-webkit-clear-button {
+//   -webkit-appearance: none;
+//   -moz-appearance: none;
+//   -o-appearance: none;
+//   -ms-appearance:none;
+//   appearance: none;
+//   margin: -10px; 
+// }
+// ::ng-deep .cdk-overlay-pane {
+//   /* Do you changes here */
+//     min-width:15rem;
+// }
+// .custom-select {
+//   background-color: white;
+// }
+// .custom-select[disabled] {
+//   background-color: #e8edf1;
+// }
+// .mat-expansion-panel-content {
+//   font: unset !important;
+// }
+// :host /deep/ ng2-dropdown-menu div{
+// 	left: inherit !important;
+// 	top: inherit !important;
+// }
+
+// .editable
+// {
+//   :placeholder-shown {
+//     text-align: right;
+//   }
+// }
+
+.button {
+  border: 1px solid #f44336;
+  background-color: white;
+  color: #f44336;
+}
+
+.btn-ct {
+  background: #ffffff;
+  color: #1e88e5;
+  border: 1px solid#1e88e5;
+}
+
+.item {
+  padding: 10px;
+  -webkit-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
+
+  .wBg {
+    text-align: center;
+  }
+}
+
+h1 {
+  min-height: 200px;
+  background-color: #ccc;
+  text-align: center;
+  line-height: 200px;
+}
+
+@media (min-width: 500px) {
+  .modal-lg {
+      max-width: 70% !important;
+  }
+}
+
+table tbody tr td label {
+  font-weight: 300;
+}
+.cersor{cursor: pointer;}
+
+.modal-xl {
+  max-width: 1200px;
+}
+
+.ng-invalid-req {
+  border-color: #fc4b6c
+}
+
+.set-button {
+  background: #ffffff;
+  color: #1e88e5;
+  border: 1px solid#1e88e5;
+}
+
+.without_ampm::-webkit-datetime-edit-ampm-field {
+  display: none;
+}
+input[type=time]::-webkit-clear-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+  -ms-appearance:none;
+  appearance: none;
+  margin: -10px; 
+}

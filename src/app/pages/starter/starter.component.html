@@ -1,0 +1,174 @@
+<header class="topbar">
+    <nav class="navbar top-navbar navbar-expand-md navbar-light"></nav>
+</header>
+<div id="startPage" class="Startpage-wrapper">
+
+    <mat-vertical-stepper [linear]="isLinear" #stepper>
+        <ng-template matStepperIcon="edit">
+            <mat-icon>notification_important</mat-icon>
+        </ng-template>
+
+        <mat-step [stepControl]="NotifyFG">
+            <form [formGroup]="NotifyFG">
+                <ng-template matStepLabel>
+                    <span style="font-size: 25px;font-weight: bold;">{{NotifyFG.get('NotifyContent').value}}</span>
+                </ng-template>
+                <div formArrayName="NotifyDetail">
+                    <div *ngFor="let item of NotifyDetail.controls; let i=index;" [formGroupName]="i">
+                        <h5 style=" font-weight: bold;">{{item.get('notify_date').value}}<i class="fa fa-bullhorn"
+                                style="padding-left: 5px;"></i>
+                        </h5>
+                        <h2 style="margin-left: 10px;float:left; font-size: 13px;">
+                            {{item.get('notify_detail').value}}
+                        </h2><br><br><br><br>
+                    </div>
+                </div>
+            </form>
+        </mat-step>
+
+        <mat-step [stepControl]="DownloadFG">
+            <form [formGroup]="DownloadFG">
+                <ng-template matStepLabel>
+                    <span style="font-size: 25px;font-weight: bold;">ดาวน์โหลด</span>
+                </ng-template>
+                <div formArrayName="DownloadDetail">
+                    <div *ngFor="let item of DownloadDetail.controls; let i=index;" [formGroupName]="i">
+                        <h5 style=" font-weight: bold;">{{item.get('download_notifyDate').value}}</h5>
+                        <a class="col-lg-12" style="float:left; font-size: 13px; margin-bottom: 35px; margin-top: 10px"
+                            href="{{item.get('download_link').value}}" target="_blank">
+                            {{item.get('download_text').value}}</a>
+                    </div>
+                </div>
+            </form>
+        </mat-step>
+    </mat-vertical-stepper>
+
+
+
+    <!-- <div class="container" style="margin-left: -80px;">
+    <div class="solid"></div>
+    <div class="solid1"></div>
+    <ul class="progbar">
+        <div class="row" style="margin-bottom: 60px; width: 830px;">
+            <span
+                style=" margin-left: 52px;margin-top: -22px;  font-size: 30px; font-weight: normal;">แจ้งข้อมูลข่าวสาร</span>
+        </div>
+        <div class="row" style="margin-bottom: 35px; width: 830px;">
+            <li class="active"></li><br>
+            <span style="margin-left: -100px; font-size: 17px;font-weight: bold;">วันที่ 21 มิถุนายน 2562</span>
+            <h2 style="margin-left: 200px;float:left; font-size: 13px;">***ให้กรอกข้อมูล ค่าปรับรายสินค้า (หน่วย:บาท)
+                ต่อรายการ
+                ได้ที่เมนู 5.1 รายงานบัญชีสิ่งของ ส.ส 2/4***</h2><br>
+            <h2 style="margin-left: 200px;float:left; font-size: 13px;"> ***ตั้งแต่ วันที่ 1 ตุลาคม 2561 เป็นต้นไป ***
+            </h2>
+        </div>
+        <div class="row" style="margin-bottom: 35px; width: 830px;">
+            <li></li><br>
+            <span style="margin-left: -100px; font-size: 17px; font-weight: bold;">วันที่ 22 มิถุนายน 2562</span>
+            <h2 style="margin-left: 200px;float:left; font-size: 13px;">*** หากต้องการเพิ่มข้อมูล (ชนิดสินค้า ,
+                ชนิดยี่ห้อ, อื่นๆ)
+                ติดต่อเจ้าหน้าที่ผู้ดูแลระบบ Tel: 64404, 64409, 64419
+            </h2><br>
+            <h2 style="margin-left: 200px;float:left; font-size: 13px;"> Helpdesk Tel: 02-241-5600 ต่อ 61601-08 ***</h2>
+        </div>
+    </ul>
+</div>
+
+<div class="container" style="margin-left: -80px;">
+    <div class="solid_dowload"></div>
+    <div class="solid1"></div>
+    <ul class="progbar">
+        <div class="row" style="margin-bottom: 60px; width: 830px;">
+            <span style=" margin-left: 52px;margin-top: -22px;  font-size: 30px; font-weight: normal;">ดาวน์โหลด</span>
+        </div>
+        <div class="row" style="margin-bottom: 80px; width: 830px;">
+            <li></li>
+            <span style="margin-left: -100px; font-weight: bold;">วันที่ 4 กรกฎาคม 2562</span>
+            <a href="http://illegal.excise.go.th/XCS_illegal_old/" target="_blank"
+                style="margin-left: 200px;float:left; font-size: 13px;">Link=>>
+                เข้าสู่ระบบงานผู้กระทำผิดกฎหมายสรรพสามิต (พ.ร.บ. สุรา,ยาสูบ และภาษีสรรพสามิต 2527)</a>
+        </div>
+        <div class="row" style="margin-bottom: 80px; width: 830px;">
+            <li></li>
+            <span style="margin-left: -100px;  font-size: 17px; margin-right: 118px; font-weight: bold;">วันที่ 23
+                กรกฎาคม 2562</span>
+            <h1> </h1>
+            <a href="http://192.168.3.134/XCS_Report_Law/UM_2561/UM_2561.pdf" target="_blank"
+                style="margin-left: 200px;float:left; font-size: 13px;">Link=>>
+                ดาวน์โหลดคู่มือการใข้งานระบบงานผู้กระทำผิดกฎหมายภาษีสรรพสามิต</a>
+        </div>
+    </ul>
+</div> -->
+    <!-- #########################################################################################################################
+################################################################################################################################## -->
+    <!-- <div class="wizard-content1" style="margin-bottom: 10px;">
+    <div class="wizard-circle wizard clearfix clearfix">
+        <div class="steps tab-wizard">
+            <ul role="tablist">
+                <li class="current" aria-disabled="false" aria-selected="true">
+                    <a style="margin: 40px"> 
+                        <span style="margin-left: -620px;" class="step"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="steps tab-wizard">
+            <ul role="tablist">
+                <li role="tab" class="current" aria-disabled="false" aria-selected="true">
+                    <a style="margin: 40px">
+                        <span style="margin-left: -620px;" class="step"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="steps tab-wizard">
+            <ul role="tablist">
+                <li role="tab" class="current" aria-disabled="false" aria-selected="true">
+                    <a style="margin: 40px">
+                        <span style="margin-left: -620px;;" class="step"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="steps tab-wizard">
+            <ul role="tablist">
+                <li role="tab" class="current" aria-disabled="false" aria-selected="true">
+                    <a style="margin: 40px">
+                        <span style="margin-left: -620px;;" class="step"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div> -->
+
+
+
+
+    <!-- <div class="container" style="margin-left: -80px;">
+        <div class="solid">1</div>
+        <ul class="progbar">
+                
+                <div class="row">
+                        <li></li>
+                        
+                    </div>
+                    <div class="row">
+                            <li></li>
+                       
+                    </div>
+                    <div class="row">
+                            <li></li>
+                        
+                    </div>
+        </ul>
+</div> -->
+
+    <!-- <div class="container">
+    <ul class="progbar">
+        <li class="active"> step 1</li>
+        <li >step 2</li>
+        <li >step 3</li>
+    </ul>
+</div> -->
+</div>

@@ -1,0 +1,135 @@
+<div class="row m-t-10">
+  <div class="col-12">
+    <div class="card card-outline-bluish unset-radius" *ngIf="advSearch | async">
+      <div class="card-header unset-radius">
+        ค้นหาขั้นสูง
+        <div class="card-actions">
+          <a (click)="closeAdvSearch()">
+            <i class="ti-close"></i>
+          </a>
+        </div>
+      </div>
+      <div class="card-body">
+        <form class="form-horizontal">
+          <div class="form-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label text-right col-md-3">เลขที่ใบงาน : </label>
+                  <div class="col-md-9">
+                    <input class="form-control" type="text" [(ngModel)]="arrestCode" name="arrestCode">
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group has-danger row">
+                  <label class="col-form-label text-right col-md-4">เลขที่คดีรับคำกล่าวโทษ : </label>
+                  <div class="col-md-8">
+                    <input class="form-control" type="text" [(ngModel)]="lawsuitNo" name="lawsuitNo">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label text-right col-md-3">วันที่รับคดี : </label>
+                  <div class="col-md-4">
+                    <input class="form-control" type="date" [(ngModel)]="lawsuitDateStart" name="lawsuitDateStart">
+                  </div>
+                  <label class="col-form-label text-center col-md-1">ถึง</label>
+                  <div class="col-md-4">
+                    <input class="form-control" type="date" [(ngModel)]="lawsuitDateEnd" name="lawsuitDateEnd">
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label text-right col-md-4">ชื่อผู้รับคดี : </label>
+                  <div class="col-md-8">
+                    <input class="form-control" type="text" [(ngModel)]="lawName" name="lawName">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label text-right col-md-3">หน่วยงาน : </label>
+                  <div class="col-md-9">
+                    <input class="form-control" type="text" [(ngModel)]="departmentlawName" name="departmentlawName">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="text-right">
+            <button type="submit" class="btn waves-effect waves-light text-white btn-search">ค้นข้อมูล</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <div class="table-responsive table-striped">
+          <!-- <div class="alert alert-danger">
+            <i class="fa fa-exclamation-triangle"></i> ไม่พบข้อมูล
+            <button type="button" class="close">
+              <span>×</span>
+            </button>
+          </div> -->
+          <table class="table" *ngIf="!errorShow">
+            <thead>
+              <tr>
+                <th class="footable-sortable">ลำดับ</th>
+                <th class="footable-sortable">เลขที่ใบงาน</th>
+                <th class="footable-sortable col-2">เลขที่คดีรับคำกล่าวโทษ</th>
+                <th class="footable-sortable">วันที่รับคดี</th>
+                <th class="footable-sortable">ชื่อผู้รับคดี</th>
+                <th class="footable-sortable">หน่วยงาน</th>
+                <th class="footable-sortable"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="footable" *ngFor="let item of listData | slice:0:numberPage; let i = index;">
+                <td>{{i+1}}</td>
+                <td>{{item.arrestCode}}</td>
+                <td>{{item.lawsuitNo}}</td>
+                <td>{{item.lawsuitDate}}</td>
+                <td>{{item.titleName}}{{item.firstName}} {{item.lastName}}</td>
+                <td>{{item.departmentlawName}}</td>
+                <td>
+                  <a href="javaScript:void(0);" class="text-secondary" (click)="viewData(item.arrestCode)">
+                    <i class="mdi mdi-eye fa-lg"></i>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card-footer bg-transparent">
+          <div class="row justify-content-between">
+            <div clas="col">
+              <a class="icn-pagination"> |&lt;&lt; </a>
+              <label> หน้าที่
+                <select>
+                  <option *ngFor="let number of numberSelectPage;">{{number}}</option>
+                </select> จาก {{allPageCount}} หน้า</label>
+              <a class="icn-pagination m-r-10"> &gt;&gt;| </a>
+              รายการที่ 1 - {{numberPage}} จาก {{listData.length}} รายการ
+            </div>
+            <div class="col col-lg-3 text-right">
+              <label>แสดง
+                <select>
+                  <option (click)="changeNumPage(5)">5</option>
+                  <option (click)="changeNumPage(10)">10</option>
+                  <option (click)="changeNumPage(15)">15</option>
+                  <option (click)="changeNumPage(20)">20</option>
+                </select> รายการ</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+.app-search {
+    input {
+        background: transparent !important;
+        border: 1px solid #fff !important;
+        color: #fff !important;
+    }
+    input:active {
+        color: #fff !important;
+    }
+
+    .srh-btn {
+        position: absolute;
+        top: 8px;
+        right: 28px;
+        color: #fff;
+    }
+}
+.scroll {
+    white-space:nowrap;
+    overflow-x: scroll;
+    overflow-y: hidden;
+
+}
+.last-child {
+    position: absolute;
+    right: 10px;
+    background: #fff;
+    width: 130px;
+    min-width: 185px;
+    height: 100%;
+}
+
+.table-fix tr:nth-of-type(odd) {
+    /* background: #f2f4f8;  */
+    background: #33709a;
+  }
+
+.fix-table-responsive {
+    width: calc(100% - 180px);
+}
+//   .bg {
+// }
+
+// .bg:nth-child(even) {background: rgb(148, 14, 14)}
+// .bg:nth-child(odd) {background: #FFF}

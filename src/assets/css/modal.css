@@ -1,0 +1,22 @@
+@media (min-width: 992px) {
+    .modal-lg {
+        max-width: 980px;
+    }
+}
+.srh-btn {
+    position: absolute;
+    top: 5px;
+    right: 25px;
+}
+
+.close {
+    font-size: 1rem;
+    position: absolute;
+    right: 20px;
+    top: 22px;
+}
+
+.modal-header {
+    justify-content: unset;
+    display: block;
+}

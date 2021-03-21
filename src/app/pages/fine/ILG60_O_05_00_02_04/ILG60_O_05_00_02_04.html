@@ -1,0 +1,73 @@
+
+    <div class="modal-header bg-theme">
+      <div class="row">
+        <div class="col-lg-5">
+          <h4 class="modal-title text-white">รับรองใบเสร็จ</h4>
+        </div>
+        <a href="javaScript:void(0);" class="close text-white font-14" aria-label="Close" (click)="dismiss(click)">
+          <span aria-hidden="true">
+            <i class=" ti-close"></i>
+          </span>
+        </a>
+      </div>
+    </div>
+    <div class="modal-body font-14" >
+        <!-- <img [src]="imageSource" alt="Image Source" width="100%" height="100%" class="img"> -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-form-label col-md-4 control-label">ผู้รับชำระค่าปรับ</label>
+              <div class="col-md-8">
+                  <input type="text" [value]="controlForm.get('staffname').value" class="form-control form-control-sm" [readonly]="true" required>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-form-label col-md-4 control-label">ตำเเหน่ง</label>
+                <div class="col-md-8">
+                  <input type="text" [value]="controlForm.get('postname').value" class="form-control form-control-sm" [readonly]="true" required>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="row">
+              <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-form-label col-md-4 control-label">หน่วยงาน</label>
+                    <div class="col-md-8">
+                      <input type="text" [value]="controlForm.get('office').value" class="form-control form-control-sm" [readonly]="true" required>
+                    </div>
+                  </div>
+                </div>
+              <div class="col-md-6" *ngIf="controlForm.get('signature').value == false">
+                <div class="form-group row">
+                  <label class="col-form-label col-md-4 control-label">ลายมือชื่อ<br>ผู้รับชำระค่าปรับ</label>
+                  <div class="col-md-8">
+                      <textarea cols="" rows="6" class="form-control form-control-sm" readonly></textarea>
+                  </div>
+                  <label class="col-form-label col-md-4"></label>
+                </div>
+              </div>
+              <div class="col-md-6" *ngIf="controlForm.get('signature').value == true">
+                <div class="form-group row">
+                  <label class="col-form-label col-md-4 control-label">ลายมือชื่อ<br>ผู้รับชำระค่าปรับ</label>
+                  <div class="col-md-8">
+                      <img [src]="imageSource" alt="Image Source" width="300" height="150" class="img">
+                  </div>
+                  <label class="col-form-label col-md-4"></label>
+                  <div class="col-md-8 a-right">
+                      <button type="button" (click)="signature(0)" class="aa">ตัวอย่างใบเสร็จ</button>
+                  </div>
+                </div>
+              </div>
+          </div>
+    </div>
+    <div class="modal-footer">
+    <div class="col-lg-2 col-4" *ngIf="controlForm.get('signature').value == true">
+      <button type="button" (click)="signature(1)" class="btn btn-block btn-themecolor">ยืนยัน</button>
+    </div>
+    <div class="col-lg-2 col-4">
+      <button type="button" (click)="cancel()" class="btn btn-block button">ยกเลิก</button>
+    </div>
+  </div>

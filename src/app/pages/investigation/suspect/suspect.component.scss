@@ -1,0 +1,46 @@
+// .viewOffense {
+//     position: absolute;
+//     right: 20px;
+//     top: 2px;
+// }
+
+// label.find-img {
+//     cursor: pointer;
+//     span {
+//         position: absolute;
+//         left: 65px;
+//         bottom: 5px;
+//         z-index: 2;
+//         color: #fff;
+//     }
+    
+// }
+
+// label.find-img::after {
+//     content: '';
+//     position: absolute;
+//     width: 180px;
+//     height: 35px;
+//     background-color: rgb(13, 83, 151);
+//     left: 15px;
+//     bottom: 0px;
+// }
+
+.item {
+    padding: 10px;
+    -webkit-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
+  
+    .wBg {
+      text-align: center;
+    }
+  }
+  
+  h1 {
+    min-height: 200px;
+    background-color: #ccc;
+    text-align: center;
+    line-height: 200px;
+  }
+  

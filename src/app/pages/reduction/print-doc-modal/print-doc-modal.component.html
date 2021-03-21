@@ -1,0 +1,362 @@
+<!-- {{data | json}} -->
+<form #form="ngForm" (ngSubmit)="onPrint(form)">
+  <div class="modal-header bg-theme">
+    <div class="row">
+      <div class="col-lg-5">
+        <h4 class="modal-title text-white">พิมพ์เอกสาร</h4>
+      </div>
+      <a href="javaScript:void(0);" class="close text-white font-14" aria-label="Close" (click)="dismiss('Cross click')">
+        <span aria-hidden="true">
+          <i class=" ti-close"></i>
+        </span>
+      </a>
+    </div>
+  </div>
+  <div class="modal-body font-14" >
+
+    <div class="table-responsive">
+      <table class="table table-sm table-striped table-set-border">
+        <thead>
+          <tr>
+            <th></th>
+            <th class="text-center">ลำดับ</th>
+            <th>ชื่อเอกสาร</th>
+            <th [ngSwitch]="sort" style="cursor: pointer;">
+              <div (click)="sortPrintDoc()">
+                ประเภทเอกสาร
+                <i *ngSwitchCase="'desc'" class="fa fa-sort-amount-desc"></i>
+                <i *ngSwitchCase="'asc'" class="fa fa-sort-amount-asc"></i>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <!-- <tbody formArrayName="PrintDoc">
+            <tr *ngFor="let item of PrintDoc.controls; let i=index;" [formGroupName]="i">
+                <td class="text-center">
+                    <input type="checkbox" formControlName="IsChecked" [id]="'td'+i" class="filled-in chk-col-indigo">
+                    <label [for]="'td'+i" class="m-0"></label>
+                </td>
+                <td class="text-center">{{i+1}}</td>
+                <td>{{item.get('DocName').value}}</td>
+                <td>{{item.get('DocTypeName').value}}</td>
+            </tr>
+        </tbody> -->
+        <tbody >
+          <tr *ngFor="let item of printDoc; let i=index;">
+            <td class="text-center">
+              <input type="checkbox" (change)="onSelect(i)" [id]="'td'+i"   class="filled-in chk-col-indigo">
+              <label [for]="'td'+i" class="m-0"></label>
+            </td>
+            <td  class="text-center">{{i+1}}</td>
+            <td >{{item.DocName}}</td>
+            <td >{{item.DocType}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="col-lg-2 col-4">
+      <button type="submit" class="btn btn-block btn-themecolor">พิมพ์</button>
+    </div>
+  </div>
+</form>
+
+
+
+
+
+
+
+
+<!-- <form action="" #form="ngForm" (ngSubmit)="onPrint(form)"> -->
+<!-- <div class="modal-header bg-theme">
+  <div class="row">
+      <div class="col-lg-5">
+          <h4 class="modal-title text-white">พิมพ์เอกสาร</h4>
+      </div>
+
+      <a href="javaScript:void(0);" class="close text-white font-14" aria-label="Close"
+          (click)="dismiss('Cross click')">
+          <span aria-hidden="true">
+              <i class=" ti-close"></i>
+          </span>
+      </a>
+  </div>
+</div>
+<div class="modal-body font-14">
+  <div class="card unset-radius">
+      <div class="card-body p-0">
+          <div class="table-responsive">
+              <div class="table-responsive table-striped ">
+                  <table class="table">
+                      <thead>
+                          <tr>
+                              <th></th>
+                              <th style="text-align: center;width: 5%"></th>
+                              <th style="text-align: center;width: 7%">ลำดับ</th>
+                              <th>ชื่อเอกสาร</th>
+                              <th>ประเภทเอกสาร</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr *ngFor="let item of printDoc; let i=index;">
+                              <td class="text-center">
+                                  <input type="checkbox" (change)="onSelect(i)" [id]="'td'+i"
+                                      class="filled-in chk-col-indigo">
+                                  <label [for]="'td'+i" class="m-0"></label>
+                              </td>
+                              <td class="text-center">{{i+1}}</td>
+                              <td>{{item.DocName}}</td>
+                              <td>{{item.DocType}}</td>
+                          </tr> -->
+                          <!-- <tr>
+                              <td class="text-center">
+                                  <input type="checkbox" name="checkbox1" [(ngModel)]="check.checkbox1" id="checkbox1"
+                                      class="filled-in chk-col-indigo">
+                                  <label [for]="'checkbox1'" class="m-0"></label>
+                              <td class="text-center"> </td>
+                              <td class="text-center">1</td>
+                              <td>บันทึกคำให้การของผู้ต้องหา ส.ส.2/53 {{TitleName}}{{FirstName}} {{LastName}}</td>
+                              <td>แบบฟอร์ม</td>
+                          </tr>
+                          <tr>
+                              <td class="text-center">
+                                  <input type="checkbox" name="checkbox2" [(ngModel)]="check.checkbox2" id="checkbox2"
+                                      class="filled-in chk-col-indigo">
+                                  <label [for]="'checkbox2'" class="m-0"></label>
+                              </td>
+                              <td class="text-center"> </td>
+                              <td class="text-center">2</td>
+                              <td>ใบเสร็จรับเงินค่าปรับเปรียบเทียบคดี {{TitleName}}{{FirstName}} {{LastName}}</td>
+                              <td>แบบฟอร์ม</td>
+                          </tr>
+                          <tr>
+                              <td class="text-center">
+                                  <input type="checkbox" name="checkbox3" [(ngModel)]="check.checkbox3" id="checkbox3"
+                                      class="filled-in chk-col-indigo">
+                                  <label [for]="'checkbox3'" class="m-0"></label>
+                              </td>
+                              <td class="text-center"> </td>
+                              <td class="text-center">3</td>
+                              <td>บันทึกการเปรียบเทียบคดี 2/52 {{TitleName}}{{FirstName}} {{LastName}}</td>
+                              <td>แบบฟอร์ม</td>
+                          </tr>
+                          <tr>
+                              <td class="text-center">
+                                  <input type="checkbox" name="checkbox4" [(ngModel)]="check.checkbox4" id="checkbox4"
+                                      class="filled-in chk-col-indigo">
+                                  <label [for]="'checkbox4'" class="m-0"></label>
+                              </td>
+                              <td class="text-center"> </td>
+                              <td class="text-center">4</td>
+                              <td>คำร้องขอให้เปรียบเทียบคดี คด.1 {{TitleName}}{{FirstName}} {{LastName}}</td>
+                              <td>แบบฟอร์ม</td>
+                          </tr>
+                          <tr>
+                              <td class="text-center">
+                                  <input type="checkbox" name="checkbox5" [(ngModel)]="check.checkbox5" id="checkbox5"
+                                      class="filled-in chk-col-indigo">
+                                  <label [for]="'checkbox5'" class="m-0"></label>
+                              </td>
+                              <td class="text-center"> </td>
+                              <td class="text-center">5</td>
+                              <td>แบบฟอร์มรายงานขออนุมัติการเปรียบเทียบคดี คด.2 {{TitleName}}{{FirstName}}{{LastName}}
+                              </td>
+                              <td>แบบฟอร์ม</td>
+                          </tr>
+                          <tr>
+                              <td class="text-center">
+                                  <input type="checkbox" name="checkbox6" [(ngModel)]="check.checkbox6" id="checkbox6"
+                                      class="filled-in chk-col-indigo">
+                                  <label [for]="'checkbox6'" class="m-0"></label>
+                              </td>
+                              <td class="text-center"> </td>
+                              <td class="text-center">6</td>
+                              <td>แบบฟอร์มแบบอนุมัติ 1 คด.3{{TitleName}}{{FirstName}}{{LastName}}</td>
+                              <td>แบบฟอร์ม</td>
+                          </tr>
+                          <tr>
+                              <td class="text-center">
+                                  <input type="checkbox" name="checkbox7" [(ngModel)]="check.checkbox7" id="checkbox7"
+                                      class="filled-in chk-col-indigo">
+                                  <label [for]="'checkbox7'" class="m-0"></label>
+                              </td>
+                              <td class="text-center"> </td>
+                              <td class="text-center">7</td>
+                              <td>แบบฟอร์มแบบอนุมัติ 2 คด.4{{TitleName}}{{FirstName}}{{LastName}}</td>
+                              <td>แบบฟอร์ม</td>
+                          </tr>
+                          <tr>
+                              <td class="text-center">
+                                  <input type="checkbox" name="checkbox8" [(ngModel)]="check.checkbox8" id="checkbox8"
+                                      class="filled-in chk-col-indigo">
+                                  <label [for]="'checkbox8'" class="m-0"></label>
+                              </td>
+                              <td class="text-center"> </td>
+                              <td class="text-center">8</td>
+                              <td>แบบฟอร์มแบบอนุมัติ 3 คด.5{{TitleName}}{{FirstName}}{{LastName}}</td>
+                              <td>แบบฟอร์ม</td>
+                          </tr>
+                          <tr>
+                              <td class="text-center">
+                                  <input type="checkbox" name="checkbox9" [(ngModel)]="check.checkbox9" id="checkbox9"
+                                      class="filled-in chk-col-indigo">
+                                  <label [for]="'checkbox9'" class="m-0"></label>
+                              </td>
+                              <td class="text-center"> </td>
+                              <td class="text-center">9</td>
+                              <td>แบบฟอร์มแบบอนุมัติ 4 คด.6{{TitleName}}{{FirstName}}{{LastName}}</td>
+                              <td>แบบฟอร์ม</td>
+                          </tr> -->
+                          <!---------------------------------------------------------------------------------------------------->
+                          <!-- <tr>
+                              <td class="text-center">
+                                  <input type="checkbox" name="checkbox3" [(ngModel)]="check.checkbox3" id="checkbox3"
+                                      class="filled-in chk-col-indigo">
+                                  <label [for]="'checkbox9'" class="m-0"></label>
+                              </td>
+                              <td class="text-center"> </td>
+                              <td class="text-center">1</td>
+                              <td>แบบฟอร์มบันทึกการเปรียบเทียบคดี ส.ส.2/52</td>
+                              <td>แบบฟอร์ม</td>
+                          </tr> -->
+                          <!-- <tr>
+                              <td class="text-center">
+                                  <input type="checkbox" name="checkbox1" [(ngModel)]="check.checkbox1" id="checkbox1"
+                                      class="filled-in chk-col-indigo">
+                                  <label [for]="'checkbox1'" class="m-0"></label> -->
+                          <!--#### <input class="col-form-label filled-in chk-col-indigo" name="checkBox1" [(ngModel)]="check.checkBox1" id="insurance"
+                         type="checkbox" >
+                         <label for="insurance"></label>#### -->
+                          <!-- </td>
+                              <td class="text-center"> -->
+                          <!--####<input type="hidden" name="InvestigateDetailID" [(ngModel)]="item.InvestigateDetailID">
+                                  <input type="checkbox" [id]="'td'+i" name="checking" ngModel class="filled-in chk-col-indigo">
+                                  <label [for]="'td'+i" class="m-0"></label> ####-->
+                          <!-- </td>
+                              <td class="text-center">1</td>
+                              <td>บันทึกคำให้การของผู้กล่าวโทษ ส.ส.2/54 {{TitleName}}{{FirstName}} {{LastName}}</td>
+                              <td>แบบฟอร์ม</td>
+                          </tr>
+                          <tr>
+                              <td class="text-center">
+                                  <input type="checkbox" name="checkbox2" [(ngModel)]="check.checkbox2" id="checkbox2"
+                                      class="filled-in chk-col-indigo">
+                                  <label [for]="'checkbox2'" class="m-0"></label>
+                              </td>
+                              <td class="text-center"> -->
+                          <!--#### <input type="hidden" name="InvestigateDetailID" [(ngModel)]="item.InvestigateDetailID">
+                                      <input type="checkbox" [id]="'td'+i" name="checking" ngModel class="filled-in chk-col-indigo">
+                                      <label [for]="'td'+i" class="m-0"></label> ####-->
+                          <!-- </td>
+                              <td class="text-center">2</td>
+                              <td>ใบเสร็จชำระค่าปรับ {{TitleName}}{{FirstName}} {{LastName}}</td>
+                              <td>แบบฟอร์ม</td>
+                          </tr>
+                          <tr>
+                              <td class="text-center">
+                                  <input type="checkbox" name="checkbox3" [(ngModel)]="check.checkbox3" id="checkbox3"
+                                      class="filled-in chk-col-indigo">
+                                  <label [for]="'checkbox3'" class="m-0"></label>
+                              </td>
+                              <td class="text-center"> -->
+                          <!--#### <input type="hidden" name="InvestigateDetailID" [(ngModel)]="item.InvestigateDetailID">
+                                          <input type="checkbox" [id]="'td'+i" name="checking" ngModel class="filled-in chk-col-indigo">
+                                          <label [for]="'td'+i" class="m-0"></label> ####-->
+                          <!-- </td>
+                              <td class="text-center">3</td>
+                              <td>บันทึกการเปรียบเทียบคดี 2/54 {{TitleName}}{{FirstName}} {{LastName}}</td>
+                              <td>แบบฟอร์ม</td>
+                          </tr>
+                          <tr>
+                              <td class="text-center">
+                                  <input type="checkbox" name="checkbox4" [(ngModel)]="check.checkbox4" id="checkbox4"
+                                      class="filled-in chk-col-indigo">
+                                  <label [for]="'checkbox4'" class="m-0"></label>
+                              </td>
+                              <td class="text-center"> -->
+                          <!-- ####<input type="hidden" name="InvestigateDetailID" [(ngModel)]="item.InvestigateDetailID">
+                                              <input type="checkbox" [id]="'td'+i" name="checking" ngModel class="filled-in chk-col-indigo">
+                                              <label [for]="'td'+i" class="m-0"></label>#### -->
+                          <!-- </td>
+                              <td class="text-center">4</td>
+                              <td>รายงานขออนุมัติการเปรียบเทียบและอนุมัติ {{TitleName}}{{FirstName}} {{LastName}}</td>
+                              <td>แบบฟอร์ม</td>
+                          </tr>
+                          <tr *ngFor="let item of document; let i=index;">
+                              <td class="text-center"> -->
+                          <!--#### <input type="hidden" name="InvestigateDetailID" [(ngModel)]="item.InvestigateDetailID"> ####-->
+                          <!-- <input type="checkbox" [id]="'td'+i" name="checking" ngModel class="filled-in chk-col-indigo">
+                                  <label [for]="'td'+i" class="m-0"></label>
+                              </td>
+                              <td class="text-center">{{i+1}}</td>
+                              <td>รายงานการ{{item.DocumentName}}</td>
+                              <td></td>
+                          </tr> -->
+                      <!-- </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <div class="col-lg-2 col-sm-4">
+      <button type="button" class="btn btn-block btn-themecolor" (click)="onPrint('Print click')">พิมพ์</button>
+  </div>
+</div> -->
+<!-- </form> -->
+
+
+<!-- <form #form="ngForm" (ngSubmit)="onPrint(form)">
+  <div class="modal-header bg-theme">
+    <div class="row">
+      <div class="col-lg-5">
+        <h4 class="modal-title text-white">พิมพ์เอกสาร</h4>
+      </div>
+      <a href="javaScript:void(0);" class="close text-white font-14" aria-label="Close"
+        (click)="dismiss('Cross click')">
+        <span aria-hidden="true">
+          <i class=" ti-close"></i>
+        </span>
+      </a>
+    </div>
+  </div>
+  <div class="modal-body font-14" [formGroup]="FG">
+    <div class="table-responsive">
+      <table class="table table-sm table-striped table-set-border">
+        <thead>
+          <tr>
+            <th></th>
+            <th class="text-center">ลำดับ</th>
+            <th>ชื่อเอกสาร</th>
+            <th [ngSwitch]="sort" style="cursor: pointer;">
+              <div (click)="sortPrintDoc()">
+                ประเภทเอกสาร
+                <i *ngSwitchCase="sorting.DESC" class="fa fa-sort-amount-desc"></i>
+                <i *ngSwitchCase="sorting.ASC" class="fa fa-sort-amount-asc"></i>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody formArrayName="PrintDoc">
+          <tr *ngFor="let item of PrintDoc.controls; let i=index;" [formGroupName]="i">
+            <td class="text-center">
+              <input type="checkbox" formControlName="IsChecked" [id]="'td'+i" class="filled-in chk-col-indigo">
+              <label [for]="'td'+i" class="m-0"></label>
+            </td>
+            <td class="text-center">{{i+1}}</td>
+            <td>{{item.get('DocName').value}}</td>
+            <td>{{item.get('DocTypeName').value}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="col-lg-2 col-4">
+      <button type="submit" class="btn btn-block btn-themecolor">พิมพ์</button>
+    </div>
+  </div>
+</form> -->

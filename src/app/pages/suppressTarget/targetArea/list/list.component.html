@@ -1,0 +1,323 @@
+<header class="topbar">
+    <nav class="navbar top-navbar navbar-expand-md navbar-light">
+
+        <div class="navbar-collapse" style="padding-right: 55px;">
+            <ul class="navbar-nav mr-auto mt-md-0">
+                <li *ngIf="craete_btn" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickNew()">
+                            สร้างข้อมูล
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="print_btn" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickPrint()">
+                            พิมพ์
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="edit_btn" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickEdit()">
+
+                            แก้ไข
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="delete_btn" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickDelete()"
+                            style="background-color: #f47023">
+
+                            ลบ
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="save_btn" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickSave()">
+
+                            บันทึก
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="cancel_btn" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickCancel()">
+
+                            ยกเลิก
+                        </a>
+                    </div>
+                </li>
+            </ul>
+            <ul class="navbar-nav my-lg-0">
+                <li class="nav-item col-8">
+                    <form autocomplete="off" class="app-search" #formSearch="ngForm" (ngSubmit)="clickSearch(formSearch.form.value)">
+                        <input type="search" name="TEXT_SEARCH" id="" ngModel class="form-control">
+                        <a href="javaScript:void(0);" (click)="clickSearch(formSearch.form.value)" class="srh-btn">
+                            <i class="ti-search"></i>
+                        </a>
+                    </form>
+                </li>
+                <li class="nav-item col-9">
+                    <a href="javaScript:void(0);" class="btn text-white" (click)="setAdvSearch()">
+                        ค้นหาขั้นสูง
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<div *ngIf="advSearch | async" class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius">
+
+        <h4 class="card-title m-b-0">ค้นหาการกำหนดเป้าปราบปราม</h4>
+    </div>
+    <div class="card-body">
+        <form class="form-horizontal ng-untouched ng-pristine ng-valid" autocomplete="off" #advForm="ngForm"
+            (ngSubmit)="onAdvSearch(advForm.form.value)">
+            <div>
+                <div class="row">
+                    <label class="col-lg-2 col-sm-4 control-label" for="">เลขที่เป้าปราบปราม</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <input class="form-control form-control-sm ng-untouched ng-pristine ng-valid" ngModel
+                                type="text" name="TARGET_CODE" ng-reflect-name='#' ng-reflect-model="">
+                        </div>
+                    </div>
+                    <label class="col-lg-2 col-sm-4 control-label" for="">สถานะ</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <select name="IS_SEND" ngModel class="form-control form-control-sm" [disabled]="showEditField">
+                                    <option value="">ทั้งหมด</option>
+                                    <option value="0">ยังไม่ส่งเป้าปราบปราม</option>
+                                    <option value="1">ส่งเป้าปราบปรามแล้ว</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-lg-2 col-sm-4 control-label" for="">ปีงบประมาณ</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group input-group">
+                            <select class="form-control form-control-sm  ng-untouched ng-pristine ng-valid " ngModel name="BUDGET_YEAR_FROM"
+                                ng-reflect-name="" ng-reflect-model="">
+                                <option value="2562" ng-reflect-value="">2562</option>
+                            </select>
+                            <label for="">&nbsp;ถึง&nbsp;</label>
+                            <select class="form-control form-control-sm ng-untouched ng-pristine ng-valid" ngModel name="BUDGET_YEAR_TO"
+                                ng-reflect-name="" ng-reflect-model="">
+                                <option value="2562" ng-reflect-value="">2562</option>
+                            </select>
+                        </div>
+                    </div>
+                    <label class="col-lg-2 col-sm-4 control-label" for="">ครั้งที่</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                                <input class="form-control form-control-sm ng-untouched ng-pristine ng-valid" ngModel
+                                type="text" name="SEQUENCE" ng-reflect-name='#' ng-reflect-model="">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-lg-2 col-sm-4 control-label" for="">ข้อมูลวันที่</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group input-group">
+                            <my-date-picker-th
+                                class="form-control form-control-sm unset-form-control ng-untouched ng-pristine ng-valid"
+                                ngModel name="TARGET_ITEM_DATE_FROM" ng-reflect-options="" ng-reflect-name="">
+                                <div class="mydp" ng-reflect-ng-style="[object Object]" style="width: 100%;">
+                                    <div class="selectiongroup">
+                                        <div class="selbtngroup" style="height: 30px;">
+                                            <input autocomplete="off"
+                                                class="selection ng-untouched ng-pristine ng-valid" ngtype="text"
+                                                ng-reflect-klass="selection" ng-reflect-ng-class="[object Object]"
+                                                ng-reflect-ng-style="[object Object]" ng-reflect-is-disabled="false"
+                                                ng-reflect-model aria-label="Date input field" placeholder
+                                                style="height: 30px; font-size: 14px;">
+                                            <div class="selbtngroup" style="height: 30px;">
+                                                <button class="btnpicker btnpickerenabled btnleftborder" type="button"
+                                                    ng-reflect-klass="btnpicker" ng-reflect-ng-class="[object Object]"
+                                                    aria-label="Open Calendar">
+                                                    <span class="mydpicon icon-mydpcalendar">
+                                                        ::before
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </my-date-picker-th>
+                            <label for="">&nbsp;ถึง&nbsp;</label>
+                            <my-date-picker-th
+                                class="form-control form-control-sm unset-form-control ng-untouched ng-pristine ng-valid"
+                                ngModel name="TARGET_ITEM_DATE_TO" ng-reflect-options="" ng-reflect-name="">
+                                <div class="mydp" ng-reflect-ng-style="[object Object]" style="width: 100%;">
+                                    <div class="selectiongroup">
+                                        <div class="selbtngroup" style="height: 30px;">
+                                            <input autocomplete="off"
+                                                class="selection ng-untouched ng-pristine ng-valid" ngtype="text"
+                                                ng-reflect-klass="selection" ng-reflect-ng-class="[object Object]"
+                                                ng-reflect-ng-style="[object Object]" ng-reflect-is-disabled="false"
+                                                ng-reflect-model aria-label="Date input field" placeholder
+                                                style="height: 30px; font-size: 14px;">
+                                            <div class="selbtngroup" style="height: 30px;">
+                                                <button class="btnpicker btnpickerenabled btnleftborder" type="button"
+                                                    ng-reflect-klass="btnpicker" ng-reflect-ng-class="[object Object]"
+                                                    aria-label="Open Calendar">
+                                                    <span class="mydpicon icon-mydpcalendar">
+                                                        ::before
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </my-date-picker-th>
+                        </div>
+
+                    </div>
+                    <label class="col-lg-2 col-sm-4 control-label" for="">หน่วยงาน</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <input class="form-control form-control-sm ng-untouched ng-pristine ng-valid" ngmodel
+                                type="text" ngModel name="OFFICE_NAME" ng-reflect-name='#' ng-reflect-model="[object Object]">
+                        </div>
+                    </div>
+
+
+                    <!-- เพิ่มลักษณะคดี 17/06/62 -->
+                    <label class="col-lg-2 col-sm-4 control-label">ลักษณะคดี</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group ">
+                        <div class="form-group">
+                                <div class="form-line">
+                                    <select name="LAWSUIT_TYPE_TARGET" ngModel class="form-control form-control-sm">
+                                        <option value="เปรียบเทียบปรับ">เปรียบเทียบปรับ</option>
+                                        <option value="ส่งฟ้องศาล">ส่งฟ้องศาล</option>
+                                        <option value="ไม่มีตัว">ไม่มีตัว</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <label for="" class="col-lg-2 col-sm-4 control-label">กลุ่มสินค้า</label>
+            
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                    <div class="form-group ">
+                        <select ngModel name="PRODUCT_GROUP_NAME" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                        >
+                        <option value="สุรา">สุรา</option>
+                        <option value="ยาสูบ">ยาสูบ</option>
+                        <option value="ไพ่">ไพ่</option>
+                        <option value="สินค้าอื่นๆ">สินค้าอื่นๆ</option>
+                        </select>
+                    </div>
+                    </div>
+                </div>
+                <div class="row form-gruop">
+                    <div class="col-lg-10 col-8"></div>
+                    <div class="col-lg-2 col-4">
+                        <button class="btn-search btn-block btn-themecolor" type="submit">ค้นข้อมูล</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+
+        <div class="table-responsive table-striped " style="overflow: hidden;">
+            <table #EvidenceTable class="table">
+                <thead>
+                    <tr>
+                        <th class="text-center">ลำดับ</th>
+                        <th>เลขที่เป้าปราบปราม</th>
+                        <th>สถานะ</th>
+                        <th>ปีงบประมาณ</th>
+                        <th class="text-center">ครั้งที่</th>
+                        <th>ข้อมูลวันที่</th>
+                        <th>หน่วยงาน</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let item of showDataList; let i=index;">
+                        <td style="text-align: center;">{{i + 1}}</td>
+                        <td>{{item.TARGET_CODE}}</td>
+                        <td>{{item.TxtStatus}}</td>
+                        <td>{{item.BUDGET_YEAR}}</td>
+                        <td>{{item.SEQUENCE}}</td>
+                        <td>{{item.TARGET_ITEM_DATE}}</td>
+                        <td>{{item.OFFICE_NAME}}</td>
+                        <td class="text-center;">
+                            <a href="javaScript:void(0);" class="text-secondary" (click)="viewTarget(item.TARGET_CODE)">
+                                <i class="mdi mdi-eye fa-lg"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="card-footer card-footer-unset">
+            <app-pagination-table [TotalItems]="paginage.TotalItems" [CurrentPage]="paginage.CurrentPage" [PageSize]="paginage.PageSize"
+                [RowsPerPageOptions]="paginage.RowsPerPageOptions" (onPageChange)="pageChanges($event)">
+            </app-pagination-table>
+        </div>
+    </div>
+</div>
+
+<div class="card" *ngIf="nosearch">
+        <div class="card-body">
+    
+            <div class="table-responsive table-striped " style="overflow: hidden;">
+                <table #EvidenceTable class="table">
+                    <thead>
+                        <tr>
+                            <th class="text-center">ลำดับss</th>
+                            <th>เลขที่เป้าปราบปราม</th>
+                            <th>สถานะ</th>
+                            <th>ปีงบประมาณ</th>
+                            <th class="text-center">ครั้งที่</th>
+                            <th>ข้อมูลวันที่</th>
+                            <th>หน่วยงาน</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+    
+                    <tbody>
+                        <tr *ngFor="let item of showDataList; let i=index;">
+                            <td style="text-align: center;">{{i + 1}}</td>
+                            <td>{{item.TARGET_CODE}}</td>
+                            <td>{{item.TxtStatus}}</td>
+                            <td>{{item.BUDGET_YEAR}}</td>
+                            <td>{{item.SEQUENCE}}</td>
+                            <td>{{item.TARGET_ITEM_DATE}}</td>
+                            <td>{{item.OFFICE_NAME}}</td>
+                            <td class="text-center;">
+                                <a href="javaScript:void(0);" class="text-secondary" (click)="clickView(item.TARGET_CODE)">
+                                    <i class="mdi mdi-eye fa-lg"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+    
+    
+            <div class="card-footer card-footer-unset">
+                <app-pagination-table [TotalItems]="paginage.TotalItems" [CurrentPage]="paginage.CurrentPage" [PageSize]="paginage.PageSize"
+                    [RowsPerPageOptions]="paginage.RowsPerPageOptions" (onPageChange)="pageChanges($event)">
+                </app-pagination-table>
+            </div>
+        </div>
+    </div>

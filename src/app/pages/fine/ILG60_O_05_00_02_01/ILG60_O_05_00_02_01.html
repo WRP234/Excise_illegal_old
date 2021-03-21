@@ -1,0 +1,67 @@
+<form [formGroup]="controlForm" (ngSubmit)="onSubmit()">
+    <div class="modal-header bg-theme">
+      <div class="row">
+        <div class="col-lg-5">
+          <h4 class="modal-title text-white">ปล่อยตัวชั่วคราว</h4>
+        </div>
+        <a href="javaScript:void(0);" class="close text-white font-14" aria-label="Close" (click)="dismiss()">
+          <span aria-hidden="true">
+            <i class=" ti-close"></i>
+          </span>
+        </a>
+      </div>
+    </div>
+    <h5 class="text-right mt-3 pr-3" >ILG60_O_05_00_02_01</h5>
+    <div class="modal-body font-14" >
+        <div class="row form-group">
+            <div class="col-md-3">
+                <label>ชื่อผู้ต้องหา</label>
+              </div>
+              <div class="col-md-4">
+                  <input class="form-control form-control-sm" formControlName="NAME" type="text" readonly>
+              </div>
+            </div>
+        <div class="row form-group">
+            <div class="col-md-3">
+                <label>ข้อมูลการปล่อยตัวชั่วคราว</label>
+              </div>
+            </div>
+        <div class="row form-group">
+            <div class="col-md-3">
+                <input class="col-form-label with-gap radio-col-indigo" type="radio" *ngIf="showEditField == false"
+                name="INSURANCE_CHECKBOX" formControlName="INSURANCE_CHECKBOX" id="INSURANCE_CHECKBOX"
+                [checked]="controlForm.controls['INSURANCE_CHECKBOX'].value == 1" value="1" (click)="testCheck1($event)">
+                <label class="control-label" for="INSURANCE_CHECKBOX">ประกัน</label>
+              </div>
+              <div class="col-md-9">
+                  <input class="form-control form-control-sm"  [readonly]="showEditField"
+                  [ngClass]="{'ng-invalid-req':isReq_INSURANCE}" required
+                  formControlName="INSURANCE" type="text">
+              </div>
+            </div>
+        <div class="row form-group">
+            <div class="col-md-3">
+                <input class="col-form-label with-gap radio-col-indigo" type="radio" *ngIf="showEditField  == false"
+                name="GAURANTEE_CHECKBOX" formControlName="GAURANTEE_CHECKBOX" id="GAURANTEE_CHECKBOX"
+                [checked]="controlForm.controls['GAURANTEE_CHECKBOX'].value == 1" value="1" (click)="testCheck2($event)">
+                <label class="control-label" for="GAURANTEE_CHECKBOX">ประกันและหลักประกัน</label>
+              </div>
+              <div class="col-md-9">
+                  <input class="form-control form-control-sm" [readonly]="showEditField"
+                  [ngClass]="{'ng-invalid-req':isReq_GAURANTEE}" required
+                  formControlName="GAURANTEE" type="text">
+              </div>
+            </div>
+    </div>
+    <div class="modal-footer">
+      <div class="col-lg-2 col-4">
+          <button type="submit" [disabled]="showEditField"
+            class="btn btn-block btn-themecolor">ตกลง</button>
+          </div>
+          <div class="col-lg-2 col-4">
+          <button type="button" [disabled]="showEditField"
+            class="btn btn-block button"
+            (click)="cancel()">ยกเลิก</button>
+          </div>
+    </div>
+  </form>

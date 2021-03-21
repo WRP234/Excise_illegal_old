@@ -1,0 +1,64 @@
+  @media (min-width: 992px) {
+  .modal-lg {
+      max-width: 980px !important;
+  }
+}
+
+.a-center {
+  text-align: center;
+}
+
+.button {
+  border: 1px solid #f44336;
+  background-color: white;
+  color: #f44336;
+}
+
+.btn-ct {
+  background: #ffffff;
+  color: #1e88e5;
+  border: 1px solid#1e88e5;
+}
+
+.item {
+  padding: 10px;
+  -webkit-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
+
+  .wBg {
+    text-align: center;
+  }
+}
+
+h1 {
+  min-height: 200px;
+  background-color: #ccc;
+  text-align: center;
+  line-height: 200px;
+}
+
+@media (min-width: 500px) {
+  .modal-lg {
+      max-width: 80% !important;
+  }
+}
+
+.ng-invalid-req {
+  border-color: #fc4b6c
+}
+
+.without_ampm::-webkit-datetime-edit-ampm-field {
+  display: none;
+}
+input[type=time]::-webkit-clear-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+  -ms-appearance:none;
+  appearance: none;
+  margin: -10px; 
+}
+.table td, .table th {
+  font-size: 14px;
+}

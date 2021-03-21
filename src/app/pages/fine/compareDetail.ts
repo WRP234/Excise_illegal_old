@@ -1,0 +1,42 @@
+import { CompareDetailReceipt } from "./compareReceipt";
+
+export class CompareDetail {
+    public CompareDetailID?: string;
+    public CompareID?: string;
+    public IndictmentDetailID?: string;
+    public CompareAction?: string;
+    public LawbrakerTestimony?: string;
+    public Fact?: string;
+    public IsRequest?: string;
+    public RequestForAction?: string;
+    public CompareReason?: string;
+    public IsProvisionalAcquittal?: string;
+    public Bail?: string;
+    public Guaruntee?: string;
+    public CompareFine?: string;
+    public PaymentFineDate?: string;
+    public PaymentFineAppointDate?: string;
+    public PaymentVatDate?: string;
+    public TreasuryMoney?: string;
+    public BribeMoney?: string;
+    public RewardMoney?: string;
+    public ApproveStationCode?: string;
+    public ApproveStation?: string;
+    public ApproveReportDate?: string;
+    public CommandNo?: string;
+    public CommandDate?: string;
+    public CompareAuthority?: string;
+    public ApproveReportType?: string;
+    public MistreatNo?: string;
+    public FineType?: string;
+    public AdjustReason?: string;
+    public LawbreakerID?: string;
+    public LawBrakerName?: string;
+    public FineRate?: string;
+    public VatValue?: string;
+    public ProductDesc?: string;
+    public RewardRate?: string;
+    public IsNewItem?: boolean;
+    // public CompareDetailFine?: CompareDetailFine[];
+    public CompareDetailReceipt?: CompareDetailReceipt[];
+}

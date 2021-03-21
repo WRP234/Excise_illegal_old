@@ -1,0 +1,93 @@
+<!--<div class="card card-outline-bluish unset-radius">-->
+<!--  <div class="card-header unset-radius">-->
+<!--    <div class="card-actions">-->
+<!--      <a class="" (click)="onCollapse(ILG60_03_02_00_00_E28)">-->
+<!--        <i class="fa"-->
+<!--          [ngClass]="{'fa-chevron-down': (ILG60_03_02_00_00_E28 | async), 'fa-chevron-up': !(ILG60_03_02_00_00_E28 | async)}"></i>-->
+<!--      </a>-->
+<!--    </div>-->
+<!--    <h4 class="card-title m-b-0">เอกสารแนบภายใน</h4>-->
+<!--  </div>-->
+<!--  <div *ngIf="ILG60_03_02_00_00_E28 | async" class="card-body">-->
+
+<!--    &lt;!&ndash; If images array is dynamically changing pass this array to [items] input &ndash;&gt;-->
+
+<!--    &lt;!&ndash; classes to be attached along with owl-carousel class &ndash;&gt;-->
+<!--    <div class="row">-->
+<!--      <div class="col-12">-->
+<!--          <owl-carousel [options]="{items: 5, dots: true, margin:20,responsiveClass:false}" [items]="fileList"-->
+<!--          [carouselClasses]="['owl-theme', 'row', 'sliding']">-->
+<!--          <div class="item mt-2" *ngFor="let item of fileList;let i = index">-->
+<!--            &lt;!&ndash; <div class="tile"-->
+<!--              [ngStyle]="{'background': 'url(assets/images/document/doc-file.png)no-repeat scroll center center / 80px 80px'}">-->
+<!--              <h1>dkdkd</h1>-->
+<!--            </div> &ndash;&gt;-->
+<!--            <div class="tile">-->
+<!--              <div class="wBg">-->
+<!--                <div class="tile">-->
+<!--                  <div *ngIf="item.IMAGE != null">-->
+<!--                    <img [src]="item.IMAGE" alt="">-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--                <h5 class="mt-2">{{item.FILE_NAME}}</h5>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </owl-carousel>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    <span class="text-danger">หมายเหตุ : ขนาดของไฟล์เอกสาร/รูปภาพ ไม่เกิน 1 MB, วีดิโอไม่เกิน 10 MB</span>-->
+<!--  </div>-->
+<!--</div>-->
+
+
+<div class="card card-outline-bluish unset-radius">
+  <div class="card-header unset-radius">
+    <div class="card-actions">
+      <a class="" (click)="onCollapse(ILG60_03_02_00_00_E28)">
+          <i class="fa"
+              [ngClass]="{'fa-chevron-down': (ILG60_03_02_00_00_E28 | async), 'fa-chevron-up': !(ILG60_03_02_00_00_E28 | async)}"></i>
+      </a>
+    </div>
+    <h4 class="card-title m-b-0">เอกสารแนบภายใน</h4>
+  </div>
+  <div class="card-body" *ngIf="ILG60_03_02_00_00_E28 | async">
+
+    <div class="row form-group">
+      <div class="col-lg-10 col-md-9 col-sm-8"></div>
+      <div class="col-lg-2 col-md-3 col-sm-4">
+        <button type="button" class="btn btn-block btn-themecolor" [disabled]="isEdit"
+                (click)="openModal(document)">เพิ่มเอกสารแนบ</button>
+        <ng-template #document let-c="close" let-d="dismiss">
+          <app-document (d)="modal.dismiss()" (Output)="Output($event)">
+          </app-document>
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-1"></div>
+      <div class="col-10">
+        <owl-carousel [options]="owlOption"  [items]="fileList"
+                      [carouselClasses]="['owl-theme', 'row', 'sliding']">
+          <div class="item my-1" *ngFor="let item of fileList;let i = index">
+            <a href="javaScript:void(0);" class="times-item" (click)="deleteItem(i)">
+              <i class="fa fa-times" aria-hidden="true"></i>
+            </a>
+            <div class="tile"
+                 [ngStyle]="{'background': 'url('+item.IMAGE_SHOW+')no-repeat scroll center center / 90px 90px'}">
+              <div class="wBg">
+                <div class="tile" style="width: 90px; height: 90px;"></div>
+                <h5 class="mt-4 text-truncate">{{item.DOCUMENT_NAME}}</h5>
+              </div>
+            </div>
+          </div>
+        </owl-carousel>
+      </div>
+      <div class="col-1"></div>
+    </div>
+
+    <span class="text-danger">หมายเหตุ : ขนาดของไฟล์เอกสาร/รูปภาพ ไม่เกิน 1 MB, วีดิโอไม่เกิน 10 MB</span>
+  </div>
+</div>

@@ -1,0 +1,94 @@
+@media (min-width: 992px) {
+  .modal-lg {
+      max-width: 980px !important;
+  }
+}
+// @import '../../../../styles';
+.a-center {
+  text-align: center;
+}
+
+
+.height {
+  height:34px;
+}
+
+.right {
+  text-align: right;
+}
+
+.button {
+  border: 1px solid #f44336;
+  background-color: white;
+  color: #f44336;
+}
+
+.btn-ct {
+  background: #ffffff;
+  color: #1e88e5;
+  border: 1px solid#1e88e5;
+}
+
+.item {
+  padding: 10px;
+  -webkit-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
+
+  .wBg {
+    text-align: center;
+  }
+}
+
+h1 {
+  min-height: 200px;
+  background-color: #ccc;
+  text-align: center;
+  line-height: 200px;
+}
+
+@media (min-width: 500px) {
+  .modal-lg {
+      max-width: 70% !important;
+  }
+}
+
+table tbody tr td label {
+  font-weight: 300;
+}
+.cersor{cursor: pointer;}
+
+.modal-xl {
+  max-width: 1200px;
+}
+
+.ng-invalid-req {
+  border-color: #fc4b6c
+}
+
+.set-button {
+  background: #ffffff;
+  color: #1e88e5;
+  border: 1px solid#1e88e5;
+}
+
+.without_ampm::-webkit-datetime-edit-ampm-field {
+  display: none;
+}
+input[type=time]::-webkit-clear-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+  -ms-appearance:none;
+  appearance: none;
+  margin: -10px; 
+}
+
+// input[type="number"]::-webkit-outer-spin-button, 
+// input[type="number"]::-webkit-inner-spin-button {
+//     -webkit-appearance: none;
+//     margin: 0;
+// }
+// input[type="number"] {
+//     -moz-appearance: textfield;
+// }

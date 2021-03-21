@@ -1,0 +1,190 @@
+<header class="topbar">
+  <nav class="navbar top-navbar navbar-expand-md navbar-light">
+    <div class="navbar-collapse" style="padding-right: 55px;">
+      <ul class="navbar-nav mr-auto mt-md-0">
+        <li *ngIf="btn_onPrint | async" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickPrint()">
+              พิมพ์
+            </a>
+          </div>
+        </li>
+        <li *ngIf="btn_onEdit | async" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickEdit()">
+              แก้ไข
+            </a>
+          </div>
+        </li>
+        <li *ngIf="btn_onDelete | async" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickDelete()"
+              style="background-color: #f47023">
+              ลบ
+            </a>
+          </div>
+        </li>
+        <li *ngIf="btn_onSave | async" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickSave()">
+              บันทึก
+            </a>
+          </div>
+        </li>
+        <li *ngIf="btn_onCancel | async" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickCancel()">
+              ยกเลิก
+            </a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<form action="" [formGroup]="PuritycertFG">
+  <div class="card card-outline-bluish unset-radius">
+    <div class="card-header  unset-radius">
+      <app-card-actions-collapse></app-card-actions-collapse>
+      <h4 class="card-title m-b-0">ใบรับรองความบริสุทธิ์</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+          <label for="" class="col-lg-2 col-sm-4 control-label"
+            >เลขที่ใบ ส.ส.2/27</label
+          >
+          <div class="col-lg-4 col-md-7 col-sm-8">
+            <div class="form-group ">
+              <input
+                [readOnly]="isEdit"
+                disabled
+                type="text"
+                name=""
+                id=""
+                formControlName="PURITYCERT_CODE"
+                class="form-control form-control-sm"
+                value="Auto Generate"
+                readonly
+              />
+            </div>
+          </div>
+          <label for="" class="col-lg-2 col-sm-4 control-label is-required">เขียนที่
+          </label>
+          <div class="form-group col-lg-4 col-md-7 col-sm-8">
+            <ng-template #rt let-r="result" let-t="term">
+              {{ r.OFFICE_NAME }}
+            </ng-template>
+
+            <input type="text" class="form-control form-control-sm " [ngbTypeahead]="serachOffice" [resultTemplate]="rt"
+              [readOnly]="isEdit"  (selectItem)="selectItemOffice($event)"
+              value="{{PuritycertFG.get('OFFICE_NAME').value}}" />
+
+
+            <span *ngIf="searching">searching...</span>
+            <div class="invalid-feedback" *ngIf="searchFailed">Sorry, suggestions could not be loaded.</div>
+            <input type="text" style="display: none;" formControlName="OFFICE_NAME" required>
+            
+        </div>
+        </div>
+
+        <div class="row">
+          <label for="" class="col-lg-2 col-sm-4 control-label is-required">วันที่เข้าตรวจค้น
+          </label>
+          <div class="col-lg-4 col-md-7 col-sm-8">
+            <div class="form-group input-group" style="z-index: 1;">
+              <my-date-picker locale="th" (dateChanged)="onSDateChange($event)"
+                class="form-control form-control-sm unset-form-control" formControlName="PURITYCERT_DATE"
+                [options]="myDatePickerOptions" [disabled]=isEdit ></my-date-picker>
+              <label for="">&nbsp;&nbsp;เวลา&nbsp;&nbsp;</label>
+              <input type="text"  formControlName="PURITYCERT_TIME"  class="form-control form-control-sm without_ampm"
+                [readonly]="isEdit" [ngClass]="{'ng-touched':isEdit}" required>
+            </div>
+          </div>
+  </div>
+  </div>
+  </div>
+    <!-- ILG60_03_02_00_00_E13 ผู้จับกุม-->
+  <app-ilg60-03-02-00-00-e13 [isEdit]="isEdit" [inputData]="ILG60_03_02_00_00_E13$" (Output)="ILG60_03_02_00_00_E13$.next($event)">
+  </app-ilg60-03-02-00-00-e13>
+
+<!--  <app-ilg60-03-02-00-00-e18 [isEdit]="isEdit" [inputData]="ILG60_03_02_00_00_E18$"  (Output)="ILG60_03_02_00_00_E18$.next($event)">-->
+<!--  </app-ilg60-03-02-00-00-e18>-->
+
+  <app-ilg60-03-02-00-00-e18 [isEdit]="isEdit" [inputData]="ILG60_03_02_00_00_E18$"  [inputData2]="result" (Output)="ILG60_03_02_00_00_E18$.next($event)">
+  </app-ilg60-03-02-00-00-e18>
+
+  <div class="card card-outline-bluish unset-radius">
+      <div class="card-header unset-radius">
+        <div class="card-actions">
+          <a class="" (click)="onCollapse(ILG60_03_02_00_00_E20)">
+            <i class="fa"
+              [ngClass]="{'fa-chevron-down': (ILG60_03_02_00_00_E20 | async), 'fa-chevron-up': !(ILG60_03_02_00_00_E20 | async)}"></i>
+          </a>
+        </div>
+        <h4 class="card-title m-b-0">รายละเอียดการตรวจค้น</h4>
+      </div>
+      <div *ngIf="ILG60_03_02_00_00_E20 | async" class="card-body">
+        <div class="row">
+            <div class="col-md-1 col-sm-3 form-group text-right">
+                <input type="checkbox" formControlName="IS_REQUEST_BEFORE" class="filled-in chk-col-indigo"
+                 id="IS_REQUEST_BEFORE"
+                  [attr.disabled]="isEdit ? '' : null">
+                <label for="IS_REQUEST_BEFORE"></label>
+              </div>
+          <label for="" class="col-md-10 col-sm-8 control-label">เจ้าบ้าน/ผู้ดูแลแทนไม่ยินยอมลงลายมือชื่อก่อนเจ้าหน้าที่เข้าตรวจค้น</label>
+          <br/>
+          <label for="" class="col-md-2 col-sm-4 control-label">ระบุเหตุผล</label>
+          <div class="col-md-10 col-sm-8 form-group ">
+            <textarea formControlName="REQUEST_BEFORE" cols="" rows="3" class="form-control form-control-sm"
+              [readonly]="isEdit || PuritycertFG.get('IS_REQUEST_BEFORE').value == false"></textarea>
+            <!-- [ngClass]="{
+                'ng-touched':ArrestFG.get('REQUEST_DESC').invalid && 
+                (ArrestFG.get('REQUEST_DESC').dirty || ArrestFG.get('REQUEST_DESC').touched)
+              }" required -->
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1 col-sm-3 form-group text-right">
+                <input type="checkbox" formControlName="IS_REQUEST_AFTER" class="filled-in chk-col-indigo" id="IS_REQUEST_AFTER"
+                  [attr.disabled]="isEdit ? '' : null">
+                <label for="IS_REQUEST_AFTER"></label>
+              </div>
+          <label for="" class="col-md-10 col-sm-8 control-label">เจ้าบ้าน/ผู้ดูแลแทนไม่ยินยอมลงลายมือชื่อหลังเจ้าหน้าที่เข้าตรวจค้น</label>
+          <br/>
+          <label for="" class="col-md-2 col-sm-4 control-label">ระบุเหตุผล </label>
+          <div class="col-md-10 col-sm-8 form-group ">
+            <textarea formControlName="REQUEST_AFTER" cols="" rows="3" class="form-control form-control-sm"
+              [readonly]="isEdit || PuritycertFG.get('IS_REQUEST_AFTER').value == false"></textarea>
+            <!-- [ngClass]="{
+                'ng-touched':ArrestFG.get('REQUEST_DESC').invalid && 
+                (ArrestFG.get('REQUEST_DESC').dirty || ArrestFG.get('REQUEST_DESC').touched)
+              }" required -->
+          </div>
+        </div>
+        <div class="row">
+          <label for="" class="col-md-2 col-sm-4 control-label">บันทึกการค้น</label>
+          <div class="col-md-10 col-sm-8 form-group ">
+            <textarea formControlName="BEHAVIOR_1" cols="" rows="3" class="form-control form-control-sm"
+              [readonly]="isEdit" [ngClass]="{
+                'ng-touched':PuritycertFG.get('BEHAVIOR_1').invalid && 
+                (PuritycertFG.get('BEHAVIOR_1').dirty || PuritycertFG.get('BEHAVIOR_1').touched)
+              }" required ></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ILG60_03_02_00_00_E25 ข้อกล่าวหา -->
+    <app-ilg60-03-02-00-00-e25 [isEdit]="isEdit" [ILG60_03_03_00_00_E15$]="ILG60_03_03_00_00_E15$"
+      [ILG60_03_02_00_00_E21$]="ILG60_03_02_00_00_E21$"   [ILG60_03_02_00_00_E25$]="ILG60_03_02_00_00_E25$"  (Output)="ILG60_03_02_00_00_E25$.next($event)">
+    </app-ilg60-03-02-00-00-e25>
+
+    <!-- ILG60_03_02_00_00_E28 เอกสารแนบภายใน-->
+  <app-ilg60-03-02-00-00-e28  [isEdit]="isEdit"  [DocmentsList]="ILG60_03_02_00_00_E28$"    (Doc)="ILG60_03_02_00_00_E28$.next($event)"   ></app-ilg60-03-02-00-00-e28>
+
+
+
+</form>
+
+<!--<pre>{{ PuritycertFG.value | json}}</pre>-->

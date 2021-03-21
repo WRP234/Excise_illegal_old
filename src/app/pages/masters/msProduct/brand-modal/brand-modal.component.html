@@ -1,0 +1,74 @@
+<!-- <form action="" #form="ngForm" (ngSubmit)="onPrint(form)"> -->
+<div class="modal-header bg-theme">
+    <div class="row">
+        <div class="col-lg-5">
+            <h4 class="modal-title text-white" *ngIf="PopupType=='Brand'">ยี่ห้อหลักสินค้า</h4>
+            <h4 class="modal-title text-white" *ngIf="PopupType=='SubBrand'">ยี่ห้อรองสินค้า</h4>
+            <h4 class="modal-title text-white" *ngIf="PopupType=='Model'">รุ่นสินค้า</h4>
+            <h4 class="modal-title text-white" *ngIf="PopupType=='Size'">หน่วยขนาดสินค้า</h4>
+            <h4 class="modal-title text-white" *ngIf="PopupType=='Unit'">หน่วยปริมาณ</h4>
+        </div>
+
+        <a href="javaScript:void(0);" class="close text-white font-14" aria-label="Close" (click)="dismiss()">
+            <span aria-hidden="true">
+                <i class=" ti-close"></i>
+            </span>
+        </a>
+    </div>
+</div>
+<h5 class="text-right mt-3 pr-3">ILG60-07-02-01-00</h5>
+<div class="modal-body font-14" style="padding-left:40px; padding-right: 40px">
+    <div class="row">
+        <label for="" class="col-lg-2 col-sm-2 control-label" *ngIf="PopupType=='Brand'">รหัสยี่ห้อหลัก :</label>
+        <label for="" class="col-lg-2 col-sm-2 control-label" *ngIf="PopupType=='SubBrand'">รหัสยี่ห้อรอง :</label>
+        <label for="" class="col-lg-2 col-sm-2 control-label" *ngIf="PopupType=='Model'">รหัสรุ่นสินค้า :</label>
+        <label for="" class="col-lg-2 col-sm-2 control-label" *ngIf="PopupType=='Size'">รหัสหน่วยขนาดสินค้า :</label>
+        <label for="" class="col-lg-2 col-sm-2 control-label" *ngIf="PopupType=='Unit'">รหัสหน่วยบรรจุภัณฑ์สินค้า :</label>
+        <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group">
+                <div class="form-line">
+                    <input type="text" name="ID" [(ngModel)]="ID" class="form-control" disabled>
+                </div>
+            </div>
+        </div>
+
+        <label for="" class="col-lg-2 col-sm-2 control-label" *ngIf="PopupType=='Model'">ชื่อรุ่นสินค้า :</label>
+        <label for="" class="col-lg-2 col-sm-2 control-label" *ngIf="PopupType=='Size'">หน่วยขนาดสินค้า :</label>
+        <label for="" class="col-lg-2 col-sm-2 control-label" *ngIf="PopupType=='Unit'">หน่วยบรรจุภัณฑ์สินค้า :</label>
+        <div class="col-lg-4 col-md-7 col-sm-9" *ngIf="PopupType=='Model' || PopupType=='Size' || PopupType=='Unit'">
+            <div class="form-group">
+                <div class="form-line">
+                    <input type="text" name="NAME" [(ngModel)]="NAME" class="form-control" placeholder="">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="PopupType!='Model' && PopupType!='Size'  && PopupType!='Unit'">
+        <label for="" class="col-lg-2 col-sm-2 control-label" *ngIf="PopupType=='Brand'">ยี่ห้อหลัก (ไทย) :</label>
+        <label for="" class="col-lg-2 col-sm-2 control-label" *ngIf="PopupType=='SubBrand'">ยี่ห้อรอง (ไทย) :</label>
+        <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group">
+                <div class="form-line">
+                    <input type="text" name="NAME_THAI" [(ngModel)]="NAME_THAI" class="form-control" placeholder="">
+                </div>
+            </div>
+        </div>
+
+        <label for="" class="col-lg-2 col-sm-2 control-label" *ngIf="PopupType=='Brand'">ยี่ห้อหลัก (อังกฤษ) :</label>
+        <label for="" class="col-lg-2 col-sm-2 control-label" *ngIf="PopupType=='SubBrand'">ยี่ห้อรอง (อังกฤษ) :</label>
+        <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group">
+                <div class="form-line">
+                    <input type="text" name="NAME_ENG" [(ngModel)]="NAME_ENG" class="form-control" placeholder="">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <div class="col-lg-2 col-sm-4">
+        <button type="button" class="btn btn-block btn-themecolor" (click)="onSave()">บันทึก</button>
+    </div>
+</div>
+<!-- </form> -->

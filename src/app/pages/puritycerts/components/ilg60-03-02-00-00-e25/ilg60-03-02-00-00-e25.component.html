@@ -1,0 +1,186 @@
+<!--<div class="card card-outline-bluish unset-radius">-->
+<!--  <div class="card-header unset-radius">-->
+<!--    <div class="card-actions">-->
+<!--      <a class="" (click)="onCollapse(ILG60_03_02_00_00_E25)">-->
+<!--        <i class="fa"-->
+<!--          [ngClass]="{'fa-chevron-down': (ILG60_03_02_00_00_E25 | async), 'fa-chevron-up': !(ILG60_03_02_00_00_E25 | async)}"></i>-->
+<!--      </a>-->
+<!--    </div>-->
+<!--    <h4 class="card-title m-b-0">ฐานความผิด</h4>-->
+<!--  </div>-->
+<!--  <div *ngIf="ILG60_03_02_00_00_E25 | async" class="card-body">-->
+<!--    <div class="row form-group">-->
+<!--      <div class="col-lg-10 col-md-9 col-sm-8"></div>-->
+<!--      <div class="col-lg-2 col-md-3 col-sm-4">-->
+<!--        <button type="button" class="btn btn-block btn-themecolor" [disabled]="isEdit"-->
+<!--          (click)="addIndictment()">เพิ่มข้อกล่าวหา</button>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    &lt;!&ndash; <button type="button" (click)="showGuiltBase()">Click</button> &ndash;&gt;-->
+<!--    <div class="table-responsive">-->
+<!--      <table style="width: 100%; max-width: unset;" class="table table-sm table-striped table-set-border table-nowrap"-->
+<!--        [formGroup]="PuritycertFG">-->
+<!--        <thead>-->
+<!--          <tr>-->
+<!--            <th  class="text-center">ลำดับ</th>-->
+<!--            <th  class="text-center">ฐานความผิดมาตรา<span class="text-danger">*</span></th>-->
+<!--            <th  class="text-center">ฐานความผิด</th>-->
+<!--            <th  class="text-center">บทกำหนดโทษ</th>-->
+<!--            <th  class="text-center">อัตราโทษ</th>-->
+<!--            <th></th>-->
+<!--          </tr>-->
+<!--        </thead>-->
+<!--        <tbody formArrayName="ArrestIndictment">-->
+<!--          <ng-container *ngFor="let indict of ArrestIndictment.controls; let j=index;">-->
+<!--            <tr [ngClass]="{'row-is-delete': indict.get('ACTION').value == Action.DELETE}" [formGroupName]="j">-->
+<!--              &lt;!&ndash; <ng-container *ngIf="indict.get('IsModify').value != 'd'"> &ndash;&gt;-->
+<!--              <td class="text-center">{{indict.get('ROW_ID').value}}</td>-->
+<!--              &lt;!&ndash; ฐานความผิดมาตรา &ndash;&gt;-->
+<!--              <td style="width: 200px" class="text-center">-->
+<!--                <div class="input-group">-->
+<!--                  <input id="'SECTION_NAME'+j" type="text" class="form-control form-control-sm" style="border-right: 0;"-->
+<!--                         readonly formControlName="SECTION_NAME">-->
+<!--                  <div class="input-group-append">-->
+<!--                    <a class="input-group-text custom-file-upload text-secondary"-->
+<!--                       (click)="isEdit == false && indict.get('ACTION').value != Action.DELETE && openModal(ilg60o02000206)">-->
+<!--                      <i class="ti-more-alt"></i>-->
+<!--                    </a>-->
+<!--                    <ng-template #ilg60o02000206 let-c="close" let-d="dismiss">-->
+<!--                      <app-ilg60-o-02-00-02-06 (c)="modal.close()" (d)="modal.dismiss()"-->
+<!--                                               (Output)="Ilg60O02000206_Output($event, j)"></app-ilg60-o-02-00-02-06>-->
+<!--                    </ng-template>-->
+<!--                  </div>-->
+
+<!--                </div>-->
+<!--              </td>-->
+<!--              &lt;!&ndash; ฐานความผิด &ndash;&gt;-->
+<!--              <td  style="width: 300px;">-->
+<!--                <p class="text-truncate" style="width: 300px;">-->
+<!--                  {{indict.get('GUILTBASE_NAME').value}}-->
+<!--                </p>-->
+<!--              </td>-->
+<!--              &lt;!&ndash; บทกำหนดโทษ &ndash;&gt;-->
+<!--              <td class="text-center" style="width: 300px;">-->
+<!--                <p class="text-truncate" >-->
+<!--                  {{indict.get('SUBSECTION_NAME').value}}-->
+<!--                </p>-->
+<!--              </td>-->
+<!--              <td style="width: 300px;">-->
+<!--                <p class="text-truncate" >-->
+<!--                  {{indict.get('PENALTY_DESC').value}}-->
+<!--                </p>-->
+<!--              </td>-->
+<!--              <td class="text-center">-->
+<!--                <ng-container *ngIf="indict.get('ACTION').value != Action.DELETE; else rowUndoStaff">-->
+<!--                  <a *ngIf="!isEdit" href="javaScript:void(0);" class="text-danger" (click)="onDeleteIndictment(j)">-->
+<!--                    <i class="fa fa-times fa-x4"></i>-->
+<!--                  </a>-->
+<!--                </ng-container>-->
+<!--                <ng-template #rowUndoStaff>-->
+<!--                  <a href="javaScript:void(0);" class="text-danger" (click)="onUndoDeleteIndictment(j);">-->
+<!--                    <i class="fa fa-trash fa-x4"></i>-->
+<!--                  </a>-->
+<!--                </ng-template>-->
+<!--                </td>-->
+<!--            </tr>-->
+<!--          </ng-container>-->
+<!--        </tbody>-->
+<!--      </table>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+
+
+<div class="card card-outline-bluish unset-radius">
+  <div class="card-header unset-radius">
+    <div class="card-actions">
+      <a class="" (click)="onCollapse(ILG60_03_02_00_00_E25)">
+        <i class="fa"
+           [ngClass]="{'fa-chevron-down': (ILG60_03_02_00_00_E25 | async), 'fa-chevron-up': !(ILG60_03_02_00_00_E25 | async)}"></i>
+      </a>
+    </div>
+    <h4 class="card-title m-b-0">ฐานความผิด</h4>
+  </div>
+  <div *ngIf="ILG60_03_02_00_00_E25 | async" class="card-body">
+    <div class="row form-group">
+      <div class="col-lg-10 col-md-9 col-sm-8"></div>
+      <div class="col-lg-2 col-md-3 col-sm-4">
+        <button type="button" class="btn btn-block btn-themecolor" [disabled]="isEdit"
+                (click)="isEdit == false && openModal(ilg60o02000206)">เพิ่มข้อกล่าวหา</button>
+        <ng-template #ilg60o02000206 let-c="close" let-d="dismiss">
+          <app-ilg60-o-02-00-02-06 (c)="modal.close()" (d)="modal.dismiss()"
+                                   (Output)="Ilg60O02000206_Output($event)"></app-ilg60-o-02-00-02-06>
+        </ng-template>
+      </div>
+    </div>
+    <!-- <button type="button" (click)="showGuiltBase()">Click</button> -->
+    <div class="table-responsive">
+      <table style="width: 100%; max-width: unset;" class="table table-sm table-striped table-set-border table-nowrap"
+             [formGroup]="PuritycertFG">
+        <thead>
+        <tr>
+          <th  class="text-left">ลำดับ</th>
+          <th  class="text-left">ฐานความผิดมาตรา</th>
+          <th  class="">ฐานความผิด</th>
+          <th  class="">บทกำหนดโทษ</th>
+          <th  class="">อัตราโทษ</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody formArrayName="ArrestIndictment">
+        <ng-container *ngFor="let indict of ArrestIndictment.controls; let j=index;">
+          <tr [ngClass]="{'row-is-delete': indict.get('ACTION').value == Action.DELETE}" [formGroupName]="j">
+            <!-- <ng-container *ngIf="indict.get('IsModify').value != 'd'"> -->
+            <td class="text-left" style="width: 100px">{{indict.get('ROW_ID').value}}</td>
+            <!-- ฐานความผิดมาตรา -->
+            <td style="width: 150px" class="text-left">
+              <p class="text-truncate" style="width: 150px; white-space: unset;">
+                {{indict.get('SUBSECTION_NAME').value}}
+              </p>
+<!--              <div class="input-group">-->
+<!--                <input id="'SECTION_NAME'+j" type="text" class="form-control form-control-sm" style="border-right: 0;"-->
+<!--                       readonly formControlName="SECTION_NAME">-->
+<!--                <div class="input-group-append">-->
+<!--                  <a class="input-group-text custom-file-upload text-secondary">-->
+<!--                    <i class="ti-more-alt"></i>-->
+<!--                  </a>-->
+<!--                </div>-->
+<!--              </div>-->
+            </td>
+            <!-- ฐานความผิด -->
+            <td  style="width: 300px; ">
+              <p class="text-truncate" style="width: 300px; white-space: unset;">
+                {{indict.get('GUILTBASE_NAME').value}}
+              </p>
+            </td>
+            <!-- บทกำหนดโทษ -->
+            <td class="text-center" style="width: 150px;">
+              <p class="text-truncate" >
+                {{indict.get('SECTION_NAME').value}}
+              </p>
+            </td>
+            <td style="width: 300px;">
+              <p class="text-truncate" style="width: 300px; white-space: unset;" >
+                {{indict.get('PENALTY_DESC').value}}
+              </p>
+            </td>
+            <td class="text-center">
+              <ng-container *ngIf="indict.get('ACTION').value != Action.DELETE; else rowUndoStaff">
+                <a *ngIf="!isEdit" href="javaScript:void(0);" class="text-danger" (click)="onDeleteIndictment(j)">
+                  <i class="fa fa-trash fa-x4"></i>
+                </a>
+              </ng-container>
+              <ng-template #rowUndoStaff>
+                <a href="javaScript:void(0);" class="text-danger" (click)="onUndoDeleteIndictment(j);">
+                  <i class="fa fa-trash fa-x4"></i>
+                </a>
+              </ng-template>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

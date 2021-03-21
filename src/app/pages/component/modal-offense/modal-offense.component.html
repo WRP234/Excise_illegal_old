@@ -1,0 +1,64 @@
+<div class="modal-header bg-theme">
+  <h4 class="modal-title text-white">รายละเอียดการกระทำผิด</h4>
+  <a href="javaScript:void(0);" class="close text-white font-14" aria-label="Close" (click)="dismiss('Cross click')">
+      <span aria-hidden="true">
+          <i class=" ti-close"></i>
+      </span>
+  </a>
+</div>
+<div class="modal-body font-14">
+  <div class="card p-0 unset-radius">
+      <div class="card-body p-0">
+
+          <table class="table table-sm table-striped">
+              <thead>
+                  <tr>
+                      <th class="text-center">ลำดับ</th>
+                      <th>เลขที่รับ</th>
+                      <th>มาตรา</th>
+                      <th>ข้อ</th>
+                      <th>ข้อกล่าวหา</th>
+                      <th>สถานที่จับกุม</th>
+                      <th>หน่วยงาน</th>
+                      <th>วันที่จับกุม</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td class="text-center"></td>
+                      <td>1</td>
+                      <td>1</td>
+                      <td>1</td>
+                      <td>1</td>
+                      <td>1</td>
+                      <td>1</td>
+                      <td>1</td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+      <div class="card-footer card-footer-unset">
+          <div class="row justify-content-between m-l-5">
+              <div clas="col">
+                  <a class="icn-pagination"> |<< </a>
+                          <label> หน้าที่
+                              <select>
+                                  <option value="1">1</option>
+                                  <option value="2">2</option>
+                              </select> จาก 2 หน้า</label>
+                          <a class="icn-pagination m-r-10"> >>| </a>
+                          รายการที่ 1 - 5 จาก 5 รายการ
+              </div>
+              <div class="col col-lg-3 text-right">
+                  <label>แสดง
+                      <select>
+                          <option>5</option>
+                          <option>10</option>
+                          <option>15</option>
+                          <option>20</option>
+                      </select> รายการ</label>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

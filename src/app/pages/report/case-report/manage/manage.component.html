@@ -1,0 +1,133 @@
+<header class="topbar">
+  <nav class="navbar top-navbar navbar-expand-md navbar-light"> </nav>
+</header>
+
+<div class="card card-outline-bluish unset-radius">
+  <div class="card-header unset-radius">
+    <app-card-actions-collapse></app-card-actions-collapse>
+    <h5 class="card-title m-b-0">{{reportName}}</h5>
+  </div>
+  <form class="form-horizontal" #advForm="ngForm" (ngSubmit)="clickPrint(advForm)">
+    <div class="card-body">
+      <div class="form-body">
+
+        <div class="row" style="font-weight: normal; margin-left: 0px; margin-bottom: 10px;">กรุณาระบุเงื่อนไข</div><br>
+        <div class="col-md-6" *ngIf="reportCode !== 'ILG60_00_12_004'">
+          <div class="row">
+            <label class="control-label col-sm-3">วันที่ทำรายงาน</label>
+            <div class="form-group col-md-4">
+              <my-date-picker-th ngModel name="DateStart" placeholder="" locale="th" [options]="dateFromOption"
+                (dateChanged)="onSDateChange($event)" class="form-control form-control-sm unset-form-control">
+              </my-date-picker-th>
+            </div>
+            <label class="col-sm-1 px-0">ถึง</label>
+            <div class="col-md-4">
+              <my-date-picker-th ngModel name="DateEnd" placeholder="" locale="th" [options]="dateToOption"
+                (dateChanged)="onEDateChange($event)" class="form-control form-control-sm unset-form-control">
+              </my-date-picker-th>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6" *ngIf="reportCode == 'ILG60_00_12_004'">
+          <div class="row">
+            <label class="control-label col-sm-3">เดือนที่ทำรายงาน</label>
+            <div class="form-group col-md-4">
+              <select class="form-control form-control-sm" (change)="setMONTH1($event.target.value);">
+                <option *ngFor="let item of MONTH; let i=index" [value]="item.MONTH" [selected]="item.selected == true">
+                  {{item.MONTH}}
+                </option>
+              </select>
+            </div>
+            <label class="control-label col-sm-1 px-0">ถึง</label>
+            <div class="form-group col-md-4">
+              <select class="form-control form-control-sm" (change)="setMONTH2($event.target.value);">
+                <option *ngFor="let item of MONTH; let i=index" [value]="item.MONTH" [selected]="item.selected == true">
+                  {{item.MONTH}}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6" *ngIf="reportCode == 'ILG60_00_12_004'">
+          <div class="row">
+            <label class="control-label col-sm-3">ปีงบประมาณนี้</label>
+            <div class="form-group col-md-4">
+              <input class="form-control form-control-sm" type="number" disnumber value="{{YEAR_I}}"
+                (keyup)="setYEAR1($event)" maxlength="4">
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6" *ngIf="reportCode == 'ILG60_00_12_004'">
+          <div class="row">
+            <label class="control-label col-sm-3">ปีงบประมาณก่อน</label>
+            <div class="form-group col-md-4">
+              <input class="form-control form-control-sm" type="number" disnumber value="{{YEAR_II}}"
+                (keyup)="setYEAR2($event)" maxlength="4">
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6" *ngIf="reportCode == 'ILG60_00_12_004'">
+          <div class="row">
+            <label class="control-label col-sm-3">ปีงบประมาณก่อนหน้า</label>
+            <div class="form-group col-md-4">
+              <input class="form-control form-control-sm" type="number" disnumber value="{{YEAR_III}}"
+                (keyup)="setYEAR3($event)" maxlength="4">
+            </div>
+          </div>
+        </div>
+
+        <div class="row;" style="font-weight: normal; margin-left: 0px;">ประเภทรายงาน</div><br>
+
+        <div style="margin-left: 18px; margin-bottom: 20px; " class="row">
+          <div class="col-md-1 control-label" style="text-align: right;">ภาค</div>
+          <div class="col-md-5">
+            <select *ngIf="typeNgIF == 1" class="form-control form-control-sm " [ngModelOptions]="{standalone: true}"
+              ngModel (change)="onSelect($event ,'Depart')">
+              <option [value]="" selected></option>
+              <option *ngFor="let item of DepartmentAll" [value]="item.OFFCODE">
+                {{item.OFFNAME}}</option>
+            </select>
+            <input *ngIf="typeNgIF == 2 || typeNgIF == 3 || typeNgIF == 4" class="form-control form-control-sm "
+              value="{{rEDepart}}" disabled>
+          </div>
+        </div>
+
+        <div style="margin-left: 18px; margin-bottom: 20px;" class="row">
+          <div class="col-md-1 control-label" style="text-align: right;">พื้นที่</div>
+          <div class="col-md-5">
+            <select *ngIf="typeNgIF == 1 || typeNgIF == 2" class="form-control form-control-sm"
+              [ngModelOptions]="{standalone: true}" ngModel (change)="onSelect($event ,'Area')">
+              <option [value]="" selected></option>
+              <option *ngFor=" let item of Area;" [value]="item.OFFCODE">{{item.OFFNAME}}</option>
+            </select>
+            <input *ngIf="typeNgIF == 3 || typeNgIF == 4" class="form-control form-control-sm " value="{{rEArea}}"
+              disabled>
+          </div>
+        </div>
+
+        <div style="margin-left: 18px; margin-bottom: 20px;" class="row">
+          <div class="col-md-1 control-label" style="text-align: right;">สาขา</div>
+          <div class="col-md-5">
+            <select *ngIf="typeNgIF == 1 || typeNgIF == 2 || typeNgIF == 3" class="form-control form-control-sm"
+              [ngModelOptions]="{standalone: true}" ngModel (change)="onSelect($event ,'Branch')">
+              <option [value]="" selected></option>
+              <option *ngFor="let item of Branch;" [value]="item.OFFCODE">{{item.OFFNAME}}</option>
+            </select>
+            <input *ngIf="typeNgIF == 4" class="form-control form-control-sm " value="{{rEBranch}}" disabled>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-1"></div>
+          <button style="margin-right: 30px; margin-left: 45px;" type="submit"
+            class="btn waves-effect waves-light text-white btn-search">รายงาน</button>
+          <!-- <button type="submit" class="btn waves-effect waves-light text-white btn-search">รายงาน Excel</button> -->
+        </div>
+
+      </div>
+    </div>
+  </form>

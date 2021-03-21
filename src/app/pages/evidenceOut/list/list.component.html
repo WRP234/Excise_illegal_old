@@ -1,0 +1,440 @@
+<header class="topbar">
+    <nav class="navbar top-navbar navbar-expand-md navbar-light">
+        <div class="navbar-collapse" style="padding-right: 55px;">
+            <ul class="navbar-nav mr-auto mt-md-0">
+                <li class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickNew()">
+                            สร้างข้อมูล
+                        </a>
+                    </div>
+                </li>
+            </ul>
+            <ul class="navbar-nav my-lg-0">
+                <li class="nav-item col-8">
+                    <form autocomplete="off" class="app-search" #formSearch="ngForm"
+                        (ngSubmit)="clickKeywordSearch(formSearch.form.value)">
+                        <input type="search" name="TEXT_SEARCH" id="" ngModel class="form-control">
+                        <a href="javaScript:void(0);" (click)="clickKeywordSearch(formSearch.form.value)"
+                            class="srh-btn">
+                            <i class="ti-search"></i>
+                        </a>
+                    </form>
+                </li>
+                <li class="nav-item col-9">
+                    <a href="javaScript:void(0);" class="btn text-white" (click)="setAdvSearch()">
+                        ค้นหาขั้นสูง
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<ng-template #EvidenceTypeModel let-c="close" let-d="dismiss">
+    <app-evidencetype-modal (c)="modal.close()" (d)="modal.dismiss()" [Evitype]="evitype"></app-evidencetype-modal>
+</ng-template>
+
+<!-- <app-horizontal-timeline></app-horizontal-timeline> -->
+<div *ngIf="advSearch | async" class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius">
+        <app-card-actions-close></app-card-actions-close>
+        <h4 class="card-title m-b-0">ค้นหาขั้นสูง</h4>
+    </div>
+
+    <div class="card-body" style="font-weight: 400;">
+        <!-- คืนของกลาง(11), ขายทอดตลาด(13), ทำลายของกลาง(14), นำของกลางออกจากคลัง(15), โอนย้ายของกลาง(16)   -->
+        <div *ngIf="evitype == '11' || evitype == '13' || evitype == '14' || evitype == '15'">
+            <div class="row">
+                <label *ngIf="evitype == '11'" for="" class="col-lg-2 col-sm-3 control-label">เลขที่คืน</label>
+                <label *ngIf="evitype == '13'" for="" class="col-lg-2 col-sm-3 control-label">เลขที่ขาย</label>
+                <label *ngIf="evitype == '14'" for="" class="col-lg-2 col-sm-3 control-label">เลขที่ทำลาย</label>
+                <label *ngIf="evitype == '15'" for="" class="col-lg-2 col-sm-3 control-label">เลขที่นำออก</label>
+                <label *ngIf="evitype == '16'" for="" class="col-lg-2 col-sm-3 control-label">เลขที่โอนย้าย</label>
+                <div class="col-lg-4 col-md-7 col-sm-9">
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input type="text" name="EvidenceOutCode" [(ngModel)]="EvidenceOutCode"
+                                class="form-control form-control-sm" placeholder="">
+                        </div>
+                    </div>
+                </div>
+
+                <label *ngIf="evitype == '11'" for="" class="col-lg-2 col-sm-3 control-label">วันที่คืน</label>
+                <label *ngIf="evitype == '13'" for="" class="col-lg-2 col-sm-3 control-label">วันที่ขาย</label>
+                <label *ngIf="evitype == '14'" for="" class="col-lg-2 col-sm-3 control-label">วันที่ทำลาย</label>
+                <label *ngIf="evitype == '15'" for="" class="col-lg-2 col-sm-3 control-label">วันที่นำออก</label>
+                <label *ngIf="evitype == '16'" for="" class="col-lg-2 col-sm-3 control-label">วันที่โอนย้าย</label>
+                <div class="col-lg-4 col-md-7 col-sm-9">
+                    <div class="input-group form-line">
+                        <div style="width:45%">
+                            <my-date-picker-th name="EvidenceOutDateStart" [(ngModel)]="EvidenceOutDateStart"
+                                [options]="myDatePickerOptions" (dateChanged)="onSEviDateChange($event)">
+                            </my-date-picker-th>
+                        </div>
+
+                        <div>
+                            <label for="">&nbsp;ถึง&nbsp;</label>
+                        </div>
+
+                        <div style="width:45%">
+                            <my-date-picker-th name="EvidenceOutDateTo" [(ngModel)]="EvidenceOutDateTo"
+                                [options]="myDatePickerOptions" (dateChanged)="onEEviDateChange($event)">
+                            </my-date-picker-th>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <label *ngIf="evitype == '11'" for="" class="col-lg-2 col-sm-3 control-label">เลขที่หนังสือขอคืน</label>
+                <label *ngIf="evitype == '13' || evitype == '14'" for=""
+                    class="col-lg-2 col-sm-3 control-label">เลขที่หนังสืออนุมัติ </label>
+                <label *ngIf="evitype == '15'" for="" class="col-lg-2 col-sm-3 control-label">เลขที่หนังสือ</label>
+                <label *ngIf="evitype == '16'" for="" class="col-lg-2 col-sm-3 control-label">เลขที่หนังสือนำส่ง</label>
+                <div class="col-lg-4 col-md-7 col-sm-9">
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input type="text" name="EvidenceOutNo" [(ngModel)]="EvidenceOutNo"
+                                class="form-control form-control-sm" placeholder="">
+                        </div>
+                    </div>
+                </div>
+
+                <label *ngIf="evitype == '11'" for="" class="col-lg-2 col-sm-3 control-label">วันที่ขอคืน</label>
+                <label *ngIf="evitype == '13' || evitype == '14' || evitype == '15' || evitype == '16'" for=""
+                    class="col-lg-2 col-sm-3 control-label">วันที่อนุมัติ</label>
+                <div class="col-lg-4 col-md-7 col-sm-9">
+                    <div class="input-group form-line">
+                        <div style="width:45%">
+                            <my-date-picker-th name="EvidenceOutNoDateStart" [(ngModel)]="EvidenceOutNoDateStart"
+                                [options]="myDatePickerOptions" (dateChanged)="onSEviNoDateChange($event)">
+                            </my-date-picker-th>
+                        </div>
+                        <div>
+                            <label for="">&nbsp;ถึง&nbsp;</label>
+                        </div>
+                        <div style="width:45%">
+                            <my-date-picker-th name="EvidenceOutNoDateTo" [(ngModel)]="EvidenceOutNoDateTo"
+                                [options]="myDatePickerOptions" (dateChanged)="onEEviNoDateChange($event)">
+                            </my-date-picker-th>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <label *ngIf="evitype == '11'" for="" class="col-lg-2 col-sm-3 control-label">ผู้นำส่งคืน</label>
+                <label *ngIf="evitype == '13' || evitype == '14'" for=""
+                    class="col-lg-2 col-sm-3 control-label">ผู้เสนออนุมัติ</label>
+                <label *ngIf="evitype == '15'" for="" class="col-lg-2 col-sm-3 control-label">ผู้นำออก</label>
+                <label *ngIf="evitype == '16'" for="" class="col-lg-2 col-sm-3 control-label">ผู้โอนย้าย</label>
+                <div class="col-lg-4 col-md-7 col-sm-9">
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input type="text" name="StaffName" [(ngModel)]="StaffName"
+                                class="form-control form-control-sm" placeholder="">
+                        </div>
+                    </div>
+                </div>
+
+                <label for="" class="col-lg-2 col-sm-3 control-label">หน่วยงาน</label>
+                <div class="col-lg-4 col-md-7 col-sm-9">
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input type="text" name="OfficeName" [(ngModel)]="OfficeName"
+                                class="form-control form-control-sm" placeholder="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="evitype == '15'" class="row">
+                <label for="" class="col-lg-2 col-sm-3 control-label">ประเภทการนำออก</label>
+                <div class="col-lg-4 col-md-7 col-sm-9">
+                    <div class="form-group">
+                        <select class="form-control form-control-sm" name="EvidenceOutTypeSelected"
+                            [(ngModel)]="EvidenceOutTypeSelected">
+                            <option value="" selected>ทั้งหมด</option>
+                            <option *ngFor="let item of outTypeSelect" [value]="item.value">{{item.text}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-10"></div>
+                <div class="col-2">
+                    <button class="btn btn-block btn-themecolor" (click)="clickAdvSearch()">ค้นข้อมูล</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- จัดเก็บเข้าพิพิธภัณฑ์(12)  -->
+        <div *ngIf="evitype == '12'">
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-3 control-label">เลขที่จัดเก็บพิพิธภัณฑ์</label>
+                <div class="col-lg-4 col-md-7 col-sm-9">
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input type="text" name="EvidenceOutCode" [(ngModel)]="EvidenceOutCode"
+                                class="form-control form-control-sm" placeholder="">
+                        </div>
+                    </div>
+                </div>
+
+                <label for="" class="col-lg-2 col-sm-3 control-label">วันที่จัดเก็บพิพิธภัณฑ์</label>
+                <div class="form-group input-group col-lg-4 col-md-7 col-sm-9">
+                    <my-date-picker-th class="form-control form-control-sm unset-form-control"
+                        name="EvidenceOutDateStart" [(ngModel)]="EvidenceOutDateStart" [options]="myDatePickerOptions"
+                        (dateChanged)="onSEviDateChange($event)"></my-date-picker-th>
+                    <label for="" class="">&nbsp; ถึง &nbsp;</label>
+                    <my-date-picker-th class="form-control form-control-sm unset-form-control" name="EvidenceOutDateTo"
+                        [(ngModel)]="EvidenceOutDateTo" [options]="myDatePickerOptions"
+                        (dateChanged)="onEEviDateChange($event)"></my-date-picker-th>
+                </div>
+            </div>
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-3 control-label">เลขที่หนังสือ</label>
+                <div class="col-lg-4 col-md-7 col-sm-9">
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input type="text" name="EvidenceOutNo" [(ngModel)]="EvidenceOutNo"
+                                class="form-control form-control-sm" placeholder="">
+                        </div>
+                    </div>
+                </div>
+
+                <label for="" class="col-lg-2 col-sm-3 control-label">ผู้เสนอพิจารณา</label>
+                <div class="col-lg-4 col-md-7 col-sm-9">
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input type="text" name="StaffName" [(ngModel)]="StaffName"
+                                class="form-control form-control-sm" placeholder="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-3 control-label">หน่วยงาน</label>
+                <div class="col-lg-4 col-md-7 col-sm-9">
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input type="text" name="OfficeName" [(ngModel)]="OfficeName"
+                                class="form-control form-control-sm" placeholder="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-10"></div>
+                <div class="col-2">
+                    <button class="btn btn-block btn-themecolor" (click)="clickAdvSearch()">ค้นข้อมูล</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="card">
+    <div class="card-body">
+
+        <div class="table-responsive table-sm table-striped" style="overflow: hidden;">
+            <table #revenueTable class="table">
+                <thead>
+                    <!-- คืนของกลาง -->
+                    <tr *ngIf="evitype == '11'">
+                        <th style="text-align: center;width:5%">ลำดับ</th>
+                        <th>เลขที่คืน</th>
+                        <th>วันที่คืน</th>
+                        <th>เลขที่หนังสือนำส่งคืน</th>
+                        <th>วันที่นำส่งคืน</th>
+                        <th>ผู้นำส่งคืน</th>
+                        <th>หน่วยงานนำส่งคืน</th>
+                        <th></th>
+                    </tr>
+
+                    <!-- จัดเก็บเข้าพิพิธภัณฑ์ -->
+                    <tr *ngIf="evitype == '12'">
+                        <th style="text-align: center;width:5%">ลำดับ</th>
+                        <th style="width:15%">เลขที่เก็บพิพิธภัณฑ์</th>
+                        <th style="width:15%">วันที่เก็บพิพิธภัณฑ์</th>
+                        <th style="width:11%">เลขที่หนังสือ</th>
+                        <th style="width:19%">ผู้เสนอพิจารณาเห็นชอบ</th>
+                        <th>หน่วยงาน</th>
+                        <th></th>
+                    </tr>
+
+                    <!-- ขายทอดตลาด -->
+                    <tr *ngIf="evitype == '13'">
+                        <th style="text-align: center;width:3%">ลำดับ</th>
+                        <th style="width:13%">เลขที่ขาย</th>
+                        <th style="width:12%">วันที่ขาย</th>
+                        <th style="width:12%">เลขที่หนังสืออนุมัติ</th>
+                        <th style="width:12%">วันที่อนุมัติ</th>
+                        <th style="width:19%">ผู้เสนออนุมัติ</th>
+                        <th>หน่วยงาน</th>
+                        <th></th>
+                    </tr>
+
+                    <!-- ทำลายของกลาง -->
+                    <tr *ngIf="evitype == '14'">
+                        <th style="text-align: center;width:3%">ลำดับ</th>
+                        <th style="width:13%">เลขที่ทำลาย</th>
+                        <th style="width:12%">วันที่ทำลาย</th>
+                        <th style="width:12%">เลขที่หนังสืออนุมัติ</th>
+                        <th style="width:12%">วันที่อนุมัติ</th>
+                        <th style="width:19%">ผู้เสนออนุมัติ</th>
+                        <th>หน่วยงาน</th>
+                        <th></th>
+                    </tr>
+
+                    <!-- นำของกลางออกจากคลัง -->
+                    <tr *ngIf="evitype == '15'">
+                        <th style="text-align: center;width:3%">ลำดับ</th>
+                        <th style="width:12%">เลขที่นำออก</th>
+                        <th style="width:11%">วันที่นำออก</th>
+                        <th style="width:8%">เลขที่หนังสือ</th>
+                        <th style="width:11%">วันที่อนุมัติ</th>
+                        <th style="width:13%">ผู้นำออก</th>
+                        <th style="width:16%">หน่วยงาน</th>
+                        <th style="width:10%">ประเภทการนำออก</th>
+                        <th style="width:3%"></th>
+                    </tr>
+
+                    <!-- โอนย้ายของกลาง -->
+                    <tr *ngIf="evitype == '16'">
+                        <th style="text-align: center;width:5%">ลำดับ</th>
+                        <th style="width:15%">เลขที่โอนย้าย</th>
+                        <th style="width:15%">วันที่โอนย้าย</th>
+                        <th style="width:15%">เลขที่หนังสือนำส่งคืน</th>
+                        <th style="width:15%">วันที่อนุมัติ</th>
+                        <th style="width:15%">ผู้นำโอนย้าย</th>
+                        <th>หน่วยงาน</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let item of EvidenceOutList; let i=index;"
+                        (click)="clickView(item.EVIDENCE_OUT_ID, item.EVIDENCE_OUT_TYPE)" style="cursor: pointer;">
+                        <td style="text-align: center;">{{i + 1}}</td>
+
+                        <!-- คืนของกลาง -->
+                        <ng-container *ngIf="evitype == '11'">
+                            <td>{{item.EVIDENCE_OUT_CODE}}</td>
+                            <td>{{toLocalLong(item.EVIDENCE_OUT_DATE)}}</td>
+                            <td>{{item.EVIDENCE_OUT_NO}}</td>
+                            <td>{{toLocalLong(item.EVIDENCE_OUT_NO_DATE)}}</td>
+                            <td>
+                                <p class="m-0" *ngFor="let s of item.EvidenceOutStaff">
+                                    {{s.TITLE_SHORT_NAME_TH}}{{s.FIRST_NAME}}
+                                    {{s.LAST_NAME}}
+                                </p>
+                            </td>
+                            <td>
+                                <p class="m-0" *ngFor="let s of item.EvidenceOutStaff">
+                                    {{s.OPERATION_OFFICE_SHORT_NAME}}
+                                </p>
+                            </td>
+                        </ng-container>
+
+                        <!-- จัดเก็บเข้าพิพิธภัณฑ์ -->
+                        <ng-container *ngIf="evitype == '12'">
+                            <td>{{item.EVIDENCE_OUT_CODE}}</td>
+                            <td>{{toLocalLong(item.EVIDENCE_OUT_DATE)}}</td>
+                            <td>{{item.EVIDENCE_OUT_NO}}</td>
+                            <td>
+                                <p class="m-0" *ngFor="let s of item.EvidenceOutStaff">
+                                    {{s.TITLE_SHORT_NAME_TH}}{{s.FIRST_NAME}}
+                                    {{s.LAST_NAME}}
+                                </p>
+                            </td>
+                            <td>
+                                <p class="m-0" *ngFor="let s of item.EvidenceOutStaff">
+                                    {{s.OPERATION_OFFICE_SHORT_NAME}}
+                                </p>
+                            </td>
+                        </ng-container>
+
+                        <!-- ขายทอดตลาด -->
+                        <ng-container *ngIf="evitype == '13'">
+                            <td>{{item.EVIDENCE_OUT_CODE}}</td>
+                            <td>{{toLocalLong(item.EVIDENCE_OUT_DATE)}}</td>
+                            <td>{{item.EVIDENCE_OUT_NO}}</td>
+                            <td>{{toLocalLong(item.EVIDENCE_OUT_NO_DATE)}}</td>
+                            <td>
+                                <p class="m-0" *ngFor="let s of item.EvidenceOutStaff">
+                                    {{s.TITLE_SHORT_NAME_TH}}{{s.FIRST_NAME}}
+                                    {{s.LAST_NAME}}
+                                </p>
+                            </td>
+                            <td>
+                                <p class="m-0" *ngFor="let s of item.EvidenceOutStaff">
+                                    {{s.OPERATION_OFFICE_SHORT_NAME}}
+                                </p>
+                            </td>
+                        </ng-container>
+
+                        <!-- ทำลายของกลาง -->
+                        <ng-container *ngIf="evitype == '14'">
+                            <td>{{item.EVIDENCE_OUT_CODE}}</td>
+                            <td>{{toLocalLong(item.EVIDENCE_OUT_DATE)}}</td>
+                            <td>{{item.EVIDENCE_OUT_NO}}</td>
+                            <td>{{toLocalLong(item.EVIDENCE_OUT_NO_DATE)}}</td>
+                            <td>
+                                <p class="m-0" *ngFor="let s of item.EvidenceOutStaff">
+                                    {{s.TITLE_SHORT_NAME_TH}}{{s.FIRST_NAME}}
+                                    {{s.LAST_NAME}}
+                                </p>
+                            </td>
+                            <td>
+                                <p class="m-0" *ngFor="let s of item.EvidenceOutStaff">
+                                    {{s.OPERATION_OFFICE_SHORT_NAME}}
+                                </p>
+                            </td>
+                        </ng-container>
+
+                        <!-- นำของกลางออกจากคลัง -->
+                        <ng-container *ngIf="evitype == '15'">
+                            <td>{{item.EVIDENCE_OUT_CODE}}</td>
+                            <td>{{toLocalLong(item.EVIDENCE_OUT_DATE)}}</td>
+                            <td>{{item.EVIDENCE_OUT_NO}}</td>
+                            <td>{{ toLocalLong(item.EVIDENCE_OUT_NO_DATE) }}</td>
+                            <td>
+                                <p class="m-0" *ngFor="let s of item.EvidenceOutStaff">
+                                    {{s.TITLE_SHORT_NAME_TH}}{{s.FIRST_NAME}}
+                                    {{s.LAST_NAME}}
+                                </p>
+                            </td>
+                            <td>
+                                <p class="m-0" *ngFor="let s of item.EvidenceOutStaff">
+                                    {{s.OPERATION_OFFICE_SHORT_NAME}}
+                                </p>
+                            </td>
+                            <td>{{getEvidenceTypeName(item.EVIDENCE_OUT_TYPE)}}</td>
+                        </ng-container>
+
+                        <!-- โอนย้ายของกลาง -->
+                        <ng-container *ngIf="evitype == '16'">
+                        </ng-container>
+
+                        <td class="text-center;">
+                            <a href="javaScript:void(0);" class="text-secondary"
+                                (click)="clickView(item.EVIDENCE_OUT_ID, item.EVIDENCE_OUT_TYPE)">
+                                <i class="mdi mdi-eye fa-lg"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card-footer card-footer-unset">
+            <app-pagination-table [TotalItems]="paginage.TotalItems" [CurrentPage]="paginage.CurrentPage"
+                [PageSize]="paginage.PageSize" [RowsPerPageOptions]="paginage.RowsPerPageOptions"
+                (onPageChange)="pageChanges($event)">
+            </app-pagination-table>
+        </div>
+    </div>
+</div>

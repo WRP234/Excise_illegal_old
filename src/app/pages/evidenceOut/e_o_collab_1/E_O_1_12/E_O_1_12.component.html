@@ -1,0 +1,70 @@
+<div class="card card-outline-bluish unset-radius">
+  <div class="card-header unset-radius" (click)="onCollapse(collapse_e_o_1)">
+    <div class="card-actions">
+      <div class="card-actions">
+        <a class="">
+          <i class="fa"
+            [ngClass]="{'fa-chevron-up': (collapse_e_o_1 | async), 'fa-chevron-down': !(collapse_e_o_1 | async)}"></i>
+        </a>
+      </div>
+    </div>
+    <h4 class="card-title m-b-0">รายละเอียดความเห็นชอบ</h4>
+  </div>
+  <div *ngIf="collapse_e_o_1 | async" [formGroup]="evidenceOutFG" class="card-body">
+    <div class="row">
+      <label for="" class="col-lg-2 col-md-4 control-label is-required">เลขที่หนังสือ</label>
+      <div class="form-group col-lg-4 col-md-7 col-sm-8">
+        <input type="text" class="form-control form-control-sm" formControlName="EVIDENCE_OUT_NO" name="EVIDENCE_OUT_NO"
+          [readOnly]="showEditField"
+          [ngClass]="{'is-invalid': evidenceOutFG.get('EVIDENCE_OUT_NO').invalid && evidenceOutFG.get('EVIDENCE_OUT_NO').dirty}"
+          required>
+      </div>
+
+      <label for="" class="col-lg-2 col-md-4 control-label is-required">ลงวันที่</label>
+      <div class="input-group col-lg-4 col-md-7">
+        <div style="width:45%">
+          <my-date-picker-th name="EVIDENCE_OUT_NO_DATE" [options]="optionsClearDateBtnFalse"
+            formControlName="EVIDENCE_OUT_NO_DATE" [disabled]="showEditField" required>
+          </my-date-picker-th>
+        </div>
+        <label for="" class="">&nbsp; เวลา &nbsp;</label>
+        <input type="text" formControlName="EVIDENCE_OUT_NO_TIME" name="EVIDENCE_OUT_NO_TIME" style="height: 35px;"
+          class="form-control form-control-sm" [readOnly]="showEditField" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]"
+          maxlength="5" (keyup)="setFormatTimeControl($event,'EVIDENCE_OUT_NO_TIME',evidenceOutFG)"
+          [ngClass]="{'is-invalid':evidenceOutFG.get('EVIDENCE_OUT_NO_TIME').invalid && evidenceOutFG.get('EVIDENCE_OUT_NO_TIME').touched}"
+          required>
+      </div>
+      <!-- <ng-container *ngIf="evidenceOutFG.controls['EVIDENCE_OUT_NO_TIME'].invalid">
+        <div class="col-lg-10"></div>
+        <div class="alert alert-danger col-lg-2" role="alert">
+          กรุณาระบุข้อมูล hh:mm
+        </div>
+      </ng-container> -->
+    </div>
+
+    <div class="row">
+      <label for="" class="col-lg-2 col-md-4 control-label">พิจารณาวันที่</label>
+      <div class="input-group col-lg-4 col-md-7">
+        <div style="width:45%">
+          <my-date-picker-th name="APPROVE_DATE" [options]="myDatePickerOptions" formControlName="APPROVE_DATE"
+            [ngClass]="{'ng-touched':isRequired}" [disabled]="showEditField" required>
+          </my-date-picker-th>
+        </div>
+        <label for="" class="">&nbsp; เวลา &nbsp;</label>
+        <input type="text" formControlName="APPROVE_TIME" name="APPROVE_TIME" style="height: 35px;"
+          class="form-control form-control-sm" [readOnly]="showEditField" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]"
+          maxlength="5" (keyup)="setFormatTimeControl($event,'APPROVE_TIME',evidenceOutFG)"
+          [ngClass]="{'is-invalid':evidenceOutFG.get('APPROVE_TIME').invalid && evidenceOutFG.get('APPROVE_TIME').touched}"
+          required>
+      </div>
+    </div>
+    <!-- <ng-container *ngIf="evidenceOutFG.controls['APPROVE_TIME'].invalid">
+      <div class="row">
+        <div class="col-lg-4"> </div>&nbsp; &nbsp;
+        <div class="alert alert-danger" role="alert">
+          กรุณาระบุข้อมูล hh:mm
+        </div>
+      </div>
+    </ng-container> -->
+  </div>
+</div>

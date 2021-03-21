@@ -1,0 +1,132 @@
+<div class="modal-header bg-theme">
+    <div class="row">
+        <div class="col-lg-5">
+            <h4 class="modal-title text-white">การคำนวณมูลค่าภาษี</h4>
+        </div>
+
+        <a href="javaScript:void(0);" class="close text-white font-14" aria-label="Close" (click)="dismiss('Search Product')">
+            <span aria-hidden="true">
+                <i class=" ti-close"></i>
+            </span>
+        </a>
+    </div>
+</div>
+<h5 class="text-right mt-3 pr-3">ILG60_0_04_00_02_01</h5>
+<div class="modal-body font-16">
+    <!-- ค้นหาขั้นสูง -->
+    <div class="card card-outline-bluish unset-radius">
+        <div class="card-header unset-radius">
+            <app-card-actions-collapse></app-card-actions-collapse>
+            <h4 class="card-title m-b-0">การคำนวณมูลค่าภาษี</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <label for="" class="control-label">
+                    <h4 style="color:#194E93; margin-left: 15px">เลือกประเภทการคำนวณมูลค่าภาษี</h4>
+                </label>
+            </div>
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-2 control-label">หมวดสินค้า :</label>
+                <div class="col-lg-5 col-md-5 col-sm-5">
+                    <div class="form-group">
+                        <div class="form-line">
+                            <select name="PRODUCT_GROUP_CODE" [(ngModel)]="PRODUCT_GROUP_CODE" class="form-control" style="font-size: 15px" (change)="getProductPRC()">
+                                <option *ngFor="let o of PRODUCT_GROUP_LIST" [value]="o.PRODUCT_GROUP_CODE">
+                                    {{ o.PRODUCT_GROUP_NAME }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-2 control-label">พิกัดอัตราภาษี :</label>
+                <div class="col-lg-9 col-md-9 col-sm-9">
+                    <div class="form-group">
+                        <div class="form-line">
+                            <select name="PRODUCT_DUTY" [(ngModel)]="PRODUCT_DUTY" class="form-control" style="font-size: 15px" (change)="SelectedProductPRC()">
+                                <option *ngFor="let o of PRODUCT_DUTY_LIST" [value]="o.PRODUCT_CODE">
+                                    {{ o.DUTY_NAME }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- {{ PRODUCT_CAL_LIST | json}} -->
+                </div>
+            </div>
+
+            <div class="row">
+                <label for="" class="col-md-12" style="font-size: 15px; font-weight: bold">อัตราภาษีตามมูลค่าร้อยละ {{ TAX_VALUE }} , อัตราภาษีตามปริมาณ {{ TAX_VOLUMN }}</label>
+            </div>
+        </div>
+
+        <div class="card" style="margin:0 15px 15px 15px">
+            <div class="card-body" style="overflow: auto;">
+                <table class="table table-striped" style="font-size: 14px; width:1570px">
+                    <thead>
+                        <tr>
+                            <th style="width: 130px;">พิกัดอัตราภาษี</th>
+                            <th style="width: 320px;text-align: center">ขนาด</th>
+                            <th style="width: 160px;">ดีกรี/ความหวาน/CO2</th>
+                            <th style="width: 160px;">จำนวน</th>
+                            <th style="width: 160px;">ปริมาณสุทธิ</th>
+                            <th style="width: 160px;">ราคาขายปลีกแนะนำ</th>
+                            <th style="width: 160px;">ตามมูลค่า</th>
+                            <th></th>
+                            <th style="width: 160px;">ตามปริมาณ</th>
+                            <th></th>
+                            <th style="width: 160px;">มูลค่าภาษี</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of PRODUCT_CAL_LIST; let i=index;">
+                            <td>{{item.LAW_DUTY_CODE}}</td>
+                            <td>
+                                <div class="input-group">
+                                    <input type="text" [(ngModel)]="item.SIZE" name="item.SIZE" class="form-control form-control-sm">&nbsp;
+                                    <input type="text" [(ngModel)]="item.SIZEUNIT" name="item.SIZEUNIT" class="form-control form-control-sm">
+                                </div>
+                            </td>
+                            <td>
+                                <input type="text" [(ngModel)]="item.DEGREE" name="item.DEGREE" class="form-control form-control-sm" (input)="CalVat()">
+                            </td>
+                            <td>
+                                <div class="input-group">
+                                    <input type="text" [(ngModel)]="item.QUANTITY" name="item.QUANTITY" class="form-control form-control-sm" (input)="CalVat()"> &nbsp;{{ item.QUANTITY_UNIT }}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="input-group">
+                                    <input type="text" [(ngModel)]="item.VOLUMN" name="item.VOLUMN" class="form-control form-control-sm" (input)="CalVat()" (change)="formatVolumn()"> &nbsp;{{ item.VOLUMN_UNIT }}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="input-group">
+                                    <input type="text" [(ngModel)]="item.PRICE" name="item.PRICE" class="form-control form-control-sm" (input)="CalVat()">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="input-group">
+                                    <input type="text" [(ngModel)]="item.VAT_VALUE" name="item.VAT_VALUE" class="form-control form-control-sm" (input)="CalTotalVat()">
+                                </div>
+                            </td>
+                            <td style="font-size: 18px; font-weight: bold">+</td>
+                            <td>
+                                <div class="input-group">
+                                    <input type="text" [(ngModel)]="item.VAT_VOLUMN" name="item.VAT_VOLUMN" class="form-control form-control-sm" (input)="CalTotalVat()">
+                                </div>
+                            </td>
+                            <td style="font-size: 18px; font-weight: bold">=</td>
+                            <td>
+                                {{ item.VAT | number : '1.4' }}
+                            </td>
+
+                            <!-- {{ item.VAT | number : '1.2' }} -->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,45 @@
+ 
+export interface IRequestStaffList {
+  INFORMER_STATUS: string;
+  NOTICE_INFORMER: string;
+  POSITION: string;
+  ARREST_STAFF: string;
+  ARREST_OPREATION_POS_NAME: string;
+  ARREST_OPERATION_OFFICE_NAME: string;
+  ARREST_OPERATION_POS_LEVEL_NAME: string;
+  ARREST_CREDIT: string;
+  LAWSUIT_STAFF: string;
+  LAWSUIT_OPREATION_POS_NAME: string;
+  LAWSUIT_OPERATION_OFFICE_NAME: string;
+  LAWSUIT_OPERATION_POS_LEVEL_NAME: string;
+  PROVE_STAFF: string;
+  PROVE_OPREATION_POS_NAME: string;
+  PROVE_OPERATION_OFFICE_NAME: string;
+  PROVE_OPERATION_POS_LEVEL_NAME: string;
+  COMPARE_STAFF: string;
+  COMPARE_OPREATION_POS_NAME: string;
+  COMPARE_OPERATION_OFFICE_NAME: string;
+  COMPARE_OPERATION_POS_LEVEL_NAME: string;
+  PART: string;
+  INDICTMENT_ID: string;
+  NOTICE_ID: string;
+  ARREST_POSITION: string;
+  ARREST_OFFICE_NAME: string;
+  ARREST_LEVEL_NAME: string;
+  ARREST_PART: string;
+  LAWSUIT_POSITION: string;
+  LAWSUIT_OFFICE_NAME: string;
+  LAWSUIT_LEVEL_NAME: string;
+  LAWSUIT_PART: string;
+  COMPARE_POSITION: string;
+  COMPARE_OFFICE_NAME: string;
+  COMPARE_LEVEL_NAME: string;
+  COMPARE_PART: string;
+  PROVE_POSITION: string;
+  PROVE_OFFICE_NAME: string;
+  PROVE_LEVEL_NAME: string;
+  PROVE_PART: string;
+}
+export interface IRequestStaffListgetByCon {
+  INDICTMENT_ID: string;
+}

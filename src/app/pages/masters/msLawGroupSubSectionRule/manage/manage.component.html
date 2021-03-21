@@ -1,0 +1,353 @@
+<header class="topbar">
+    <nav class="navbar top-navbar navbar-expand-md navbar-light">
+        <div class="navbar-collapse" style="padding-right: 55px;">
+            <ul class="navbar-nav mr-auto mt-md-0">
+                <li *ngIf="PrintButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickPrint()">
+                            พิมพ์
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="EditButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnEdit()">
+                            แก้ไข
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="DeleteButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnDelete()" style="background-color: #f47023">
+                            ลบ
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="SaveButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnSave()">
+                            บันทึก
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="CancelButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnCancel()">
+                            ยกเลิก
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<div class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius">
+        <app-card-actions-collapse></app-card-actions-collapse>
+        <h4 class="card-title m-b-0">มาตรา</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label is-required">ชื่อมาตรา</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <ng-template #rtSection let-r="result" let-t="term">
+                        {{ r.SECTION_NAME }}
+                    </ng-template>
+                    <input id="typeahead-template" type="text" class="form-control" [(ngModel)]="LAW_GROUP_SECTION_MODEL" [ngbTypeahead]="searchLawGroupSection"
+                        [resultTemplate]="rtSection" [inputFormatter]="formatter_LawGroupSection" [value]="SECTION_NAME" [disabled]="showEditField"
+                        [ngClass]="{'ng-touched':isRequired}" (selectItem)="LawGroupSectionSelectItem($event)" (input)="LawGroupSectionClear()"
+                        (keydown)="isReq_sectionName.next(false)">
+                    <div class="alert alert-danger mt-3" role="alert" *ngIf="isReq_sectionName.value">
+                        กรุณาระบุข้อมูล "ชื่อมาตรา"
+                    </div>
+                </div>
+            </div>
+
+            <label for="" class="col-lg-2 col-sm-4 control-label is-required">ชื่อข้อย่อย/วรรค</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group">
+                    <ng-template #rtSubSection let-r="result" let-t="term">
+                        {{ r.SUBSECTION_NAME }}
+                    </ng-template>
+                    <input id="typeahead-template" type="text" class="form-control" [(ngModel)]="LAW_GROUP_SUBSECTION_MODEL" [ngbTypeahead]="searchLawGroupSubSection"
+                        [resultTemplate]="rtSubSection" [inputFormatter]="formatter_LawGroupSubSection" [value]="SUBSECTION_NAME"
+                        [disabled]="showEditField" [ngClass]="{'ng-touched':isRequired}" (selectItem)="LawGroupSubSectionSelectItem($event)"
+                        (input)="LawGroupSubSectionClear()" (keydown)="isReq_subSectionName.next(false)">
+                    <div class="alert alert-danger mt-3" role="alert" *ngIf="isReq_subSectionName.value">
+                        กรุณาระบุข้อมูล "ชื่อข้อย่อย/วรรค"
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="" class="col-lg-2 col-md-4 control-label is-required">วันที่เริ่มใช้งาน</label>
+            <div class="col-lg-4 col-md-7">
+                <div class="form-group input-group">
+                    <my-date-picker-th name="EFFECTIVE_DATE" [options]="myDatePickerOptions" class="form-control unset-form-control" [(ngModel)]="EFFECTIVE_DATE"
+                        [disabled]="showEditField" [ngClass]="{'ng-touched':isRequired}" (dateChanged)="isReq_effective.next(false)"></my-date-picker-th>
+                </div>
+                <div class="alert alert-danger mt-3" role="alert" *ngIf="isReq_effective.value">
+                    กรุณาระบุข้อมูล "วันที่เริ่มใช้งาน"
+                </div>
+            </div>
+
+            <label for="" class="col-lg-2 col-md-4 control-label is-required">วันที่สิ้นสุดใช้งาน</label>
+            <div class="col-lg-4 col-md-7">
+                <div class="form-group input-group">
+                    <my-date-picker-th name="EXPIRE_DATE" [options]="myDatePickerOptions" class="form-control unset-form-control" [(ngModel)]="EXPIRE_DATE"
+                        [disabled]="showEditField" [ngClass]="{'ng-touched':isRequired}" (dateChanged)="isReq_expDate.next(false)"></my-date-picker-th>
+                </div>
+                <div class="alert alert-danger mt-3" role="alert" *ngIf="isReq_expDate.value">
+                    กรุณาระบุข้อมูล "วันที่สิ้นสุดใช้งาน"
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2 col-sm-3">
+                <div class="row form-group">
+                    <div class="col">
+                        <input type="checkbox" id="md_isProve" [(ngModel)]="chk2" name="chk1" class="filled-in chk-col-indigo" [disabled]="showEditField"
+                            [checked]="IS_PROVE=='1'">
+                        <label for="md_isProve">พิสูจน์ของกลาง</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2 col-sm-3">
+                <div class="row form-group">
+                    <div class="col">
+                        <input type="checkbox" id="md_isCompare" [(ngModel)]="chk3" name="chk1" class="filled-in chk-col-indigo" [disabled]="showEditField"
+                            [checked]="IS_COMPARE=='1'">
+                        <label for="md_isCompare">เปรียบเทียบปรับ</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2 col-sm-3">
+                <div class="row form-group">
+                    <div class="col">
+                        <input type="checkbox" id="md_isActive" [(ngModel)]="chk1" name="chk1" class="filled-in chk-col-indigo" [disabled]="showEditField"
+                            [checked]="IS_ACTIVE=='1'">
+                        <label for="md_isActive">ใช้งาน</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius">
+        <app-card-actions-collapse></app-card-actions-collapse>
+        <h4 class="card-title m-b-0">ฐานความผิด</h4>
+    </div>
+
+    <div class="card-body">
+        <div class="row form-group">
+            <div class="col-lg-10 col-md-9 col-sm-8"></div>
+            <div class="col-lg-2 col-md-3 col-sm-4">
+                <button class="btn btn-block btn-themecolor" (click)="AddLawGuiltbase()" [disabled]="showEditField">เพิ่มฐานความผิด</button>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive table-striped" style="overflow: hidden;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center; width: 5%">ลำดับ</th>
+                                <th>ฐานความผิด (บัญชีรายละเอียดฐานความผิดและอัตราโทษ)</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of ListLawGuiltbase | IsActivePipe; let i=index;">
+                                <td style="text-align: center">{{ i + 1 }}</td>
+                                <td>
+                                    <input type="text" [(ngModel)]="item.GUILTBASE_NAME" name="item.GUILTBASE_NAME" class="form-control" [disabled]="showEditField">
+                                </td>
+                                <td>
+                                    <a href="javaScript:void(0);" class="text-warning">
+                                        <i class="fa fa-trash-o fa-lg" (click)="DelLawGuiltbase(item.GUILTBASE_SEQ)" [hidden]="showEditField"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius">
+        <app-card-actions-collapse></app-card-actions-collapse>
+        <h4 class="card-title m-b-0">บทลงโทษ</h4>
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label is-required">บทลงโทษมาตรา</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group">
+                    <div class="form-line">
+                        <select name="SECTION_ID" [(ngModel)]="SECTION_ID" class="form-control" style="font-size: 15px" (change)="isReq_partNo.next(false)"
+                            [disabled]="showEditField">
+                            <option *ngFor="let o of PART_LIST" [value]="o.PART_NO">
+                                {{ o.PART_NAME }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="alert alert-danger mt-3" role="alert" *ngIf="isReq_sectionName.value">
+                        กรุณาระบุข้อมูล "ชื่อมาตรา"
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="" class="col-lg-2 col-md-2 control-label">อัตราโทษ</label>
+            <div class="col-lg-10 col-md-10">
+                <div class="form-group ">
+                    <textarea [(ngModel)]="PENALTY_DESC" name="PENALTY_DESC" cols="" rows="10" class="form-control" [ngClass]="{'ng-touched':isRequired}"
+                        disabled></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius">
+        <app-card-actions-collapse></app-card-actions-collapse>
+        <h4 class="card-title m-b-0">อัตราที่กำหนดให้ปรับ</h4>
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label">ประเภทค่าปรับ</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <select name="FINE_TYPE" [(ngModel)]="FINE_TYPE" class="form-control" [disabled]="showEditField" (change)="changeFineType()">
+                        <option value="0">ค่าปรับคงที่</option>
+                        <option value="1">ค่าปรับตามจำนวนครั้งการกระทำผิด</option>
+                        <option value="2">ค่าปรับตามปริมาณของกลาง</option>
+                        <option value="3">ค่าปรับตามประเภทของกลางและจำนวนครั้งการกระทำผิด</option>
+                    </select>
+                </div>
+            </div>
+
+            <label for="" class="col-lg-2 col-sm-4 control-label is-required" *ngIf="FINE_TYPE == 0">จำนวนเงินค่าปรับ</label>
+            <div class="col-lg-4 col-md-7 col-sm-8" *ngIf="FINE_TYPE == 0">
+                <div class="form-group ">
+                    <input type="text" name="FINE_AMOUNT_0" [(ngModel)]="FINE_AMOUNT_0" class="form-control" [disabled]="showEditField" (change)="FineAmountFormat($event)"
+                        (keypress)="VaridateNumber($event)">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="" class="col-lg-2 col-md-2 control-label is-required">อัตราที่กำหนดให้ปรับ</label>
+            <div class="col-lg-10 col-md-10">
+                <div class="form-group ">
+                    <textarea [(ngModel)]="FINE" name="FINE" cols="" rows="5" class="form-control" [disabled]="showEditField" [ngClass]="{'ng-touched':isRequired}"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- ไม่ใช่ค่าปรับคงที่ -->
+        <div class="row form-group" *ngIf="FINE_TYPE != 0">
+            <div class="col-lg-10 col-md-9 col-sm-8"></div>
+            <div class="col-lg-2 col-md-3 col-sm-4">
+                <button class="btn btn-block btn-themecolor" (click)="AddLawGuiltbaseFine()" [disabled]="showEditField">เพิ่มอัตราโทษ</button>
+            </div>
+        </div>
+
+        <div class="card" *ngIf="FINE_TYPE != 0">
+            <div class="card-body">
+                <div class="table-responsive table-striped" style="overflow: hidden;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center; width: 5%">ลำดับ</th>
+                                <th style="width: 30%" *ngIf="FINE_TYPE == 3">กลุ่มสินค้า</th>
+                                <th *ngIf="FINE_TYPE == 2">ปริมาณ</th>
+                                <th *ngIf="FINE_TYPE == 1 || FINE_TYPE == 3">กระทำผิดครั้งที่</th>
+                                <th *ngIf="FINE_TYPE == 1 || FINE_TYPE == 2">จำนวนเงินค่าปรับ</th>
+                                <th *ngIf="FINE_TYPE == 3">จำนวนเท่าการปรับ (เท่า)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of ListLawGuiltbaseFine | IsActivePipe; let i=index;">
+                                <td style="text-align: center">{{ i + 1 }}</td>
+                                <td *ngIf="FINE_TYPE == 3" style="position: absolute;width: 30%">
+                                    <ng-template #rtProductGroup let-r="result">
+                                        {{ r.PRODUCT_GROUP_NAME }}
+                                    </ng-template>
+                                    <input id="typeahead-template" type="text" class="form-control" [(ngModel)]="item.PRODUCT_GROUP_MODEL" [ngbTypeahead]="searchProductGroup"
+                                        [resultTemplate]="rtProductGroup" [inputFormatter]="formatter_ProductGroup" (selectItem)="ProductGroupSelectItem($event, item)"
+                                        [disabled]="showEditField" [ngClass]="{'ng-touched':isRequired}" (input)="ProductGroupClear(item)">
+                                </td>
+                                <td *ngIf="FINE_TYPE == 2" class="form-group input-group">
+                                    <select name="item.STATUS_VOLUMN" [(ngModel)]="item.STATUS_VOLUMN" class="form-control" [disabled]="showEditField">
+                                        <option value="0">ของกลางต่ำกว่า</option>
+                                        <option value="1">ของกลางระหว่าง</option>
+                                        <option value="2">ของกลางตั้งแต่</option>
+                                    </select>&nbsp;
+                                    <input type="text" [(ngModel)]="item.MISTREAT_START_VOLUMN" name="item.MISTREAT_START_VOLUMN" class="form-control" [disabled]="showEditField">&nbsp;
+
+                                    <ng-template #rtProductUnit let-r="result">
+                                        {{ r.UNIT_NAME_TH }}
+                                    </ng-template>
+                                    <input id="typeahead-template" type="text" class="form-control" [(ngModel)]="item.MISTREAT_START_UNIT_MODEL" [ngbTypeahead]="searchProductUnit"
+                                        [resultTemplate]="rtProductUnit" [inputFormatter]="formatter_ProductUnit" (selectItem)="ProductUnitSelectItem($event, item)"
+                                        [disabled]="showEditField" [ngClass]="{'ng-touched':isRequired}" (input)="ProductUnitClear(item)">&nbsp;
+
+                                    <span *ngIf="item.STATUS_VOLUMN == 1"> ถึง&nbsp;</span>
+                                    <input type="text" [(ngModel)]="item.MISTREAT_TO_VOLUMN" name="item.MISTREAT_TO_VOLUMN" class="form-control" [disabled]="showEditField"
+                                        *ngIf="item.STATUS_VOLUMN == 1">&nbsp;
+
+                                    <ng-template #rtProductUnit let-r="result">
+                                        {{ r.UNIT_NAME_TH }}
+                                    </ng-template>
+                                    <input id="typeahead-template" type="text" class="form-control" [(ngModel)]="item.MISTREAT_TO_UNIT_MODEL" [ngbTypeahead]="searchProductUnit"
+                                        [resultTemplate]="rtProductUnit" [inputFormatter]="formatter_ProductUnit" (selectItem)="ProductUnitToSelectItem($event, item)"
+                                        [disabled]="showEditField" [ngClass]="{'ng-touched':isRequired}" (input)="ProductUnitToClear(item)"
+                                        *ngIf="item.STATUS_VOLUMN == 1">&nbsp;
+                                </td>
+                                <td *ngIf="FINE_TYPE == 1 || FINE_TYPE == 3">
+                                    <div class="form-group input-group" style="margin-bottom: 0; ">
+                                        <input type="text" [(ngModel)]="item.MISTREAT_START_NO" name="item.MISTREAT_START_NO" class="form-control" [disabled]="showEditField">
+                                        <div style="padding: 7px 0 0 20px;">
+                                            <input type="checkbox" class="filled-in chk-col-indigo" [id]="'td'+i" name="ListChK{{i}}" [(ngModel)]="item.IsCheck" [ngClass]="{'ng-touched':isRequired}"
+                                                [disabled]="showEditField">
+                                            <label [for]="'td'+i" class="m-0">ขึ้นไป</label>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <input type="text" [(ngModel)]="item.FINE_AMOUNT" name="item.FINE_AMOUNT" class="form-control" [disabled]="showEditField"
+                                        (change)="FineAmountFormat($event)" (keypress)="VaridateNumber($event)">
+                                </td>
+                                <td>
+                                    <a href="javaScript:void(0);" class="text-warning">
+                                        <i class="fa fa-trash-o fa-lg" (click)="DelLawGuiltbaseFine(item.FINE_SEQ)" [hidden]="showEditField"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

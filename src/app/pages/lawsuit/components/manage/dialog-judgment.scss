@@ -1,0 +1,14 @@
+.scollbar {
+    margin: auto;
+    position: auto;
+    max-height: 600px;
+    // overflow-y: auto;
+}
+
+::ng-deep.swal2-container {
+    z-index: 1000000;
+}
+
+.ng-invalid-req {
+    border-color: #fc4b6c;
+}

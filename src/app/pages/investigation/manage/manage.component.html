@@ -1,0 +1,201 @@
+<header class="topbar">
+    <nav class="navbar top-navbar navbar-expand-md navbar-light">
+        <div class="navbar-collapse" style="padding-right: 55px;">
+            <ul class="navbar-nav mr-auto mt-md-0">
+                <li *ngIf="printButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickPrint()">
+                            พิมพ์
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="editButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="onClickEditField()">
+                            แก้ไข
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="deleteButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="onClickDelete()"
+                            style="background-color: #f47023">
+                            ลบ
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="saveButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="onSave()">
+                            บันทึก
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="cancelButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickCancel()">
+                            ยกเลิก
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<ng-template #printDocModal let-c="close" let-d="dismiss">
+    <app-printdoc-modal [investCode]="investCode" [investDetailId]="" (c)="modal.close()" (d)="modal.dismiss()">
+    </app-printdoc-modal>
+</ng-template>
+
+<form class="form-horizontal" [formGroup]="investigateForm">
+    <div class="card card-outline-bluish unset-radius">
+        <div class="card-header  unset-radius" (click)="card1 = !card1">
+            <div class="card-actions">
+                <a class="">
+                    <i class="fa" [ngClass]="{'fa-chevron-up': card1, 'fa-chevron-down': !card1}"></i>
+                </a>
+            </div>
+            <h4 class="card-title m-b-0">คดีสืบสวน</h4>
+        </div>
+        <div class="card-body" *ngIf="card1">
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-4 control-label">เลขที่สืบสวน
+                </label>
+                <div class="col-lg-4 col-md-7 col-sm-8">
+                    <div class="form-group ">
+                        <input type="text" formControlName="INVESTIGATE_CODE" class="form-control form-control-sm"
+                            readonly>
+                    </div>
+                </div>
+
+                <label for="" class="col-lg-2 col-sm-4 control-label is-required">คดีสืบสวนที่</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <div class="input-group">
+                        <input type="text" formControlName="INVESTIGATE_NO" class="form-control form-control-sm"
+                            [readOnly]="showEditField" required [ngClass]="{'ng-touched':isRequired}" maxlength="9"
+                            (keydown)="isReq_No.next(false)" (change)="onChangeInvestigateNo()"
+                            (keypress)="numericOnly($event)">
+                        <strong>&nbsp;&nbsp;/&nbsp;&nbsp;</strong>
+                        <input type="text" formControlName="INVESTIGATE_NO_YEAR" class="form-control form-control-sm"
+                            [readOnly]="true" [ngClass]="{'ng-touched':isRequired}" required
+                            (change)="onChangeInvestigateNo()">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-4 control-label is-required">วันที่เริ่มสืบสวน</label>
+                <div class="col-lg-4 col-md-7 col-sm-8">
+                    <div class="form-group input-group">
+                        <my-date-picker-th class="form-control form-control-sm unset-form-control"
+                            formControlName="DATE_START" [disabled]="showEditField"
+                            [ngClass]="{'ng-touched':isRequired}" (keydown)="isReq_DStart.next(false)"
+                            [options]="dateFromOption" (dateChanged)="onSDateChange($event);isReq_DStart.next(false)"
+                            [(ngModel)]="sysdateStart"></my-date-picker-th>
+                        <label for="">&nbsp;&nbsp;เวลา&nbsp;&nbsp;</label>
+                        <input class="form-control form-control-sm" type="text" [readOnly]="showEditField"
+                            [ngClass]="{'ng-touched':isRequired}" (keydown)="isReq_TStart.next(false)"
+                            formControlName="TIME_START" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" maxlength="5"
+                            (keyup)="setFormatTimeControl($event,'TIME_START',investigateForm)">
+                    </div>
+                    <div class="alert alert-danger" role="alert" *ngIf="investigateForm.controls['TIME_START'].invalid">
+                        กรุณาระบุข้อมูล hh:mm
+                    </div>
+                </div>
+
+                <label for="" class="col-lg-2 col-sm-4 control-label is-required">วันที่สิ้นสุดสืบสวน</label>
+                <div class="col-lg-4 col-md-7 col-sm-8">
+                    <div class="form-group input-group" style="z-index: 1;">
+                        <my-date-picker-th class="form-control form-control-sm unset-form-control" id="DateEnd"
+                            [disabled]="showEditField" formControlName="DATE_END" [ngClass]="{'ng-touched':isRequired}"
+                            (keydown)="isReq_DEnd.next(false)" [options]="dateToOption"
+                            (dateChanged)="onEDateChange($event);isReq_DEnd.next(false)" [(ngModel)]="sysdateEnd">
+                        </my-date-picker-th>
+                        <label for="">&nbsp;&nbsp;เวลา&nbsp;&nbsp;</label>
+                        <input class="form-control form-control-sm" type="text" [readOnly]="showEditField"
+                            [ngClass]="{'ng-touched':isRequired}" (keydown)="isReq_TEnd.next(false)"
+                            pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" maxlength="5" formControlName="TIME_END"
+                            (keyup)="setFormatTimeControl($event,'TIME_END',investigateForm)">
+                    </div>
+                    <div class="alert alert-danger" role="alert" *ngIf="investigateForm.controls['TIME_END'].invalid">
+                        กรุณาระบุข้อมูล hh:mm
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-4 control-label is-required">หัวข้อการสืบสวน</label>
+                <div class="col-lg-4 col-md-7 col-sm-8">
+                    <div class="form-group ">
+                        <input type="text" formControlName="SUBJECT" class="form-control form-control-sm"
+                            [readOnly]="showEditField" [ngClass]="{'ng-touched':isRequired}"
+                            (keydown)="isReq_Subject.next(false)">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card card-outline-bluish unset-radius">
+        <div class="card-header  unset-radius" (click)="card2 = !card2">
+            <div class="card-actions">
+                <a class="">
+                    <i class="fa" [ngClass]="{'fa-chevron-up': card2, 'fa-chevron-down': !card2}"></i>
+                </a>
+            </div>
+            <h4 class="card-title m-b-0">รายงานการสืบสวน</h4>
+        </div>
+        <div class="card-body" *ngIf="card2">
+            <div class="row form-group">
+                <div class="col-lg-10 col-md-9 col-sm-8"></div>
+                <div class="col-lg-2 col-md-3 col-sm-4">
+                    <button type="button" class="btn btn-block btn-themecolor" [disabled]="showEditField"
+                        (click)="onCreateInvestDetail()">เพิ่มรายงาน</button>
+                </div>
+            </div>
+
+            <table class="table table-sm table-striped table-set-border">
+                <thead>
+                    <tr>
+                        <th class="text-center">ลำดับ</th>
+                        <th>ครั้งที่สืบสวน</th>
+                        <th>วันที่เริ่มสืบสวน</th>
+                        <th>วันที่สิ้นสุดการสืบสวน</th>
+                        <th>ผู้ดูแลการสืบสวน</th>
+                        <th>ผู้สั่งการ</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody formArrayName='INVESTIGATE_DETAIL'>
+                    <tr style="cursor: pointer;" *ngFor="let item of InvestigateDetail.controls; let i=index;"
+                        [formGroupName]='i'
+                        (click)="onViewInvesDetail(item.get('INVESTIGATE_DETAIL_ID').value, item.get('INVESTIGATE_SEQUENCE').value)">
+                        <td class="text-center">{{i+1}}</td>
+                        <td>
+                            {{item.get('INVESTIGATE_SEQUENCE').value}}
+                        </td>
+                        <td>
+                            {{toLocalShort(item.get('DATE_START').value)}}
+                        </td>
+                        <td>
+                            {{toLocalShort(item.get('DATE_END').value)}}
+                        </td>
+                        <td>
+                            {{ item.get('INVESTIGATOR').value }}
+                        </td>
+                        <td>
+                            {{ item.get('COMMANDER').value }}
+                        </td>
+                        <td class="text-center">
+                            <a href="javaScript:void(0);" class="text-secondary"
+                                (click)="onViewInvesDetail(item.get('INVESTIGATE_DETAIL_ID').value, item.get('INVESTIGATE_SEQUENCE').value)">
+                                <i class="fa fa-eye fa-lg"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</form>

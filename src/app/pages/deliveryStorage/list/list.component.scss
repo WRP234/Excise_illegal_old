@@ -1,0 +1,71 @@
+#table-wrapper {
+    position:relative;
+  }
+  #table-scroll {
+    overflow:auto;  
+    margin-top:20px;
+  }
+  #table-wrapper table {
+    width:100%;
+  
+  }
+  #table-wrapper table thead th .text {
+    position:absolute;   
+    top:-20px;
+    z-index:2;
+    height:20px;
+    width:35%;
+    border:1px solid red;
+  }
+
+.card-body {
+  padding: 1.25rem 1.25rem 0 1.25rem !important;
+}
+
+.control-group {
+  display: flex;
+}
+
+.app-search {
+  input {
+      background: transparent !important;
+      border: 1px solid #fff !important;
+      color: #fff !important;
+  }
+  input:active {
+      color: #fff !important;
+  }
+
+  .srh-btn {
+      position: absolute;
+      top: 8px;
+      right: 28px;
+      color: #fff;
+  }
+}
+
+::ng-deep [id^="ngb-typeahead-"]{ 
+    min-width: 94%!important; 
+    top: 28px !important;
+    white-space: nowrap!important;
+    overflow: hidden!important;
+    text-overflow: ellipsis!important;
+} 
+
+#OCCURRENCE_DATE_START,
+#OCCURRENCE_DATE_END
+{
+  z-index: 12 !important;
+}
+
+#LAWSUIT_DATE_START,
+#LAWSUIT_DATE_END
+{
+  z-index: 11 !important;
+}
+
+#DELIVERY_DATE_START,
+#DELIVERY_DATE_END
+{
+  z-index: 10 !important;
+}

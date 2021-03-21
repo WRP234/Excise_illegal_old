@@ -1,0 +1,1129 @@
+<header class="topbar" style="margin-left: 0px;position: unset">
+  <nav class="navbar top-navbar navbar-expand-md navbar-light">
+    <div class="navbar-collapse" style="padding-right: 55px;">
+      <ul class="navbar-nav mr-auto mt-md-0">
+        <li *ngIf="btn_onPrint | async" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickPrint()">
+              พิมพ์
+            </a>
+          </div>
+        </li>
+        <li *ngIf="btn_onEdit | async" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickEdit()">
+              แก้ไข
+            </a>
+          </div>
+        </li>
+        <li *ngIf="btn_onSave | async" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickSave()">
+              บันทึก
+            </a>
+          </div>
+        </li>
+        <li *ngIf="btn_onCancel | async" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickCancel()">
+              ยกเลิก
+            </a>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <h4 class="modal-title text-white col-md-2">สร้างผู้ต้องหา
+      <a class="float-lg-right text-white font-14" aria-label="Close" (click)="closePopup()">
+        <i class=" ti-close"></i>
+      </a>
+    </h4>
+  </nav>
+</header>
+
+<div class="row">
+  <div class="col-lg-10">
+    <h5 class=" mt-3 pl-3">เพิ่มข้อมูลผู้ต้องหา</h5>
+  </div>
+  <div class="col-lg-2">
+    <h5 class="text-right mt-3 pr-3">ILG60_M_01_01_02_00</h5>
+  </div>
+</div>
+
+<form [formGroup]="formGroup" class="card-body">
+  <div class="card card-outline-bluish unset-radius">
+    <div (click)="card1 = !card1" class="card-header unset-radius">
+      <div class="card-actions">
+        <a class="">
+          <i class="fa" [ngClass]="{'fa-chevron-up': card1, 'fa-chevron-down': !card1}"></i>
+        </a>
+      </div>
+      <h4 class="card-title m-b-0">ข้อมูลส่วนต้ว</h4>
+    </div>
+    <div class="card-body" *ngIf="card1">
+      <div class="row">
+        <label for="" class="col-lg-2 col-sm-4 control-label is-required">ประเภทผู้ต้องหา</label>
+        <div class="form-group col-lg-4 col-md-7 col-sm-8">
+          <select #PersonType formControlName="PERSON_TYPE" class="form-control form-control-sm"
+            [ngClass]="{'ng-touched':isRequired}" [attr.disabled]="isEdit ? '' : null" required (change)="toggleCard()">
+            <option value="" selected disabled></option>
+            <option *ngFor="let item of PERSON_TYPE;" [value]="item.value">{{item.text}}</option>
+          </select>
+        </div>
+        <label for="" class="col-lg-2 col-sm-4 control-label">ประเภทบุคคล</label>
+        <div class="form-group col-lg-4 col-md-7 col-sm-8">
+          <select *ngIf="!entityType" formControlName="ENTITY_TYPE" class="form-control form-control-sm"
+            [ngClass]="{'ng-touched':isRequired}" [attr.disabled]="isEdit ? '' : null" required
+            (change)="onEntityChange()">
+            <option value="" selected disabled></option>
+            <option *ngFor="let item of ENTITY_TYPE;" [value]="item.value">{{item.text}}</option>
+          </select>
+
+          <input *ngIf="entityType" type="text" value="{{characteristics}}" class="form-control form-control-sm"
+            [ngClass]="{'ng-touched':isRequired}" [readonly]="true">
+
+        </div>
+      </div>
+
+
+      <ng-container [ngSwitch]="PersonType.value">
+
+        <!-- ชาวต่างชาติ -->
+        <div *ngSwitchCase="1">
+          <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label is-required">คำนำหน้าชื่อ</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <ng-template #title let-r="result" let-t="term">
+                {{ r.TITLE_SHORT_NAME_EN }}
+              </ng-template>
+
+              <input #TITLE type="text" class="form-control form-control-sm" [ngbTypeahead]="searchTitleName"
+                formControlName="TITLE" [resultTemplate]="title" [readOnly]="isEdit || requiredCompanyRegister"
+                [inputFormatter]="T_MasTitleShortEN" (selectItem)="selectItemTitle($event)"
+                (blur)="blurItemTitle(TITLE)" [value]="formGroup.get('TITLE_SHORT_NAME_EN')?.value"
+                [ngClass]="{'is-invalid':REQ_TITLE_NAME.value}" (keypress)="REQ_TITLE_NAME.next(false)" />
+            </div>
+            <label for="" class="col-lg-2 col-sm-4 control-label is-required">ชื่อจริง</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <input type="text" formControlName="FIRST_NAME" class="form-control form-control-sm"
+                [readonly]="isEdit || requiredCompanyRegister" [ngClass]="{'is-invalid':REQ_FIRST_NAME.value}"
+                (keypress)="REQ_FIRST_NAME.next(false)">
+            </div>
+          </div>
+
+          <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label">ชื่อกลาง</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <input type="text" formControlName="MIDDLE_NAME" class="form-control form-control-sm"
+                [readonly]="isEdit || requiredCompanyRegister">
+            </div>
+
+            <label for="" class="col-lg-2 col-sm-4 control-label">นามสกุล</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <input type="text" formControlName="LAST_NAME" class="form-control form-control-sm"
+                [readonly]="isEdit || requiredCompanyRegister">
+            </div>
+          </div>
+
+          <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label">ชื่ออื่น</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <input type="text" formControlName="OTHER_NAME" class="form-control form-control-sm"
+                [readonly]="isEdit || requiredCompanyRegister">
+            </div>
+            <label for="" class="col-lg-2 col-sm-4 control-label">เลขหนังสือเดินทาง</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <input type="text" formControlName="PASSPORT_NO" class="form-control form-control-sm"
+                [readonly]="isEdit || requiredCompanyRegister"
+                [required]="formGroup.value.ENTITY_TYPE == 0 && formGroup.value.PERSON_TYPE == 0" maxlength="13"
+                appNumuricOnly>
+            </div>
+          </div>
+          <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label">ประเทศที่ออกหนังสือ</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <ng-template #contry let-r="result" let-t="term">
+                {{ r.COUNTRY_NAME_TH }}
+              </ng-template>
+
+              <input #Country type="text" class="form-control form-control-sm" [ngbTypeahead]="searchCountry"
+                [resultTemplate]="contry" [readOnly]="isEdit" [inputFormatter]="T_MasCountry"
+                (selectItem)="selectItemCountry($event)" (blur)="blurItemCountry(Country)"
+                [value]="formGroup.get('COUNTRY_NAME_TH')?.value" />
+            </div>
+            <label for="" class="col-lg-2 col-sm-4 control-label">ประเภทวีซ่า</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <select formControlName="VISA_TYPE" class="form-control form-control-sm"
+                [attr.disabled]="isEdit ? '' : null">
+                <option value="" selected disabled></option>
+                <option *ngFor="let item of VISA_TYPE; let i=index;" [value]="item.value">{{item.text}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label">วันที่เข้าประเทศ</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <my-date-picker-th locale="th" formControlName="PASSPORT_DATE_IN" [options]="passportDateInOption"
+                [disabled]="isEdit" (dateChanged)="onPassportDateInChange($event)">
+              </my-date-picker-th>
+            </div>
+            <label for="" class="col-lg-2 col-sm-4 control-label">วันที่ออกประเทศ</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <my-date-picker-th locale="th" formControlName="PASSPORT_DATE_OUT" [options]="passPortDateOutOption"
+                [disabled]="isEdit" (dateChanged)="onPassportDateOutChange($event)">
+              </my-date-picker-th>
+            </div>
+          </div>
+          <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label">เพศ</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <select #race formControlName="GENDER_TYPE" class="form-control form-control-sm"
+                [attr.disabled]="(isEdit || requiredCompanyRegister) ? '' : null">
+                <option value="" selected disabled></option>
+                <option *ngFor="let item of GENDER_TYPE;" [value]="item.value">{{item.text}}
+                </option>
+              </select>
+            </div>
+            <label for="" class="col-lg-2 col-sm-4 control-label">วันเกิด</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <my-date-picker-th locale="th" formControlName="BIRTH_DATE" [options]="myDatePickerOptions"
+                [disabled]="isEdit || requiredCompanyRegister">
+              </my-date-picker-th>
+            </div>
+          </div>
+          <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label">กรุ๊ปเลือด</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <select formControlName="BLOOD_TYPE" class="form-control form-control-sm"
+                [attr.disabled]="(isEdit || requiredCompanyRegister) ? '' : null">
+                <option value="" selected disabled></option>
+                <option *ngFor="let item of BLOOD_TYPE;" [value]="item.value">{{item.text}}</option>
+              </select>
+            </div>
+            <label for="" class="col-lg-2 col-sm-4 control-label">เชื้อชาติ</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <ng-template #race let-r="result" let-t="term">
+                {{ r.RACE_NAME_TH }}
+              </ng-template>
+
+              <input #race$ type="text" class="form-control form-control-sm" [ngbTypeahead]="searchRace"
+                [resultTemplate]="race" [readOnly]="isEdit || requiredCompanyRegister" [inputFormatter]="T_MasRace"
+                (selectItem)="selectItemRace($event)" (blur)="blurItemRace(race$)"
+                [value]="formGroup.get('RACE_NAME_TH')?.value" />
+            </div>
+          </div>
+          <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label">สัญชาติ</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <ng-template #nation let-r="result" let-t="term">
+                {{ r.NATIONALITY_NAME_TH }}
+              </ng-template>
+
+              <input #Nationality type="text" class="form-control form-control-sm" [ngbTypeahead]="searchNationality"
+                [resultTemplate]="nation" [readOnly]="isEdit || requiredCompanyRegister"
+                [inputFormatter]="T_MasNationality" (selectItem)="selectItemNationality($event)"
+                (blur)="blurItemNationality(Nationality)" [value]="formGroup.get('NATIONALITY_NAME_TH')?.value" />
+            </div>
+            <label for="" class="col-lg-2 col-sm-4 control-label">ศาสนา</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <ng-template #religion let-r="result" let-t="term">
+                {{ r.RELIGION_NAME_TH }}
+              </ng-template>
+
+              <input #religion$ type="text" class="form-control form-control-sm" [ngbTypeahead]="searchReligion"
+                [resultTemplate]="religion" [readOnly]="isEdit || requiredCompanyRegister"
+                [inputFormatter]="T_MasReligion" (selectItem)="selectItemReligion($event)"
+                (blur)="blurItemReligion(religion$)" [value]="formGroup.get('RELIGION_NAME_TH')?.value" />
+            </div>
+          </div>
+          <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label">สถานะภาพ</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <select formControlName="MARITAL_STATUS" class="form-control form-control-sm"
+                [attr.disabled]="(isEdit || requiredCompanyRegister) ? '' : null">
+                <option value="" selected disabled></option>
+                <option *ngFor="let item of MARITAL_STATUS;" [value]="item.value">{{item.text}}</option>
+              </select>
+            </div>
+            <label for="" class="col-lg-2 col-sm-4 control-label">อาชีพ</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <input type="text" formControlName="CAREER" class="form-control form-control-sm"
+                [readonly]="isEdit || requiredCompanyRegister">
+            </div>
+          </div>
+          <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label">เบอร์โทรศัพท์</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <input type="text" formControlName="TEL_NO" class="form-control form-control-sm" [readonly]="isEdit">
+            </div>
+            <label for="" class="col-lg-2 col-sm-4 control-label">อีเมล์</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <input type="text" formControlName="EMAIL" class="form-control form-control-sm" [readonly]="isEdit">
+            </div>
+          </div>
+          <div class="row">
+            <label *ngIf="formGroup.get('MISTREAT_NO').value ? true : false" for=""
+              class="col-lg-2 col-sm-4 control-label">จำนวนครั้งกระทำผิด</label>
+            <div *ngIf="formGroup.get('MISTREAT_NO').value ? true : false"
+              class="form-group col-lg-4 col-md-7 col-sm-8">
+              <input type="text" class="form-control form-control-sm" formControlName="MISTREAT_NO" readonly>
+              <a href="javaScript:void(0);" class="view text-secondary" (click)="openModal(ilg60Mas01010201)">
+                <i class="fa fa-eye" aria-hidden="true"></i>
+              </a>
+            </div>
+
+            <ng-template #ilg60Mas01010201 let-c="close" let-d="dismiss">
+              <app-ilg60-mas-01-01-02-01 (d)="modal.dismiss()">
+              </app-ilg60-mas-01-01-02-01>
+            </ng-template>
+          </div>
+        </div>
+
+
+        <!-- นิติบุคคล -->
+        <div *ngSwitchCase="2">
+          <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label is-required">คำนำหน้าชื่อ</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <ng-template #title let-r="result" let-t="term">
+                {{ r.TITLE_SHORT_NAME_TH }}
+              </ng-template>
+
+              <input #TITLE type="text" class="form-control form-control-sm" [ngbTypeahead]="searchTitleName"
+                formControlName="TITLE" [resultTemplate]="title" [readOnly]="isEdit" [inputFormatter]="T_MasTitleShort"
+                (selectItem)="selectItemTitle($event)" (blur)="blurItemTitle(TITLE)"
+                [value]="formGroup.get('TITLE_SHORT_NAME_TH')?.value" [ngClass]="{'is-invalid':REQ_TITLE_NAME.value}"
+                (keypress)="REQ_TITLE_NAME.next(false)" />
+            </div>
+            <label for="" class="col-lg-2 col-sm-4 control-label is-required">ชื่อผู้ประกอบการ</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <input type="text" formControlName="COMPANY_NAME" class="form-control form-control-sm" [readonly]="isEdit"
+                [ngClass]="{'is-invalid':REQ_COMPANY_NAME.value}" (keypress)="REQ_COMPANY_NAME.next(false)">
+            </div>
+
+          </div>
+          <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label">เลขทะเบียนนิติบุคคล</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <input type="text" formControlName="COMPANY_REGISTRATION_NO" class="form-control form-control-sm"
+                [readonly]="isEdit || formGroup.get('ENTITY_TYPE')?.value == 0" (keypress)="numericOnly($event)">
+            </div>
+            <label for="" class="col-lg-2 col-sm-4 control-label">เลขทะเบียนสรรพสามิต</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <input type="text" formControlName="EXCISE_REGISTRATION_NO" class="form-control form-control-sm"
+                [readonly]="isEdit || formGroup.get('ENTITY_TYPE')?.value == 0" (keypress)="numericOnly($event)">
+            </div>
+          </div>
+          <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label">เลขบัตรประชาชน</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <input type="text" formControlName="ID_CARD" class="form-control form-control-sm" minlength="0"
+                maxlength="13" [readonly]="isEdit || formGroup.get('ENTITY_TYPE')?.value == 1"
+                (keypress)="numericOnly($event)">
+            </div>
+            <label for="" class="col-lg-2 col-sm-4 control-label">เบอร์โทรศัพท์</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <input type="text" formControlName="TEL_NO" class="form-control form-control-sm" [readonly]="isEdit"
+                (keypress)="numericOnly($event)">
+            </div>
+          </div>
+          <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label">เชื้อชาติ</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <ng-template #race let-r="result" let-t="term">
+                {{ r.RACE_NAME_TH }}
+              </ng-template>
+
+              <input #race$ type="text" class="form-control form-control-sm" [ngbTypeahead]="searchRace"
+                [resultTemplate]="race" [readOnly]="isEdit" [inputFormatter]="T_MasRace"
+                (selectItem)="selectItemRace($event)" (blur)="blurItemRace(race$)"
+                [value]="formGroup.get('RACE_NAME_TH')?.value" />
+            </div>
+            <label for="" class="col-lg-2 col-sm-4 control-label">สัญชาติ</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <ng-template #nation let-r="result" let-t="term">
+                {{ r.NATIONALITY_NAME_TH }}
+              </ng-template>
+              <input #Nationality type="text" class="form-control form-control-sm" [ngbTypeahead]="searchNationality"
+                [resultTemplate]="nation" [readOnly]="isEdit" [inputFormatter]="T_MasNationality"
+                (selectItem)="selectItemNationality($event)" (blur)="blurItemNationality(Nationality)"
+                [value]="formGroup.get('NATIONALITY_NAME_TH')?.value" />
+            </div>
+          </div>
+
+          <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label"
+              [ngClass]="{'is-required': !RELATIONSHIP_TITLE_SHORT_NAME_TH ? REQ_RE_TITLE_NAME.value : false}">คำนำหน้าชื่อผู้แทน</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <ng-template #title let-r="result" let-t="term">
+                {{ r.TITLE_SHORT_NAME_TH }}
+              </ng-template>
+
+              <input #TitleName type="text" class="form-control form-control-sm" [ngbTypeahead]="searchTitleName"
+                [resultTemplate]="title" [readOnly]="isEdit" [inputFormatter]="T_MasTitleShort"
+                (selectItem)="selectItemTitleRelationship($event)" [value]="RELATIONSHIP_TITLE_SHORT_NAME_TH"
+                (keyup)="RelationshipTitleNameChkDel(TitleName);RELATIONSHIP_FIRST_NAME ? REQ_RE_TITLE_NAME.next(true) : REQ_RE_TITLE_NAME.next(false)"
+                (blur)="RelationshipTitleNameChkDel(TitleName);RELATIONSHIP_FIRST_NAME ? REQ_RE_TITLE_NAME.next(true) : REQ_RE_TITLE_NAME.next(false)"
+                [ngClass]="{'ng-invalid-req': !RELATIONSHIP_TITLE_SHORT_NAME_TH ? REQ_RE_TITLE_NAME.value : false}"
+                (keypress)="REQ_RE_TITLE_NAME.next(false);" />
+            </div>
+            <label for="" class="col-lg-2 col-sm-4 control-label">ชื่อผู้แทน</label>
+            <div class="form-group col-lg-2 col-md-7 col-sm-8 p-r-1">
+              <input #Representative type="text" [(ngModel)]="RELATIONSHIP_FIRST_NAME"
+                [ngModelOptions]="{standalone: true}" class="form-control form-control-sm" [readonly]="isEdit"
+                placeholder="ชื่อ" (blur)="RepresentativeCheckDel(Representative)">
+            </div>
+            <div class="form-group col-lg-2 col-md-7 col-sm-8 p-l-0">
+              <input type="text" [(ngModel)]="RELATIONSHIP_LAST_NAME" [ngModelOptions]="{standalone: true}"
+                class="form-control form-control-sm" [readonly]="isEdit" placeholder="นามสกุล">
+            </div>
+          </div>
+          <!-- <div class="row" formArrayName="MAS_PERSON_RELATIONSHIP">
+            <ng-container *ngFor="let item of MAS_PERSON_RELATIONSHIP.controls; let i=index;" [formGroupName]="i">
+              <label for="" class="col-lg-2 col-sm-4 control-label">คำนำหน้าชื่อผู้แทน</label>
+              <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                <select formControlName="TITLE_ID" class="form-control form-control-sm"
+                  [attr.disabled]="isEdit  ? '' : null" (change)="selectItemTitleRelationship($event.target.value)">
+                  <option value="" selected disabled></option>
+                  <option *ngFor="let item of typeheadTitleNames;" [value]="item.TITLE_ID">{{item.TITLE_NAME_TH}}
+                  </option>
+                </select>
+              </div>
+              <label for="" class="col-lg-2 col-sm-4 control-label">ชื่อผู้แทน</label>
+              <div class="form-group col-lg-2 col-md-7 col-sm-8 p-r-1">
+                <input type="text" formControlName="FIRST_NAME" class="form-control form-control-sm" [readonly]="isEdit"
+                  placeholder="ชื่อ">
+              </div>
+              <div class="form-group col-lg-2 col-md-7 col-sm-8 p-l-0">
+                <input type="text" formControlName="LAST_NAME" class="form-control form-control-sm" [readonly]="isEdit"
+                  placeholder="นามสกุล">
+              </div>
+            </ng-container>
+          </div> -->
+        </div>
+
+
+        <!-- ชาวไทย -->
+        <div *ngSwitchDefault>
+          <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label is-required">คำนำหน้าชื่อ</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <ng-template #title let-r="result" let-t="term">
+                {{ r.TITLE_SHORT_NAME_TH }}
+              </ng-template>
+
+              <input #TITLE type="text" class="form-control form-control-sm" [ngbTypeahead]="searchTitleName"
+                formControlName="TITLE" [resultTemplate]="title" [readOnly]="isEdit || requiredCompanyRegister"
+                [inputFormatter]="T_MasTitleShort" (selectItem)="selectItemTitle($event)" (blur)="blurItemTitle(TITLE)"
+                [value]="formGroup.get('TITLE_SHORT_NAME_TH').value" [ngClass]="{'is-invalid':REQ_TITLE_NAME.value}"
+                (keypress)="REQ_TITLE_NAME.next(false)" />
+            </div>
+            <label for="" class="col-lg-2 col-sm-4 control-label is-required">ชื่อจริง</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <input type="text" formControlName="FIRST_NAME" class="form-control form-control-sm"
+                [readonly]="isEdit || requiredCompanyRegister" [ngClass]="{'is-invalid':REQ_FIRST_NAME.value}"
+                (keypress)="REQ_FIRST_NAME.next(false)">
+            </div>
+          </div>
+
+          <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label">ชื่อกลาง</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <input type="text" formControlName="MIDDLE_NAME" class="form-control form-control-sm"
+                [readonly]="isEdit || requiredCompanyRegister">
+            </div>
+
+            <label for="" class="col-lg-2 col-sm-4 control-label">นามสกุล</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <input type="text" formControlName="LAST_NAME" class="form-control form-control-sm"
+                [readonly]="isEdit || requiredCompanyRegister">
+            </div>
+          </div>
+
+          <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label">ชื่ออื่น</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <input type="text" formControlName="OTHER_NAME" class="form-control form-control-sm"
+                [readonly]="isEdit || requiredCompanyRegister">
+            </div>
+            <label for="" class="col-lg-2 col-sm-4 control-label">เลขบัตรประชาชน</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <input type="text" formControlName="ID_CARD" class="form-control form-control-sm"
+                [readonly]="isEdit || requiredCompanyRegister" minlength="0" maxlength="13"
+                (keypress)="numericOnly($event)">
+            </div>
+          </div>
+          <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label">เพศ</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <select #race formControlName="GENDER_TYPE" class="form-control form-control-sm"
+                [attr.disabled]="(isEdit || requiredCompanyRegister) ? '' : null">
+                <option value="" selected disabled></option>
+                <option *ngFor="let item of GENDER_TYPE;" [value]="item.value">{{item.text}}
+                </option>
+              </select>
+            </div>
+            <label for="" class="col-lg-2 col-sm-4 control-label">วันเกิด</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <my-date-picker-th locale="th" formControlName="BIRTH_DATE" [options]="myDatePickerOptions"
+                [disabled]="isEdit || requiredCompanyRegister">
+              </my-date-picker-th>
+            </div>
+          </div>
+          <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label">กรุ๊ปเลือด</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <select formControlName="BLOOD_TYPE" class="form-control form-control-sm"
+                [attr.disabled]="(isEdit || requiredCompanyRegister) ? '' : null">
+                <option value="" selected disabled></option>
+                <option *ngFor="let item of BLOOD_TYPE;" [value]="item.value">{{item.text}}</option>
+              </select>
+            </div>
+            <label for="" class="col-lg-2 col-sm-4 control-label">เชื้อชาติ</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <ng-template #race let-r="result" let-t="term">
+                {{ r.RACE_NAME_TH }}
+              </ng-template>
+
+              <input #race$ type="text" class="form-control form-control-sm" [ngbTypeahead]="searchRace"
+                [resultTemplate]="race" [readOnly]="isEdit || requiredCompanyRegister" [inputFormatter]="T_MasRace"
+                (selectItem)="selectItemRace($event)" (blur)="blurItemRace(race$)"
+                [value]="formGroup.get('RACE_NAME_TH')?.value" />
+            </div>
+          </div>
+          <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label">สัญชาติ</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <ng-template #nation let-r="result" let-t="term">
+                {{ r.NATIONALITY_NAME_TH }}
+              </ng-template>
+
+              <input #Nationality type="text" class="form-control form-control-sm" [ngbTypeahead]="searchNationality"
+                [resultTemplate]="nation" [readOnly]="isEdit || requiredCompanyRegister"
+                [inputFormatter]="T_MasNationality" (selectItem)="selectItemNationality($event)"
+                (blur)="blurItemNationality(Nationality)" [value]="formGroup.get('NATIONALITY_NAME_TH')?.value" />
+            </div>
+            <label for="" class="col-lg-2 col-sm-4 control-label">ศาสนา</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <ng-template #religion let-r="result" let-t="term">
+                {{ r.RELIGION_NAME_TH }}
+              </ng-template>
+
+              <input #religion$ type="text" class="form-control form-control-sm" [ngbTypeahead]="searchReligion"
+                [resultTemplate]="religion" [readOnly]="isEdit || requiredCompanyRegister"
+                [inputFormatter]="T_MasReligion" (selectItem)="selectItemReligion($event)"
+                (blur)="blurItemReligion(religion$)" [value]="formGroup.get('RELIGION_NAME_TH')?.value" />
+            </div>
+          </div>
+          <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label">สถานะภาพ</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <select formControlName="MARITAL_STATUS" class="form-control form-control-sm"
+                [attr.disabled]="(isEdit || requiredCompanyRegister) ? '' : null">
+                <option value="" selected disabled></option>
+                <option *ngFor="let item of MARITAL_STATUS;" [value]="item.value">{{item.text}}</option>
+              </select>
+            </div>
+            <label for="" class="col-lg-2 col-sm-4 control-label">อาชีพ</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <input type="text" formControlName="CAREER" class="form-control form-control-sm"
+                [readonly]="isEdit || requiredCompanyRegister">
+            </div>
+          </div>
+          <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label">เบอร์โทรศัพท์</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <input type="text" formControlName="TEL_NO" class="form-control form-control-sm" [readonly]="isEdit">
+            </div>
+            <label for="" class="col-lg-2 col-sm-4 control-label">อีเมล์</label>
+            <div class="form-group col-lg-4 col-md-7 col-sm-8">
+              <input type="text" formControlName="EMAIL" class="form-control form-control-sm" [readonly]="isEdit">
+            </div>
+          </div>
+          <div class="row">
+            <label *ngIf="formGroup.get('MISTREAT_NO').value ? true : false" for=""
+              class="col-lg-2 col-sm-4 control-label">จำนวนครั้งกระทำผิด</label>
+            <div *ngIf="formGroup.get('MISTREAT_NO').value ? true : false"
+              class="form-group col-lg-4 col-md-7 col-sm-8">
+              <input type="text" class="form-control form-control-sm" formControlName="MISTREAT_NO" readonly>
+              <a href="javaScript:void(0);" class="view text-secondary" (click)="openModal(ilg60Mas01010201)">
+                <i class="fa fa-eye" aria-hidden="true"></i>
+              </a>
+            </div>
+
+            <ng-template #ilg60Mas01010201 let-c="close" let-d="dismiss">
+              <app-ilg60-mas-01-01-02-01 (d)="modal.dismiss()">
+              </app-ilg60-mas-01-01-02-01>
+            </ng-template>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+
+
+
+
+
+  <div class="card card-outline-bluish unset-radius">
+    <div (click)="card1_3 = !card1_3" class="card-header unset-radius">
+      <div class="card-actions">
+        <a class="">
+          <i class="fa" [ngClass]="{'fa-chevron-up': card1_3, 'fa-chevron-down': !card1_3}"></i>
+        </a>
+      </div>
+      <h4 *ngIf="formGroup.get('PERSON_TYPE').value != '1'" class="card-title m-b-0">ที่อยู่ตามภูมิลำเนา</h4>
+      <h4 *ngIf="formGroup.get('PERSON_TYPE').value == '1'" class="card-title m-b-0">ที่อยู่ปัจจุบัน</h4>
+    </div>
+    <div *ngIf="card1_3" class="card-body" formArrayName="MAS_PERSON_ADDRESS">
+
+      <div *ngFor="let item of MAS_PERSON_ADDRESS.controls; let i=index;" [formGroupName]="i">
+        <div class="row">
+          <label for="" class="col-lg-2 col-sm-4 control-label">ประเภทที่อยู่อาศัย</label>
+          <div class="form-group col-lg-4 col-md-7 col-sm-8">
+            <select formControlName="ADDRESS_TYPE" class="form-control form-control-sm"
+              [attr.disabled]="isEdit ? '' : null">
+              <option value="" selected disabled></option>
+              <option *ngFor="let item of ADDRESS_TYPE; let i=index;" [value]="item.value">{{item.text}}
+              </option>
+            </select>
+          </div>
+          <label for="" class="col-lg-2 col-sm-4 control-label">สถานะบุคคลที่อยู่อาศัย</label>
+          <div class="form-group col-lg-4 col-md-7 col-sm-8">
+            <select formControlName="ADDRESS_STATUS" class="form-control form-control-sm"
+              [attr.disabled]="isEdit ? '' : null">
+              <option value="" selected disabled></option>
+              <option *ngFor="let item of ADDRESS_STATUS; let i=index;" [value]="item.value">{{item.text}}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <label for="" class="col-lg-2 col-sm-4 control-label">บ้านเลขที่</label>
+          <div class="form-group col-lg-4 col-md-7 col-sm-8">
+            <input type="text" formControlName="ADDRESS_NO" class="form-control form-control-sm" [readonly]="isEdit">
+          </div>
+          <label for="" class="col-lg-2 col-sm-4 control-label">หมู่ที่</label>
+          <div class="form-group col-lg-4 col-md-7 col-sm-8">
+            <input type="text" formControlName="VILLAGE_NO" class="form-control form-control-sm" [readonly]="isEdit">
+          </div>
+        </div>
+        <div class="row">
+          <label for="" class="col-lg-2 col-sm-4 control-label">อาคาร</label>
+          <div class="form-group col-lg-4 col-md-7 col-sm-8">
+            <input type="text" formControlName="BUILDING_NAME" class="form-control form-control-sm" [readonly]="isEdit">
+          </div>
+          <label for="" class="col-lg-2 col-sm-4 control-label">ห้อง</label>
+          <div class="form-group col-lg-4 col-md-7 col-sm-8">
+            <input type="text" formControlName="ROOM_NO" class="form-control form-control-sm" [readonly]="isEdit">
+          </div>
+        </div>
+        <div class="row">
+          <label for="" class="col-lg-2 col-sm-4 control-label">ชั้น</label>
+          <div class="form-group col-lg-4 col-md-7 col-sm-8">
+            <input type="text" formControlName="FLOOR" class="form-control form-control-sm" [readonly]="isEdit">
+          </div>
+          <label for="" class="col-lg-2 col-sm-4 control-label">หมู่บ้าน</label>
+          <div class="form-group col-lg-4 col-md-7 col-sm-8">
+            <input type="text" formControlName="VILLAGE_NAME" class="form-control form-control-sm" [readonly]="isEdit">
+          </div>
+        </div>
+        <div class="row">
+          <label for="" class="col-lg-2 col-sm-4 control-label">ตรอก</label>
+          <div class="form-group col-lg-4 col-md-7 col-sm-8">
+            <input type="text" formControlName="ALLEY" class="form-control form-control-sm" [readonly]="isEdit">
+          </div>
+          <label for="" class="col-lg-2 col-sm-4 control-label">ซอย</label>
+          <div class="form-group col-lg-4 col-md-7 col-sm-8">
+            <input type="text" formControlName="LANE" class="form-control form-control-sm" [readonly]="isEdit">
+          </div>
+        </div>
+        <div class="row">
+          <label for="" class="col-lg-2 col-sm-4 control-label">ถนน</label>
+          <div class="form-group col-lg-4 col-md-7 col-sm-8">
+            <input type="text" formControlName="ROAD" class="form-control form-control-sm" [readonly]="isEdit">
+          </div>
+          <label for="" class="col-lg-2 col-sm-4 control-label is-required">ตำบล/อำเภอ/จังหวัด</label>
+          <div class="form-group col-lg-4 col-md-7 col-sm-8">
+            <ng-template #rt let-r="result" let-t="term">
+              {{ r.SUB_DISTRICT_NAME_TH }} {{r.DISTRICT_NAME_TH}} {{r.PROVINCE_NAME_TH}}
+            </ng-template>
+
+            <input type="text" class="form-control form-control-sm" [ngbTypeahead]="searchSuDistinct"[resultTemplate]="rt"
+              [inputFormatter]="T_LocaleFormatter" (selectItem)="selectItemLocale($event, i)"
+              formControlName="SUB_DISTRICT" [readonly]="isEdit" (blur)="blurSelectItemRegion(Region)" #Region
+              value="{{item.get('SUB_DISTRICT_NAME_TH').value ? item.get('SUB_DISTRICT_NAME_TH').value + ' ' : null}}{{item.get('DISTRICT_NAME_TH').value ? item.get('DISTRICT_NAME_TH').value + ' ' : null}}{{item.get('PROVINCE_NAME_TH').value}}"
+              [disabled]="isEdit" [ngClass]="{'is-invalid':REQ_SUB_DISTRICT.value}"
+              (keypress)="REQ_SUB_DISTRICT.next(false)" />
+
+          </div>
+        </div>
+        <div class="row">
+          <label for="" class="col-lg-2 col-sm-4 control-label">ละติจูด</label>
+          <div class="form-group col-lg-4 col-md-7 col-sm-8">
+            <input type="text" formControlName="LATITUDE" class="form-control form-control-sm" [readonly]="isEdit">
+          </div>
+          <label for="" class="col-lg-2 col-sm-4 control-label">ลองจิจูด</label>
+          <div class="form-group col-lg-4 col-md-7 col-sm-8">
+            <input type="text" formControlName="LONGITUDE" class="form-control form-control-sm" [readonly]="isEdit">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div *ngIf="RelationshipCard" class="card card-outline-bluish unset-radius">
+    <div (click)="card1_2 = !card1_2" class="card-header unset-radius">
+      <div class="card-actions">
+        <a class="">
+          <i class="fa" [ngClass]="{'fa-chevron-up': card1_2, 'fa-chevron-down': !card1_2}"></i>
+        </a>
+      </div>
+      <h4 class="card-title m-b-0">รายชื่อผู้เกี่ยวข้อง</h4>
+    </div>
+    <div class="card-body" *ngIf="card1_2">
+      <div class="row form-group">
+        <div class="col-lg-10 col-md-9 col-sm-8"></div>
+        <div class="col-lg-2 col-md-3 col-sm-4">
+          <button type="button" class="btn btn-block btn-themecolor" [disabled]="isEdit"
+            (click)="addPersonRelationship()">เพิ่มผู้เกี่ยวข้อง</button>
+        </div>
+      </div>
+
+      <div class="table-responsive overflow-y-hidden">
+        <table id="relationship" style="width: 130%; max-width: unset;"
+          class="table table-sm table-striped table-set-border table-nowrap">
+          <thead>
+            <tr>
+              <th class="text-center" style="width: 1%;">ลำดับ</th>
+              <th>ประเภทความสัมพันธ์</th>
+              <th>คำนำหน้าชื่อ</th>
+              <th>ชื่อจริง</th>
+              <th>ชื่อกลาง</th>
+              <th>นามสกุล</th>
+              <th>ชื่ออื่น</th>
+              <th>หมายเลขอ้างอิง</th>
+              <!-- <th>วันเกิด</th>
+              <th>กรุ๊ปเลือด</th>
+              <th>อาชีพ</th>
+              <th>เบอร์โทรศัพท์</th>
+              <th>อีเมล์</th> -->
+              <th style="width: 1%;"></th>
+            </tr>
+          </thead>
+          <tbody formArrayName="MAS_PERSON_RELATIONSHIP">
+            <ng-container *ngFor="let item of MAS_PERSON_RELATIONSHIP.controls; let i=index;">
+              <tr [formGroupName]="i">
+                <td class="text-center not-set-width">{{i+1}}</td>
+                <td>
+                  <ng-template #relationship let-r="result" let-t="term">
+                    {{ r.RELATIONSHIP_NAME }}
+                  </ng-template>
+
+                  <input type="text" class="form-control form-control-sm" [ngbTypeahead]="searchRelationship"
+                    [resultTemplate]="relationship" [readOnly]="isEdit" [inputFormatter]="T_MasRelationship"
+                    (selectItem)="selectItemRelationship($event, i)" [value]="item.get('RELATIONSHIP_NAME')?.value" />
+                </td>
+
+                <td *ngIf="formGroup.get('PERSON_TYPE')?.value == 0">
+                  <ng-template #title let-r="result" let-t="term">
+                    {{ r.TITLE_SHORT_NAME_TH }}
+                  </ng-template>
+
+                  <input type="text" class="form-control form-control-sm" [ngbTypeahead]="searchTitleName"
+                    [resultTemplate]="title" [readOnly]="isEdit" [inputFormatter]="T_MasTitleShort"
+                    (selectItem)="selectItemRelationTitle($event, i)"
+                    [value]="item.get('TITLE_SHORT_NAME_TH')?.value" />
+                </td>
+                <td *ngIf="formGroup.get('PERSON_TYPE')?.value == 1">
+                  <ng-template #title let-r="result" let-t="term">
+                    {{ r.TITLE_SHORT_NAME_EN }}
+                  </ng-template>
+
+                  <input type="text" class="form-control form-control-sm" [ngbTypeahead]="searchTitleName"
+                    [resultTemplate]="title" [readOnly]="isEdit" [inputFormatter]="T_MasTitleShortEN"
+                    (selectItem)="selectItemRelationTitle($event, i)"
+                    [value]="item.get('TITLE_SHORT_NAME_EN')?.value" />
+                </td>
+
+                <td>
+                  <input type="text" formControlName="FIRST_NAME" [readonly]="isEdit"
+                    class="form-control form-control-sm">
+                </td>
+                <td>
+                  <input type="text" formControlName="MIDDLE_NAME" [readonly]="isEdit"
+                    class="form-control form-control-sm">
+                </td>
+                <td>
+                  <input type="text" formControlName="LAST_NAME" [readonly]="isEdit"
+                    class="form-control form-control-sm">
+                </td>
+                <td>
+                  <input type="text" formControlName="OTHER_NAME" [readonly]="isEdit"
+                    class="form-control form-control-sm">
+                </td>
+                <td>
+                  <input type="text" formControlName="ID_CARD" [readonly]="isEdit" class="form-control form-control-sm"
+                    maxlength="13">
+                </td>
+                <!-- <td>
+                  <my-date-picker locale="th" formControlName="BIRTH_DATE" [options]="myDatePickerOptions"
+                    [disabled]="isEdit">
+                  </my-date-picker>
+                </td>
+                <td>
+                  <select formControlName="BLOOD_TYPE" class="form-control form-control-sm"
+                    [attr.disabled]="isEdit ? '' : null">
+                    <option value="" selected disabled></option>
+                    <option *ngFor="let item of BLOOD_TYPE;" [value]="item.value">{{item.text}}</option>
+                  </select>
+                </td>
+                <td>
+                  <input type="text" formControlName="CAREER" [readonly]="isEdit" class="form-control form-control-sm">
+                </td>
+                <td>
+                  <input type="text" formControlName="TEL_NO" [readonly]="isEdit" class="form-control form-control-sm">
+                </td>
+                <td>
+                  <input type="email" formControlName="EMAIL" [readonly]="isEdit" class="form-control form-control-sm">
+                </td> -->
+                <td class="text-center not-set-width">
+                  <a *ngIf="!isEdit" href="javaScript:void(0);" class="text-danger" (click)="onDeleteRelationship(i)">
+                    <i class="fa fa-trash-o fa-lg"></i>
+                  </a>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ILG60_03_02_00_00_E28 เอกสารแนบภายใน-->
+  <ng-container *ngIf="waitForDucument">
+    <app-ilg60-03-02-00-00-e28 [mode]="mode" [isEdit]="isEdit" [inputData]="_ILG60_03_02_00_00_E28$"
+      (Output)="ILG60_03_02_00_00_E28$.next($event)" (delDoc)="DELDOC_E28$.next($event)">
+    </app-ilg60-03-02-00-00-e28>
+  </ng-container>
+
+
+
+
+  <!-- <div class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius">
+      <div class="card-actions">
+        <a class="" (click)="!disableForeign && card3 = !card3">
+          <i class="fa" [ngClass]="{'fa-chevron-down': card3, 'fa-chevron-up': !card3}"></i>
+        </a>
+      </div>
+      <h4 class="card-title m-b-0">ข้อมูลชาวต่างชาติ</h4>
+    </div>
+    <div *ngIf="card3" class="card-body">
+      <div class="row">
+        <label for="" class="col-lg-2 col-sm-4 control-label">เลขหนังสือเดินทาง</label>
+        <div class="form-group col-lg-4 col-md-7 col-sm-8">
+          <input type="text" formControlName="PASSPORT_NO" class="form-control form-control-sm"
+            [ngClass]="{'ng-touched':isRequired}" [required]="requiredPassport" [readonly]="isEdit">
+        </div>
+        <label for="" class="col-lg-2 col-sm-4 control-label">ประเทศที่ออกหนังสือเดินทาง</label>
+        <div class="form-group col-lg-4 col-md-7 col-sm-8">
+          <ng-template #contry let-r="result" let-t="term">
+            {{ r.COUNTRY_NAME_TH }}
+          </ng-template>
+
+          <input type="text" class="form-control form-control-sm" [ngbTypeahead]="searchCountry"
+            [resultTemplate]="contry" [readOnly]="isEdit" [inputFormatter]="T_MasCountry"
+            (selectItem)="selectItemCountry($event)" [value]="formGroup.get('COUNTRY_NAME_TH')?.value" />
+        </div>
+      </div>
+      <div class="row">
+        <label for="" class="col-lg-2 col-sm-4 control-label">วันที่เข้าประเทศ</label>
+        <div class="form-group col-lg-4 col-md-7 col-sm-8">
+          <my-date-picker-th locale="th" formControlName="PASSPORT_DATE_IN" [options]="passportDateInOption"
+            [disabled]="isEdit" (dateChanged)="onPassportDateInChange($event)">
+          </my-date-picker-th>
+        </div>
+        <label for="" class="col-lg-2 col-sm-4 control-label">วันที่ออกประเทศ</label>
+        <div class="form-group col-lg-4 col-md-7 col-sm-8">
+          <my-date-picker-th locale="th" formControlName="PASSPORT_DATE_OUT" [options]="passPortDateOutOption"
+            [disabled]="isEdit" (dateChanged)="onPassportDateOutChange($event)">
+          </my-date-picker-th>
+        </div>
+      </div>
+      <div class="row">
+        <label for="" class="col-lg-2 col-sm-4 control-label">ประเภทวีซ่า</label>
+        <div class="form-group col-lg-4 col-md-7 col-sm-8">
+          <select formControlName="VISA_TYPE" class="form-control form-control-sm" [attr.disabled]="isEdit ? '' : null">
+            <option value="" selected disabled></option>
+            <option *ngFor="let item of VISA_TYPE; let i=index;" [value]="item.value">{{item.text}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+
+  <!-- OLD <div class="card card-outline-bluish unset-radius">
+      <div class="card-header unset-radius">
+        <div class="card-actions">
+          <a class="" (click)="card1_3 = !card1_3">
+            <i class="fa" [ngClass]="{'fa-chevron-down': card1_3, 'fa-chevron-up': !card1_3}"></i>
+          </a>
+        </div>
+        <h4 class="card-title m-b-0">ที่อยู่ตามภูมิลำเนา</h4>
+      </div>
+      <div *ngIf="card1_3" class="card-body" formArrayName="MAS_PERSON_ADDRESS">      
+        <div class="row form-group">
+          <div class="col-lg-10 col-md-9 col-sm-8"></div>
+          <div class="col-lg-2 col-md-3 col-sm-4">
+            <button type="button" class="btn btn-block btn-themecolor" [disabled]="isEdit"
+              (click)="addPersonAddress()">เพิ่มที่อยู่อาศัย</button>
+          </div>
+        </div>  
+        <div class="table-responsive">
+          <table id="address" style="width: 290%; max-width: unset;"
+            class="table table-sm table-striped table-set-border table-nowrap">
+            <thead>
+              <tr>
+                <th class="text-center">ลำดับ</th>
+                <th>ประเภทที่อยู่อาศัย</th>
+                <th>ละติจูด</th>
+                <th>ลองจิจูด</th>
+                <th>บ้านเลขที่</th>
+                <th>หมู่ที่</th>
+                <th>อาคาร</th>
+                <th>ห้อง</th>
+                <th>ชั้น</th>
+                <th>หมู่บ้าน</th>
+                <th>ตรอก</th>
+                <th>ซอย</th>
+                <th>ถนน</th>
+                <th>ตำบล/อำเภอ/จังหวัด</th>
+                <th>สถานะที่อยู่อาศัยของบุคคล</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody formArrayName="MAS_PERSON_ADDRESS">
+              <ng-container *ngFor="let item of MAS_PERSON_ADDRESS.controls; let i=index;">
+                <tr [formGroupName]="i">
+                  <td class="text-center not-set-width">{{i+1}}</td>
+                  <td>
+                    <select formControlName="ADDRESS_TYPE" class="form-control form-control-sm"
+                      [attr.disabled]="isEdit ? '' : null">
+                      <option value="" selected disabled></option>
+                      <option *ngFor="let item of ADDRESS_TYPE;" [value]="item.value">{{item.text}}</option>
+                    </select>
+                  </td>
+                  <td>
+                    <input type="text" formControlName="LATITUDE" [readonly]="isEdit"
+                      class="form-control form-control-sm">
+                  </td>
+                  <td>
+                    <input type="text" formControlName="LONGITUDE" [readonly]="isEdit"
+                      class="form-control form-control-sm">
+                  </td>
+                  <td>
+                    <input type="text" formControlName="ADDRESS_NO" [readonly]="isEdit"
+                      class="form-control form-control-sm">
+                  </td>
+                  <td>
+                    <input type="text" formControlName="VILLAGE_NO" [readonly]="isEdit"
+                      class="form-control form-control-sm">
+                  </td>
+                  <td>
+                    <input type="text" formControlName="BUILDING_NAME" [readonly]="isEdit"
+                      class="form-control form-control-sm">
+                  </td>
+                  <td>
+                    <input type="text" formControlName="ROOM_NO" [readonly]="isEdit" class="form-control form-control-sm">
+                  </td>
+                  <td>
+                    <input type="text" formControlName="FLOOR" [readonly]="isEdit" class="form-control form-control-sm">
+                  </td>
+                  <td>
+                    <input type="text" formControlName="VILLAGE_NAME" [readonly]="isEdit"
+                      class="form-control form-control-sm">
+                  </td>
+                  <td>
+                    <input type="text" formControlName="ALLEY" [readonly]="isEdit" class="form-control form-control-sm">
+                  </td>
+                  <td>
+                    <input type="text" formControlName="LANE" [readonly]="isEdit" class="form-control form-control-sm">
+                  </td>
+                  <td>
+                    <input type="text" formControlName="ROAD" [readonly]="isEdit" class="form-control form-control-sm">
+                  </td>
+                  <td>
+                    <ng-template #rt let-r="result" let-t="term">
+                      {{ r.SUB_DISTRICT_NAME_TH }} / {{r.DISTRICT_NAME_TH}} / {{r.PROVINCE_NAME_TH}}
+                    </ng-template>
+  
+                    <input type="text" class="form-control form-control-sm" [ngbTypeahead]="searchSuDistinct"
+                      [resultTemplate]="rt" [inputFormatter]="T_LocaleFormatter"
+                      (selectItem)="selectItemLocale($event, i)"
+                      value="{{item.get('SUB_DISTRICT_NAME_TH').value ? item.get('SUB_DISTRICT_NAME_TH').value + ' / ' : null}}{{item.get('DISTRICT_NAME_TH').value ? item.get('DISTRICT_NAME_TH').value + ' / ' : null}}{{item.get('PROVINCE_NAME_TH').value}}"
+                      [readOnly]="isEdit" required />
+                  </td>
+                  <td>
+                    <select formControlName="ADDRESS_STATUS" class="form-control form-control-sm"
+                      [attr.disabled]="isEdit ? '' : null">
+                      <option value="" selected disabled></option>
+                      <option *ngFor="let item of ADDRESS_STATUS;" [value]="item.value">{{item.text}}</option>
+                    </select>
+                  </td>
+                  <td class="text-center not-set-width">
+                    <a *ngIf="!isEdit" href="javaScript:void(0);" class="text-danger" (click)="onDeleteAddress(i)">
+                      <i class="fa fa-trash fa-x4"></i>
+                    </a>
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>  
+      </div>
+    </div> -->
+
+
+
+  <!-- <div class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius">
+      <div class="card-actions">
+        <a class="" (click)="card1_1 = !card1_1">
+          <i class="fa" [ngClass]="{'fa-chevron-down': card1_1, 'fa-chevron-up': !card1_1}"></i>
+        </a>
+      </div>
+      <h4 class="card-title m-b-0">การศึกษา</h4>
+    </div>
+    <div class="card-body" *ngIf="card1_1">
+      <div class="row form-group">
+        <div class="col-lg-10 col-md-9 col-sm-8"></div>
+        <div class="col-lg-2 col-md-3 col-sm-4">
+          <button type="button" class="btn btn-block btn-themecolor" [disabled]="isEdit"
+            (click)="addPersonEducation()">เพิ่มการศึกษา</button>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table id="education" style="width: 100%; max-width: unset;"
+          class="table table-sm table-striped table-set-border table-nowrap">
+          <thead>
+            <tr>
+              <th class="text-center" style="width: 5%">ลำดับ</th>
+              <th>ชื่อสถาบันการศึกษา</th>
+              <th>ระดับชั้นการศึกษา</th>
+              <th>วันที่เริ่มเข้าศึกษา</th>
+              <th>วันที่สำเร็จเข้าศึกษา</th>
+              <th>ผลการศึกษา</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody formArrayName="MAS_PERSON_EDUCATION">
+            <ng-container *ngFor="let item of MAS_PERSON_EDUCATION.controls; let i=index;">
+              <tr [formGroupName]="i">
+                <td class="text-center not-set-width">{{i+1}}</td>
+                <td>
+                  <input type="text" formControlName="EDUCATION_INSTITUTION" class="form-control form-control-sm">
+                </td>
+                <td>
+                  <select formControlName="PERSON_EDUCATION_ID" class="form-control form-control-sm">
+                    <option value="" disabled selected></option>
+                    <option *ngFor="let item of EDUCATION_LEVEL" [value]="item.value">{{item.text}}</option>
+                  </select>
+                </td>
+                <td>
+                  <my-date-picker-th locale="th" formControlName="EDUCATION_START_DATE" [options]="myDatePickerOptions"
+                    [disabled]="isEdit">
+                  </my-date-picker-th>
+                </td>
+                <td>
+                  <my-date-picker-th locale="th" formControlName="EDUCATION_FINISH_DATE" [options]="myDatePickerOptions"
+                    [disabled]="isEdit">
+                  </my-date-picker-th>
+                </td>
+                <td>
+                  <input type="text" formControlName="GPA" class="form-control form-control-sm">
+                </td>
+                <td class="text-center not-set-width">
+                  <a *ngIf="!isEdit" href="javaScript:void(0);" class="text-danger" (click)="onDeleteEducation(i)">
+                    <i class="fa fa-trash-o fa-lg"></i>
+                  </a>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div> -->
+
+
+
+
+
+  <!-- <div class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius">
+      <div class="card-actions">
+        <a class="" (click)="!disableCompany && card4 = !card4">
+          <i class="fa" [ngClass]="{'fa-chevron-down': card4, 'fa-chevron-up': !card4}"></i>
+        </a>
+      </div>
+      <h4 class="card-title m-b-0">ข้อมูลผู้ประกอบการ</h4>
+    </div>
+    <div *ngIf="card4" class="card-body">
+      <div class="row">
+        <label for="" class="col-lg-2 col-sm-4 control-label">เลขทะเบียนนิติบุคคล</label>
+        <div class="form-group col-lg-4 col-md-7 col-sm-8">
+          <input type="text" formControlName="COMPANY_REGISTRATION_NO" class="form-control form-control-sm"
+            [ngClass]="{'ng-touched':isRequired}" [readonly]="isEdit" [required]="requiredCompanyRegister">
+        </div>
+        <label for="" class="col-lg-2 col-sm-4 control-label">ชื่อสถานที่ประกอบการ</label>
+        <div class="form-group col-lg-4 col-md-7 col-sm-8">
+          <input type="text" formControlName="COMPANY_NAME" class="form-control form-control-sm" [readonly]="isEdit">
+        </div>
+      </div>
+      <div class="row">
+        <label for="" class="col-lg-2 col-sm-4 control-label">วันที่ก่อตั้งหน่วยงาน</label>
+        <div class="form-group col-lg-4 col-md-7 col-sm-8">
+          <my-date-picker-th locale="th" formControlName="COMPANY_FOUND_DATE" [options]="myDatePickerOptions"
+            [disabled]="isEdit">
+          </my-date-picker-th>
+        </div>
+        <label for="" class="col-lg-2 col-sm-4 control-label">เลขที่ใบอนุญาติ</label>
+        <div class="form-group col-lg-4 col-md-7 col-sm-8">
+          <input type="text" formControlName="COMPANY_LICENSE_NO" class="form-control form-control-sm"
+            [readonly]="isEdit">
+        </div>
+      </div>
+      <div class="row">
+        <label for="" class="col-lg-2 col-sm-4 control-label">วันที่จดทะเบียน</label>
+        <div class="form-group col-lg-4 col-md-7 col-sm-8">
+          <my-date-picker-th locale="th" formControlName="COMPANY_LICENSE_DATE_FROM" [options]="licenseDateFromOption"
+            (dateChanged)="onLicenseDateFromChange($event)" [disabled]="isEdit">
+          </my-date-picker-th>
+        </div>
+        <label for="" class="col-lg-2 col-sm-4 control-label">วันที่สิ้นสุดใบอนุญาติ</label>
+        <div class="form-group col-lg-4 col-md-7 col-sm-8">
+          <my-date-picker-th locale="th" formControlName="COMPANY_LICENSE_DATE_TO" [options]="licenseDateToOption"
+            (dateChanged)="onLicenseDateToChange($event)" [disabled]="isEdit">
+          </my-date-picker-th>
+        </div>
+      </div>
+      <div class="row">
+        <label for="" class="col-lg-2 col-sm-4 control-label">เลขทะเบียนสรรพสามิต</label>
+        <div class="form-group col-lg-4 col-md-7 col-sm-8">
+          <input type="text" formControlName="EXCISE_REGISTRATION_NO" class="form-control form-control-sm"
+            [readonly]="isEdit">
+        </div>
+        <label for="" class="col-lg-2 col-sm-4 control-label">เลขประจำตัวผู้เสียภาษี</label>
+        <div class="form-group col-lg-4 col-md-7 col-sm-8">
+          <input type="text" formControlName="ID_CARD_2" class="form-control form-control-sm" [readonly]="isEdit">
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+</form>

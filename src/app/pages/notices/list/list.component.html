@@ -1,0 +1,187 @@
+<header class="topbar">
+  <nav class="navbar top-navbar navbar-expand-md navbar-light">
+
+    <div class="navbar-collapse" style="padding-right: 55px;">
+      <ul class="navbar-nav mr-auto mt-md-0">
+        <li class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickNew()">
+              สร้างข้อมูล
+            </a>
+          </div>
+        </li>
+      </ul>
+      <ul class="navbar-nav my-lg-0">
+        <li class="nav-item col-8">
+          <form autocomplete="off" class="app-search" #formSearch="ngForm" (ngSubmit)="onSearch(formSearch.form.value)">
+            <input type="search" name="TEXT_SEARCH" id="" ngModel [(ngModel)]="TEMP_TEXT_SEARCH" class="form-control">
+            <a href="javaScript:void(0);" (click)="onSearch(formSearch.form.value)" class="srh-btn">
+              <i class="ti-search"></i>
+            </a>
+          </form>
+        </li>
+        <li class="nav-item col-9">
+          <a href="javaScript:void(0);" class="btn text-white" (click)="setAdvSearch()">
+            ค้นหาขั้นสูง
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<div *ngIf="advSearch | async" class="card card-outline-bluish unset-radius">
+  <div class="card-header unset-radius">
+    <app-card-actions-close></app-card-actions-close>
+    <h4 class="card-title m-b-0">ค้นหาขั้นสูง</h4>
+  </div>
+  <div class="card-body">
+    <form class="form-horizontal" autocomplete="off" #advForm="ngForm" (ngSubmit)="onAdvSearch(advForm)">
+      <div>
+        <div class="row">
+          <label for="" class="col-lg-2 col-sm-3 control-label">เลขที่ใบแจ้งความ</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group">
+              <input type="text" name="NOTICE_CODE" ngModel [(ngModel)]="TEMP_NOTICE_CODE"
+                class="form-control form-control-sm" />
+            </div>
+          </div>
+
+          <label for="" class="col-lg-2 col-sm-3 control-label">วันที่รับแจ้งความ</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group input-group">
+              <my-date-picker-th class="form-control form-control-sm unset-form-control" name="DATE_START_FROM"
+                [options]="myDatePickerOptions_From" (dateChanged)="onDateFromChanged($event)"
+                [(ngModel)]="DATE_START_FROM">
+              </my-date-picker-th>
+              <label for="">&nbsp;ถึง&nbsp;</label>
+              <my-date-picker-th class="form-control form-control-sm unset-form-control" name="DATE_START_TO"
+                [options]="myDatePickerOptions_To" (dateChanged)="onDateToChanged($event)" [(ngModel)]="DATE_START_TO">
+              </my-date-picker-th>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <label for="" class="col-lg-2 col-sm-3 control-label">ผู้รับแจ้งความ</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group">
+              <input type="text" name="STAFF_NAME" ngModel [(ngModel)]="TEMP_STAFF_NAME"
+                class="form-control form-control-sm" />
+            </div>
+          </div>
+          <label for="" class="col-lg-2 col-sm-3 control-label">เขียนที่</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group ">
+              <ng-template #rt let-OFFICE_SHORT_NAME="result" let-t="term">
+                {{ OFFICE_SHORT_NAME }}
+              </ng-template>
+              <input type="text" name="OFFICE_NAME" ngModel [(ngModel)]="TEMP_OFFICE_NAME"
+                class="form-control form-control-sm " [ngbTypeahead]="searchOffice_ll" [resultTemplate]="rt"
+                [readOnly]="showEditField" [disabled]="canOfficeSearch()" placeholder="{{officeShortName}}" />
+              <!-- placeholder="{{staffInfo.OPERATION_OFFICE_SHORT_NAME}}" /> -->
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- <label for="" class="col-lg-2 col-sm-3 control-label">เขียนที่</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group">
+              <input type="text" name="OFFICE_NAME" ngModel class="form-control form-control-sm"
+                [disabled]="canOfficeSearch()" placeholder="{{staffInfo.OPERATION_OFFICE_SHORT_NAME}}" />
+            </div>
+          </div> -->
+          <label for="" class="col-lg-2 col-sm-3 control-label">สถานะของใบเเจ้งความ</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group">
+              <select name="IS_ARREST" [(ngModel)]="noticeStatusCode" class="form-control form-control-sm">
+                <option *ngFor="let g of noticeStatusOptions" [value]="g.value">
+                  {{ g.label }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <!-- <label for="" class="col-lg-2 col-sm-3 control-label">ผู้ต้องสงสัย</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group">
+              <input type="text" name="SUSPECT_NAME" ngModel class="form-control form-control-sm" />
+            </div>
+          </div> -->
+        </div>
+
+        <div class="row form-group">
+          <div class="col-lg-10 col-8"></div>
+          <div class="col-lg-2 col-4">
+            <button type="submit" class="btn btn-block btn-themecolor">
+              ค้นข้อมูล
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="card unset-radius">
+  <div class="card-body p-0">
+    <div class="table-responsive table-sm table-striped overflow-hidden" style="max-width: unset;">
+      <table class="table">
+        <thead>
+          <tr>
+            <th style="width: 4%;" class="text-center">ลำดับ</th>
+            <th style="width: 14%;">เลขที่ใบแจ้งความ
+              <i [ngClass]="(LS_SORTING | async) ? 'mdi mdi-sort-descending' : 'mdi mdi-sort-ascending'"
+                style="margin-left: 5px;cursor: pointer;" (click)="Sorter(LS_SORTING,'LS')"></i>
+            </th>
+            <th style="width: 14%;">วันที่รับแจ้งความ
+              <i [ngClass]="(TIME_SORTING | async) ? 'mdi mdi-sort-descending' : 'mdi mdi-sort-ascending'"
+                style="margin-left: 5px;cursor: pointer;" (click)="Sorter(TIME_SORTING,'TIME')"></i>
+            </th>
+            <th style="width: 18%;">ผู้รับแจ้งความ</th>
+            <!-- <th style="width: 15%;">ผู้ต้องสงสัย</th> -->
+            <th style="width: 25%;">เขียนที่</th>
+            <th style="width: 14%;">สถานะของใบเเจ้งความ</th>
+
+            <th style="width: 4%;"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of noticeList; let i = index" (click)="view(item.NOTICE_ID)" style="cursor: pointer;">
+            <td class="text-center">{{ item.index }}</td>
+            <td>{{ item.NOTICE_CODE }}</td>
+            <td>{{ item.NOTICE_DATE_TH }}</td>
+            <td>
+              <p class="m-0" *ngFor="let item of item.NoticeStaff; let i=index">
+                {{ item.TITLE_SHORT_NAME_TH}}{{ item.FIRST_NAME}} {{ item.LAST_NAME}}
+              </p>
+            </td>
+            <!-- <td>
+              <p class="m-0" *ngFor="let item of item.NoticeSuspect; let i=index">
+                {{ item.TITLE_SHORT_NAME_TH}}{{ item.FIRST_NAME}} {{ item.LAST_NAME}}
+              </p>
+            </td> -->
+            <td>{{ item.OFFICE_NAME }}</td>
+            <td>{{ getNoticeNameByIsArrest(item.IS_ARREST) }}</td>
+
+            <td class="text-center">
+              <a href="javaScript:void(0);" class="text-secondary">
+                <i class="fa fa-eye fa-lg"></i>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card-footer card-footer-unset">
+    <app-pagination-table [TotalItems]="paginage.TotalItems" [CurrentPage]="paginage.CurrentPage"
+      [PageSize]="paginage.PageSize" [RowsPerPageOptions]="paginage.RowsPerPageOptions"
+      (onPageChange)="pageChanges($event)">
+    </app-pagination-table>
+  </div>
+</div>
+
+<swal #alertSwal text="" type="" [showConfirmButton]="false" [showCancelButton]="true" buttonsStyling="false"
+  cancelButtonText="OK" cancelButtonClass="swal2-confirm" cancelButtonColor="#3085d6" [focusCancel]="true">
+</swal>

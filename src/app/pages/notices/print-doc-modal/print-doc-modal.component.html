@@ -1,0 +1,46 @@
+<form #form="ngForm" (ngSubmit)="onPrint(form)">
+    <div class="modal-header bg-theme">
+        <div class="row">
+            <div class="col-lg-5">
+                <h4 class="modal-title text-white">พิมพ์เอกสาร</h4>
+            </div>
+            <a href="javaScript:void(0);" class="close text-white font-14" aria-label="Close"
+                (click)="dismiss('Cross click')">
+                <span aria-hidden="true">
+                    <i class=" ti-close"></i>
+                </span>
+            </a>
+        </div>
+    </div>
+    <div class="modal-body font-14" [formGroup]="FG">
+        <h5 class="text-right mt-0 pr-3">ILG60_O_01_04_02_03</h5>
+        <div class="table-responsive overflow-hidden">
+            <table class="table table-sm table-striped table-set-border">
+                <thead>
+                    <tr>
+                        <!-- <th></th> -->
+                        <th class="text-center">ลำดับ</th>
+                        <th>ชื่อเอกสาร</th>
+                        <th>ประเภทเอกสาร</th>
+                    </tr>
+                </thead>
+                <tbody formArrayName="PrintDoc">
+                    <tr *ngFor="let item of PrintDoc.controls; let i=index;" [formGroupName]="i">
+                        <!-- <td class="text-center">
+                            <input type="checkbox" formControlName="IsChecked" [id]="'td'+i" class="filled-in chk-col-indigo">
+                            <label [for]="'td'+i" class="m-0"></label>
+                        </td> -->
+                        <td class="text-center">{{i+1}}</td>
+                        <td>{{item.get('DocName').value}}</td>
+                        <td>{{item.get('DocTypeName').value}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="col-lg-2 col-4">
+            <button type="submit" class="btn btn-block btn-themecolor">พิมพ์</button>
+        </div>
+    </div>
+</form>

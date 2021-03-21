@@ -1,0 +1,14 @@
+table {
+    tbody td {
+        width: 200px;
+    }
+}
+
+#REQUEST_DATE_FROM,
+#REQUEST_DATE_TO,
+#CONSIDER_DATE_FROM,
+#CONSIDER_DATE_TO
+{
+    z-index: 999999 !important;
+}
+    

@@ -1,0 +1,82 @@
+<div class="modal-header bg-theme">
+    <div class="row">
+        <div class="col-lg-5">
+            <h4 class="modal-title text-white">ของกลางร่วมกับคดี</h4>
+        </div>
+
+        <a href="javaScript:void(0);" class="close text-white font-14" aria-label="Close" (click)="dismiss('Close')">
+            <span aria-hidden="true">
+                <i class=" ti-close"></i>
+            </span>
+        </a>
+    </div>
+</div>
+<div class="card" style="margin: 20px 20px 0 20px">
+    <div class="card-body" style="overflow: auto;">
+        <table class="table table-striped" style="font-size: 14px; width:1200px">
+            <thead>
+                <tr>
+                    <th>ลำดับ</th>
+                    <th>เลขที่คดีรับคำกล่าวโทษ</th>
+                    <th>ชื่อผู้ต้องหา</th>
+                    <th>ฐานความผิดมาตรา</th>
+                    <th>ฐานความผิด</th>
+                    <th>ผู้รับคดี</th>
+                    <th>วันที่รับคดี</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of PRODUCT_CAL_LIST; let i=index;">
+                    <td>{{item.LAW_DUTY_CODE}}</td>
+                    <td>
+                        <div class="input-group">
+                            <input type="text" [(ngModel)]="item.SIZE" name="item.SIZE" class="form-control form-control-sm">&nbsp;
+                            <input type="text" [(ngModel)]="item.SIZEUNIT" name="item.SIZEUNIT" class="form-control form-control-sm">
+                        </div>
+                    </td>
+                    <td>
+                        <input type="text" [(ngModel)]="item.DEGREE" name="item.DEGREE" class="form-control form-control-sm" (input)="CalVat()">
+                    </td>
+                    <td>
+                        <div class="input-group">
+                            <input type="text" [(ngModel)]="item.QUANTITY" name="item.QUANTITY" class="form-control form-control-sm" (input)="CalVat()"> &nbsp;{{ item.QUANTITY_UNIT }}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group">
+                            <input type="text" [(ngModel)]="item.VOLUMN" name="item.VOLUMN" class="form-control form-control-sm" (input)="CalVat()" (change)="formatVolumn()"> &nbsp;{{ item.VOLUMN_UNIT }}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group">
+                            <input type="text" [(ngModel)]="item.PRICE" name="item.PRICE" class="form-control form-control-sm" (input)="CalVat()">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group">
+                            <input type="text" [(ngModel)]="item.VAT_VALUE" name="item.VAT_VALUE" class="form-control form-control-sm" (input)="CalTotalVat()">
+                        </div>
+                    </td>
+                    <td style="font-size: 18px; font-weight: bold">+</td>
+                    <td>
+                        <div class="input-group">
+                            <input type="text" [(ngModel)]="item.VAT_VOLUMN" name="item.VAT_VOLUMN" class="form-control form-control-sm" (input)="CalTotalVat()">
+                        </div>
+                    </td>
+                    <td style="font-size: 18px; font-weight: bold">=</td>
+                    <td>
+                        {{ item.VAT | number : '1.4' }}
+                    </td>
+
+                    <!-- {{ item.VAT | number : '1.2' }} -->
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card-footer card-footer-unset">
+    <app-pagination-table [TotalItems]="paginage.TotalItems" [CurrentPage]="paginage.CurrentPage" [PageSize]="paginage.PageSize"
+        [RowsPerPageOptions]="paginage.RowsPerPageOptions" (onPageChange)="pageChanges($event)">
+    </app-pagination-table>
+</div>

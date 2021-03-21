@@ -1,0 +1,773 @@
+<header class="topbar">
+  <nav class="navbar top-navbar navbar-expand-md navbar-light">
+
+    <div class="navbar-collapse" style="padding-right: 55px;">
+      <ul class="navbar-nav mr-auto mt-md-0">
+        <li *ngIf="false" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickNew()">
+              สร้างข้อมูล
+            </a>
+          </div>
+        </li>
+        <li *ngIf="true" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickPrint()">
+              พิมพ์
+            </a>
+          </div>
+        </li>
+        <li *ngIf="false" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickEdit()">
+
+              แก้ไข
+            </a>
+          </div>
+        </li>
+        <li *ngIf="false" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickDelete()"
+              style="background-color: #f47023">
+
+              ลบ
+            </a>
+          </div>
+        </li>
+        <li *ngIf="false" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickSave()">
+
+              บันทึก
+            </a>
+          </div>
+        </li>
+        <li *ngIf="false" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickCancel()">
+
+              ยกเลิก
+            </a>
+          </div>
+        </li>
+      </ul>
+      <ul *ngIf="true" class="navbar-nav my-lg-0">
+        <!-- <li class="nav-item col-8"> -->
+        <!-- <form autocomplete="off" class="app-search" #formSearch="ngForm" (ngSubmit)="clickSearch(formSearch)">
+            <input type="search" name="TEXT_SEARCH" id="" ngModel class="form-control">
+            <a href="javaScript:void(0);" (click)="clickSearch(formSearch.form.value)" class="srh-btn">
+              <i class="ti-search"></i>
+            </a>
+          </form> -->
+        <!-- </li> -->
+        <li class="nav-item col-9">
+          <a href="javaScript:void(0);" style="width: 145px;" class="btn text-white" (click)="clickSuspectsNetwork()">
+            เครือข่ายผุ้ต้องหา >>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<ng-template #MistreatDetail let-c="close" let-d="dismiss">
+  <app-mistreat-detail (c)="modal.close()" (d)="modal.dismiss()"
+    [ARREST_LAWBREAKER_DETAILS]="ARREST_LAWBREAKER_DETAILS"></app-mistreat-detail>
+</ng-template>
+
+<!-- <form class="form-horizontal" [formGroup]="SearchSuspects_Form"> -->
+<div class="card card-outline-bluish unset-radius">
+  <div class="card-header unset-radius">
+    <app-card-actions-collapse></app-card-actions-collapse>
+    <h4 class="card-title m-b-0">ข้อมูลส่วนตัว</h4>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <label for="" class="col-lg-2 col-sm-3 control-label">ประเภทบุคคล </label>
+      <div class="col-lg-4 col-md-7 col-sm-9">
+        <div class="form-group">
+          <input class="form-control form-control-sm" type="text" name="PERSON_TYPE"
+            [(ngModel)]="PERSON_INFO.PERSON_TYPE" readonly>
+          <!-- <select class="form-control form-control-sm" name="PERSON_TYPE" ngModel [ngClass]="{'ng-touched':isRequired}"
+              [disabled]="showEditField">
+              <option value="" selected disabled></option>
+              <option *ngFor="let item of PERSON_TYPE_ARR; let i=index;" [value]="item">{{item}}</option>
+            </select> -->
+        </div>
+      </div>
+      <label for="" class="col-lg-2 col-sm-3 control-label">ลักษณะบุคคล </label>
+      <div class="col-lg-4 col-md-7 col-sm-9">
+        <div class="form-group">
+          <input class="form-control form-control-sm" type="text" name="ENTITY_TYPE"
+            [(ngModel)]="PERSON_INFO.ENTITY_TYPE" readonly>
+          <!-- <select class="form-control form-control-sm" name="ENTITY_TYPE" ngModel [ngClass]="{'ng-touched':isRequired}"
+              [disabled]="showEditFieldADV">
+              <option value="" selected disabled></option>
+              <option *ngFor="let item of ENTITY_TYPE_ARR; let i=index;" [value]="item">{{item}}</option>
+            </select> -->
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <label for="" class="col-lg-2 col-sm-3 control-label">เพศ </label>
+      <div class="col-lg-4 col-md-7 col-sm-9">
+        <div class="form-group">
+          <input class="form-control form-control-sm" type="text" name="GENDER_TYPE"
+            [(ngModel)]="PERSON_INFO.GENDER_TYPE" readonly>
+          <!-- <select class="form-control form-control-sm" name="GENDER_TYPE" ngModel [ngClass]="{'ng-touched':isRequired}"
+              [disabled]="showEditField">
+              <option value="" selected disabled></option>
+              <option *ngFor="let item of GENDER_TYPE_ARR; let i=index;" [value]="item">{{item}}</option>
+            </select> -->
+        </div>
+      </div>
+      <label for="" class="col-lg-2 col-sm-3 control-label">เลขบัตรประชาชน </label>
+      <div class="col-lg-4 col-md-7 col-sm-9">
+        <div class="form-group">
+          <input class="form-control form-control-sm" type="text" name="ID_CARD" [(ngModel)]="PERSON_INFO.ID_CARD"
+            readonly>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <label for="" class="col-lg-2 col-sm-3 control-label">คำนำหน้าชื่อ </label>
+      <div class="col-lg-4 col-md-7 col-sm-9">
+        <div class="form-group">
+          <input class="form-control form-control-sm" type="text" name="TITLE_NAME_TH"
+            [(ngModel)]="PERSON_INFO.TITLE_NAME_TH" readonly>
+          <!-- <select class="form-control form-control-sm" name="GENDER_TYPE" ngModel [ngClass]="{'ng-touched':isRequired}"
+              [disabled]="showEditField">
+              <option value="" selected disabled></option>
+              <option *ngFor="let item of GENDER_TYPE_ARR; let i=index;" [value]="item">{{item}}</option>
+            </select> -->
+        </div>
+      </div>
+      <label for="" class="col-lg-2 col-sm-3 control-label">ชื่อจริง </label>
+      <div class="col-lg-4 col-md-7 col-sm-9">
+        <div class="form-group">
+          <input class="form-control form-control-sm" type="text" name="FIRST_NAME" [(ngModel)]="PERSON_INFO.FIRST_NAME"
+            readonly>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <label for="" class="col-lg-2 col-sm-3 control-label">ชื่อกลาง </label>
+      <div class="col-lg-4 col-md-7 col-sm-9">
+        <div class="form-group">
+          <input class="form-control form-control-sm" type="text" name="MIDDLE_NAME"
+            [(ngModel)]="PERSON_INFO.MIDDLE_NAME" readonly>
+        </div>
+      </div>
+      <label for="" class="col-lg-2 col-sm-3 control-label">นามสกุล </label>
+      <div class="col-lg-4 col-md-7 col-sm-9">
+        <div class="form-group">
+          <input class="form-control form-control-sm" type="text" name="LAST_NAME" [(ngModel)]="PERSON_INFO.LAST_NAME"
+            readonly>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <label for="" class="col-lg-2 col-sm-3 control-label">ชื่ออื่น </label>
+      <div class="col-lg-4 col-md-7 col-sm-9">
+        <div class="form-group">
+          <input class="form-control form-control-sm" type="text" name="OTHER_NAME" [(ngModel)]="PERSON_INFO.OTHER_NAME"
+            readonly>
+        </div>
+      </div>
+      <label for="" class="col-lg-2 col-sm-3 control-label">วันเกิด </label>
+      <div class="col-lg-4 col-md-7 col-sm-9">
+        <div class="form-group">
+          <input class="form-control form-control-sm" type="text" name="BIRTH_DATE" [(ngModel)]="PERSON_INFO.BIRTH_DATE"
+            readonly>
+          <!-- <my-date-picker-th  name="BIRTH_DATE" placeholder="" locale="th"
+              class="form-control form-control-sm unset-form-control"></my-date-picker-th> -->
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <label for="" class="col-lg-2 col-sm-3 control-label">กรุ๊ปเลือด </label>
+      <div class="col-lg-4 col-md-7 col-sm-9">
+        <div class="form-group">
+          <input class="form-control form-control-sm" type="text" name="BLOOD_TYPE" [(ngModel)]="PERSON_INFO.BLOOD_TYPE"
+            readonly>
+          <!-- <select class="form-control form-control-sm" name="xxxxx" ngModel [ngClass]="{'ng-touched':isRequired}"
+              [disabled]="showEditField">
+              <option value="" selected disabled></option>
+              <option *ngFor="let item of xxxxx; let i=index;" [value]=""></option>
+            </select> -->
+        </div>
+      </div>
+      <label for="" class="col-lg-2 col-sm-3 control-label">เชื้อชาติ </label>
+      <div class="col-lg-4 col-md-7 col-sm-9">
+        <div class="form-group">
+          <input class="form-control form-control-sm" type="text" name="RACE_NAME_TH"
+            [(ngModel)]="PERSON_INFO.RACE_NAME_TH" readonly>
+          <!-- <select class="form-control form-control-sm" name="xxxxx" ngModel [ngClass]="{'ng-touched':isRequired}"
+              [disabled]="showEditField">
+              <option value="" selected disabled></option>
+              <option *ngFor="let item of xxxxx; let i=index;" [value]=""></option>
+            </select> -->
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <label for="" class="col-lg-2 col-sm-3 control-label">สัญชาติ </label>
+      <div class="col-lg-4 col-md-7 col-sm-9">
+        <div class="form-group">
+          <input class="form-control form-control-sm" type="text" name="NATIONALITY_NAME_TH"
+            [(ngModel)]="PERSON_INFO.NATIONALITY_NAME_TH" readonly>
+          <!-- <select class="form-control form-control-sm" name="xxxxx" ngModel [ngClass]="{'ng-touched':isRequired}"
+              [disabled]="showEditField">
+              <option value="" selected disabled></option>
+              <option *ngFor="let item of xxxxx; let i=index;" [value]=""></option>
+            </select> -->
+        </div>
+      </div>
+      <label for="" class="col-lg-2 col-sm-3 control-label">สถานภาพ </label>
+      <div class="col-lg-4 col-md-7 col-sm-9">
+        <div class="form-group">
+          <input class="form-control form-control-sm" type="text" name="MARITAL_STATUS"
+            [(ngModel)]="PERSON_INFO.MARITAL_STATUS" readonly>
+          <!-- <select class="form-control form-control-sm" name="xxxxx" ngModel [ngClass]="{'ng-touched':isRequired}"
+              [disabled]="showEditField">
+              <option value="" selected disabled></option>
+              <option *ngFor="let item of xxxxx; let i=index;" [value]=""></option>
+            </select> -->
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <label for="" class="col-lg-2 col-sm-3 control-label">ศาสนา </label>
+      <div class="col-lg-4 col-md-7 col-sm-9">
+        <div class="form-group">
+          <input class="form-control form-control-sm" type="text" name="RELIGION_NAME_TH"
+            [(ngModel)]="PERSON_INFO.RELIGION_NAME_TH" readonly>
+          <!-- <select class="form-control form-control-sm" name="xxxxx" ngModel [ngClass]="{'ng-touched':isRequired}"
+              [disabled]="showEditField">
+              <option value="" selected disabled></option>
+              <option *ngFor="let item of xxxxx; let i=index;" [value]=""></option>
+            </select> -->
+        </div>
+      </div>
+      <label for="" class="col-lg-2 col-sm-3 control-label">อาชีพ </label>
+      <div class="col-lg-4 col-md-7 col-sm-9">
+        <div class="form-group">
+          <input class="form-control form-control-sm" type="text" name="CAREER" [(ngModel)]="PERSON_INFO.CAREER"
+            readonly>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <label for="" class="col-lg-2 col-sm-3 control-label">เบอร์โทรศัพท์ </label>
+      <div class="col-lg-4 col-md-7 col-sm-9">
+        <div class="form-group">
+          <input class="form-control form-control-sm" type="text" name="TEL_NO" [(ngModel)]="PERSON_INFO.TEL_NO"
+            readonly>
+        </div>
+      </div>
+      <label for="" class="col-lg-2 col-sm-3 control-label">อีเมล์ </label>
+      <div class="col-lg-4 col-md-7 col-sm-9">
+        <div class="form-group">
+          <input class="form-control form-control-sm" type="text" name="EMAIL" [(ngModel)]="PERSON_INFO.EMAIL" readonly>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <label for="" class="col-lg-2 col-sm-3 "></label>
+      <div class="col-lg-4 col-md-7 col-sm-9">
+        <div class="form-group">
+          <!-- <input class="form-control form-control-sm" type="text" name="xxxxxxxxx" ngModel> -->
+        </div>
+      </div>
+      <label for="" class="col-lg-2 col-sm-3 control-label">จำนวนครั้งการทำผิด </label>
+      <div class="col-lg-4 col-md-7 col-sm-9">
+        <input class="form-control form-control-sm" type="text" name="MISTREAT_NO" [(ngModel)]="PERSON_INFO.MISTREAT_NO"
+          readonly>
+        <a href="javaScript:void(0);" class="text-secondary" (click)="clickViewMistreatDetail()">
+          <span class="mdi mdi-eye fa-lg errspan"></span>
+        </a>
+
+        <!-- <div class="form-group">
+          <input class="form-control form-control-sm" type="search" name="MISTREAT_NO"
+            [(ngModel)]="PERSON_INFO.MISTREAT_NO" readonly>
+          <a href="javaScript:void(0);" class="text-secondary" (click)="clickView()">
+              <i class="mdi mdi-eye fa-lg"></i>
+            </a>
+          </div> -->
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="card card-outline-bluish unset-radius">
+  <div class="card-header unset-radius">
+    <app-card-actions-collapse></app-card-actions-collapse>
+    <h4 class="card-title m-b-0">การศึกษา</h4>
+  </div>
+  <div class="card-body">
+    <!-- <div class="row form-group">
+      <div class="col-lg-10 col-md-9 col-sm-8"></div>
+      <div class="col-lg-2 col-md-3 col-sm-4">
+        <button class="btn btn-block btn-themecolor" (click)="AddProduct()"
+          [disabled]="showEditField">เพิ่มการศึกษา</button>
+      </div>
+    </div> -->
+
+    <div class="card">
+      <div class="card-body">
+
+        <div class="table-responsive table-striped scroll">
+          <table class="table">
+            <thead>
+              <tr style="font-size: 14px">
+                <th style="text-align:center;width:7%">ลำดับ</th>
+                <th style="width:25%">ชื่อสถาบันการศึกษา</th>
+                <th style="width:18%">ระดับชั้นการศึกษา</th>
+                <th style="width:15%">วันที่เริ่มเข้าศึกษา</th>
+                <th style="width:15%">วันที่สำเร็จเข้าศึกษา</th>
+                <th style="width:16%">ผลการศึกษา</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="display: none; text-align:center;">1</td>
+                <td>
+                  <input class="form-control form-control-sm" type="text" style="display: none;"
+                    placeholder="สถาบันเทคโนโลยีพระจอมเกล้าเจ้าคุณทหารลาดกระบัง">
+                </td>
+
+                <td>
+                  <select name="DeliveryQtyUnit" class="form-control form-control-sm" style="display: none;"
+                    [ngClass]="{'ng-touched':isRequired}" required>
+                    <option></option>
+                  </select></td>
+                <td>
+                  <div class="form-group">
+                    <my-date-picker-th ngModel name="DateFrom" placeholder="" locale="th" class=""
+                      style="display: none;"></my-date-picker-th>
+                  </div>
+                </td>
+                <td>
+                  <div class="form-group">
+                    <my-date-picker-th ngModel name="DateFrom" placeholder="" locale="th" class=""
+                      style="display: none;"></my-date-picker-th>
+                  </div>
+                </td>
+                <td>
+                  <input class="form-control form-control-sm" type="text" style="display: none;">
+                </td>
+                <td>
+                  <a href="javaScript:void(0);" class="text-warning" style="display: none;">
+                    <i class="fa fa-trash-o fa-lg" (click)="DelProduct()" [hidden]="showEditField"></i>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card card-outline-bluish unset-radius">
+  <div class="card-header unset-radius">
+    <app-card-actions-collapse></app-card-actions-collapse>
+    <h4 class="card-title m-b-0">ความสัมพันธ์</h4>
+  </div>
+  <div class="card-body">
+    <div class="row form-group">
+      <!-- <div class="col-lg-10 col-md-9 col-sm-8"></div> -->
+      <!-- <div class="col-lg-2 col-md-3 col-sm-4">
+          <button class="btn btn-block btn-themecolor" (click)="AddProduct()"
+            [disabled]="showEditField">เพิ่มความสัมพันธ์</button>
+        </div> -->
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+
+        <div class="table-responsive table-striped scroll">
+          <table class="table ">
+            <thead>
+              <tr style="font-size: 14px">
+                <th style="text-align:center;width:7%">ลำดับ</th>
+                <th style="width:14%">ประเภทความสัมพันธ์</th>
+                <th style="width:14%">คำนำหน้าชื่อ</th>
+                <th style="width:20%">ชื่อจริง</th>
+                <th style="width:20%">ชื่อกลาง</th>
+                <th style="width:20%">นามสกุล</th>
+                <th style="width:20%">ชื่ออื่น</th>
+                <th style="width:20%">เลขประจำตัวผู้เสียภาษี</th>
+                <th style="width:15%">วันเกิด</th>
+                <th style="width:8%">กรุ๊ปเลือด</th>
+                <th style="width:15%">อาชีพ</th>
+                <th style="width:15%">เบอร์โทรศัพท์</th>
+                <th style="width:15%">อีเมล์</th>
+                <!-- <th></th> -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of PERSON_RELATIONSHIPS; let i=index;" class="table-fix">
+                <td style="text-align:center;">{{i+1}}</td>
+                <td>
+                  {{item.RELATIONSHIP_ID}}
+                  <!-- <select name="DeliveryQtyUnit" class="form-control form-control-sm" style="display: none;"
+                      [ngClass]="{'ng-touched':isRequired}" required>
+                      <option></option>
+                    </select> -->
+                </td>
+
+                <td>
+                  {{item.TITLE_ID}}
+                  <!-- <select name="DeliveryQtyUnit" class="form-control form-control-sm" style="display: none;"
+                      [ngClass]="{'ng-touched':isRequired}" required>
+                      <option></option>
+                    </select> -->
+                </td>
+                <td>
+                  {{item.FIRST_NAME}}
+                  <!-- <input class="form-control form-control-sm" type="text" style="display: none;"> -->
+                </td>
+                <td>
+                  {{item.MIDDLE_NAME}}
+                  <!-- <input class="form-control form-control-sm" type="text" style="display: none;"> -->
+                </td>
+                <td>
+                  {{item.LAST_NAME}}
+                  <!-- <input class="form-control form-control-sm" type="text" style="display: none;"> -->
+                </td>
+                <td>
+                  {{item.OTHER_NAME}}
+                  <!-- <input class="form-control form-control-sm" type="text" style="display: none;"> -->
+                </td>
+                <td>
+                  {{item.ID_CARD}}
+                  <!-- <input class="form-control form-control-sm" type="text" style="display: none;"> -->
+                </td>
+                <td>
+                  {{item.BIRTH_DATE}}
+                  <!-- <div class="form-group">
+                      <my-date-picker-th ngModel name="DateFrom" placeholder="" locale="th" class=""
+                        style="display: none;"></my-date-picker-th>
+                    </div> -->
+                </td>
+                <td>
+                  {{item.BLOOD_TYPE}}
+                  <!-- <select name="DeliveryQtyUnit" class="form-control form-control-sm" style="display: none;"
+                      [ngClass]="{'ng-touched':isRequired}" required>
+                      <option></option>
+                    </select> -->
+                </td>
+                <td>
+                  {{item.CAREER}}
+                  <!-- <input class="form-control form-control-sm" type="text" style="display: none;"></td> -->
+                <td>
+                  {{item.TEL_NO}}
+                  <!-- <input class="form-control form-control-sm" type="text" style="display: none;"></td> -->
+                <td>
+                  {{item.EMAIL}}
+                  <!-- <input class="form-control form-control-sm" type="text" style="display: none;"></td> -->
+                  <!-- <td>
+                    <a href="javaScript:void(0);" class="text-warning" style="display: none;">
+                      <i class="fa fa-trash-o fa-lg" (click)="DelProduct()" [hidden]="showEditField"></i>
+                    </a>
+                  </td> -->
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="card card-outline-bluish unset-radius">
+  <div class="card-header unset-radius">
+    <app-card-actions-collapse></app-card-actions-collapse>
+    <h4 class="card-title m-b-0">ที่อยู่/สถานที่ทำการ</h4>
+  </div>
+  <div class="card-body">
+    <!-- <div class="row form-group">
+      <div class="col-lg-10 col-md-9 col-sm-8"></div>
+      <div class="col-lg-2 col-md-3 col-sm-4">
+        <button class="btn btn-block btn-themecolor" (click)="AddProduct()"
+          [disabled]="showEditField">เพิ่มที่อยู่อาศัย</button>
+      </div>
+    </div> -->
+    <div class="card">
+      <div class="card-body">
+
+        <div class="table-responsive table-striped scroll">
+          <table class="table ">
+            <thead>
+              <tr style="font-size: 14px">
+                <th style="text-align:center;width:7%">ลำดับ</th>
+                <th style="width:14%">ประเภทที่อยู่อาศัย</th>
+                <th style="width:14%">ละติจูด</th>
+                <th style="width:20%">ลองจิจูด</th>
+                <th style="width:20%">บ้านเลขที่</th>
+                <th style="width:20%">หมู่ที่</th>
+                <th style="width:20%">ชื่ออาคาร</th>
+                <th style="width:20%">เลขที่ห้อง</th>
+                <th style="width:15%">ชั้น</th>
+                <th style="width:8%">ชื่อหมู่บ้าน</th>
+                <th style="width:15%">ตรอก</th>
+                <th style="width:15%">ซอย</th>
+                <th style="width:15%">ถนน</th>
+                <th style="width:15%">ตำบล/อำเภอ/จังหวัด</th>
+                <th style="width:15%">สถานะที่อยู่อาศัยของบุคคล</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of ADDRESS_INFO; let i=index;" class="table-fix">
+                <td style="text-align:center;">{{i+1}}</td>
+                <td>
+                  {{item.ADDRESS_TYPE}}
+                  <!-- <select name="DeliveryQtyUnit" class="form-control form-control-sm" style="display: none;"
+                    [ngClass]="{'ng-touched':isRequired}" required>
+                    <option></option>
+                  </select> -->
+                </td>
+
+                <td>
+                  {{item.LATITUDE}}
+                  <!-- <input class="form-control form-control-sm" type="text" style="display: none;"> -->
+
+                </td>
+                <td>
+                  {{item.LONGITUDE}}
+                  <!-- <input class="form-control form-control-sm" type="text" style="display: none;"> -->
+                </td>
+                <td>
+                  {{item.ADDRESS_NO}}
+                  <!-- <input class="form-control form-control-sm" type="text" style="display: none;"> -->
+                </td>
+                <td>
+                  {{item.VILLAGE_NO}}
+                  <!-- <input class="form-control form-control-sm" type="text" style="display: none;"> -->
+                </td>
+                <td>
+                  {{item.BUILDING_NAME}}
+                  <!-- <input class="form-control form-control-sm" type="text" style="display: none;"> -->
+                </td>
+                <td>
+                  {{item.ROOM_NO}}
+                  <!-- <input class="form-control form-control-sm" type="text" style="display: none;"> -->
+                </td>
+                <td>
+                  {{item.FLOOR}}
+                  <!-- <div class="form-group">
+                    <input class="form-control form-control-sm" type="text" style="display: none;">
+                  </div> -->
+                </td>
+                <td>
+                  {{item.VILLAGE_NAME}}
+                  <!-- <input class="form-control form-control-sm" type="text" style="display: none;"> -->
+                </td>
+                <td>
+                  {{item.ALLEY}}
+                  <!-- <input class="form-control form-control-sm" type="text" style="display: none;"></td> -->
+                <td>
+                  {{item.LANE}}
+                  <!-- <input class="form-control form-control-sm" type="text" style="display: none;"></td> -->
+                <td>
+                  {{item.ROAD}}
+                  <!-- <input class="form-control form-control-sm" type="text" style="display: none;"></td> -->
+                <td>
+                  {{item.ADDRESS}}
+                </td>
+                <td>
+                  {{item.ADDRESS_STATUS}}
+                  <!-- <select name="DeliveryQtyUnit" class="form-control form-control-sm" style="display: none;"
+                    [ngClass]="{'ng-touched':isRequired}" required>
+                    <option></option>
+                  </select> -->
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card card-outline-bluish unset-radius">
+  <div class="card-header unset-radius">
+    <app-card-actions-collapse></app-card-actions-collapse>
+    <h4 class="card-title m-b-0">ข้อมูลชาวต่างชาติ</h4>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <label for="" class="col-lg-2 col-sm-3 control-label">เลขหนังสือเดินทาง </label>
+      <div class="col-lg-4 col-md-7 col-sm-9">
+        <div class="form-group">
+          <input class="form-control form-control-sm" type="text" name="PASSPORT_NO"
+            [(ngModel)]="FOREIGNER_INFO.PASSPORT_NO" readonly>
+        </div>
+      </div>
+      <label for="" class="col-lg-2 col-sm-3 control-label">ประเทศออกหนังสือ </label>
+      <div class="col-lg-4 col-md-7 col-sm-9">
+        <div class="form-group">
+          <input class="form-control form-control-sm" type="text" name="COUNTRY_NAME_TH"
+            [(ngModel)]="FOREIGNER_INFO.COUNTRY_NAME_TH" readonly>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <label for="" class="col-lg-2 col-sm-3 control-label">วันที่เข้าประเทศ </label>
+      <div class="col-lg-4 col-md-7 col-sm-9">
+        <div class="form-group">
+          <input class="form-control form-control-sm" type="text" name="PASSPORT_DATE_IN"
+            [(ngModel)]="FOREIGNER_INFO.PASSPORT_DATE_IN" readonly>
+        </div>
+      </div>
+      <label for="" class="col-lg-2 col-sm-3 control-label">วันที่ออกประเทศ </label>
+      <div class="col-lg-4 col-md-7 col-sm-9">
+        <div class="form-group">
+          <input class="form-control form-control-sm" type="text" name="PASSPORT_DATE_OUT"
+            [(ngModel)]="FOREIGNER_INFO.PASSPORT_DATE_OUT" readonly>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <label for="" class="col-lg-2 col-sm-3 control-label">ประเภทวีซ่า </label>
+      <div class="col-lg-4 col-md-7 col-sm-9">
+        <div class="form-group">
+          <input class="form-control form-control-sm" type="text" name="VISA_TYPE"
+            [(ngModel)]="FOREIGNER_INFO.VISA_TYPE" readonly>
+          <!-- <select class="form-control form-control-sm" name="xxxx" [(ngModel)]="name" [ngClass]="{'ng-touched':isRequired}"
+              [disabled]="showEditFieldADV">
+              <option value="" selected disabled></option>
+              <option *ngFor="let item of xxxx; let i=index;" [value]=""></option>
+            </select> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card card-outline-bluish unset-radius">
+  <div class="card-header unset-radius">
+    <app-card-actions-collapse></app-card-actions-collapse>
+    <h4 class="card-title m-b-0">ข้อมูลผู้ประกอบการ</h4>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <label for="" class="col-lg-2 col-sm-3 control-label">เลขทะเบียนนิติบุคคล </label>
+      <div class="col-lg-4 col-md-7 col-sm-9">
+        <div class="form-group">
+          <input class="form-control form-control-sm" type="text" name="COMPANY_REGISTRATION_NO"
+            [(ngModel)]="COMPANY_INFO.COMPANY_REGISTRATION_NO" readonly>
+        </div>
+      </div>
+      <label for="" class="col-lg-2 col-sm-3 control-label">วันที่ก่อตั้งหน่วยงาน </label>
+      <div class="col-lg-4 col-md-7 col-sm-9">
+        <div class="form-group">
+          <input class="form-control form-control-sm" type="text" name="COMPANY_FOUND_DATE"
+            [(ngModel)]="COMPANY_INFO.COMPANY_FOUND_DATE" readonly>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <label for="" class="col-lg-2 col-sm-3 control-label">เลขที่ใบอนุญาติ </label>
+      <div class="col-lg-4 col-md-7 col-sm-9">
+        <div class="form-group">
+          <input class="form-control form-control-sm" type="text" name="COMPANY_LICENSE_NO"
+            [(ngModel)]="COMPANY_INFO.COMPANY_LICENSE_NO" readonly>
+        </div>
+      </div>
+      <label for="" class="col-lg-2 col-sm-3 control-label">วันที่จดทะเบียน </label>
+      <div class="col-lg-4 col-md-7 col-sm-9">
+        <div class="form-group">
+          <input class="form-control form-control-sm" type="text" name="COMPANY_LICENSE_DATE_FROM"
+            [(ngModel)]="COMPANY_INFO.COMPANY_LICENSE_DATE_FROM" readonly>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <label for="" class="col-lg-2 col-sm-3 control-label">วันที่สิ้นสุดใบอนุญาติ </label>
+      <div class="col-lg-4 col-md-7 col-sm-9">
+        <div class="form-group">
+          <input class="form-control form-control-sm" type="text" name="COMPANY_LICENSE_DATE_TO"
+            [(ngModel)]="COMPANY_INFO.COMPANY_LICENSE_DATE_TO" readonly>
+        </div>
+      </div>
+      <label for="" class="col-lg-2 col-sm-3 control-label">เลขทะเบียบสรรพสามิต </label>
+      <div class="col-lg-4 col-md-7 col-sm-9">
+        <div class="form-group">
+          <input class="form-control form-control-sm" type="text" name="EXCISE_REGISTRATION_NO"
+            [(ngModel)]="COMPANY_INFO.EXCISE_REGISTRATION_NO" readonly>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <label for="" class="col-lg-2 col-sm-3 control-label">เลขประจำตัวผู้เสียภาษี </label>
+      <div class="col-lg-4 col-md-7 col-sm-9">
+        <div class="form-group">
+          <input class="form-control form-control-sm" type="text" name="ID_CARD" [(ngModel)]="COMPANY_INFO.ID_CARD"
+            readonly>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="card card-outline-bluish unset-radius">
+  <div class="card-header unset-radius">
+    <div class="card-actions">
+    </div>
+    <h4 class="card-title m-b-0">เอกสารแนบภายใน</h4>
+  </div>
+  <div class="card-body">
+
+    <div class="row form-group">
+      <div class="col-lg-10 col-md-9 col-sm-8"></div>
+      <div class="col-lg-2 col-md-3 col-sm-4">
+        <button type="button" class="btn btn-block btn-themecolor" [disabled]="showEditField"
+          (click)="openModal(document)">เพิ่มเอกสารแนบ</button>
+        <ng-template #document let-c="close" let-d="dismiss">
+          <app-document (d)="modal.dismiss()" (Output)="Output($event)">
+          </app-document>
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-1"></div>
+      <div class="col-10">
+        <owl-carousel [options]="owlOption" [items]="fileList" [carouselClasses]="['owl-theme', 'row', 'sliding']">
+          <div class="item my-1" *ngFor="let item of fileList;let i = index">
+            <a href="javaScript:void(0);" class="times-item" (click)="deleteItem(i)">
+              <i class="fa fa-times" aria-hidden="true"></i>
+            </a>
+            <div class="tile"
+              [ngStyle]="{'background': 'url('+item.IMAGE_SHOW+')no-repeat scroll center center / 90px 90px'}">
+              <div class="wBg">
+                <div class="tile" style="width: 90px; height: 90px;"></div>
+                <h5 class="mt-4 text-truncate">{{item.DOCUMENT_NAME}}</h5>
+              </div>
+            </div>
+          </div>
+        </owl-carousel>
+      </div>
+      <div class="col-1"></div>
+    </div>
+
+    <span class="text-danger">หมายเหตุ : ขนาดของไฟล์เอกสาร/รูปภาพ ไม่เกิน 1 MB, วีดิโอไม่เกิน 10 MB</span>
+  </div>
+</div> -->
+<!-- </form> -->

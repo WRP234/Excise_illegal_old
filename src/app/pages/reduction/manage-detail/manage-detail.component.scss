@@ -1,0 +1,53 @@
+.btn-search {
+  background: #005c97;
+  font-size: 16px;
+  width: 120px;
+  height: 40px;
+}
+
+.btn-navy {
+  background: rgb(0, 94, 141);
+  color: white;
+}
+
+.btn-orange {
+  background: rgb(224, 112, 35);
+  color: white;
+}
+
+#btn-browse {
+  opacity: 0;
+}
+
+.btn-action {
+  color: red;
+  font-size: 20px;
+}
+
+.status-increase {
+  font-size: 20px;
+  color: green;
+}
+
+.status-decrease {
+  font-size: 20px;
+  color: red;
+}
+
+.top-navbar {
+  background: linear-gradient(45deg, rgb(0, 94, 141), rgb(53, 57, 147));
+}
+
+.date-setting {
+  padding: 0px 0px;
+  border: none;
+  width: 100%;
+}
+
+.selectiongroup {
+  height: 36px !important;
+}
+
+my-date-picker {
+  background-color: inherit;
+}

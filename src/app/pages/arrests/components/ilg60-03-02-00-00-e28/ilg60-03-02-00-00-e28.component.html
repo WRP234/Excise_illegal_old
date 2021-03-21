@@ -1,0 +1,52 @@
+<div class="card card-outline-bluish unset-radius">
+  <div class="card-header unset-radius" (click)="onCollapse(ILG60_03_02_00_00_E28)">
+    <div class="card-actions">
+      <a class="">
+        <i class="fa"
+          [ngClass]="{'fa-chevron-up': (ILG60_03_02_00_00_E28 | async), 'fa-chevron-down': !(ILG60_03_02_00_00_E28 | async)}"></i>
+      </a>
+    </div>
+    <h4 class="card-title m-b-0">เอกสารแนบภายใน</h4>
+  </div>
+  <div *ngIf="ILG60_03_02_00_00_E28 | async" class="card-body">
+
+    <div class="row form-group">
+      <div class="col-lg-10 col-md-9 col-sm-8"></div>
+      <div class="col-lg-2 col-md-3 col-sm-4">
+        <button type="button" class="btn btn-block btn-themecolor" [disabled]="isEdit"
+          (click)="openModal(ilg60o02000200)">เพิ่มเอกสารแนบ</button>
+        <ng-template #ilg60o02000200 let-c="close" let-d="dismiss">
+          <app-ilg60-o-02-00-02-00 (d)="modal.dismiss()" (Output)="Ilg60O02000200_Output($event)">
+          </app-ilg60-o-02-00-02-00>
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-1"></div>
+      <div class="col-10">
+        <owl-carousel [options]="owlOption" [items]="fileList" [carouselClasses]="['owl-theme', 'row', 'sliding']">
+          <div class="item my-1" *ngFor="let item of fileList;let i = index">
+            <a *ngIf="!isEdit" href="javaScript:void(0);" class="times-item" (click)="deleteItem(i)">
+              <i class="fa fa-times" aria-hidden="true"></i>
+            </a>
+            <a *ngIf="item.DOCUMENT_ID" href="javaScript:void(0);" (click)="DownloadItem(item)">
+              <i class="fa fa-download" aria-hidden="true"></i>
+            </a>
+            <div class="tile"
+              [ngStyle]="{'background': 'url('+item.IMAGE_SHOW+')no-repeat scroll center center / 90px 90px'}">
+              <div class="wBg">
+                <div class="tile" style="width: 90px; height: 90px;"></div>
+                <h5 class="mt-4 text-truncate">{{item.DOCUMENT_NAME}}</h5>
+              </div>
+            </div>
+          </div>
+        </owl-carousel>
+      </div>
+      <div class="col-1"></div>
+    </div>
+
+    <span class="text-danger">หมายเหตุ : ขนาดของไฟล์เอกสาร ไม่เกินไฟล์ละ 1 MB, รูปภาพ/วีดิโอ ไม่เกินไฟล์ละ 200
+      MB</span>
+  </div>
+</div>

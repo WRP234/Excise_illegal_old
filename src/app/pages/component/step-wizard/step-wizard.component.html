@@ -1,0 +1,17 @@
+<div class="wizard-content">
+    <div class="wizard-circle wizard clearfix clearfix">
+        <div class="steps tab-wizard">
+            <ul role="tablist" class="font-14">
+                <li *ngFor="let item of section; let i=index;" role="tab"
+                    [ngClass]="{'processed': item.processed , 'proceed_to': item.proceed_to ,'curr': sectionId == item.id}"
+                    aria-disabled="true">
+                    <a>
+                        <span class="step" style="cursor: pointer;" (click)="onClickStepRouter(i+1)"></span>
+                        {{i+1}}. {{item.name}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- [ngStyle]="{'border-color': item.processed? '#005c97' : '#999', 'color': item.processed? '#005c97' : '#999'}" -->

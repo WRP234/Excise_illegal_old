@@ -1,0 +1,53 @@
+.app-search {
+  input {
+      background: transparent !important;
+      border: 1px solid #fff !important;
+      color: #fff !important;
+  }
+  input:active {
+      color: #fff !important;
+  }
+
+  .srh-btn {
+      position: absolute;
+      top: 8px;
+      right: 28px;
+      color: #fff;
+  }
+}
+.pointer {cursor: pointer;}
+.context-menu {cursor: context-menu;}
+
+#OCCURRENCE_DATE_FROM,
+   #OCCURRENCE_DATE_TO
+{
+     z-index: 13 !important;
+}
+
+#LAWSUIT_DATE_FROM,
+    #LAWSUIT_DATE_TO
+{
+     z-index: 12 !important;
+}
+    
+#RECEIVE_DOC_DATE_FROM,
+    #RECEIVE_DOC_DATE_TO
+{
+     z-index: 11 !important;
+}
+
+#COMPARE_DATE_FORM,
+    #COMPARE_DATE_TO
+{
+     z-index: 10 !important;
+}
+
+
+// input[type="number"]::-webkit-outer-spin-button, 
+// input[type="number"]::-webkit-inner-spin-button {
+//     -webkit-appearance: none;
+//     margin: 0;
+// }
+// input[type="number"] {
+//     -moz-appearance: textfield;
+// }

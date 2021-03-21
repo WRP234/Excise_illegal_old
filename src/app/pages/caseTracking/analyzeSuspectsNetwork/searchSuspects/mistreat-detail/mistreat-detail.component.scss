@@ -1,0 +1,17 @@
+.scroll {
+    white-space:nowrap;
+    overflow-x: scroll;
+    // overflow-y: hidden;
+
+}
+.last-child {
+    position: absolute;
+    right: 10px;
+    background: #fff;
+    width: 130px;
+}
+
+.table-fix tr:nth-of-type(odd) {
+    /* background: #f2f4f8;  */
+    background: #33709a;
+  }

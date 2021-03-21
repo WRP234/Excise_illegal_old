@@ -1,0 +1,41 @@
+.more {
+  position: absolute;
+  right: 20px;
+  bottom: -4px;
+}
+
+.is-invalid {
+  border-color: red;
+}
+
+.times {
+  position: absolute;
+  top: 4px;
+  right: 46px;
+
+  .ti-close::before {
+    font-weight: bold;
+  }
+}
+
+table tbody tr td label {
+  font-weight: 300;
+}
+
+@media (min-width: 992px) {
+  .puritycertCode {
+    font-size: 15.5px !important;
+  }
+}
+
+.modal-xl {
+  max-width: 1100px;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.overflow-y-hidden {
+  overflow-y: hidden;
+}

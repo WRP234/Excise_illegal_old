@@ -1,0 +1,274 @@
+<div class="card ">
+  <div class="card-header  unset-radius">
+    <app-card-actions-collapse></app-card-actions-collapse>
+    <h4 class="card-title m-b-0">ฐานความผิด</h4>
+  </div>
+  <div class="card-body">
+    <div class="form-body">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-form-label col-md-3">ชื่อผู้ต้องหา : </label>
+            <div class="col-md-9">
+              <input class="form-control" type="text" name="allegationCode" disabled>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-form-label col-md-4">การกระทำผิด (ครั้ง) : </label>
+            <div class="col-md-7">
+              <input class="form-control" type="text" name="allegationCode" disabled>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-form-label col-md-3">ฐานความผิดมาตรา : </label>
+            <div class="col-md-9">
+              <input class="form-control" type="text" name="allegationCode" disabled>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-form-label col-md-4">ฐานความผิด : </label>
+            <div class="col-md-7">
+              <input class="form-control" type="text" name="allegationCode" disabled>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="card ">
+  <div class="card-header unset-radius">
+    <app-card-actions-collapse></app-card-actions-collapse>
+    <h4 class="card-title m-b-0">รายละเอียดการกระทำผิด</h4>
+  </div>
+  <div class="card-body">
+    <div class="form-body">
+      <div class="card">
+        <div class="card-header  unset-radius">
+          <app-card-actions-collapse></app-card-actions-collapse>
+          <h4 class="card-title m-b-0">ครั้งที่ 1</h4>
+        </div>
+
+        <div class="card-body">
+          <div class="form-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label col-md-3">เลขที่ใบงาน : </label>
+                  <div class="col-md-9">
+                    <input class="form-control" type="text" name="allegationCode" disabled>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label  col-md-3">วันที่จับกุม : </label>
+                  <div class="col-md-4">
+                      <my-date-picker-th ngModel name="lawsuitDate" placeholder="" locale="th" [options]="LawsuitDateOptions"
+                        (dateChanged)="onDateFromChanged($event)"></my-date-picker-th>
+                  </div>
+                  <label class="col-form-label text-center col-md-2">เวลา</label>
+                  <div class="col-md-3">
+                    <input class="form-control" type="text" name="lawsuitTime" disabled>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label col-md-3">เลขที่คดีรับคำกล่าวโทษ : </label>
+                  <div class="col-md-9">
+                    <input class="form-control" type="text" name="allegationCode" disabled>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label  col-md-3">วันที่รับคดี : </label>
+                  <div class="col-md-4">
+                    <input class="form-control" type="text" name="lawsuitDate" disabled>
+                  </div>
+                  <label class="col-form-label text-center col-md-2">เวลา</label>
+                  <div class="col-md-3">
+                    <input class="form-control" type="text" name="lawsuitTime" disabled>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label col-md-3">ค่าปรับสุทธิ : </label>
+                  <div class="col-md-9">
+                    <input class="form-control" type="text" name="allegationCode" disabled>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <div class="table-responsive table-striped no-wrap">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th class="footable-sortable text-center">ลำดับ</th>
+                      <th class="footable-sortable">ของกลาง</th>
+                      <th class="footable-sortable">จำนวน</th>
+                      <th class="footable-sortable">ปริมาตรสุทธิ</th>
+                      <th class="footable-sortable">ค่าปรับสุทธิรายของกลาง</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="footable">
+                      <td class="text-center">1</td>
+                      <td class="">สุรา/สุราแช่/ชนิดเบียร์/Hoegaarden/Witbier/330 มล.</td>
+                      <td>12 ขวด</td>
+                      <td class="">3960 มล.</td>
+                      <td class="">400,000.00</td>
+                    </tr>
+                    <tr class="footable">
+                      <td class="text-center">2</td>
+                      <td class="">สุรา/สุราแช่/ชนิดเบียร์/Hoegaarden/Witbier/330 มล.</td>
+                      <td>12 ขวด</td>
+                      <td class="">3960 มล.</td>
+                      <td class="">400,000.00</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="card ">
+        <div class="card-header  unset-radius">
+          <app-card-actions-collapse></app-card-actions-collapse>
+          <h4 class="card-title m-b-0">ครั้งที่ 2</h4>
+        </div>
+        <div class="card-body">
+          <div class="form-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label col-md-3">เลขที่ใบงาน : </label>
+                  <div class="col-md-9">
+                    <input class="form-control" type="text" name="allegationCode" disabled>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label  col-md-3">วันที่จับกุม : </label>
+                  <div class="col-md-4">
+                    <input class="form-control" type="text" name="lawsuitDate" disabled>
+                  </div>
+                  <label class="col-form-label text-center col-md-2">เวลา</label>
+                  <div class="col-md-3">
+                    <input class="form-control" type="text" name="lawsuitTime" disabled>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label col-md-3">เลขที่คดีรับคำกล่าวโทษ : </label>
+                  <div class="col-md-9">
+                    <input class="form-control" type="text" name="allegationCode" disabled>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label  col-md-3">วันที่รับคดี : </label>
+                  <div class="col-md-4">
+                    <input class="form-control" type="text" name="lawsuitDate" disabled>
+                  </div>
+                  <label class="col-form-label text-center col-md-2">เวลา</label>
+                  <div class="col-md-3">
+                    <input class="form-control" type="text" name="lawsuitTime" disabled>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label col-md-3">ค่าปรับสุทธิ : </label>
+                  <div class="col-md-9">
+                    <input class="form-control" type="text" name="allegationCode" disabled>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive table-striped no-wrap">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th class="footable-sortable text-center">ลำดับ</th>
+                      <th class="footable-sortable">ของกลาง</th>
+                      <th class="footable-sortable">จำนวน</th>
+                      <th class="footable-sortable">ปริมาตรสุทธิ</th>
+                      <th class="footable-sortable">ค่าปรับสุทธิรายของกลาง</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="footable">
+                      <td class="text-center">1</td>
+                      <td class="">สุรา/สุราแช่/ชนิดเบียร์/Hoegaarden/Witbier/330 มล.</td>
+                      <td>12 ขวด</td>
+                      <td class="">3960 มล.</td>
+                      <td class="">400,000.00</td>
+                    </tr>
+                    <tr class="footable">
+                      <td class="text-center">2</td>
+                      <td class="">สุรา/สุราแช่/ชนิดเบียร์/Hoegaarden/Witbier/330 มล.</td>
+                      <td>12 ขวด</td>
+                      <td class="">3960 มล.</td>
+                      <td class="">400,000.00</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row pages">
+        <div class="col-9 ">
+          <a href="#">|&lt;&lt;</a> หน้าที่
+          <select class="custom-select">
+            <option>
+          </select> จาก 2 หน้า
+          <a href="#">&gt;&gt;|</a> รายการที่ 1-5 จาก 13 รายการ
+
+        </div>
+        <div class="col-3 text-right">
+          แสดง
+          <select class="custom-select">
+            <option (click)="numPage = 2">2</option>
+            <option (click)="numPage = 5">5</option>
+            <option (click)="numPage = 7">7</option>
+          </select> รายการ
+        </div>
+      </div>
+
+
+    </div>
+  </div>

@@ -1,0 +1,134 @@
+<header class="topbar">
+    <nav class="navbar top-navbar navbar-expand-md navbar-light">
+        <div class="navbar-collapse" style="padding-right: 55px;">
+            <ul class="navbar-nav mr-auto mt-md-0">
+                <!-- <li class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickNew()">
+                            สร้างข้อมูล
+                        </a>
+                    </div>
+                </li> -->
+            </ul>
+            <ul class="navbar-nav my-lg-0">
+                <li class="nav-item col-8">
+                    <form autocomplete="off" class="app-search" #formSearch="ngForm" (ngSubmit)="clickSearch(formSearch.form.value)">
+                        <input type="search" name="TEXT_SEARCH" id="" ngModel class="form-control">
+                        <a href="javaScript:void(0);" (click)="clickSearch(formSearch.form.value)" class="srh-btn">
+                            <i class="ti-search"></i>
+                        </a>
+                    </form>
+                </li>
+                <li class="nav-item col-9">
+                    <a href="javaScript:void(0);" class="btn text-white" (click)="setAdvSearch()">
+                        ค้นหาขั้นสูง
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<div *ngIf="advSearch | async" class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius">
+        <app-card-actions-close></app-card-actions-close>
+        <h4 class="card-title m-b-0">ค้นหาขั้นสูง</h4>
+    </div>
+
+    <div class="card-body">
+        <form class="form-horizontal" #advForm="ngForm" (ngSubmit)="onAdvSearch(advForm)">
+            <div>
+                <div class="row">
+                    <label for="" class="col-lg-2 col-sm-3 control-label">ชื่อประเทศภาษาไทย :</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" name="COUNTRY_NAME_TH" ngModel class="form-control" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <label for="" class="col-lg-2 col-sm-3 control-label">ชื่อประเทศภาษาอังกฤษ :</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" name="COUNTRY_NAME_EN" ngModel class="form-control" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="" class="col-lg-2 col-sm-3 control-label">ชื่อย่อประเทศ :</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" name="COUNTRY_SHORT_NAME" ngModel class="form-control" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <label for="" class="col-lg-2 col-sm-3 control-label">สถานะการใช้งาน :</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-line">
+                            <select name="IS_ACTIVE" ngModel class="form-control" [disabled]="showEditField">
+                                <option value="">ทั้งหมด</option>
+                                <option value="0">ไม่ใช้งาน</option>
+                                <option value="1">ใช้งาน</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-10"></div>
+                    <div class="col-2">
+                        <button type="submit" class="btn btn-block btn-themecolor">ค้นข้อมูล</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+
+        <div class="table-responsive table-striped" style="overflow: hidden;">
+            <table #EvidenceTable class="table">
+                <thead>
+                    <tr>
+                        <th style="text-align: center;width:8%">ลำดับ</th>
+                        <th style="width:12%">รหัสประเทศ</th>
+                        <th>ชื่อประเทศภาษาไทย</th>
+                        <th>ชื่อประเทศภาษาอังกฤษ</th>
+                        <th style="text-align: center;width:15%">ชื่อย่อประเทศ</th>
+                        <th style="text-align: center;width:10%">สถานะการใช้งาน</th>
+                        <!-- <th style="text-align: center;width:8%"></th> -->
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let item of showDataList; let i=index;">
+                        <td style="text-align: center;">{{i + 1}}</td>
+                        <td>{{item.COUNTRY_CODE}}</td>
+                        <td>{{item.COUNTRY_NAME_TH}}</td>
+                        <td>{{item.COUNTRY_NAME_EN}}</td>
+                        <td style="text-align: center;">{{item.COUNTRY_SHORT_NAME}}</td>
+                        <td style="text-align: center;">{{item.TxtStatus}}</td>
+                        <!-- <td class="text-align: center;">
+                            <a href="javaScript:void(0);" class="text-secondary" (click)="clickView(item.COUNTRY_ID)">
+                                <i class="mdi mdi-eye fa-lg"></i>
+                            </a>
+                        </td> -->
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="card-footer card-footer-unset">
+            <app-pagination-table [TotalItems]="paginage.TotalItems" [CurrentPage]="paginage.CurrentPage" [PageSize]="paginage.PageSize"
+                [RowsPerPageOptions]="paginage.RowsPerPageOptions" (onPageChange)="pageChanges($event)">
+            </app-pagination-table>
+        </div>
+    </div>
+</div>

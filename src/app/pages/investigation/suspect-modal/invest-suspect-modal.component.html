@@ -1,0 +1,382 @@
+<div class="modal-header bg-theme">
+    <div class="row">
+        <div class="col-lg-7">
+            <h4 class="modal-title text-white">เพิ่มผู้ต้องสงสัย
+                <a href="#/investigation/suspect/C/NEW" class="btn btn-ghost" (click)="dismiss('Cross click')"
+                    target="_blank">
+                    <!-- <i class="ti-plus"></i> -->
+                    สร้างข้อมูล
+                </a>
+            </h4>
+        </div>
+        <div class="col-lg-3 col-8">
+            <form class="app-search" #searchForm="ngForm" (ngSubmit)="onSearchByKeyword(searchForm.value)">
+                <input type="search" name="TEXT_SEARCH" ngModel class="form-control form-control-sm">
+                <a class="srh-btn" (click)="onSearchByKeyword(searchForm.value)" href="javaScript:void(0)">
+                    <i class="ti-search"></i>
+                </a>
+            </form>
+        </div>
+        <div class="col-lg-2 col-4 p-0">
+            <a href="javaScript:void(0);" class="text-white" (click)="toggle()">ค้นหาขั้นสูง</a>
+        </div>
+
+        <a href="javaScript:void(0);" class="close text-white font-14" aria-label="Close"
+            (click)="dismiss('Cross click')">
+            <span aria-hidden="true">
+                <i class=" ti-close"></i>
+            </span>
+        </a>
+    </div>
+</div>
+<h5 class="text-right mt-3 pr-3">ILG60_O_01_05_03_01</h5>
+<div class="modal-body font-14">
+    <div *ngIf="advSearch">
+        <div class="card card-outline-bluish unset-radius">
+            <div class="card-header unset-radius">
+                <div class="card-actions">
+                    <a class="" (click)="toggle()">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+                <h4 class="card-title m-b-0">ค้นหาขั้นสูง</h4>
+            </div>
+            <div class="card-body">
+                <!-- FORM THAI-->
+                <form *ngIf="thaiType" class="form-horizontal" #advForm="ngForm"
+                    (ngSubmit)="onSearchAdv(advForm.value,'thaiType')">
+                    <div class="row">
+                        <label for="" class="col-lg-2 col-sm-4 control-label">ประเภทผู้ต้องสงสัย</label>
+                        <div class="col-lg-4 col-sm-8 form-group">
+                            <select name="PERSON_TYPE" ngModel class="form-control form-control-sm"
+                                [(ngModel)]="taskModel.priority" (change)="changeTypePerson($event)">
+                                <option value="" selected disabled></option>
+                                <option *ngFor="let item of entityType; let i = index" [value]="item.value">
+                                    {{item.text}}</option>
+                            </select>
+                        </div>
+                        <label for="" class="col-lg-2 col-sm-4 control-label">ชื่อผู้ต้องสงสัย</label>
+                        <div class="col-lg-4 col-sm-8 form-group">
+                            <input type="text" name="PERSON_NAME" ngModel class="form-control form-control-sm">
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <label for="" class="col-lg-2 col-sm-4 control-label">ชื่อบิดา</label>
+                        <div class="col-lg-4 col-sm-8 form-group">
+                            <input type="text" name="FATHER_NAME" ngModel class="form-control form-control-sm">
+                        </div>
+                        <label for="" class="col-lg-2 col-sm-4 control-label">ชื่อมารดา</label>
+                        <div class="col-lg-4 col-sm-8 form-group">
+                            <input type="text" name="MOTHER_NAME" ngModel class="form-control form-control-sm">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <label for="" class="col-lg-2 col-sm-4 control-label">เลขบัตรประชาชน</label>
+                        <div class="col-lg-4 col-sm-8 form-group">
+                            <input type="text" name="ID_CARD" ngModel class="form-control form-control-sm">
+                        </div>
+                        <div class="col-lg-8 col-sm-4"></div>
+                        <div class="col-lg-2 col-sm-4">
+                            <button type="button" class="btn btn-block" (click)="exportData()"
+                                [ngClass]="{'btn-green': suspectSeleted.length > 0}"
+                                [disabled]="suspectSeleted.length == 0">เลือก</button>
+                        </div>
+                        <div class="col-lg-2 col-sm-4">
+                            <button type="submit" class="btn btn-block btn-themecolor">ค้นข้อมูล</button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- FORM foreign-->
+                <form *ngIf="foreignTpye" class="form-horizontal" #advForm="ngForm"
+                    (ngSubmit)="onSearchAdv(advForm.value,'foreignType')">
+                    <div class="row">
+                        <label for="" class="col-lg-2 col-sm-4 control-label">ประเภทผู้ต้องสงสัย</label>
+                        <div class="col-lg-4 col-sm-8 form-group">
+                            <select name="PERSON_TYPE" ngModel class="form-control form-control-sm"
+                                [(ngModel)]="taskModel.priority" (change)="changeTypePerson($event)">
+                                <option value="" selected disabled></option>
+                                <option *ngFor="let item of entityType" [value]="item.value">{{item.text}}</option>
+                            </select>
+                        </div>
+                        <label for="" class="col-lg-2 col-sm-4 control-label">ชื่อผู้ต้องสงสัย</label>
+                        <div class="col-lg-4 col-sm-8 form-group">
+                            <input type="text" name="PERSON_NAME" ngModel class="form-control form-control-sm">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <label for="" class="col-lg-2 col-sm-4 control-label">เลขหนังสือเดินทาง</label>
+                        <div class="col-lg-4 col-sm-8 form-group">
+                            <input type="text" name="PASSPORT_NO" ngModel class="form-control form-control-sm">
+                        </div>
+                        <label for="" class="col-lg-2 col-sm-4 control-label">ประเทศที่ออกหนังสือ</label>
+                        <div class="col-lg-4 col-sm-8 form-group">
+                            <input type="text" name="passSportType" ngModel class="form-control form-control-sm">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <label for="" class="col-lg-2 col-sm-4 control-label">ชื่อบิดา</label>
+                        <div class="col-lg-4 col-sm-8 form-group">
+                            <input type="text" name="FATHER_NAME" ngModel class="form-control form-control-sm">
+                        </div>
+                        <label for="" class="col-lg-2 col-sm-4 control-label">ชื่อมารดา</label>
+                        <div class="col-lg-4 col-sm-8 form-group">
+                            <input type="text" name="MOTHER_NAME" ngModel class="form-control form-control-sm">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-8 col-sm-4"></div>
+                        <div class="col-lg-2 col-sm-4">
+                            <button type="button" class="btn btn-block" (click)="exportData()"
+                                [ngClass]="{'btn-green': suspectSeleted.length > 0}"
+                                [disabled]="suspectSeleted.length == 0">เลือก</button>
+                        </div>
+                        <div class="col-lg-2 col-sm-4">
+                            <button type="submit" class="btn btn-block btn-themecolor">ค้นข้อมูล</button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- FORM LegalentityType-->
+                <form *ngIf="LegalentityType" class="form-horizontal" #advForm="ngForm"
+                    (ngSubmit)="onSearchAdv(advForm.value, 'LegalentityType')">
+                    <div class="row">
+                        <label for="" class="col-lg-2 col-sm-4 control-label">ประเภทผู้ต้องสงสัย</label>
+                        <div class="col-lg-4 col-sm-8 form-group">
+                            <select name="PERSON_TYPE" ngModel class="form-control form-control-sm"
+                                [(ngModel)]="taskModel.priority" (change)="changeTypePerson($event)">
+                                <option value="" selected disabled></option>
+                                <option *ngFor="let item of entityType; let i = index" [value]="item.value">
+                                    {{item.text}}</option>
+                            </select>
+                        </div>
+                        <label for="" class="col-lg-2 col-sm-4 control-label">ชื่อสถานประกอบการ</label>
+                        <div class="col-lg-4 col-sm-8 form-group">
+                            <input type="text" name="CompanyName" ngModel class="form-control form-control-sm">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <label for="" class="col-lg-2 col-sm-4 control-label">ชื่อตัวเเทนสถานประกอบการ</label>
+                        <div class="col-lg-4 col-sm-8 form-group">
+                            <input type="text" name="subCompanyName" ngModel class="form-control form-control-sm">
+                        </div>
+
+                        <label for="" class="col-lg-2 col-sm-4 control-label">เลขนิติบุคคล</label>
+                        <div class="col-lg-4 col-sm-8 form-group">
+                            <input type="text" name="entityNo" ngModel class="form-control form-control-sm">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-8 col-sm-4"></div>
+                        <div class="col-lg-2 col-sm-4">
+                            <button type="button" class="btn btn-block" (click)="exportData()"
+                                [ngClass]="{'btn-green': suspectSeleted.length > 0}"
+                                [disabled]="suspectSeleted.length == 0">เลือก</button>
+                        </div>
+                        <div class="col-lg-2 col-sm-4">
+                            <button type="submit" class="btn btn-block btn-themecolor">ค้นข้อมูล</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="card unset-radius" *ngIf="thaiType">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table [formGroup]="suspectFormGroup" id="suspectModal" #suspectModal
+                    class="table table-sm table-striped">
+                    <thead>
+                        <tr>
+                            <th class="text-center">
+                                <input type="checkbox" id="th" class="filled-in chk-col-indigo" (change)="checkAll()"
+                                    [checked]="isCheckAll">
+                                <label for="th" class="m-t-10 m-b-0"></label>
+                            </th>
+                            <th>ลำดับ</th>
+                            <th>ประเภทผู้ต้องสงสัย</th>
+                            <th>ชื่อผู้ต้องสงสัย</th>
+                            <th>หมายเลขบัตรประชาชน</th>
+                            <th>ชื่อบิดา</th>
+                            <th>ชื่อมารดา</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody formArrayName="Suspect">
+                        <tr *ngFor="let item of Suspect.controls; let i=index;" [formGroupName]="i">
+                            <td class="text-center">
+                                <input type="checkbox" formControlName="IsChecked" [id]="'td'+i"
+                                    class="filled-in chk-col-indigo" [checked]="isCheckAll">
+                                <label [for]="'td'+i" class="m-0"></label>
+                            </td>
+                            <td class="text-center">{{item.get('RowId').value}}</td>
+                            <td>{{getRefer(item , 'getEntity')}}</td>
+                            <td>{{item.get('FULL_NAME').value}}</td>
+                            <td>{{getRefer(item , 'getRefer')}}</td>
+                            <!-- <td></td>
+                            <td></td> -->
+                            <td>{{item.get('father_fname').value}}</td>
+                            <td>{{item.get('mom_fname').value}}</td>
+                            <td class="text-center">
+                                <a href="#/investigation/lawbreaker/R/{{item.get('PERSON_ID').value}}"
+                                    class="text-center text-secondary" target="_blank"
+                                    *ngIf="item.get('MISTREAT_NO').value>0">
+                                    <i class="fa fa-eye fa-lg"></i>
+                                </a>
+                                <a href="#/investigation/suspect/R/{{item.get('PERSON_ID').value}}"
+                                    class="text-center text-secondary" target="_blank"
+                                    *ngIf="item.get('MISTREAT_NO').value==0">
+                                    <i class="fa fa-eye fa-lg"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer card-footer-unset">
+            <app-pagination-table [TotalItems]="paginage.TotalItems" [CurrentPage]="paginage.CurrentPage"
+                [PageSize]="paginage.PageSize" [RowsPerPageOptions]="paginage.RowsPerPageOptions"
+                (onPageChange)="pageChanges($event)">
+            </app-pagination-table>
+        </div>
+    </div>
+
+    <div class="card unset-radius" *ngIf="foreignTpye">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table [formGroup]="suspectFormGroup" id="suspectModal" #suspectModal
+                    class="table table-sm table-striped">
+                    <thead>
+                        <tr>
+                            <th class="text-center">
+                                <input type="checkbox" id="th" class="filled-in chk-col-indigo" (change)="checkAll()"
+                                    [checked]="isCheckAll">
+                                <label for="th" class="m-t-10 m-b-0"></label>
+                            </th>
+                            <th>ลำดับ</th>
+                            <th>ประเภทผู้ต้องสงสัย</th>
+                            <th>ชื่อผู้ต้องสงสัย</th>
+                            <th>เลขหนังสือเดินทาง</th>
+                            <th>ประเทศที่ออกหนังสือ</th>
+                            <th>ชื่อบิดา</th>
+                            <th>ชื่อมารดา</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody formArrayName="Suspect">
+                        <tr *ngFor="let item of Suspect.controls; let i=index;" [formGroupName]="i">
+                            <td class="text-center">
+                                <input type="checkbox" formControlName="IsChecked" [id]="'td'+i"
+                                    class="filled-in chk-col-indigo" [checked]="isCheckAll">
+                                <label [for]="'td'+i" class="m-0"></label>
+                            </td>
+                            <td>{{item.get('RowId').value}}</td>
+                            <td>{{getRefer(item , 'getEntity')}}</td>
+                            <td>{{item.get('FULL_NAME').value}}</td>
+                            <td>{{item.get('PASSPORT_NO').value}}</td>
+                            <td>{{getRefer(item , 'getRefer')}}</td>
+                            <!-- <td></td>
+                                <td></td> -->
+                            <td>{{item.get('father_fname').value}}</td>
+                            <td>{{item.get('mom_fname').value}}</td>
+                            <td class="text-center">
+                                <a href="#/investigation/lawbreaker/R/{{item.get('PERSON_ID').value}}"
+                                    class="text-center text-secondary" target="_blank"
+                                    *ngIf="item.get('MISTREAT_NO').value>0">
+                                    <i class="fa fa-eye fa-lg"></i>
+                                </a>
+                                <a href="#/investigation/suspect/R/{{item.get('PERSON_ID').value}}"
+                                    class="text-center text-secondary" target="_blank"
+                                    *ngIf="item.get('MISTREAT_NO').value==0">
+                                    <i class="fa fa-eye fa-lg"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer card-footer-unset">
+            <app-pagination-table [TotalItems]="paginage.TotalItems" [CurrentPage]="paginage.CurrentPage"
+                [PageSize]="paginage.PageSize" [RowsPerPageOptions]="paginage.RowsPerPageOptions"
+                (onPageChange)="pageChanges($event)">
+            </app-pagination-table>
+        </div>
+    </div>
+
+    <div class="card unset-radius" *ngIf="LegalentityType">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table [formGroup]="suspectFormGroup" id="suspectModal" #suspectModal
+                    class="table table-sm table-striped">
+                    <thead>
+                        <tr>
+                            <th class="text-center">
+                                <input type="checkbox" id="th" class="filled-in chk-col-indigo" (change)="checkAll()"
+                                    [checked]="isCheckAll">
+                                <label for="th" class="m-t-10 m-b-0"></label>
+                            </th>
+                            <th>ลำดับ</th>
+                            <th>ประเภทผู้ต้องสงสัย</th>
+                            <th>ชื่อสถานประกอบการ</th>
+                            <th>ชื่อตัวเเทนสถานประกอบการ</th>
+                            <th>เลขนิติบุคคล</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody formArrayName="Suspect">
+                        <tr *ngFor="let item of Suspect.controls; let i=index;" [formGroupName]="i">
+                            <td class="text-center">
+                                <input type="checkbox" formControlName="IsChecked" [id]="'td'+i"
+                                    class="filled-in chk-col-indigo" [checked]="isCheckAll">
+                                <label [for]="'td'+i" class="m-0"></label>
+                            </td>
+                            <td>{{item.get('RowId').value}}</td>
+                            <td>{{getRefer(item , 'getEntity')}}</td>
+                            <td>{{item.get('FULL_NAME').value}}</td>
+                            <td>{{getRefer(item , 'getRefer')}}</td>
+                            <!-- <td></td>
+                                    <td></td> -->
+                            <td>{{item.get('father_fname').value}}</td>
+                            <td class="text-center">
+                                <a href="#/investigation/lawbreaker/R/{{item.get('PERSON_ID').value}}"
+                                    class="text-center text-secondary" target="_blank"
+                                    *ngIf="item.get('MISTREAT_NO').value>0">
+                                    <i class="fa fa-eye fa-lg"></i>
+                                </a>
+                                <a href="#/investigation/suspect/R/{{item.get('PERSON_ID').value}}"
+                                    class="text-center text-secondary" target="_blank"
+                                    *ngIf="item.get('MISTREAT_NO').value==0">
+                                    <i class="fa fa-eye fa-lg"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer card-footer-unset">
+            <app-pagination-table [TotalItems]="paginage.TotalItems" [CurrentPage]="paginage.CurrentPage"
+                [PageSize]="paginage.PageSize" [RowsPerPageOptions]="paginage.RowsPerPageOptions"
+                (onPageChange)="pageChanges($event)">
+            </app-pagination-table>
+        </div>
+    </div>
+</div>
+<!-- <div class="modal-footer">
+    <div class="col-lg-2 col-sm-4">
+        <button type="button" class="btn btn-block btn-themecolor" (click)="exportData()">เลือก</button>
+    </div>
+</div> -->
+
+<swal #alertSwal text="" type="" [showConfirmButton]="false" [showCancelButton]="true" buttonsStyling="false"
+    cancelButtonText="OK" cancelButtonClass="swal2-confirm" [focusCancel]="true">
+</swal>

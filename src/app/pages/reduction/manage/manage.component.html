@@ -1,0 +1,437 @@
+<header class="topbar">
+  <nav class="navbar top-navbar navbar-expand-md navbar-light">
+
+    <div class="navbar-collapse" style="padding-right: 55px;">
+      <ul class="navbar-nav mr-auto mt-md-0">
+        <li *ngIf="createButton" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickNew()">
+              สร้างข้อมูล
+            </a>
+          </div>
+        </li>
+        <li *ngIf="printButton" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickPrint()">
+              พิมพ์
+            </a>
+          </div>
+        </li>
+        <li *ngIf="editButton" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickEdit()">
+
+              แก้ไข
+            </a>
+          </div>
+        </li>
+        <li *ngIf="deleteButton" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickDelete()"
+              style="background-color: #f47023">
+
+              ลบ
+            </a>
+          </div>
+        </li>
+        <li *ngIf="saveButton" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickSave()">
+
+              บันทึก
+            </a>
+          </div>
+        </li>
+        <li *ngIf="cancelButton" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickCancel()">
+
+              ยกเลิก
+            </a>
+          </div>
+        </li>
+      </ul>
+      <ul *ngIf="false" class="navbar-nav my-lg-0">
+        <li class="nav-item col-8">
+          <form autocomplete="off" class="app-search" #formSearch="ngForm" (ngSubmit)="clickSearch(formSearch)">
+            <input type="search" name="TEXT_SEARCH" id="" ngModel class="form-control">
+            <a href="javaScript:void(0);" (click)="clickSearch(formSearch.form.value)" class="srh-btn">
+              <i class="ti-search"></i>
+            </a>
+          </form>
+        </li>
+        <li class="nav-item col-9">
+          <a href="javaScript:void(0);" class="btn text-white" (click)="setAdvSearch()">
+            ค้นหาขั้นสูง
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+
+<form [formGroup]="form_Collapse1">
+  <div class="card card-outline-bluish unset-radius">
+      <div class="card-header unset-radius cersor" (click)="toggleCollapse(collapse1)">
+          <div class="card-actions">
+              <a>
+                  <i class="fa"
+                      [ngClass]="{'fa-chevron-up': (collapse1 | async), 'fa-chevron-down': !(collapse1 | async)}"></i>
+              </a>
+          </div>
+          <h4 class="card-title m-b-0">ข้อมูลการจับกุม</h4>
+      </div>
+      <div *ngIf="collapse1 | async" class="card-body">
+        <div _ngcontent-c11="" class="form-body">
+          <div _ngcontent-c11="" class="row">
+              <div _ngcontent-c11="" class="col-md-6">
+                  <div _ngcontent-c11="" class="row">
+                      <label _ngcontent-c11="" class="col-sm-3 control-label" for="">เลขที่งาน</label>
+                      <div _ngcontent-c11="" class="form-group col-sm-9">
+                          <input _ngcontent-c11="" class="form-control form-control-sm ng-untouched ng-pristine" disabled="" formControlName="ARREST_CODE" name="ARREST_CODE" style="color: black;" type="text">
+                      </div>
+                  </div>
+              </div>
+              <div _ngcontent-c11="" class="col-md-6">
+                  <div _ngcontent-c11="" class="row">
+                      <label _ngcontent-c11="" class="col-sm-3 control-label" for="">วันที่จับกุม</label>
+                      <div _ngcontent-c11="" class="form-group input-group col-sm-9">
+                          
+                          <input _ngcontent-c11="" class="form-control form-control-sm ng-untouched ng-pristine" disabled="" value="{{form_Collapse1.get('OCCURRENCE_DATE').value.formatted}}" style="color: black;" type="text">
+                          <label _ngcontent-c11="" class="" for="">&nbsp; เวลา &nbsp;</label>
+                          <input _ngcontent-c11="" class="form-control form-control-sm ng-untouched ng-pristine" disabled="" formControlName="OCCURRENCE_TIME" style="color: black;" type="text">
+                      </div>
+                  </div>
+              </div>
+          </div>
+        <div _ngcontent-c11="" class="row">
+          <div _ngcontent-c11="" class="col-md-6">
+                <div _ngcontent-c11="" class="row">
+                    <label _ngcontent-c11="" class="col-sm-3 control-label" for="">เขียนที่</label>
+                    <div _ngcontent-c11="" class="form-group col-sm-9">
+                        <input _ngcontent-c11="" class="form-control form-control-sm ng-untouched ng-pristine" disabled="" formControlName="SUB_DISTRICT_NAME" style="color: black;" type="text">
+                    </div>
+                </div>
+            </div>
+            <div _ngcontent-c11="" class="col-md-6">
+                <div _ngcontent-c11="" class="row">
+                    <label _ngcontent-c11="" class="col-sm-3 control-label" for="">ชื่อผู้กล่าวหา</label>
+                    <div _ngcontent-c11="" class="form-group col-sm-9">
+                        <input _ngcontent-c11="" class="form-control form-control-sm ng-untouched ng-pristine" disabled="" formControlName="ARREST_STAFF" style="color: black;" type="text">
+                    </div>
+                </div>
+            </div>
+        </div>
+      <div _ngcontent-c11="" class="row">
+            <div _ngcontent-c11="" class="col-md-6">
+                <div _ngcontent-c11="" class="row">
+                    <label _ngcontent-c11="" class="col-sm-3 control-label" for="">ตำแหน่ง</label>
+                    <div _ngcontent-c11="" class="form-group col-sm-9">
+                        <input _ngcontent-c11="" class="form-control form-control-sm ng-untouched ng-pristine" disabled="" formControlName="ACCUSER_MANAGEMENT_POS_NAME" style="color: black;" type="text">
+                    </div>
+                </div>
+            </div>
+            <div _ngcontent-c11="" class="col-md-6">
+                <div _ngcontent-c11="" class="row">
+                    <label _ngcontent-c11="" class="col-sm-3 control-label" for="">หน่วยงาน</label>
+                    <div _ngcontent-c11="" class="form-group col-sm-9">
+                        <input _ngcontent-c11="" class="form-control form-control-sm ng-untouched ng-pristine" disabled="" formControlName="ACCUSER_OPERATION_OFFICE_SHORT_NAME" style="color: black;" type="text">
+                    </div>
+                </div>
+            </div>
+        </div>
+      <div _ngcontent-c11="" class="row">
+            <div _ngcontent-c11="" class="col-md-6">
+                <div _ngcontent-c11="" class="row">
+                    <label _ngcontent-c11="" class="col-sm-3 control-label" for="">มาตรา</label>
+                    <div _ngcontent-c11="" class="form-group col-sm-9">
+                        <input _ngcontent-c11="" class="form-control form-control-sm ng-untouched ng-pristine" disabled="" formControlName="SUBSECTION_NAME" style="color: black;" type="text">
+                    </div>
+                </div>
+            </div>
+            <div _ngcontent-c11="" class="col-md-6">
+                <div _ngcontent-c11="" class="row">
+                    <label _ngcontent-c11="" class="col-sm-3 control-label" for="">บทลงโทษมาตรา</label>
+                    <div _ngcontent-c11="" class="form-group col-sm-9">
+                        <input _ngcontent-c11="" class="form-control form-control-sm ng-untouched ng-pristine" disabled="" formControlName="SECTION_NAME" style="color: black;" type="text">
+                    </div>
+                </div>
+            </div>
+        </div>
+      <div _ngcontent-c11="" class="row">
+            <div _ngcontent-c11="" class="col-md-6">
+                <div _ngcontent-c11="" class="row">
+                    <label _ngcontent-c11="" class="col-sm-3 control-label" for="">ฐานความผิด</label>
+                    <div _ngcontent-c11="" class="form-group col-sm-9">
+                      <textarea class="form-control form-control-sm" rows="3" formControlName="GUILTBASE_NAME" readonly></textarea>
+                    </div>
+                </div>
+            </div>
+            <div _ngcontent-c11="" class="col-md-6">
+                <div _ngcontent-c11="" class="row">
+                    <label _ngcontent-c11="" class="col-sm-3 control-label" for="">อัตราโทษ</label>
+                    <div _ngcontent-c11="" class="form-group col-sm-9">
+                        <textarea class="form-control form-control-sm" rows="3" formControlName="PENALTY_DESC" readonly></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div _ngcontent-c11="" class="row">
+            <div _ngcontent-c11="" class="col-md-6">
+                <div _ngcontent-c11="" class="row">
+                    <label _ngcontent-c11="" class="col-sm-3 control-label" for="">เลขที่คดี</label>
+                    <div _ngcontent-c11="" class="form-group input-group col-sm-9">
+                      <input _ngcontent-c11="" class="form-control form-control-sm ng-untouched ng-pristine" disabled="" formControlName="ARREST_LAWSUIT_NO" style="color: black;" type="text">
+                      <label _ngcontent-c11="" class="" for="">&nbsp; / &nbsp;</label>
+                      <input _ngcontent-c11="" class="form-control form-control-sm ng-untouched ng-pristine" disabled="" formControlName="ARREST_LAWSUIT_NO_YEAR" style="color: black;" type="text">
+                  </div>
+                </div>
+            </div>
+            <div _ngcontent-c11="" class="col-md-6">
+                <div _ngcontent-c11="" class="row">
+                    <label _ngcontent-c11="" class="col-sm-3 control-label" for="">วันที่รับคดี</label>
+                    <div _ngcontent-c11="" class="form-group input-group col-sm-9">
+                      <input _ngcontent-c11="" class="form-control form-control-sm ng-untouched ng-pristine" disabled="" value="{{form_Collapse1.get('ARREST_LAWSUIT_DATE').value.formatted}}" style="color: black;" type="text">
+                      <label _ngcontent-c11="" class="" for="">&nbsp; เวลา &nbsp;</label>
+                      <input _ngcontent-c11="" class="form-control form-control-sm ng-untouched ng-pristine" disabled="" formControlName="ARREST_LAWSUIT_TIME" style="color: black;" type="text">
+                  </div>
+                </div>
+            </div>
+        </div>
+        <div _ngcontent-c11="" class="row">
+          <div _ngcontent-c11="" class="col-md-6">
+              <div _ngcontent-c11="" class="row">
+                  <label _ngcontent-c11="" class="col-sm-3 control-label" for="">ทะเบียนตรวจพิสูจน์</label>
+                  <div _ngcontent-c11="" class="form-group input-group col-sm-9">
+                    <input _ngcontent-c11="" class="form-control form-control-sm ng-untouched ng-pristine" disabled="" formControlName="PROVE_NO" style="color: black;" type="text">
+                    <label _ngcontent-c11="" class="" for="">&nbsp; / &nbsp;</label>
+                    <input _ngcontent-c11="" class="form-control form-control-sm ng-untouched ng-pristine" disabled="" formControlName="PROVE_NO_YEAR" style="color: black;" type="text">
+                </div>
+              </div>
+          </div>
+          <div _ngcontent-c11="" class="col-md-6">
+              <div _ngcontent-c11="" class="row">
+                  <label _ngcontent-c11="" class="col-sm-3 control-label" for="">วันที่พิสูจน์</label>
+                  <div _ngcontent-c11="" class="form-group input-group col-sm-9">
+                    <input _ngcontent-c11="" class="form-control form-control-sm ng-untouched ng-pristine" disabled="" value="{{form_Collapse1.get('RECEIVE_DOC_DATE').value.formatted}}" style="color: black;" type="text">
+                    <label _ngcontent-c11="" class="" for="">&nbsp; เวลา &nbsp;</label>
+                    <input _ngcontent-c11="" class="form-control form-control-sm ng-untouched ng-pristine" disabled="" formControlName="RECEIVE_DOC_TIME" style="color: black;" type="text">
+                </div>
+              </div>
+          </div>
+        </div>
+        <div _ngcontent-c11="" class="row">
+          <div _ngcontent-c11="" class="col-md-6">
+              <div _ngcontent-c11="" class="row">
+                  <label _ngcontent-c11="" class="col-sm-3 control-label" for="">เลขคดีเปรียบเทียบ</label>
+                  <div _ngcontent-c11="" class="form-group input-group col-sm-9">
+                    <input _ngcontent-c11="" class="form-control form-control-sm ng-untouched ng-pristine" disabled="" formControlName="COMPARE_NO" style="color: black;" type="text">
+                    <label _ngcontent-c11="" class="" for="">&nbsp; / &nbsp;</label>
+                    <input _ngcontent-c11="" class="form-control form-control-sm ng-untouched ng-pristine" disabled="" formControlName="COMPARE_NO_YEAR" style="color: black;" type="text">
+                </div>
+              </div>
+          </div>
+          <div _ngcontent-c11="" class="col-md-6">
+              <div _ngcontent-c11="" class="row">
+                  <label _ngcontent-c11="" class="col-sm-3 control-label" for="">วันที่เปรียบเทียบ</label>
+                  <div _ngcontent-c11="" class="form-group input-group col-sm-9">
+                    <input _ngcontent-c11="" class="form-control form-control-sm ng-untouched ng-pristine" disabled="" value="{{form_Collapse1.get('COMPARE_DATE').value.formatted}}" style="color: black;" type="text">
+                    <label _ngcontent-c11="" class="" for="">&nbsp; เวลา &nbsp;</label>
+                    <input _ngcontent-c11="" class="form-control form-control-sm ng-untouched ng-pristine" disabled="" formControlName="COMPARE_TIME" style="color: black;" type="text">
+                </div>
+              </div>
+          </div>
+        </div>
+      <div _ngcontent-c11="" class="row">
+            <div _ngcontent-c11="" class="col-md-6">
+                <div _ngcontent-c11="" class="row">
+                    <label _ngcontent-c11="" class="col-sm-3 control-label" for="">ชิ่อผู้เปรียบเทียบ</label>
+                    <div _ngcontent-c11="" class="form-group col-sm-9">
+                        <input _ngcontent-c11="" class="form-control form-control-sm ng-untouched ng-pristine" disabled="" formControlName="COMPARE_NAME" style="color: black;" type="text">
+                    </div>
+                </div>
+            </div>
+            <div _ngcontent-c11="" class="col-md-6">
+                <div _ngcontent-c11="" class="row">
+                    <label _ngcontent-c11="" class="col-sm-3 control-label" for="">ตำแหน่ง</label>
+                    <div _ngcontent-c11="" class="form-group col-sm-9">
+                        <input _ngcontent-c11="" class="form-control form-control-sm ng-untouched ng-pristine" disabled="" formControlName="COMPARE_MANAGEMENT_POS_NAME" style="color: black;" type="text">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div _ngcontent-c11="" class="row">
+            <div _ngcontent-c11="" class="col-md-6">
+                <div _ngcontent-c11="" class="row">
+                    <label _ngcontent-c11="" class="col-sm-3 control-label" for="">หน่วยงาน</label>
+                    <div _ngcontent-c11="" class="form-group col-sm-9">
+                        <input _ngcontent-c11="" class="form-control form-control-sm ng-untouched ng-pristine" disabled="" formControlName="COMPARE_MANAGEMENT_SHORT_NAME" style="color: black;" type="text">
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+
+<form [formGroup]="form_Collapse2">
+<div class="card card-outline-bluish unset-radius">
+  <div class="card-header  unset-radius cersor" (click)="toggleCollapse(collapse2)">
+    <div class="card-actions">
+        <a class="">
+            <i class="fa"
+                [ngClass]="{'fa-chevron-up': (collapse2 | async), 'fa-chevron-down': !(collapse2 | async)}"></i>
+        </a>
+    </div>
+    <h4 class="card-title m-b-0">การเพิ่ม-ลดค่าปรับเปรียบเทียบ</h4>
+  </div>
+  <div *ngIf="collapse2 | async" class="card-body">
+
+    <div class="row" *ngIf="showEditField == false">
+      <div class="col-md-12" *ngIf="NOTICE_ID !== 0">
+        <div class="custom-control custom-checkbox col-form-label col-md-4">
+          <input class="col-form-label filled-in chk-col-indigo" id="_IsRequestBribe" type="checkbox"
+            name="_IsRequestBribe" (change)="e_IsRequestBribe($event)" [readOnly]="showEditField"
+            [checked]="_CaseBribe == true">
+          <label for="_IsRequestBribe"> ไม่รับสินบน</label>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="custom-control custom-checkbox col-form-label col-md-4">
+          <input class="col-form-label filled-in chk-col-indigo" id="_IsRequestReward" type="checkbox"
+            name="_IsRequestReward" (change)="e_IsRequestReward($event)" [readOnly]="showEditField"
+            [checked]="_CaseReward == true">
+          <label for="_IsRequestReward"> ไม่รับรางวัล</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-sm table-striped table-set-border"  style="max-width: unset; width: 1800px">
+          <thead>
+            <tr>
+              <th style="width:40px"class="a-center">ลำดับ</th>
+              <th style="width:200px">ชื่อผู้ต้องหา</th>
+              <th style="width:150px">ใบเสร็จเล่มที่/เลขที่ (เดิม)</th> 
+              <th style="width:150px">ใบเสร็จเล่มที่/เลขที่ (ใหม่)</th>
+              <th style="width:120px">ค่าปรับเดิม</th>
+              <th style="width:120px">ค่าปรับใหม่</th>
+              <th style="width:120px">ผลต่าง</th>
+              <th style="width:100px">สถานะ</th>
+              <th style="width:120px">สินบน({{_IsRequestBribe}}%)</th>
+              <th style="width:120px">รางวัล({{_IsRequestReward}}%)</th>
+              <th style="width:120px">ส่งคลัง({{_IsRequestTRE}}%)</th>
+              <th style="width:80px">ปรับเพิ่ม-ลด</th>
+            </tr>
+          </thead>
+          <tbody formArrayName="SetDetail">
+            <tr [formGroupName]="i"  class="form-control-sm" *ngFor="let item of form_Collapse2.get('SetDetail').controls; let i=index">
+              <td class="padding-table a-center">{{i+1}}</td>
+              <td class="padding-table">{{item.get('NAME').value}}</td>
+              <td *ngIf="item.get('IS_DOWN').value !== 1 && item.get('STATUS').value !== 1" class="padding-table">{{item.get('RECEIPT').value}}</td>
+              <td *ngIf="item.get('IS_DOWN').value !== 1 && item.get('STATUS').value == 1" class="blue padding-table">{{item.get('RECEIPT').value}}</td>
+              <td *ngIf="item.get('IS_DOWN').value == 1" class="blue padding-table">{{item.get('RECEIPT').value}}</td>
+              <td *ngIf="item.get('IS_UP').value !== 1" class="padding-table">{{item.get('NEW_RECEIPT').value}}</td>
+              <td *ngIf="item.get('IS_UP').value == 1" class="blue padding-table">{{item.get('NEW_RECEIPT').value}}</td>
+              <!-- <td class="form-control-sm text-right">{{item.get('PAYMENT_FINE').value | number : '1.2'}}</td> -->
+              <td><input type="text" class="form-control form-control-sm text-right" formControlName="PAYMENT_FINE" value="{{item.get('PAYMENT_FINE').value | number : '1.2'}}" [attr.disabled]="true"/></td>
+              <td *ngIf="item.get('IS_UP').value == 1 || item.get('IS_DOWN').value == 1"><input type="text" class="form-control form-control-sm text-right" value="{{item.get('NEW_PAYMENT_FINE').value }}" [attr.disabled]="true"/></td>
+              <td *ngIf="item.get('IS_UP').value == 0  && item.get('IS_DOWN').value == 0"><input type="text" class="form-control form-control-sm text-right" appAllowDecimalNumber 
+                  (blur)="transformTotal(item.value,i)" formControlName="NEW_PAYMENT_FINE"/></td>
+              <td><input type="text" class="form-control form-control-sm text-right" value="{{item.get('DIFFERENCE_PAYMENT_FINE').value | number : '1.2'}}" [attr.disabled]="true"/></td>
+              <!-- <td >{{item.get('PAYMENT_FINE').value < item.get('OLD_PAYMENT_FINE').value ? 'ปรับเพิ่ม' : 'ปรับลด'}}</td> -->
+              <td *ngIf="item.get('STATUS').value == ''" class="padding-table"></td>
+              <td *ngIf="item.get('STATUS').value == 1" class="padding-table blue">ค่าปรับเดิม</td>
+              <td *ngIf="item.get('STATUS').value == 2 && item.get('IS_DOWN').value !== 1" class="padding-table red">ปรับลด</td>
+              <td *ngIf="item.get('STATUS').value == 2 && item.get('IS_DOWN').value == 1" class="padding-table blue">ปรับลด</td>
+              <td *ngIf="item.get('STATUS').value == 3 && item.get('IS_UP').value !== 1" class="padding-table red">ปรับเพิ่ม</td>
+              <td *ngIf="item.get('STATUS').value == 3 && item.get('IS_UP').value == 1" class="padding-table blue">ปรับเพิ่ม</td>
+              <td><input type="text" class="form-control form-control-sm text-right" value="{{item.get('BRIBE_MONEY').value | number : '1.2'}}" [attr.disabled]="true"/></td>
+              <td><input type="text" class="form-control form-control-sm text-right" value="{{item.get('REWARD_MONEY').value | number : '1.2'}}" [attr.disabled]="true"/></td>
+              <td><input type="text" class="form-control form-control-sm text-right" value="{{item.get('TREASURY_MONEY').value | number : '1.2'}}" [attr.disabled]="true"/></td>
+              <td *ngIf="item.get('STATUS').value == '' || item.get('STATUS').value == 1"></td>
+              <td *ngIf="item.get('STATUS').value == 2 && item.get('IS_DOWN').value == 0"><button (click)="ILG60_O_08_00_02_02(item.value,i)" class="btn-navy button btn btn-block form-control-sm ">ปรับลด</button></td>
+              <td *ngIf="item.get('STATUS').value == 2 && item.get('IS_DOWN').value == 1"><button (click)="ILG60_O_08_00_02_02(item.value,i)" class="btn-ct button btn btn-block form-control-sm ">ปรับลด</button></td>
+              <td *ngIf="item.get('STATUS').value == 3 && item.get('IS_UP').value == 0 && showEditField == false"><button (click)="ILG60_O_08_00_02_01(item.value,i)" class="btn-navy button btn btn-block form-control-sm ">ปรับเพิ่ม</button></td>
+              <td *ngIf="item.get('STATUS').value == 3 && item.get('IS_UP').value == 1 && showEditField == false"><button (click)="ILG60_O_08_00_02_01(item.value,i)" class="btn-ct button btn btn-block form-control-sm ">ปรับเพิ่ม</button></td>
+              <td *ngIf="item.get('STATUS').value == 3 && item.get('IS_UP').value == 1 && item.get('RECEIPT_TYPE').value == 0 && showEditField == true"><button (click)="ILG60_O_08_00_02_01(item.value,i)" class="btn-ct button btn btn-block form-control-sm ">ปรับเพิ่ม</button></td>
+              <td *ngIf="item.get('STATUS').value == 3 && item.get('IS_UP').value == 1 && item.get('RECEIPT_TYPE').value == 1 && showEditField == true"><button (click)="ILG60_O_08_00_02_01(item.value,i)" class="btn-ct button btn btn-block form-control-sm ">ลงลายมือชื่อ</button></td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr class="form-control-sm" >
+              <td></td>
+              <td></td>
+              <td></td>
+              <td class="form-control-sm text-right"><b>รวม :</b></td>
+              <td class="form-control-sm text-right"><b>{{calTotal_PAYMENT_FINE() | number : '1.2'}}</b>&nbsp;&nbsp;</td>
+              <td class="form-control-sm text-right"><b>{{calTotal_NEW_PAYMENT_FINE() | number : '1.2'}}</b>&nbsp;&nbsp;</td>
+              <td class="form-control-sm text-right"><b>{{calTotal_Difference() | number : '1.2'}}</b>&nbsp;&nbsp;</td>
+              <td></td>
+              <td class="form-control-sm text-right"><b>{{calTotal_BRIBE_MONEY() | number : '1.2'}}</b>&nbsp;&nbsp;</td>
+              <td class="form-control-sm text-right"><b>{{calTotal_REWARD_MONEY() | number : '1.2'}}</b>&nbsp;&nbsp;</td>
+              <td class="form-control-sm text-right"><b>{{calTotal_TREASURY_MONEY() | number : '1.2'}}</b>&nbsp;&nbsp;</td>
+              <td></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+</div>
+</div>
+</form>
+
+<div class="card card-outline-bluish unset-radius">
+  <div class="card-header unset-radius" (click)="toggleCollapse(collapse3)">
+    <div class="card-actions">
+      <a class="">
+        <i class="fa"
+          [ngClass]="{'fa-chevron-up': (collapse3 | async), 'fa-chevron-down': !(collapse3 | async)}"></i>
+      </a>
+    </div>
+    <h4 class="card-title m-b-0">เอกสารแนบภายใน</h4>
+  </div>
+  <div *ngIf="collapse3 | async" class="card-body">
+    <div class="row form-group">
+      <div class="col-lg-10 col-md-9 col-sm-8"></div>
+      <div class="col-lg-2 col-md-3 col-sm-4">
+        
+        <button type="button" class="btn btn-block btn-themecolor" [disabled]="showEditField"
+        (click)="openModal(ilg60o02000200)">เพิ่มเอกสารแนบ</button>
+        <ng-template #ilg60o02000200 let-c="close" let-d="dismiss">
+          <app-ilg60-o-02-00-02-00 (d)="modal.dismiss()" (Output)="Output($event)">
+          </app-ilg60-o-02-00-02-00>
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-1"></div>
+      <div class="col-10">
+        <owl-carousel [options]="owlOption" [items]="fileList" [carouselClasses]="['owl-theme', 'row', 'sliding']">
+          <div class="item my-1" *ngFor="let item of fileList;let i = index">
+            <a *ngIf="!showEditField" href="javaScript:void(0);" class="times-item" (click)="deleteItem(i)">
+              <i class="fa fa-times" aria-hidden="true"></i>
+            </a>
+            <a *ngIf="item.DOCUMENT_ID" href="javaScript:void(0);" (click)="DownloadItem(item)">
+              <i class="fa fa-download" aria-hidden="true"></i>
+            </a>
+            <div class="tile"
+              [ngStyle]="{'background': 'url('+item.IMAGE_SHOW+')no-repeat scroll center center / 90px 90px'}">
+              <div class="wBg">
+                <div class="tile" style="width: 90px; height: 90px;"></div>
+                <h5 class="mt-4 text-truncate">{{item.DOCUMENT_NAME}}</h5>
+              </div>
+            </div>
+          </div>
+        </owl-carousel>
+      </div>
+      <div class="col-1"></div>
+    </div>
+
+    <span class="text-danger">หมายเหตุ : ขนาดของไฟล์เอกสาร ไม่เกินไฟล์ละ 1 MB, รูปภาพ/วีดิโอ ไม่เกินไฟล์ละ 200
+      MB</span>
+  </div>
+</div>

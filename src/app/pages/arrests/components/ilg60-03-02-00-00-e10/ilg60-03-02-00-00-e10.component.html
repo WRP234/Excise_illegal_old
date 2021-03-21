@@ -1,0 +1,72 @@
+<div class="card card-outline-bluish unset-radius">
+  <div class="card-header unset-radius" (click)="onCollapse(ILG60_03_02_00_00_E10)">
+    <div class="card-actions">
+      <a class="">
+        <i class="fa"
+          [ngClass]="{'fa-chevron-up': (ILG60_03_02_00_00_E10 | async), 'fa-chevron-down': !(ILG60_03_02_00_00_E10 | async)}"></i>
+      </a>
+    </div>
+    <h4 class="card-title m-b-0">ใบแจ้งความนำจับ</h4>
+  </div>
+  <div *ngIf="ILG60_03_02_00_00_E10 | async" class="card-body">
+    <div class="row form-group">
+      <div class="col-lg-10 col-md-9 col-sm-8"></div>
+      <div class="col-lg-2 col-md-3 col-sm-4">
+        <button type="button" class="btn btn-block btn-themecolor" [disabled]="isEdit || addNoticeCheck$.value"
+          (click)="openModal(ilg60o02000203)">เพิ่มใบแจ้งความ</button>
+        <ng-template #ilg60o02000203 let-c="close" let-d="dismiss">
+          <app-ilg60-o-02-00-02-03 (c)="modal.close()" (d)="modal.dismiss()" (Output)="Ilg60O02000203_Output($event)">
+          </app-ilg60-o-02-00-02-03>
+        </ng-template>
+      </div>
+    </div>
+    <div class="table-responsive overflow-hidden">
+      <table class="table table-sm table-striped table-set-border" [formGroup]="ArrestFG">
+        <thead>
+          <tr>
+            <th class="text-center">ลำดับ</th>
+            <!-- <th class="text-center">จับตรงกับที่แจ้ง (รว.7)</th> -->
+            <th>เลขที่ใบแจ้งความ</th>
+            <th>วันที่รับแจ้งความ</th>
+            <th>ผู้รับแจ้งความ</th>
+            <th>เขียนที่</th>
+            <!-- <th>ผู้ต้องสงสัย</th> -->
+            <th></th>
+          </tr>
+        </thead>
+        <tbody formArrayName="ArrestNotice">
+          <ng-container *ngFor="let item of ArrestNotice.controls; let i=index">
+            <tr [formGroupName]="i">
+              <td class="text-center">{{i+1}}</td>
+              <!-- <td class="text-center">
+                <input type="checkbox" formControlName="IS_MATCH" [id]="'IS_MATCH' + i" class="filled-in chk-col-indigo"
+                  [attr.disabled]="(isEdit || item.get('ACTION').value == Action.DELETE) ? '' : null">
+                <label [for]="'IS_MATCH' + i" class="m-0"></label>
+              </td> -->
+              <td>{{item.get('NOTICE_CODE').value}}</td>
+              <td>{{setDateStruct(item.get('NOTICE_DATE').value)}}</td>
+              <td>
+                {{item.get('TITLE_SHORT_NAME_TH').value}}{{item.get('FIRST_NAME').value}}
+                {{item.get('LAST_NAME').value}}
+              </td>
+              <td>
+                {{item.get('OFFICE_NAME').value}}
+              </td>
+              <!-- <td>
+                {{item.get('SUSPECT_TITLE_SHORT_NAME_TH').value}}{{item.get('SUSPECT_FIRST_NAME').value}}
+                {{item.get('SUSPECT_MIDDLE_NAME').value}}
+                {{item.get('SUSPECT_LAST_NAME').value}}
+              </td> -->
+              <td class="text-center">
+                <a *ngIf="!isEdit" href="javaScript:void(0);" class="text-danger" (click)="onDeleteNotice(i)">
+                  <i class="fa fa-trash-o fa-lg"></i>
+                </a>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>

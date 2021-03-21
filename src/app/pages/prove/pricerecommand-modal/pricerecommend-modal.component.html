@@ -1,0 +1,89 @@
+<div class="modal-header bg-theme">
+    <div class="row">
+        <div class="col-lg-5">
+            <h4 class="modal-title text-white">ราคาขายปลีกแนะนำ</h4>
+        </div>
+
+        <a href="javaScript:void(0);" class="close text-white font-14" aria-label="Close" (click)="dismiss('Close')">
+            <span aria-hidden="true">
+                <i class=" ti-close"></i>
+            </span>
+        </a>
+    </div>
+</div>
+<!-- <h5 class="text-right mt-3 pr-3">ILG60_0_04_00_02_01</h5> -->
+<div class="modal-body font-16">
+    <!-- ค้นหาขั้นสูง -->
+    <div class="card card-outline-bluish unset-radius">
+        <div class="card-header unset-radius">
+            <!-- <app-card-actions-collapse></app-card-actions-collapse> -->
+            <h4 class="card-title m-b-0">ราคาขายปลีกแนะนำ</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-2 control-label">ของกลาง :</label>
+                <div class="col-lg-9 col-md-9 col-sm-9">
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input type="text" name="PRODUCT_MODEL.PRODUCT_DESC" [(ngModel)]="PRODUCT_MODEL.PRODUCT_DESC" class="form-control" disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-offset-2 col-lg-5">
+                    <input type="radio" class="filled-in chk-col-indigo" [id]="'td1'" name="ListChK1" [(ngModel)]="ListChK1" value="1">
+                    <label [for]="'td1'" style="font-weight: 100">ราคาขายปลีกแนะนำทั้งหมด</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-offset-2 col-lg-5">
+                    <input type="radio" class="filled-in chk-col-indigo" [id]="'td2'" name="ListChK1" [(ngModel)]="ListChK1" value="2">
+                    <label [for]="'td2'" style="font-weight: 100">ราคาขายปลีก</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-ffset-2 col-lg-5">
+                    <input type="radio" class="filled-in chk-col-indigo" [id]="'td3'" name="ListChK1" [(ngModel)]="ListChK1" value="3">
+                    <label [for]="'td3'" style="font-weight: 100">ราคาขายปลีกต่ำสุด</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" style="margin:-5px 20px 20px 20px">
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>ลำดับ</th>
+                            <th>วันที่เริ่มใช้ราคา</th>
+                            <th>ราคาขายปลีกแนะนำ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of ListProve; let i=index;">
+                            <td>
+                                <input type="checkbox" class="filled-in chk-col-indigo" [id]="'td'+i" name="ListChK{{i}}" [(ngModel)]="item.IsCheck" (change)="checkIfAllChbSelected();"
+                                    [ngClass]="{'ng-touched':isRequired}" [disabled]="showEditField">
+                                <label [for]="'td'+i" class="m-0"></label>
+                            </td>
+                            <td>{{item.FULL_PROVE_NO}}</td>
+                            <td>{{item.RECEIVE_DOC_DATE}}</td>
+                            <td>{{item.RECEIVE_OFFICE_NAME}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="card-footer card-footer-unset">
+                    <app-pagination-table [TotalItems]="paginage.TotalItems" [CurrentPage]="paginage.CurrentPage" [PageSize]="paginage.PageSize"
+                        [RowsPerPageOptions]="paginage.RowsPerPageOptions" (onPageChange)="pageChanges($event)">
+                    </app-pagination-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

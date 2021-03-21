@@ -1,0 +1,50 @@
+<div class="modal-header bg-theme">
+    <div class="row">
+        <div class="col-lg-5">
+            <h4 class="modal-title text-white">รายงานผลการพิสูจน์</h4>
+        </div>
+
+        <a href="javaScript:void(0);" class="close text-white font-14" aria-label="Close" (click)="dismiss('Close')">
+            <span aria-hidden="true">
+                <i class=" ti-close"></i>
+            </span>
+        </a>
+    </div>
+</div>
+<h5 class="text-right mt-3 pr-3">ILG60_O_04_00_02_02</h5>
+<div class="modal-body font-14">
+    <!-- ผลการพิสูจน์ทาง Lab -->
+    <div class="card card-outline-bluish unset-radius">
+        <div class="card-header unset-radius">
+            <app-card-actions-collapse></app-card-actions-collapse>
+            <h5 class="card-title m-b-0">ผลการพิสูจน์ทาง Lab</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-2 control-label">ของกลาง</label>
+                <div class="col-lg-10 col-md-10 col-sm-10">
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input type="text" name="PRODUCT_MODEL.PRODUCT_DESC" [(ngModel)]="PRODUCT_MODEL.PRODUCT_DESC" class="form-control" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <label for="" class="col-lg-2 col-md-2 control-label">รายงานผลการพิสูจน์</label>
+                <div class="col-lg-10 col-md-10">
+                    <div class="form-group ">
+                        <textarea [(ngModel)]="PRODUCT_MODEL.SCIENCE_RESULT_DESC" maxlength="2000" name="PRODUCT_MODEL.SCIENCE_RESULT_DESC" cols=""
+                            rows="10" class="form-control"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <div class="col-lg-2 col-sm-4">
+        <button type="button" class="btn btn-block btn-themecolor" (click)="onSave()">ตกลง</button>
+    </div>
+</div>

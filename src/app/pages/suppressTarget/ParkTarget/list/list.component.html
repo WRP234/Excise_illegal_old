@@ -1,0 +1,304 @@
+<header class="topbar">
+        <nav class="navbar top-navbar navbar-expand-md navbar-light">
+    
+            <div class="navbar-collapse" style="padding-right: 55px;">
+                <ul class="navbar-nav mr-auto mt-md-0">
+                    <li *ngIf="craete_btn" class="nav-item">
+                        <div class="nav-link text-muted waves-effect waves-dark">
+                            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickNew()">
+                                สร้างข้อมูล
+                            </a>
+                        </div>
+                    </li>
+                    <li *ngIf="print_btn" class="nav-item">
+                        <div class="nav-link text-muted waves-effect waves-dark">
+                            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickPrint()">
+                                พิมพ์
+                            </a>
+                        </div>
+                    </li>
+                    <li *ngIf="edit_btn" class="nav-item">
+                        <div class="nav-link text-muted waves-effect waves-dark">
+                            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickEdit()">
+    
+                                แก้ไข
+                            </a>
+                        </div>
+                    </li>
+                    <li *ngIf="delete_btn" class="nav-item">
+                        <div class="nav-link text-muted waves-effect waves-dark">
+                            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickDelete()"
+                                style="background-color: #f47023">
+    
+                                ลบ
+                            </a>
+                        </div>
+                    </li>
+                    <li *ngIf="save_btn" class="nav-item">
+                        <div class="nav-link text-muted waves-effect waves-dark">
+                            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickSave()">
+    
+                                บันทึก
+                            </a>
+                        </div>
+                    </li>
+                    <li *ngIf="cancel_btn" class="nav-item">
+                        <div class="nav-link text-muted waves-effect waves-dark">
+                            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickCancel()">
+    
+                                ยกเลิก
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+                <ul *ngIf="true" class="navbar-nav my-lg-0">
+                    <li class="nav-item col-8">
+                        <form autocomplete="off" class="app-search" #formSearch="ngForm"
+                            (ngSubmit)="clickSearch(formSearch)">
+                            <input type="search" name="TEXT_SEARCH" id="" ngModel class="form-control">
+                            <a href="javaScript:void(0);" (click)="clickSearch(formSearch.form.value)" class="srh-btn">
+                                <i class="ti-search"></i>
+                            </a>
+                        </form>
+                    </li>
+                    <li class="nav-item col-9">
+                        <a href="javaScript:void(0);" class="btn text-white" (click)="setAdvSearch()">
+                            ค้นหาขั้นสูง
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="card card-outline-bluish unset-radius">
+        <div class="card-header unset-radius">
+    
+            <h4 class="card-title m-b-0">ค้นหาการกำหนดเป้าปราบปราม</h4>
+        </div>
+        <div class="card-body">
+            <form class="form-horizontal ng-untouched ng-pristine ng-valid" autocomplete="off" #advForm="ngForm"
+                (ngSubmit)="onAdvSearch(advForm)">
+                <div>
+                    <div class="row">
+                        <label class="col-lg-2 col-sm-3" for="">เลขที่เป้าปราบปราม &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :</label>
+                        <div class="col-lg-4 col-md-7 col-sm-9">
+                            <div class="form-group">
+                                <input class="form-control form-control-sm ng-untouched ng-pristine ng-valid" ngmodel
+                                    type="text" name="#" ng-reflect-name='#' ng-reflect-model="" readonly="">
+                            </div>
+                        </div>
+                        <label class="col-lg-2 col-sm-3" for="">สถานะ
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            :</label>
+                        <div class="col-lg-4 col-md-7 col-sm-9">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <select class="form-control form-control-sm ng-untouched ng-pristine ng-valid" name=""
+                                        ng-reflect-name="" ng-reflect-model="">
+                                        <option value="" ng-reflect-value="">ทั้งหมด</option>
+                                    </select>
+                                </div>
+    
+                                <!-- <input class="form-control form-control-sm ng-untouched ng-pristine ng-valid" ngmodel
+                                    type="text" name="#" ng-reflect-name='#' ng-reflect-model=""> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-lg-2 col-sm-3" for="">ปีงบประมาณ
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</label>
+                        <div class="col-lg-4 col-md-7 col-sm-9">
+                            <div class="form-group input-group">
+                                <!-- <div class="form-line"> -->
+                                <!-- form-control form-control-sm unset-form-control ng-untouched ng-pristine ng-valid -->
+                                <select class="form-control form-control-sm  ng-untouched ng-pristine ng-valid " name=""
+                                    ng-reflect-name="" ng-reflect-model="">
+                                    <option value="" ng-reflect-value="">2562</option>
+                                </select>
+                                <label for="">&nbsp;ถึง&nbsp;</label>
+                                <select class="form-control form-control-sm ng-untouched ng-pristine ng-valid" name=""
+                                    ng-reflect-name="" ng-reflect-model="">
+                                    <option value="" ng-reflect-value="">2562</option>
+                                </select>
+                                <!-- </div> -->
+                                <!-- <input class="form-control form-control-sm ng-untouched ng-pristine ng-valid" ngmodel
+                                    type="text" name="#" ng-reflect-name='#' ng-reflect-model=""> -->
+                            </div>
+                        </div>
+                        <label class="col-lg-2 col-sm-3" for="">ครั้งที่
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            :</label>
+                        <div class="col-lg-4 col-md-7 col-sm-9">
+                            <div class="form-group">
+                                <input class="form-control form-control-sm ng-untouched ng-pristine ng-valid" ngmodel
+                                    type="text" name="#" ng-reflect-name='#' ng-reflect-model="" readonly="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-lg-2 col-sm-3" for="">ข้อมูลวันที่
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            :</label>
+                        <div class="col-lg-4 col-md-7 col-sm-9">
+                            <div class="form-group input-group">
+                                <my-date-picker-th
+                                    class="form-control form-control-sm unset-form-control ng-untouched ng-pristine ng-valid"
+                                    name="" ng-reflect-options="" ng-reflect-name="">
+                                    <div class="mydp" ng-reflect-ng-style="[object Object]" style="width: 100%;">
+                                        <div class="selectiongroup">
+                                            <div class="selbtngroup" style="height: 30px;">
+                                                <input autocomplete="off"
+                                                    class="selection ng-untouched ng-pristine ng-valid" ngtype="text"
+                                                    ng-reflect-klass="selection" ng-reflect-ng-class="[object Object]"
+                                                    ng-reflect-ng-style="[object Object]" ng-reflect-is-disabled="false"
+                                                    ng-reflect-model aria-label="Date input field" placeholder
+                                                    style="height: 30px; font-size: 14px;">
+                                                <div class="selbtngroup" style="height: 30px;">
+                                                    <button class="btnpicker btnpickerenabled btnleftborder" type="button"
+                                                        ng-reflect-klass="btnpicker" ng-reflect-ng-class="[object Object]"
+                                                        aria-label="Open Calendar">
+                                                        <span class="mydpicon icon-mydpcalendar">
+                                                            ::before
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </my-date-picker-th>
+                                <label for="">&nbsp;ถึง&nbsp;</label>
+                                <my-date-picker-th
+                                    class="form-control form-control-sm unset-form-control ng-untouched ng-pristine ng-valid"
+                                    name="" ng-reflect-options="" ng-reflect-name="">
+                                    <div class="mydp" ng-reflect-ng-style="[object Object]" style="width: 100%;">
+                                        <div class="selectiongroup">
+                                            <div class="selbtngroup" style="height: 30px;">
+                                                <input autocomplete="off"
+                                                    class="selection ng-untouched ng-pristine ng-valid" ngtype="text"
+                                                    ng-reflect-klass="selection" ng-reflect-ng-class="[object Object]"
+                                                    ng-reflect-ng-style="[object Object]" ng-reflect-is-disabled="false"
+                                                    ng-reflect-model aria-label="Date input field" placeholder
+                                                    style="height: 30px; font-size: 14px;">
+                                                <div class="selbtngroup" style="height: 30px;">
+                                                    <button class="btnpicker btnpickerenabled btnleftborder" type="button"
+                                                        ng-reflect-klass="btnpicker" ng-reflect-ng-class="[object Object]"
+                                                        aria-label="Open Calendar">
+                                                        <span class="mydpicon icon-mydpcalendar">
+                                                            ::before
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </my-date-picker-th>
+                                <!-- <input class="form-control form-control-sm ng-untouched ng-pristine ng-valid" ngmodel
+                                    type="text" name="#" ng-reflect-name='#' ng-reflect-model=""> -->
+                            </div>
+    
+                        </div>
+                        <label class="col-lg-2 col-sm-3" for="">หน่วยงาน
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            :</label>
+                        <div class="col-lg-4 col-md-7 col-sm-9">
+                            <div class="form-group">
+                                <input class="form-control form-control-sm ng-untouched ng-pristine ng-valid" ngmodel
+                                    type="text" name="#" ng-reflect-name='#' ng-reflect-model="[object Object]" readonly="">
+                            </div>
+                        </div>
+    
+    
+            <!-- เพิ่มลักษณะคดี 17/06/62 -->
+            <label for="" class="col-lg-2 col-sm-4 ">ลักษณะคดี&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            :</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                  <!-- form-control ng-untouched ng-pristine ng-valid text-right -->
+                  <select name="" id="" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                    [disabled]="mode=='R'">
+                    <option value="เปรียบเทียบปรับ">เปรียบเทียบปรับ</option>
+                    <option value="ส่งฟ้องศาล">ส่งฟ้องศาล</option>
+                    <option value="ไม่มีตัว">ไม่มีตัว</option>
+                  </select>
+                  
+                </div>
+              </div>
+    
+            <label for="" class="col-lg-2 col-sm-4 ">กลุ่มสินค้า
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
+            </label>
+      
+            <div class="col-lg-4 col-md-7 col-sm-8">
+              <div class="form-group ">
+                <!-- form-control ng-untouched ng-pristine ng-valid text-right -->
+                <select name="" id="" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                  [disabled]="mode=='R'">
+                  <option value="สุรา">สุรา</option>
+                  <option value="ยาสูบ">ยาสูบ</option>
+                  <option value="ไพ่">ไพ่</option>
+                  <option value="สินค้าอื่นๆ">สินค้าอื่นๆ</option>
+                </select>
+                <!-- <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right" formcontrolname=""
+                  readonly="" ng-reflect-name="" value="สุรา"> -->
+              </div>
+            </div>
+        </div>
+                    <div class="row form-gruop">
+                        <div class="col-lg-10 col-8"></div>
+                        <div class="col-lg-2 col-4">
+                            <button class="btn-search btn-block btn-themecolor" type="submit">ค้นข้อมูล</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="card unset-radius">
+        <div class="card-body p-0">
+            <div class="table-responsive table-sm table-striped">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="text-center">ลำดับ</th>
+                            <th>สถานะ</th>
+                            <th>ปีงบประมาณ</th>
+                            <th>ข้อมูลวันที่</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-center">1</td>
+                            <td style="color: red">ยังส่งเป้าปราบปรามไม่ครบ</td>
+                            <td>2562</td>
+                            <td>20 ม.ค. 2561</td>
+                            <td class="text-center">
+    
+                                <i class="mdi mdi-eye fa-lg" (click)="viewTarget()"></i>
+                                <!-- <img src="../../../../../assets/css/icons/themify-icons/themify-icons.css" alt=""> -->
+                                <!-- <img src="../../../../assets/css/icons/themify-icons/icon-pic/detail.png" alt="" width="16" (click)="viewTarget()"> -->
+    
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">2</td>
+                            <td>ส่งเป้าปราบปรามครบ</td>
+                            <td>2562</td>
+                            <td>20 ม.ค. 2561</td>
+                            <td class="text-center"> <i class="mdi mdi-eye fa-lg" (click)="viewTarget()"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- <div class="card-footer card-footer-unset">
+    
+        </div> -->
+        <!-- <div class="card-footer card-footer-unset">
+            <app-pagination-table [TotalItems]="paginage.TotalItems" [CurrentPage]="paginage.CurrentPage"
+                [PageSize]="paginage.PageSize" [RowsPerPageOptions]="paginage.RowsPerPageOptions"
+                (onPageChange)="pageChanges($event)">
+            </app-pagination-table>
+        </div> -->
+    </div>

@@ -1,0 +1,326 @@
+<!-- ============================================================== -->
+<!-- Left Sidebar - style you can find in sidebar.scss  -->
+<!-- ============================================================== -->
+
+
+
+<aside class="left-sidebar" style="padding-top: 0px">
+    <!-- Sidebar scroll-->
+
+    <div class="navbar-header; hide-menu;" style="background: #005C97">
+        <a class="navbar-brand">
+            <b class="sidebartoggler ">
+                <img src="assets/images/logo-excise.png" alt="homepage" class="dark-logo" style="height: 60px;" />
+            </b>
+            <span [routerLink]="['/']" class="text-white heading">กรมสรรพสามิต</span><br>
+            <span [routerLink]="['/']" class="text-white sub-heading">THE EXCISE DEPARTMENT</span>
+        </a>
+        <!-- <ul class="navbar-nav mr-auto mt-md-0">
+                    <li class="nav-item">
+                        <a class=" sidebartoggler hidden-md-up text-muted waves-effect waves-dark" href="javascript:void(0)">
+                            <i class="mdi mdi-menu"></i>
+                        </a>
+                    </li>
+            
+                    <li class="nav-item">
+                        <a class="nav-link sidebartoggler hidden-sm-down text-muted waves-effect waves-dark"
+                            href="javascript:void(0)">
+                            <i class="ti-menu"></i>
+                        </a>
+                    </li>
+            
+                </ul> -->
+    </div>
+
+    <div class="scroll-sidebar">
+
+        <!-- User profile -->
+        <div class="user-profile"
+            style="background: url(assets/images/background/bg1_fixSize.jpg) no-repeat; padding-bottom: 8px;">
+
+            <div class="profile-img">
+                <img src="assets/images/users/user.png" alt="user" />
+            </div>
+            <div class="col-sm-12 "
+                style="padding-left: 21px; padding-right: 5px; font-size: 11px; color: black; text-shadow: 0px 0 black, 0 0px black, 0px 0 black, 0 0px black;">
+                <span class="hide-menu "> {{fName}} </span>
+            </div>
+            <div class="col-sm-12 "
+                style="padding-left: 21px; padding-right: 5px; font-size: 11px; color: black; text-shadow: 0px 0 black, 0 0px black, 0px 0 black, 0 0px black;">
+                <span class="hide-menu"> ตำแหน่ง {{opName}} </span>
+            </div>
+            <div class="col-sm-12 "
+                style="padding-left: 21px; padding-right: 5px; font-size: 11px; color: black; text-shadow: 0px 0 black, 0 0px black, 0px 0 black, 0 0px black;">
+                <span class="hide-menu"> หน่วยงาน {{offName}} </span>
+            </div>
+
+
+            <!-- <div class="profile-text" style="margin-top: -32px; padding-bottom: 0px;">
+                <a href="#" class="dropdown-toggle link u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true"
+                    aria-expanded="true" style="padding: 10px;">
+                    <span class="caret"></span>
+                </a>
+                <div class="dropdown-menu animated flipInY">
+                    <a href="javascript:void(0)" class="dropdown-item">
+                        <i class="ti-user"></i> My Profile</a>
+                    <a href="javascript:void(0)" class="dropdown-item">
+                        <i class="ti-wallet"></i> My Balance</a>
+                    <a href="javascript:void(0)" class="dropdown-item">
+                        <i class="ti-email"></i> Inbox</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="javascript:void(0)" class="dropdown-item">
+                        <i class="ti-settings"></i> Account Setting</a>
+                    <div class="dropdown-divider"></div>
+                </div>
+            </div> -->
+        </div>
+        <!-- End User profile text-->
+
+
+        <!-- Sidebar navigation-->
+        <nav class="sidebar-nav" style="padding-left: 2px; padding-right: 2px">
+            <ul id="sidebarnav">
+                <li>
+                    <a class="has-arrow" (click)="clickEvent()" href="javascript:void(0)" id="dLabel"
+                        data-toggle="dropdown" aria-expanded="false">
+                        <strong style="height: 38px;">1</strong>
+                        <span class="hide-menu">งานปราบปราม</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse" aria-labelledby="dLabel">
+                        <li>
+                            <a [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active"
+                                [routerLink]="['/SuppressTarget/list']" class="CloseSidebar">
+                                <span>1.1 เป้าปราบปราม</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active"
+                                [routerLink]="['/puritycerts/list']" class="CloseSidebar">
+                                <span>1.2 ใบรับรองความบริสุทธิ์</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active"
+                                [routerLink]="['/searchWarrant/list']" class="CloseSidebar">
+                                <span>1.3 หมายค้น</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active"
+                                [routerLink]="['/investigation/list']" class="CloseSidebar">
+                                <span>1.4 รายงานการสืบสวน</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active"
+                                [routerLink]="['/notice/list']" class="CloseSidebar">
+                                <span>1.5 ใบแจ้งความนำจับ</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active"
+                        [routerLink]="['/arrest/list']" class="CloseSidebar">
+                        <strong style="height: 38px;">2</strong>
+                        <span class="hide-menu">บันทึกจับกุม (ส.ส. 2/39)</span>
+                    </a>
+                </li>
+                <li>
+                    <a [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active"
+                        [routerLink]="['/lawsuit/list']" class="CloseSidebar">
+                        <strong style="height: 38px;">3</strong>
+                        <span class="hide-menu">รับคดีคำกล่าวโทษ (ส.ส. 1/55)</span>
+                    </a>
+                </li>
+                <li>
+                    <a [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active"
+                        [routerLink]="['/prove/list']" class="CloseSidebar">
+                        <strong style="height: 38px;">4</strong>
+                        <span class="hide-menu">พิสูจน์ของกลาง</span>
+                    </a>
+                </li>
+                <li>
+                    <a [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active" [routerLink]="['/fine/list']"
+                        class="CloseSidebar">
+                        <strong style="height: 38px;">5</strong>
+                        <span class="hide-menu">เปรียบเทียบและชำระค่าปรับ</span>
+                    </a>
+                </li>
+                <li>
+                    <a [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active"
+                        [routerLink]="['/revenue/list']" class="CloseSidebar">
+                        <strong style="height: 38px;">6</strong>
+                        <span class="hide-menu">นำส่งเงินรายได้</span>
+                    </a>
+                </li>
+                <li>
+                    <a [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active"
+                        [routerLink]="['/reward/list']" class="CloseSidebar">
+                        <strong style="height: 38px;">7</strong>
+                        <span class="hide-menu">คำร้องขอรับเงินสินบนรางวัล</span>
+                    </a>
+                </li>
+                <li>
+                    <a [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active"
+                        [routerLink]="['/reduction/list']" class="CloseSidebar">
+                        <strong style="height: 38px;">8</strong>
+                        <span class="hide-menu">รายการปรับเพิ่ม-ปรับลด</span>
+                    </a>
+                </li>
+
+                <!-- <li>
+                    <a class="has-arrow" href="javascript:void(0)" aria-expanded="false">
+
+                        <strong>9</strong>
+                        <span class="hide-menu">การจัดการของกลาง</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse">
+                        <li>
+                            <a [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active"
+                                routerLink="/deliveryStorage/list/">
+                                <span>9.1 นำส่งของกลางเพื่อจัดเก็บ</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active"
+                                routerLink="/proveStorage/list">
+                                <span>9.2 ตรวจรับของกลางเพื่อจัดเก็บ</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active"
+                                routerLink="/evidenceOutStorage/list/">
+                                <span>9.3 โอนย้ายของกลาง</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active"
+                                routerLink="/receivedFromTransfer/list/">
+                                <span>9.4 ตรวจรับจากการโอนย้าย</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active"
+                                routerLink="/evidenceOut/list/11/">
+                                <span>9.5 คือของกลาง</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active"
+                                routerLink="/evidenceOut/list/12/">
+                                <span>9.6 จัดเก็บของกลางเข้าพิพิธภัณฑ์</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active"
+                                routerLink="/evidenceOut/list/13/">
+                                <span>9.7 ขายทอดตลาด</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active"
+                                routerLink="/evidenceOut/list/14/">
+                                <span>9.8 ทำลายของกลาง</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active"
+                                routerLink="/evidenceOut/list/15/">
+                                <span>9.9 นำของกลางออกจากคลัง</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li> -->
+
+                <li>
+                    <a class="has-arrow" href="javascript:void(0)" data-toggle="dropdown" aria-expanded="false">
+                        <strong style="height: 38px;">9</strong>
+                        <span class="hide-menu">รายงาน</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse">
+                        <li>
+                            <a [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active"
+                                routerLink="/report/case-report/list" class="CloseSidebar">
+                                <span>9.1 รายงานส่วนคดี</span>
+                            </a>
+                        </li>
+                        <!-- <li>
+                            <a [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active"
+                                routerLink="/report/statistical-caseResults-report/criteria" class="CloseSidebar">
+                                <span>8.2 สถิติข้อมูลของงานข้อมูลผลคดี</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active"
+                                routerLink="/report/status-caseResults-report/criteria" class="CloseSidebar">
+                                <span>8.3 รายงานสถานะผลคดี</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active"
+                                routerLink="/report/statistical-suppressionOffenders-report/criteria"
+                                class="CloseSidebar">
+                                <span>8.4 สถิติการปราบปรามผู้กระทำผิด</span>
+                            </a>
+                        </li> -->
+                    </ul>
+                </li>
+
+                <li>
+                    <a class="has-arrow" href="javascript:void(0)" data-toggle="dropdown" aria-expanded="false">
+                        <strong style="height: 38px;">10</strong>
+                        <span class="hide-menu">ข้อมูลหลัก</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse">
+                        <li>
+                            <a [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active"
+                                routerLink="/msProduct/list">10.1 ข้อมูลของกลาง
+                            </a>
+                        </li>
+                        <!-- <li>
+                            <a [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active"
+                                routerLink="/msProductSize/list">9.2 ข้อมูลหน่วยบรรจุภัณฑ์
+                            </a>
+                        </li>
+                        <li>
+                            <a [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active"
+                                routerLink="/msProductUnit/list">9.3 ข้อมูลหน่วยปริมาณ
+                            </a>
+                        </li> -->
+                        <li>
+                            <a [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active"
+                                routerLink="/msUnit/list">10.2 ข้อมูลหน่วยนับ
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript:void(0)" class="dropdown-item" [routerLink]="['/logout']">
+                        <i class="fa fa-power-off"></i>
+                        <span class="hide-menu">Logout</span>
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+        <!-- End Sidebar navigation -->
+    </div>
+    <!-- End Sidebar scroll-->
+    <!-- Bottom points-->
+    <div class="sidebar-footer">
+        <!-- item-->
+        <div class="row">
+            <span style="font-size: 11px; float: left; margin-left: 25px">
+                <!-- ระบบงานผู้กระทำผิดกฎหมายภาษีสรรพสามิต <br> พ.ร.บ.ภาษีสรรพสามิต พ.ศ. 2560 <br> -->
+                เวอร์ชั่น 0.2.0.273 | {{this.textVersion | async}}
+            </span>
+        </div>
+    </div>
+    <!-- End Bottom points-->
+</aside>
+<!-- ============================================================== -->
+<!-- End Left Sidebar - style you can find in sidebar.scss  -->
+<!-- ============================================================== -->

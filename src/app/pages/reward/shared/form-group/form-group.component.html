@@ -1,0 +1,92 @@
+<!-- <pre>
+  {{columns$ | async | json}}
+</pre> -->
+<form *ngIf="(columns$ | async)" [formGroup]="formGroup" [class]="'form-row'" (change)="changeHandle(formGroup)"
+  (submit)="submitHandle(formGroup)">
+  <!-- {{formGroup.value | json}} -->
+  <ng-container *ngFor="let c of (columns$ | async)">
+    <ng-container *ngIf="c?.inputType === 'hidden' || c?.inputType2 === 'hidden'; else inputTypeNoHiden">
+      <input type="hidden" [id]="c?.field" [formControlName]="c?.field"
+        [attr.disabled]="c?.isDisabled ? 'disabled' : null">
+    </ng-container>
+    <ng-template #inputTypeNoHiden>
+      <ng-container *ngIf="options?.type === 'FILTER';else FormField">
+        <ng-container *ngIf="c?.field &&  c?.isFilter && !c?.isHidden">
+          <ng-container [ngTemplateOutlet]="FormField"></ng-container>
+        </ng-container>
+      </ng-container>
+      <ng-template #FormField>
+        <div [class]="c?.class ? c?.class : 'col-md-6'">
+          <div class="form-group row">
+            <label [for]="c?.field" class="col-sm-4 col-form-label">{{c?.title}} <strong *ngIf="c?.isRequired"
+                class="text-danger">*</strong>
+              <span class="pull-right">:</span> </label>
+            <ng-container *ngIf="c?.field2; else notMulti">
+              <div class="col-sm-8 ">
+
+                <div class="input-group form-line">
+                  <div style="width:45%">
+                    <ng-container *ngIf="c?.inputType === 'date';else text">
+                      <my-date-picker-th [formControlName]="c?.field" placeholder="" locale="th"
+                        [options]="myDatePickerOptions" [disabled]="c?.isDisabled"></my-date-picker-th>
+                    </ng-container>
+                    <ng-template #text>
+                      <input type="{{c?.inputType || 'text'}}" [min]="c?.minDate || ''" [max]="c?.maxDate || ''"
+                        [id]="c?.field" [formControlName]="c?.field" class="form-control form-control-sm"
+                        [attr.disabled]="c?.isDisabled ? 'disabled' : null" style="width: 100%;">
+                    </ng-template>
+                  </div>
+                  <div class="text-center" style="width:10%">
+                    <label class="text-center">&nbsp;{{c?.title2}}&nbsp;</label>
+                  </div>
+                  <div style="width:45%">
+                    <ng-container *ngIf="c?.inputType2 === 'date';else text2">
+                      <my-date-picker-th [formControlName]="c?.field2" placeholder="" locale="th"
+                        [options]="myDatePickerOptions"></my-date-picker-th>
+                    </ng-container>
+                    <ng-template #text2>
+                      <input type="{{c?.inputType2 || 'text'}}" [min]="c?.minDate || ''" [max]="c?.maxDate || ''"
+                        [id]="c?.field2" [formControlName]="c?.field2" class="form-control form-control-sm"
+                        [attr.disabled]="c?.isDisabled2 ? 'disabled' : null" style="width: 100%;">
+                    </ng-template>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+            <ng-template #notMulti>
+              <div class="col-sm-8">
+                <ng-container *ngIf="c?.inputType === 'date';else text">
+                  <my-date-picker-th [formControlName]="c?.field" placeholder="" locale="th"
+                    [options]="myDatePickerOptions" [disabled]="c?.isDisabled"></my-date-picker-th>
+                </ng-container>
+                <ng-template #text>
+                    <ng-container *ngIf="c?.inputType === 'text';else select">
+                        <input type="{{c?.inputType ? c?.inputType : 'text'}}" [min]="c?.minDate || ''"
+                        [max]="c?.maxDate || ''" [id]="c?.field" [formControlName]="c?.field"
+                        class="form-control form-control-sm" [attr.disabled]="c?.isDisabled ? 'disabled' : null">
+                    </ng-container>
+                </ng-template>
+                <ng-template #select>
+                  <select [id]="c?.field" [formControlName]="c?.field" class="form-control form-control-sm" [attr.disabled]="c?.isDisabled ? 'disabled' : null">
+                    <option *ngFor="let data of c?.data" [ngValue]="data.value">
+                      {{ data.text }}
+                    </option>
+                  </select> 
+                </ng-template>
+                <!--  -->
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </ng-template>
+    </ng-template>
+  </ng-container>
+  <hr>
+  <div style="width: 100%">
+    <div class=" text-right">
+      <button *ngIf="needSearchBtn" type="submit" class="btn waves-effect waves-light btn-navy">ค้นข้อมูล</button>
+    </div>
+
+  </div>
+
+</form>

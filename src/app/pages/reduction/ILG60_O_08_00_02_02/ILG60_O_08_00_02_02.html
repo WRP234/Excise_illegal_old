@@ -1,0 +1,133 @@
+<form [formGroup]="controlForm" (ngSubmit)="onSubmit()">
+  <div class="modal-header bg-theme">
+    <div class="row">
+      <div class="col-lg-5">
+        <h4 class="modal-title text-white">รายละเอียดการปรับเพิ่ม-ปรับลด</h4>
+      </div>
+      <a href="javaScript:void(0);" class="close text-white font-14" aria-label="Close" (click)="dismisss()">
+        <span aria-hidden="true">
+          <i class=" ti-close"></i>
+        </span>
+      </a>
+    </div>
+  </div>
+  <div class="modal-body">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="form-group row float-lg-right">
+            <label class="control-label "> ILG60_O_08_00_02_02</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-outline-bluish unset-radius">
+        <div class="card-header unset-radius">
+          <h5 class="card-title m-b-0">ปรับลด</h5>
+        </div>
+        <div class="card-body">
+          <div class="modal-body font-14" >
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label col-md-4 control-label">ชื่อผู้ต้องหา</label>
+                  <div class="col-md-8">
+                    <input class="form-control form-control-sm  ng-untouched ng-pristine ng-valid" type="text" formControlName="NAME" [attr.disabled]="true">
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label col-md-4 control-label">ยอดค่าปรับลด</label>
+                  <div class="col-md-8">
+                    <input class="form-control form-control-sm  ng-untouched ng-pristine ng-valid" type="text" value="{{controlForm.get('DIFFERENCE_PAYMENT_FINE').value | number : '1.2'}}" [attr.disabled]="true">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6" *ngIf="controlForm.get('RECEIPT_TYPE').value == 0">
+                <div class="form-group row">
+                  <label class="col-form-label col-md-4 control-label is-required">ใบเสร็จเล่มที่</label>
+                  <div class="col-md-8">
+                    <input disabled class="form-control form-control-sm  ng-untouched ng-pristine ng-valid" type="text" formControlName="RECEIPT_BOOK_NO">
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label col-md-4 control-label is-required">ใบเสร็จเลขที่</label>
+                  <div class="col-md-8">
+                    <input disabled class="form-control form-control-sm  ng-untouched ng-pristine ng-valid" type="text" formControlName="RECEIPT_NO">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label col-md-4 control-label">ชื่อเจ้าหน้าที่</label>
+                  <div class="col-md-8">
+                    <ng-template #rt let-r="result" let-t="term">
+                      {{ r.TITLE_SHORT_NAME_TH}}{{r.FIRST_NAME}} {{r.LAST_NAME}}
+                    </ng-template>
+                    <input type="text" #region1 class="form-control form-control-sm" [readonly]="setStaff.value[0].IS_ACTIVE == 1 || showEditField"
+                      [ngbTypeahead]="searchStaff" [resultTemplate]="rt" [ngClass]="{'ng-invalid-req':setStaff.value[0].IS_ACTIVE == 0}"
+                      [inputFormatter]="formatterStaff" (selectItem)="selectItemStaff($event, 0)"
+                      [value]="setStaff.value[0].FULL_NAME" [ngClass]="{'ng-touched':isRequired}"
+                      (keyup)="deleteStaff(i)" required />
+                      <a *ngIf="setStaff.value[0].IS_ACTIVE == 1 && showEditField == false" (click)="deleteContri(0)"  href="javaScript:void(0);" class="times text-secondary text-danger">
+                        <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i>
+                      </a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label col-md-4 control-label">ตำแหน่ง</label>
+                  <div class="col-md-8">
+                    <input type="text" [value]=" setStaff.value[0].OPREATION_POS_NAME" class="form-control form-control-sm" [readonly]="true" required>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-form-label col-md-4 control-label">หน่วยงาน</label>
+                  <div class="col-md-8">
+                    <input type="text" [value]=" setStaff.value[0].OPERATION_OFFICE_SHORT_NAME" class="form-control form-control-sm" [readonly]="true" required>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-form-label col-md-2 control-label is-required">เหตุผลในการปรับ</label>
+              <div class="col-md-10">
+                <textarea [ngClass]="{'ng-invalid-req':isReq_REASON}" 
+                (blur)="setIsPeq('isReq_REASON')"
+                class="form-control form-control-sm  ng-untouched ng-pristine ng-valid" type="text" [readonly]="showEditField" formControlName="REASON" rows="6"></textarea>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        
+        <div class="modal-footer">
+          <div class="col-lg-2 col-4">
+              <button type="submit" [disabled]="showEditField"
+                class="btn btn-block btn-themecolor">ตกลง</button>
+                <!-- [class.disabled]="controlForm.get('INSURANCE').invalid || controlForm.get('GAURANTEE').invalid"
+                [disabled]="controlForm.get('INSURANCE').invalid || controlForm.get('GAURANTEE').invalid" -->
+              </div>
+              <div class="col-lg-2 col-4">
+              <button type="button" [disabled]="showEditField"
+                class="btn btn-block button"
+                (click)="dismiss()">ยกเลิก</button>
+              </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</form>

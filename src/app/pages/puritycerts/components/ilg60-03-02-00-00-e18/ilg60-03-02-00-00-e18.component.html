@@ -1,0 +1,244 @@
+<div class="card card-outline-bluish unset-radius" [formGroup]="PuritycertFG">
+    <div class="card-header unset-radius">
+      <div class="card-actions">
+        <a class="" (click)="onCollapse(ILG60_03_02_00_00_E18)">
+          <i class="fa"
+            [ngClass]="{'fa-chevron-down': (ILG60_03_02_00_00_E18 | async), 'fa-chevron-up': !(ILG60_03_02_00_00_E18 | async)}"></i>
+        </a>
+      </div>
+      <h4 class="card-title m-b-0">เจ้าบ้าน/ผู้ดูแลแทน</h4>
+    </div>  
+  <div *ngIf="ILG60_03_02_00_00_E18 | async" class="card-body" formArrayName="ArrestLocale">
+      <div *ngFor="let item of ArrestLocale.controls; let i = index;" [formGroupName]="i">
+
+          <div class="card-body">
+              <div class="row">
+                <label class="col-lg-2 col-sm-4 control-label is-required"
+                  >ประเภท</label
+                >
+                <div class="col-lg-4 col-md-7 col-sm-8 form-group ">
+                  <select  [attr.disabled]="isEdit ? '' : null"
+                    formControlName="person_status"
+                    class="form-control form-control-sm">
+                  <option value=0>เจ้าบ้าน</option>
+                  <option value=1>ผู้ดูแลแทน</option>
+                </select>
+                </div>
+                <label  class="col-lg-2 col-sm-4 control-label is-required"
+                  >คำนำหน้าชื่อ</label
+                >
+                <div class="col-lg-4 col-md-7 col-sm-8 form-group">
+                  <ng-template #r let-r="result" let-t="term">
+                    {{ r.TITLE_NAME_TH }}
+                  </ng-template>
+                  <input type="text" class="form-control form-control-sm" [ngbTypeahead]="titleNames" [resultTemplate]="r"
+                         (selectItem)="selectItemTitle($event)"
+                         value="{{item.get('person_title_id').value}}"
+                         [readOnly]="isEdit" required/>
+                </div>
+              </div>
+<!--                <div class="col-lg-4 col-md-7 col-sm-8">-->
+<!--                  <div class="form-group ">-->
+<!--                    <input-->
+<!--                      type="text"-->
+<!--                      formControlName="person_title_id"-->
+<!--                      class="form-control form-control-sm"-->
+<!--                      [readonly]="isEdit"-->
+<!--                    />-->
+<!--                  </div>-->
+<!--                </div>-->
+              <div class="row">
+                <label for="" class="col-lg-2 col-sm-4 control-label is-required"
+                  >ชื่อจริง</label
+                >
+                <div class="col-lg-4 col-md-7 col-sm-8">
+                  <div class="form-group ">
+                    <input
+                      type="text"
+                      formControlName="person_first_name"
+                      class="form-control form-control-sm"
+                      [readonly]="isEdit"
+                    />
+                  </div>
+                </div>
+      
+                <label for="" class="col-lg-2 col-sm-4 control-label is-required"
+                  >นามสกุล</label
+                >
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                  <input
+                    type="text"
+                    formControlName="person_last_name"
+                    class="form-control form-control-sm"
+                    [readonly]="isEdit"
+                  />
+                </div>
+              </div>
+      
+              <div class="row">
+                <label for="" class="col-lg-2 col-sm-4 control-label"
+                  >เลขบัตรประชาชน</label
+                >
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                  <input
+                    type="number"
+                    formControlName="person_id_card"
+                    class="form-control form-control-sm"
+                    [readonly]="isEdit"
+                  />
+                </div>
+      
+                <label for="" class="col-lg-2 col-sm-4 control-label">อายุ</label>
+                <div class="col-lg-4 col-md-7 col-sm-8 form-group ">
+                  <input
+                    type="number"
+                    formControlName="person_age"
+                    class="form-control form-control-sm"
+                    [readonly]="isEdit"
+                  />
+                </div>
+              </div>
+      
+              <div class="row">
+                <label for="" class="col-lg-2 col-sm-4 control-label">อาชีพ</label>
+                <div class="col-lg-4 col-md-7 col-sm-8 form-group ">
+                  <input
+                    type="text"
+                    formControlName="person_career"
+                    class="form-control form-control-sm"
+                    [readonly]="isEdit"
+                  />
+                </div>
+                <label for="" class="col-lg-2 col-sm-4 control-label">ตำแหน่ง</label>
+                <div class="col-lg-4 col-md-7 col-sm-8 form-group ">
+                  <input
+                    type="text"
+                    formControlName="person_position"
+                    class="form-control form-control-sm"
+                    [readonly]="isEdit"
+                  />
+                </div>
+              </div>
+      
+              <div class="row">
+                <label for="" class="col-lg-2 col-sm-4 control-label">ละติจูด</label>
+                <div class="col-lg-4 col-md-7 col-sm-8 form-group ">
+                  <input
+                    type="text"
+                    formControlName="LATITUDE"
+                    class="form-control form-control-sm"
+                    [readonly]="isEdit"
+                  />
+                </div>
+                <label for="" class="col-lg-2 col-sm-4 control-label">ลองจิจูด</label>
+                <div class="col-lg-4 col-md-7 col-sm-8 form-group ">
+                  <input
+                    type="text"
+                    formControlName="LONGITUDE"
+                    class="form-control form-control-sm"
+                    [readonly]="isEdit"
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <label for="" class="col-lg-2 col-sm-4 control-label">บ้านเลขที่</label>
+                <div class="col-lg-4 col-md-7 col-sm-8 form-group ">
+                  <input
+                    type="text"
+                    formControlName="ADDRESS_NO"
+                    class="form-control form-control-sm"
+                    [readonly]="isEdit"
+                  />
+                </div>
+                <label for="" class="col-lg-2 col-sm-4 control-label">หมู่ที่</label>
+                <div class="col-lg-4 col-md-7 col-sm-8 form-group ">
+                  <input
+                    type="text"
+                    formControlName="VILLAGE_NO"
+                    class="form-control form-control-sm"
+                    [readonly]="isEdit"
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <label for="" class="col-lg-2 col-sm-4 control-label">อาคาร</label>
+                <div class="col-lg-4 col-md-7 col-sm-8 form-group ">
+                  <input
+                    type="text"
+                    formControlName="BUILDING_NAME"
+                    class="form-control form-control-sm"
+                    [readonly]="isEdit"
+                  />
+                </div>
+                <label for="" class="col-lg-2 col-sm-4 control-label">ห้อง</label>
+                <div class="col-lg-4 col-md-7 col-sm-8 form-group ">
+                  <input
+                    type="text"
+                    formControlName="ROOM_NO"
+                    class="form-control form-control-sm"
+                    [readonly]="isEdit"
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <label for="" class="col-lg-2 col-sm-4 control-label">ชั้น</label>
+                <div class="col-lg-4 col-md-7 col-sm-8 form-group ">
+                  <input
+                    type="text"
+                    formControlName="FLOOR"
+                    class="form-control form-control-sm"
+                    [readonly]="isEdit"
+                  />
+                </div>
+                <label for="" class="col-lg-2 col-sm-4 control-label">หมู่บ้าน</label>
+                <div class="col-lg-4 col-md-7 col-sm-8 form-group ">
+                  <input
+                    type="text"
+                    formControlName="VILLAGE_NAME"
+                    class="form-control form-control-sm"
+                    [readonly]="isEdit"
+                  />
+                </div>
+              </div>
+      
+              <div class="row">
+                <label for="" class="col-lg-2 col-sm-4 control-label">ตรอก</label>
+                <div class="col-lg-4 col-md-7 col-sm-8 form-group ">
+                  <input
+                    type="text"
+                    formControlName="ALLEY"
+                    class="form-control form-control-sm"
+                    [readonly]="isEdit"
+                  />
+                </div>
+                <label for="" class="col-lg-2 col-sm-4 control-label">ซอย</label>
+                <div class="col-lg-4 col-md-7 col-sm-8 form-group ">
+                  <input
+                    type="text"
+                    formControlName="LANE"
+                    class="form-control form-control-sm"
+                    [readonly]="isEdit"
+                  />
+                </div>
+              </div>
+        <div class="row">
+          <label for="" class="col-lg-2 col-sm-4 control-label">ถนน</label>
+          <div class="col-lg-4 col-md-7 col-sm-8 form-group">
+            <input type="text" formControlName="ROAD" class="form-control form-control-sm" [readonly]="isEdit">
+          </div>
+        <label for="" class="col-lg-2 col-sm-4 control-label is-required">ตำบล/อำเภอ/จังหวัด</label>
+          <div class="col-lg-4 col-md-7 col-sm-8 form-group">
+            <ng-template #rt let-r="result" let-t="term">
+              {{ r.SUB_DISTRICT_NAME_TH }} / {{r.DISTRICT_NAME_TH}} / {{r.PROVINCE_NAME_TH}}
+            </ng-template>
+            <!-- [ngClass]="{'is-invalid': (item.get('Region').invalid && isRequired)}"  -->
+            <input type="text" class="form-control form-control-sm" [ngbTypeahead]="searchLocale" [resultTemplate]="rt"
+              [inputFormatter]="T_LocaleFormatter" (selectItem)="selectItemLocale($event)"
+              value="{{item.get('SUB_DISTRICT_NAME_TH').value}} {{item.get('DISTRICT_NAME_TH').value}} {{item.get('PROVINCE_NAME_TH').value}}"
+              [readOnly]="isEdit" required/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

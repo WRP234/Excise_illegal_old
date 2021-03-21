@@ -1,0 +1,232 @@
+<!-- <app-horizontal-timeline></app-horizontal-timeline> -->
+<header class="topbar">
+    <nav class="navbar top-navbar navbar-expand-md navbar-light">
+
+        <div class="navbar-collapse" style="padding-right: 55px;">
+            <ul class="navbar-nav mr-auto mt-md-0">
+                <li class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)"
+                            [routerLink]="['/arrest/manage', 'C', 'NEW']">
+                            สร้างข้อมูล
+                        </a>
+                    </div>
+                </li>
+            </ul>
+            <ul class="navbar-nav my-lg-0">
+                <li class="nav-item col-8">
+                    <form autocomplete="off" class="app-search" #formSearch="ngForm"
+                        (ngSubmit)="clickSearch(formSearch.form.value)">
+                        <input type="search" name="TEXT_SEARCH" id="" ngModel [(ngModel)]="TEMP_TEXT_SEARCH"
+                            class="form-control">
+                        <a href="javaScript:void(0);" (click)="clickSearch(formSearch.form.value)" class="srh-btn">
+                            <i class="ti-search"></i>
+                        </a>
+                    </form>
+                </li>
+                <li class="nav-item col-9">
+                    <a href="javaScript:void(0);" class="btn text-white" (click)="setAdvSearch()">
+                        ค้นหาขั้นสูง
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<div *ngIf="advSearch | async" class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius">
+        <app-card-actions-close></app-card-actions-close>
+        <h4 class="card-title m-b-0">ค้นหาขั้นสูง</h4>
+    </div>
+    <div class="card-body">
+        <form class="form-horizontal" autocomplete="off" #advForm="ngForm" (ngSubmit)="onAdvSearch(advForm.value)">
+            <div>
+                <div class="row">
+                    <label for="" class="col-lg-2 col-sm-3 control-label">เลขที่งาน</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <input type="text" name="ARREST_CODE" ngModel [(ngModel)]="TEMP_ARREST_CODE"
+                                class="form-control form-control-sm" placeholder="">
+                        </div>
+                    </div>
+
+                    <label for="" class="col-lg-2 col-sm-3 control-label">วันที่จับกุม</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group input-group">
+                            <my-date-picker-th [options]="dateFromOption"
+                                class="form-control form-control-sm unset-form-control" name="OCCURRENCE_DATE_FROM"
+                                (dateChanged)="onSDateChange($event)" ngModel [(ngModel)]="DATE_START_FROM">
+                            </my-date-picker-th>
+
+                            <label for="OccurrenceDateTo">&nbsp;ถึง&nbsp;</label>
+
+                            <my-date-picker-th id="OccurrenceDateTo" name="OCCURRENCE_DATE_TO"
+                                class="form-control form-control-sm unset-form-control" [options]="dateToOption"
+                                (dateChanged)="onEDateChange($event)" [(ngModel)]="DATE_START_TO">
+                            </my-date-picker-th>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label for="" class="col-lg-2 col-sm-3 control-label">ชื่อผู้กล่าวหา</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <input type="text" name="STAFF_NAME" ngModel [(ngModel)]="TEMP_STAFF_NAME"
+                                class="form-control form-control-sm" placeholder="">
+                        </div>
+                    </div>
+                    <label for="" class="col-lg-2 col-sm-3 control-label">ชื่อผู้ต้องหา</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <input type="text" name="LAWBREAKER_NAME" ngModel [(ngModel)]="TEMP_LAWBREAKER_NAME"
+                                class="form-control form-control-sm" placeholder="">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label for="" class="col-lg-2 col-sm-3 control-label">มาตรา</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <input type="text" name="SUBSECTION_NAME" ngModel [(ngModel)]="TEMP_SUBSECTION_NAME"
+                                class="form-control form-control-sm" placeholder="">
+                        </div>
+                    </div>
+                    <label for="" class="col-lg-2 col-sm-3 control-label">ฐานควาผิด</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <input type="text" name="GUILTBASE_NAME" ngModel [(ngModel)]="TEMP_GUILTBASE_NAME"
+                                class="form-control form-control-sm" placeholder="">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <label for="" class="col-lg-2 col-sm-3 control-label">สถานที่เกิดเหตุ</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <input type="text" name="LOCALE_NAME" ngModel [(ngModel)]="TEMP_LOCALE_NAME"
+                                class="form-control form-control-sm" placeholder="">
+                        </div>
+                    </div>
+                    <label for="" class="col-lg-2 col-sm-3 control-label">เขียนที่</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <ng-template #rt let-OFFICE_SHORT_NAME="result" let-t="term">
+                                {{ OFFICE_SHORT_NAME }}
+                            </ng-template>
+
+                            <input type="text" name="OFFICE_NAME" ngModel [(ngModel)]="TEMP_OFFICE_NAME"
+                                class="form-control form-control-sm " [ngbTypeahead]="searchOffice_ll"
+                                [resultTemplate]="rt" placeholder="{{officeShortName}}"
+                                [disabled]="canOfficeSearch()" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label for="" class="col-lg-2 col-sm-3 control-label">สถานะการรับคดี</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <select class="form-control form-control-sm" name="IS_LAWSUIT_COMPLETE" ngModel
+                                [(ngModel)]="TEMP_IS_LAWSUIT_COMPLETE">
+                                <option value="">ทั้งหมด</option>
+                                <option *ngFor="let item of IsLawsuitComplateDropDown" [value]="item.value">
+                                    {{item.text}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-10"></div>
+                    <div class="col-2">
+                        <button type="submit" class="btn btn-block btn-themecolor">ค้นข้อมูล</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<!-- <app-table-data [columns]="columns" [data]="gridData" [options]="TableDataOptions"></app-table-data> -->
+
+<div class="card unset-radius">
+    <div class="card-body p-0">
+
+        <div class="table-responsive overflow-y-hidden">
+            <table style="width: 155%; max-width: unset;" #arrestTable class="table table-sm table-striped">
+                <thead>
+                    <tr>
+                        <th style="width: 3%" class="text-center">ลำดับ</th>
+                        <th style="width: 8%">เลขที่งาน<i
+                                [ngClass]="(TN_SORTING | async) ? 'mdi mdi-sort-descending' : 'mdi mdi-sort-ascending'"
+                                style="margin-left: 5px;cursor: pointer;" (click)="Sorter(TN_SORTING,'TN')"></i></th>
+                        <th style="width: 9%">วันที่จับกุม <i
+                                [ngClass]="(TIME_SORTING | async) ? 'mdi mdi-sort-descending' : 'mdi mdi-sort-ascending'"
+                                style="margin-left: 5px;cursor: pointer;" (click)="Sorter(TIME_SORTING,'TIME')"></i>
+                        </th>
+                        <th style="width: 12%">ชื่อผู้กล่าวหา</th>
+                        <th style="width: 13%">ชื่อผู้ต้องหา</th>
+                        <th style="width: 6%">มาตรา</th>
+                        <th style="width: 13%">ฐานควาผิด</th>
+                        <th style="width: 15%">สถานที่เกิดเหตุ</th>
+                        <th style="width: 15%">เขียนที่</th>
+                        <th style="width: 15%">สถานะการรับคดี</th>
+                        <th style="width: 3%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of arrestList; let i=index" style="cursor: pointer;"
+                        [routerLink]="['/arrest/manage', 'R', item.ARREST_ID]">
+                        <td class="text-center">{{item.ROW_ID}}</td>
+                        <td>{{item.ARREST_CODE}}</td>
+                        <td>{{item.OCCURRENCE_DATE}}</td>
+                        <td>{{item.TITLE_SHORT_NAME_TH}}{{item.FIRST_NAME}} {{item.LAST_NAME}}</td>
+                        <td>
+                            <p class="m-0" *ngFor=" let r of item.ArrestLawbreaker">
+                                <span *ngIf="r.PERSON_TYPE == 2; else elsePersonType">
+                                    {{r.TITLE_SHORT_NAME_TH}}{{r.COMPANY_NAME}}
+                                </span>
+                                <ng-template #elsePersonType>
+                                    <span *ngIf="r.PERSON_TYPE == 1">
+                                        {{r.TITLE_SHORT_NAME_EN}}{{r.FIRST_NAME}}
+                                        {{r.MIDDLE_NAME}}
+                                        {{r.LAST_NAME}}
+                                    </span>
+                                    <span *ngIf="r.PERSON_TYPE == 0">
+                                        {{r.TITLE_SHORT_NAME_TH}}{{r.FIRST_NAME}}
+                                        {{r.MIDDLE_NAME}}
+                                        {{r.LAST_NAME}}
+                                    </span>
+                                </ng-template>
+                            </p>
+                        </td>
+                        <td>{{item.SUBSECTION_NAME$}}</td>
+                        <td>{{item.GUILTBASE_NAME$}}</td>
+                        <td>{{item.SUB_DISTRICT_NAME_TH}} {{item.DISTRICT_NAME_TH}} {{item.PROVINCE_NAME_TH}}</td>
+                        <td>{{item.OFFICE_NAME}}</td>
+                        <td>{{GetIsLawsuitComplate(item.IS_LAWSUIT_COMPLETE)}}</td>
+                        <td class="text-center">
+                            <a href="javaScript:void(0);" class="text-secondary"
+                                [routerLink]="['/arrest/manage', 'R', item.ARREST_ID]">
+                                <i class="mdi mdi-eye fa-lg"></i>
+                            </a>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer card-footer-unset">
+        <app-pagination-table [TotalItems]="paginage.TotalItems" [CurrentPage]="paginage.CurrentPage"
+            [PageSize]="paginage.PageSize" [RowsPerPageOptions]="paginage.RowsPerPageOptions"
+            (onPageChange)="pageChanges($event)">
+        </app-pagination-table>
+    </div>
+</div>

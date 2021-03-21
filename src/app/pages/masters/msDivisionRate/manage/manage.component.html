@@ -1,0 +1,162 @@
+<header class="topbar">
+    <nav class="navbar top-navbar navbar-expand-md navbar-light">
+        <div class="navbar-collapse" style="padding-right: 55px;">
+            <ul class="navbar-nav mr-auto mt-md-0">
+                <li *ngIf="PrintButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickPrint()">
+                            พิมพ์
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="EditButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnEdit()">
+                            แก้ไข
+                        </a>
+                    </div>
+                </li>
+                <!-- <li *ngIf="DeleteButton | async" class="nav-item">
+                        <div class="nav-link text-muted waves-effect waves-dark">
+                            <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnDelete()" style="background-color: #f47023">
+                                ลบ
+                            </a>
+                        </div>
+                    </li> -->
+                <li *ngIf="SaveButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnSave()">
+                            บันทึก
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="CancelButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnCancel()">
+                            ยกเลิก
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<div class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius">
+        <app-card-actions-collapse></app-card-actions-collapse>
+        <h4 class="card-title m-b-0">สัดส่วนการแบ่งเงิน กรณีรับเงินสินบนและเงินรางวัล</h4>
+    </div>
+    <div class="card-body">
+        <div class="row form-group">
+            <div class="col">
+                <input type="checkbox" id="md_checkbox_1" [(ngModel)]="IS_REPORT" name="IS_REPORT" class="filled-in chk-col-indigo" [disabled]="showEditField"
+                    (change)="clearDataBribeRate()">
+                <label for="md_checkbox_1">มีผู้แจ้งความ</label>
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col">
+                <input type="checkbox" id="md_checkbox_2" [(ngModel)]="IS_RECEIVE" name="IS_RECEIVE" class="filled-in chk-col-indigo" [disabled]="showEditField"
+                    (change)="clearDataRewardRate()">
+                <label for="md_checkbox_2">ขอรับเงินรางวัล</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label">รหัสสัดส่วนการแบ่งเงิน</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <input type="text" name="DIVISIONRATE_ID" [(ngModel)]="DIVISIONRATE_ID" class="form-control " disabled>
+                </div>
+            </div>
+
+            <label for="" class="col-lg-2 col-md-4 control-label" [ngClass]="{'is-required':IS_REPORT}">สัดส่วนเงินสินบน</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <input type="text" name="BRIBE_RATE" [(ngModel)]="BRIBE_RATE" class="form-control" [disabled]="showEditField || !IS_REPORT"
+                        [ngClass]="{'ng-touched':isRequired}" (change)="BribeRateFormat()" (keypress)="VaridateNumber($event)"
+                        (keydown)="isReq_bribeRate.next(false)">
+                    <div class="alert alert-danger mt-3" role="alert" *ngIf="isReq_bribeRate.value">
+                        กรุณาระบุข้อมูล "สัดส่วนเงินสินบน"
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="" class="col-lg-2 col-md-4 control-label" [ngClass]="{'is-required':IS_RECEIVE}">สัดส่วนเงินรางวัล</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <input type="text" name="REWARD_RATE" [(ngModel)]="REWARD_RATE" class="form-control" [disabled]="showEditField || !IS_RECEIVE"
+                        [ngClass]="{'ng-touched':isRequired}" (change)="RewardRateFormat()" (keypress)="VaridateNumber($event)"
+                        (keydown)="isReq_rewardRate.next(false)">
+                    <div class="alert alert-danger mt-3" role="alert" *ngIf="isReq_rewardRate.value">
+                        กรุณาระบุข้อมูล "สัดส่วนเงินรางวัล"
+                    </div>
+                </div>
+            </div>
+
+            <label for="" class="col-lg-2 col-md-4 control-label is-required">สัดส่วนเงินส่งคลัง</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <input type="text" name="TREASURY_RATE" [(ngModel)]="TREASURY_RATE" class="form-control" [disabled]="showEditField" [ngClass]="{'ng-touched':isRequired}"
+                        (change)="TreasuryRateFormat()" (keypress)="VaridateNumber($event)" (keydown)="isReq_treasuryRate.next(false)">
+                    <div class="alert alert-danger mt-3" role="alert" *ngIf="isReq_treasuryRate.value">
+                        กรุณาระบุข้อมูล "สัดส่วนเงินส่งคลัง"
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="" class="col-lg-2 col-md-4 control-label" [ngClass]="{'is-required':IS_REPORT}">เงินสินบนสูงสุด</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <input type="text" name="BRIBE_MAX_MONEY" [(ngModel)]="BRIBE_MAX_MONEY" class="form-control" [disabled]="showEditField || !IS_REPORT"
+                        [ngClass]="{'ng-touched':isRequired}" (change)="BribeMaxMoneyFormat()" (keypress)="VaridateNumber($event)"
+                        (keydown)="isReq_bribeMaxMoney.next(false)">
+                    <div class="alert alert-danger mt-3" role="alert" *ngIf="isReq_bribeMaxMoney.value">
+                        กรุณาระบุข้อมูล "เงินสินบนสูงสุด"
+                    </div>
+                </div>
+            </div>
+
+            <label for="" class="col-lg-2 col-md-4 control-label" [ngClass]="{'is-required':IS_RECEIVE}">เงินรางวัลสูงสุด</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <input type="text" name="REWARD_MAX_MONEY" [(ngModel)]="REWARD_MAX_MONEY" class="form-control" [disabled]="showEditField || !IS_RECEIVE"
+                        [ngClass]="{'ng-touched':isRequired}" (change)="RewardMaxMoneyFormat()" (keypress)="VaridateNumber($event)"
+                        (keydown)="isReq_rewardMaxMoney.next(false)">
+                    <div class="alert alert-danger mt-3" role="alert" *ngIf="isReq_rewardMaxMoney.value">
+                        กรุณาระบุข้อมูล "เงินรางวัลสูงสุด"
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <label for="" class="col-lg-2 col-md-4 control-label is-required">วันที่เริ่มใช้งาน</label>
+            <div class="col-lg-4 col-md-7">
+                <div class="form-group input-group">
+                    <my-date-picker-th name="EFFECTIVE_DATE" [options]="myDatePickerOptions" class="form-control unset-form-control" [(ngModel)]="EFFECTIVE_DATE"
+                        [disabled]="showEditField" [ngClass]="{'ng-touched':isRequired}" (dateChanged)="isReq_effectiveDate.next(false)"></my-date-picker-th>
+                </div>
+                <div class="alert alert-danger mt-3" role="alert" *ngIf="isReq_effectiveDate.value">
+                    กรุณาระบุข้อมูล "วันที่เริ่มใช้งาน"
+                </div>
+            </div>
+
+            <label for="" class="col-lg-2 col-md-4 control-label is-required">วันที่สิ้นสุดใช้งาน</label>
+            <div class="col-lg-4 col-md-7">
+                <div class="form-group input-group">
+                    <my-date-picker-th name="EXPIRE_DATE" [options]="myDatePickerOptions" class="form-control unset-form-control" [(ngModel)]="EXPIRE_DATE"
+                        [disabled]="showEditField" [ngClass]="{'ng-touched':isRequired}" (dateChanged)="isReq_expDate.next(false)"></my-date-picker-th>
+                </div>
+                <div class="alert alert-danger mt-3" role="alert" *ngIf="isReq_expDate.value">
+                    กรุณาระบุข้อมูล "วันที่สิ้นสุดใช้งาน"
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

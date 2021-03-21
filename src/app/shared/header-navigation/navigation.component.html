@@ -1,0 +1,275 @@
+<!-- ============================================================== -->
+<!-- Topbar header - style you can find in pages.scss -->
+<!-- ============================================================== -->
+<header class="topbar">
+    <nav class="navbar top-navbar navbar-expand-md navbar-light">
+        <!-- ============================================================== -->
+        <!-- Logo -->
+        <!-- ============================================================== -->
+        <div class="navbar-header">
+            <a class="navbar-brand" [routerLink]="['/']">
+                <!-- Logo icon -->
+                <b>
+                    <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+                    <!-- Dark Logo icon -->
+                    <img src="assets/images/logo-excise.png" alt="homepage" class="dark-logo" style="height: 60px;" />
+                    <!-- Light Logo icon -->
+                    <img src="assets/images/logo-excise.png" alt="homepage" class="light-logo" style="height: 60px;" />
+                </b>
+                <!--End Logo icon -->
+                <!-- Logo text -->
+                <span class="text-white heading">
+                    กรมสรรพสามิต
+                </span>
+                <br>
+                <span class="text-white sub-heading">THE EXCISE DEPARTMENT</span>
+            </a>
+        </div>
+
+        <ul class="navbar-nav mr-auto mt-md-0">
+            <!-- This is  -->
+            <li class="nav-item">
+                <!-- nav-link nav-toggler  -->
+                <a class=" sidebartoggler hidden-md-up text-muted waves-effect waves-dark" href="javascript:void(0)">
+                    <i class="mdi mdi-menu"></i>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link sidebartoggler hidden-sm-down text-muted waves-effect waves-dark"
+                    href="javascript:void(0)">
+                    <i class="ti-menu"></i>
+                </a>
+            </li>
+
+        </ul>
+        <!-- ============================================================== -->
+        <!-- End Logo -->
+        <!-- ============================================================== -->
+
+        <div class="navbar-collapse">
+            <ul class="navbar-nav mr-auto mt-md-0">
+                <!-- สาขา -->
+                <li *ngIf="sendTargetButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickSendTarget()">
+                            ส่งเป้า
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="true" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickNew()">
+                            สร้างข้อมูล
+                        </a>
+                    </div>
+                </li>
+
+                <li *ngIf="printButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickPrint()">
+                            พิมพ์
+                        </a>
+                    </div>
+                </li>
+
+
+
+                <li *ngIf="editButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickEdit()">
+
+                            แก้ไข
+                        </a>
+                    </div>
+                </li>
+
+
+                <li *ngIf="deleteButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickDelete()"
+                            style="background-color: #f47023">
+
+                            ลบ
+                        </a>
+                    </div>
+                </li>
+
+                <li *ngIf="saveButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickSave()">
+
+                            บันทึก
+                        </a>
+                    </div>
+                </li>
+
+
+                <li *ngIf="cancelButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickCancel()">
+
+                            ยกเลิก
+                        </a>
+                    </div>
+                </li>
+                <!-- Park -->
+
+                <!-- Area -->
+                <!-- <li *ngIf="sendTargetButtonArea_target | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickSendTarget_Area_target">
+                            ส่งเป้า
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="printButtonArea_target | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickPrint_Area_target()">
+                            พิมพ์
+                        </a>
+                    </div>
+                </li> -->
+            </ul>
+
+            <ul *ngIf="searchBar | async" class="navbar-nav my-lg-0">
+                <li class="nav-item col-8">
+                    <form autocomplete="off" class="app-search" #formSearch="ngForm"
+                        (ngSubmit)="clickSearch(formSearch)">
+                        <input type="search" name="Textsearch" id="" ngModel class="form-control">
+                        <a href="javaScript:void(0);" (click)="clickSearch(formSearch)" class="srh-btn">
+                            <i class="ti-search"></i>
+                        </a>
+                    </form>
+                </li>
+                <li class="nav-item col-9">
+                    <a href="javaScript:void(0);" class="btn text-white" (click)="clickAdvSearch()">
+                        ค้นหาขั้นสูง
+                    </a>
+                </li>
+            </ul>
+            
+            
+        </div>
+        <!-- <div class="navbar-collapse">
+            
+            <ul class="navbar-nav mr-auto mt-md-0">
+                
+                <li class="nav-item">
+                    <a class="nav-link nav-toggler hidden-md-up text-muted waves-effect waves-dark"
+                        href="javascript:void(0)">
+                        <i class="mdi mdi-menu"></i>
+                    </a>
+                </li>
+
+                <li *ngIf="prevPageButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickPrevPage()">
+                            {{prevPageTitle | async}}
+                        </a>
+                    </div>
+                </li>
+
+                <li *ngIf="prevPageButton_target | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickPrevPage()">
+                            {{prevPageTitle | async}}
+                        </a>
+                    </div>
+                </li>
+
+                <li *ngIf="sendTargetButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickSendTarget()">
+                            ส่งเป้า
+                        </a>
+                    </div>
+                </li>
+
+                <li *ngIf="newButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickNew()">
+                            สร้างข้อมูล
+                        </a>
+                    </div>
+                </li>
+
+                <li *ngIf="newButton_target | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickNew()">
+                            สร้างข้อมูล
+                        </a>
+                    </div>
+                </li>
+                
+                <li *ngIf="printButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickPrint()">
+                            พิมพ์
+                        </a>
+                    </div>
+                </li>
+
+                
+
+                <li *ngIf="editButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickEdit()">
+                           
+                            แก้ไข
+                        </a>
+                    </div>
+                </li>
+
+
+                <li *ngIf="deleteButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickDelete()"
+                            style="background-color: #f47023">
+                            
+                            ลบ
+                        </a>
+                    </div>
+                </li>
+
+                <li *ngIf="saveButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickSave()">
+                            
+                            บันทึก
+                        </a>
+                    </div>
+                </li>
+
+
+                <li *ngIf="cancelButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickCancel()">
+                           
+                            ยกเลิก
+                        </a>
+                    </div>
+                </li>
+
+            </ul>
+
+            
+            <ul *ngIf="searchBar | async" class="navbar-nav my-lg-0">
+                <li class="nav-item col-8">
+                    <form autocomplete="off" class="app-search" #formSearch="ngForm"
+                        (ngSubmit)="clickSearch(formSearch)">
+                        <input type="search" name="Textsearch" id="" ngModel class="form-control">
+                        <a href="javaScript:void(0);" (click)="clickSearch(formSearch)" class="srh-btn">
+                            <i class="ti-search"></i>
+                        </a>
+                    </form>
+                </li>
+                <li class="nav-item col-9">
+                    <a href="javaScript:void(0);" class="btn text-white" (click)="clickAdvSearch()">
+                        ค้นหาขั้นสูง
+                    </a>
+                </li>
+            </ul>
+        </div> -->
+    </nav>
+</header>

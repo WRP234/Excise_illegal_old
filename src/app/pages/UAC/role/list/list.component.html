@@ -1,0 +1,139 @@
+<header class="topbar">
+  <nav class="navbar top-navbar navbar-expand-md navbar-light">
+
+    <div class="navbar-collapse" style="padding-right: 55px;">
+      <ul class="navbar-nav mr-auto mt-md-0">
+        <li class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickNew()">
+              สร้างข้อมูล
+            </a>
+          </div>
+        </li>
+        <!-- <li *ngIf="false" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickPrint()">
+              พิมพ์
+            </a>
+          </div>
+        </li>
+        <li *ngIf="false" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickEdit()">
+
+              แก้ไข
+            </a>
+          </div>
+        </li>
+        <li *ngIf="false" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickDelete()"
+              style="background-color: #f47023">
+
+              ลบ
+            </a>
+          </div>
+        </li>
+        <li *ngIf="false" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickSave()">
+
+              บันทึก
+            </a>
+          </div>
+        </li>
+        <li *ngIf="false" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickCancel()">
+
+              ยกเลิก
+            </a>
+          </div>
+        </li> -->
+      </ul>
+      <ul *ngIf="true" class="navbar-nav my-lg-0">
+        <li class="nav-item col-8">
+          <form autocomplete="off" class="app-search" #formSearch="ngForm" (ngSubmit)="clickSearch(formSearch)">
+            <input type="search" name="TEXT_SEARCH" id="" ngModel class="form-control">
+            <a href="javaScript:void(0);" (click)="onSearch(formSearch.form.value)" class="srh-btn">
+              <i class="ti-search"></i>
+            </a>
+          </form>
+        </li>
+        <li class="nav-item col-9">
+          <a href="javaScript:void(0);" class="btn text-white" (click)="setAdvSearch()">
+            ค้นหาขั้นสูง
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+<div *ngIf="advSearch | async" class="card card-outline-bluish unset-radius">
+  <div class="card-header unset-radius">
+    <app-card-actions-close></app-card-actions-close>
+    <h4 class="card-title m-b-0">ค้นหาขั้นสูง</h4>
+  </div>
+  <div class="card-body">
+    <form class="form-horizontal" autocomplete="off" #advForm="ngForm" (ngSubmit)="onAdvSearch(advForm.value)">
+      <div>
+        <div class="row">
+          <label for="" class="col-lg-2 col-sm-3">รหัสบทบาท :</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group">
+              <input type="text" name="RoleCode" ngModel class="form-control form-control-sm" placeholder="">
+            </div>
+          </div>
+          <label for="" class="col-lg-2 col-sm-3">ชื่อบทบาท :</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group">
+              <input type="text" name="RoleName" ngModel class="form-control form-control-sm" placeholder="">
+            </div>
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <div class="col-10"></div>
+          <div class="col-2">
+            <button type="submit" class="btn btn-block btn-themecolor">ค้นข้อมูล</button>
+          </div>
+        </div>
+
+      </div>
+    </form>
+  </div>
+</div>
+<!-- ---------------------------------------------------------------------------------------------------- -->
+<div class="card">
+  <div class="card-body">
+
+    <div class="table-responsive table-striped ">
+      <table #fineTable class="table">
+        <thead>
+          <tr>
+            <th class="text-center">ลำดับ</th>
+            <th>รหัสบทบาท</th>
+            <th>ชื่อบทบาท</th>
+            <th>ตำแหน่ง</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of roleListPage;let i = index" style="cursor: pointer;" (click)="clickManage(item)">
+            <td style="text-align: center">{{ item.count_number }}</td>
+            <td>{{item.ROLE_CODE}} </td>
+            <td>{{item.ROLE_NAME}}</td>
+            <td>{{ (item.masOperationPosition) ? item.masOperationPosition.OPERATION_POS_NAME : '-' }}</td>
+            <td> <i class="fa fa-eye" aria-hidden="true"></i> </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card-footer card-footer-unset">
+      <app-pagination-table [TotalItems]="paginage.TotalItems" [CurrentPage]="paginage.CurrentPage" [PageSize]="paginage.PageSize"
+        [RowsPerPageOptions]="paginage.RowsPerPageOptions" (onPageChange)="pageChanges($event)">
+      </app-pagination-table>
+    </div>
+  </div>
+</div>

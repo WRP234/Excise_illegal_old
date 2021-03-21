@@ -1,0 +1,92 @@
+<ng-template #lawbreakerModal let-c="close" let-d="dismiss">
+  <!-- <app-lawbreaker-modal (c)="modal.close()" (d)="modal.dismiss()" (OutputLawbreaker)="addArrestLawbreaker($event)">
+  </app-lawbreaker-modal> -->
+  <app-ilg60-o-02-00-02-04 (c)="modal.close()" (d)="modal.dismiss()" (Output)="Ilg60O02000204_Output($event)"
+    (Create)="CreateLawBreaker($event)">
+  </app-ilg60-o-02-00-02-04>
+</ng-template>
+
+<ng-template #CreateLawbreakerModal let-c="close" let-d="dismiss">
+  <app-ilg60-m-01-01-02-00 (c)="modal.close()" (d)="modal.dismiss()" (Output)="Ilg60O02000204_Output($event)"
+    [ModeEmit]="ModeEmit" [PERSON_ID]="PERSON_ID">
+  </app-ilg60-m-01-01-02-00>
+</ng-template>
+
+<div class="card card-outline-bluish unset-radius">
+  <div class="card-header unset-radius" (click)="onCollapse(ILG60_03_03_00_00_E15)">
+    <div class="card-actions">
+      <a class="">
+        <i class="fa"
+          [ngClass]="{'fa-chevron-up': (ILG60_03_03_00_00_E15 | async), 'fa-chevron-down': !(ILG60_03_03_00_00_E15 | async)}"></i>
+      </a>
+    </div>
+    <h4 class="card-title m-b-0">ผู้ต้องหา</h4>
+  </div>
+  <div *ngIf="ILG60_03_03_00_00_E15 | async" class="card-body">
+    <div class="row form-group">
+      <div class="col-lg-10 col-md-9 col-sm-8"></div>
+      <div class="col-lg-2 col-md-3 col-sm-4">
+        <button type="button" class="btn btn-block btn-themecolor" (click)="openModal(lawbreakerModal)"
+          [disabled]="isEdit">เพิ่มผู้ต้องหา</button>
+      </div>
+    </div>
+
+    <div class="table-responsive overflow-hidden">
+      <table class="table table-sm table-striped table-set-border" [formGroup]="ArrestFG">
+        <thead>
+          <tr>
+            <th class="text-center">ลำดับ</th>
+            <th>ประเภทผู้ต้องหา</th>
+            <th>ประเภทบุคคล</th>
+            <th>หมายเลขอ้างอิง</th>
+            <th>ชื่อ</th>
+            <th>จำนวนครั้งการทำผิด</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody formArrayName="ArrestLawbreaker">
+          <ng-container *ngFor="let item of ArrestLawbreaker.controls; let i=index;">
+            <tr [formGroupName]="i">
+              <td class="text-center">{{i+1}}</td>
+              <td>{{getPersonType(item.get('PERSON_TYPE').value)}}</td>
+              <td>{{getEntityType(item.get('ENTITY_TYPE').value)}}</td>
+              <td>{{setPersonReferenceNo(item.value)}}</td>
+              <td>
+                <span *ngIf="item.get('PERSON_TYPE').value == 2; else elsePersonType">
+                  {{item.get('TITLE_SHORT_NAME_TH').value}}{{item.get('COMPANY_NAME')?.value}}
+                </span>
+                <ng-template #elsePersonType>
+                  <span *ngIf="item.get('PERSON_TYPE').value == 1; else">
+                    {{item.get('TITLE_SHORT_NAME_EN').value}}{{item.get('FIRST_NAME').value}}
+                    {{item.get('MIDDLE_NAME').value}}
+                    {{item.get('LAST_NAME').value}}
+                  </span>
+                  <span *ngIf="item.get('PERSON_TYPE').value == 0; else">
+                    {{item.get('TITLE_SHORT_NAME_TH').value}}{{item.get('FIRST_NAME').value}}
+                    {{item.get('MIDDLE_NAME').value}}
+                    {{item.get('LAST_NAME').value}}
+                  </span>
+
+                </ng-template>
+              </td>
+              <td>
+                <span *ngIf="item.get('MISTREAT_NO').value > 0; else elseMistreat">
+                  {{item.get('MISTREAT_NO').value}}
+                </span>
+                <ng-template #elseMistreat>
+                  ไม่พบการกระทำผิด
+                </ng-template>
+              </td>
+              <td class="text-center">
+                <a *ngIf="!isEdit" href="javaScript:void(0);" class="text-danger" (click)="onDeleteLawbreaker(i)">
+                  <i class="fa fa-trash-o fa-lg"></i>
+                </a>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>

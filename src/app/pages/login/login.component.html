@@ -1,0 +1,123 @@
+<!-- <style>
+  div {
+      border: double;
+      max-width:500px;
+      margin: auto;
+  }
+  </style>
+
+<form action="" #form="ngForm" (ngSubmit)="onSubmit(form.value)">
+  <div class="text-center m-t-20" style="border-block-end-color: #000000"><br><br>
+    <img _ngcontent-c2="" alt="homepage" class="light-logo" src="assets/images/logo-excise.png" style="height: 60px;"><br><br>
+  <label for="userName">ชื่อผู้ใช้&nbsp;&nbsp;&nbsp;:</label>
+  <input type="text" name="userName" id="userName" ngModel required><br>
+  <label for="password">รหัสผ่าน&nbsp;:</label>
+  <input type="password" name="password" id="password" ngModel required><br><br>
+  <button type="submit" [disabled]="!form.valid">เข้าสู่ระบบ</button><br><br><br>
+</div>
+</form> -->
+<div class="top-page">
+  <div style="text-align: center">
+    <img src="assets/images/logo_page7.png">
+    <div class="card-body" style="padding: 0px;">
+      <label class="label-1" style="font-weight: 400;">กรมสรรพสามิต</label>
+    </div>
+  </div>
+</div>
+<div class="mid-page">
+  <!-- <div>
+    <img src="assets/images/logo_page7.png">
+  </div> -->
+  <div class="row">
+    <div class="col-lg-4"></div>
+    <div class="col-lg-4">
+      <!-- <div class="card-body" style="padding: 0px">
+        <label class="label-1">กรมสรรพสามิต</label>
+      </div> -->
+    </div>
+    <div class="col-lg-4"></div>
+  </div>
+  <div>
+    <div class="card-body" style="padding-top: 0px;margin-top: 45px;margin-bottom: 15px;">
+      <label class="label-2">ระบบงานผู้กระทำผิดกฎหมายสรรพสามิต พระราชบัญญัติภาษีสรรพสามิต พ.ศ.2560</label>
+    </div>
+  </div>
+  <form action="" #form="ngForm" (ngSubmit)="onSubmit(form.value)">
+    <div class="card-body" style="padding-top: 5px">
+      <div class="row">
+        <div class="col-lg-4 col-md-3 col-sm-3 col-12"></div>
+        <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+          <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-2">
+              <i class="fa fa-user-o" aria-hidden="true"></i>
+            </div>
+            <div class="col-lg-9 col-md-10 col-sm-10 col-8">
+              <input class="form-control" type="text" id="userName" ngModel required placeholder="ชื่อผู้ใช้งาน"
+                name="userName" (keydown)='ClearErrMsg()'>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-3 col-sm-3 col-12"></div>
+      </div>
+      <div class="row" style="margin-top: 17px">
+        <div class="col-lg-4 col-md-3 col-sm-3 col-12"></div>
+        <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+          <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-2">
+              <i class="fa fa-lock" aria-hidden="true"></i>
+            </div>
+            <div class="col-lg-9 col-md-10 col-sm-10 col-8">
+              <input class="form-control " type="password" name="password" id="password" ngModel required
+                placeholder="รหัสผ่าน" (keydown)='ClearErrMsg()'>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-3 col-sm-3 col-12"></div>
+      </div>
+      <div>
+        <span class="center" style="color:red; margin-top: 15px">{{errMsg}}</span>
+      </div>
+      <div class="row" style="padding-top: 20px">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4">
+          <button class="btn" type="submit">เข้าสู่ระบบ</button>
+        </div>
+        <div class="col-sm-4"></div>
+
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4">
+          <!-- <div class="row">
+            <i class="fa fa-cloud-download" aria-hidden="true" style="margin-left: 200px; margin-top: 5px;"></i>
+            <a href="http://192.168.3.134/XCS_Report_Law/UM_2561/UM_2561.pdf"
+              style="color: azure;margin-left: 8px; font-size: 18" target="_blank">
+              ดาวน์โหลดคู่มือการใข้งานระบบงาน<br> ผู้กระทำผิดกฎหมายสรรพสามิต
+            </a>
+          </div> -->
+        </div>
+      </div>
+      <!-- <div class="col-sm-12" style="padding-top: 10px">
+        <u>ลืมรหัสผ่าน?</u>
+      </div> -->
+    </div>
+  </form>
+</div>
+<div class="footter-page">
+  <!-- <div class="col-sm-1" style="text-align: right">
+    <i class="fa fa-cloud-download"></i>
+  </div> -->
+  <div class="col-sm-12" style="text-align: right; margin-bottom: 10px;">
+    <a style="color: azure;margin-left: 8px; font-size: 18"
+      href="http://192.168.3.134/XCS_Report_Law/UM_2561/UM_2561.pdf" target="_blank">
+      ดาวน์โหลดคู่มือการใข้งานระบบงาน<br> ผู้กระทำผิดกฎหมายสรรพสามิต
+    </a>
+  </div>
+  <div class="col-sm-12" style="text-align: right">
+    <span style="color: azure;margin-left: 8px; font-size: 18">
+      ติดต่อเจ้าหน้าที่ผู้ดูแลระบบ Tel: 64404, 64409, 64419
+    </span> <br>
+    <span style="color: azure;margin-left: 8px; font-size: 18">
+      Helpdesk Tel: 02-241-5600 ต่อ 61601-08
+    </span>
+  </div>
+</div>

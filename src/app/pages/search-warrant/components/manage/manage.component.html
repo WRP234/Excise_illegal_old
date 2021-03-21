@@ -1,0 +1,851 @@
+<header class="topbar">
+  <nav class="navbar top-navbar navbar-expand-md navbar-light">
+    <div class="navbar-collapse" style="padding-right: 55px;">
+      <ul class="navbar-nav mr-auto mt-md-0">
+        <li *ngIf="btn_onPrint | async" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickPrint()">
+              พิมพ์
+            </a>
+          </div>
+        </li>
+        <li *ngIf="btn_onEdit | async" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickEdit()">
+              แก้ไข
+            </a>
+          </div>
+        </li>
+        <li *ngIf="btn_onDelete | async" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickDelete()"
+              style="background-color: #f47023">
+              ลบ
+            </a>
+          </div>
+        </li>
+        <li *ngIf="btn_onSave | async" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickSave()">
+              บันทึก
+            </a>
+          </div>
+        </li>
+        <li *ngIf="btn_onCancel | async" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickCancel()">
+              ยกเลิก
+            </a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+<div *ngIf="advSearch | async" class="card card-outline-bluish unset-radius">
+  <div class="card-header unset-radius">
+    <app-card-actions-collapse></app-card-actions-collapse>
+    <h4 class="card-title m-b-0">คำร้องขอหมายค้น</h4>
+  </div>
+  <form class="form-horizontal" [formGroup]="SearchWarrantFG">
+    <div class="card-body">
+      <div class="row">
+        <label class="col-lg-2 col-sm-3 control-label">เลขที่อ้างอิงของระบบ </label>
+        <div class="col-lg-4 col-md-7 col-sm-9">
+          <div class="form-group">
+            <input class="form-control form-control-sm" type="text" formControlName="REQUEST_CODE" disabled>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="row">
+            <label class="col-lg-4 col-sm-3 col-md-4 control-label">เลขที่คำร้องขอ </label>
+            <div class="form-group col-md-3">
+              <input class="form-control form-control-sm" type="text" formControlName="REQUEST_NO">
+            </div>
+            <label class=" col-sm-2 px-0" style="text-align: center"> / </label>
+            <div class="col-md-3">
+              <!-- <select formControlName="REQUEST_NO_YEAR" class="form-control form-control-sm">
+                <option [value]="yyyy_th" selected>{{yyyy_th}}</option>
+              </select> -->
+              <input class="form-control form-control-sm" type="text" formControlName="REQUEST_NO_YEAR_TEXT" disabled>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <label class="col-lg-2 col-sm-3 control-label">ชื่อศาล<span style="color: red">*</span></label>
+        <div class="col-lg-4 col-md-7 col-sm-9">
+          <div class="form-group">
+            <ng-template #rt let-r="result" let-t="term">
+              {{ r.COURT_NAME }}
+            </ng-template>
+
+            <input type="text"
+              class="form-control form-control-sm {{!SearchWarrantFG.value.PRESENT_COURT_NAME?'ng-invalid ng-touched':''}}"
+              [ngClass]="{'ng-touched':isRequired}" [ngbTypeahead]="serachCourt" [resultTemplate]="rt"
+              [readOnly]="showEditField" [inputFormatter]="formatterCourt"
+              (selectItem)="selectItemCourt($event,'PRESENT')" [value]="SearchWarrantFG.value.PRESENT_COURT_NAME"
+              required />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="row">
+            <label class="col-lg-4 col-sm-3 col-md-4 control-label">วันที่เขียนคำร้องขอ</label>
+            <div class="form-group col-md-3">
+              <my-date-picker-th formControlName="REQUEST_DATE" placeholder="" locale="th"
+                [options]="myDatePickerOptions" class="form-control form-control-sm unset-form-control">
+              </my-date-picker-th>
+            </div>
+            <label class=" col-sm-2 px-0" style="text-align: center"> เวลา </label>
+            <div class="col-md-3">
+              <input type="text" name="REQUEST_DATE_TIME" formControlName="REQUEST_DATE_TIME"
+                class="form-control form-control-sm" (keypress)="keyPress($event)">
+              <!--              Validators.pattern('^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$')-->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <label class="col-lg-2 col-sm-3 control-label">คำนำหน้าชื่อผู้พิพากษา</label>
+        <div class="col-lg-4 col-md-7 col-sm-9">
+          <div class="form-group">
+            <!--            <input class="form-control form-control-sm" type="text" formControlName="JUDGE_TITLE_NAME_TH" >-->
+            <ng-template #title let-r="result" let-t="term">
+              {{ r.TITLE_NAME_TH }}
+            </ng-template>
+            <input type="text" class="form-control form-control-sm" [ngbTypeahead]="searchMasTitle"
+              [resultTemplate]="title" [value]="SearchWarrantFG.value.JUDGE_TITLE_NAME_TH"
+              [readOnly]="isEdit || requiredCompanyRegister" [inputFormatter]="T_MasTitle"
+              (selectItem)="selectJudgeTitle($event)" />
+          </div>
+        </div>
+        <label class="col-lg-2 col-sm-3 control-label">ชื่อจริงผู้พิพากษา</label>
+        <div class="col-lg-4 col-md-7 col-sm-9">
+          <div class="form-group">
+            <input class="form-control form-control-sm" type="text" formControlName="JUDGE_FIRST_NAME">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <label class="col-lg-2 col-sm-3 control-label">นามสกุลผู้พิพากษา</label>
+        <div class="col-lg-4 col-md-7 col-sm-9">
+          <div class="form-group">
+            <input class="form-control form-control-sm" type="text" formControlName="JUDGE_LAST_NAME">
+          </div>
+        </div>
+        <label class="col-lg-2 col-sm-3 control-label">วันที่ขอเข้าตรวจค้น</label>
+        <div class="col-lg-4 col-md-7 col-sm-9">
+          <div class="form-group">
+            <my-date-picker-th formControlName="REQUEST_DATE_FROM" placeholder="" locale="th"
+              [options]="myDatePickerOptions" class="form-control form-control-sm unset-form-control">
+            </my-date-picker-th>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="row">
+            <label class="col-lg-4 col-sm-3 col-md-4 control-label">เวลาที่ขอเข้าตรวจค้น </label>
+            <div class="form-group col-md-3">
+              <input class="form-control form-control-sm" type="text" maxlength="5" placeholder="hh:mm"
+                formControlName="REQUEST_TIME_FROM" (keypress)="keyPress($event)">
+            </div>
+            <label class=" col-sm-2 px-0" style="text-align: center"> ถึง </label>
+            <div class="col-md-3">
+              <input class="form-control form-control-sm" maxlength="5" placeholder="hh:mm" type="text"
+                formControlName="REQUEST_TIME_TO" (keypress)="keyPress($event)">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="row">
+            <div class="col-lg-8 col-sm-3">
+              <div class="row form-group">
+                <div class="col">
+                  <input type="checkbox" id="REQUEST_CHECK_TO_FINISH" formControlName="REQUEST_CHECK_TO_FINISH"
+                    class="filled-in chk-col-indigo" (change)="selectCheckbox($event)" [checked]="statusMode">
+                  <label for="REQUEST_CHECK_TO_FINISH">ติดต่อกันไปจนกว่าจะเสร็จสิ้นการตรวจค้น</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <label class="col-lg-2 col-sm-3 control-label">เหตุที่ออกหมายค้น</label>
+        <div class="col-lg-10 col-md-7 col-sm-4">
+          <div class="form-group">
+            <textarea cols="" rows="5" class="form-control form-control-sm" formControlName="REQUEST_REASON"
+              required></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-7" style="padding: 10px">
+          <label> ผู้ร้องประสงค์จะทำการตรวจค้นบ้านหรือสถานที่ดังกล่าว
+            เพื่อ<span style="color: red">*</span></label>
+        </div>
+      </div>
+      <div class="form-check" style="padding: 5px">
+        <input type="checkbox" class="filled-in chk-col-indigo" value="" id="REQUEST_CHECK_1"
+          formControlName="REQUEST_CHECK_1" (change)="selectCheckbox($event)" [checked]="statusMode">
+        <label class="form-check-label"
+          for="REQUEST_CHECK_1">พบและยึดสิ่งของซึ่งจะเป็นพยานหลักฐานประกอบการสืบสวนไต่สวนมูลฟ้องหรือพิจารณา</label>
+      </div>
+      <div class="form-check" style="padding: 5px">
+        <input type="checkbox" class="filled-in chk-col-indigo" value="" id="REQUEST_CHECK_2"
+          formControlName="REQUEST_CHECK_2" (change)="selectCheckbox($event)" [checked]="statusMode">
+        <label class="form-check-label"
+          for="REQUEST_CHECK_2">พบและยึดสิ่งของซึ่งจะเป็นความผิดหรือได้มาโดยผิดกฎหมายหรือได้ใช้หรือตั้งใจจะใช้ในการกระทำความผิด</label>
+      </div>
+      <div class="form-check" style="padding: 5px">
+        <input type="checkbox" class="filled-in chk-col-indigo" value="" id="REQUEST_CHECK_3"
+          formControlName="REQUEST_CHECK_3" (change)="selectCheckbox($event)" [checked]="statusMode">
+        <label class="form-check-label"
+          for="REQUEST_CHECK_3">พบและยึดสิ่งของตามคำพิพากษาหรือคำสั่งศาลตามสำเนาคำพิพากษาหรือคำสั่งที่แนบมาพร้อมนี้</label>
+      </div>
+      <div class="form-check" style="padding: 5px">
+        <input type="checkbox" class="filled-in chk-col-indigo" value="" id="REQUEST_CHECK_4"
+          formControlName="REQUEST_CHECK_4" (change)="selectCheckbox($event)" [checked]="statusMode">
+        <label class="form-check-label"
+          for="REQUEST_CHECK_4">พบบุคคลที่ถูกหน่วงเหนี่ยวหรือกักขังโดยมิชอบด้วยกฎหมายหรือ</label>
+      </div>
+      <div class="form-check" style="padding: 5px">
+        <input type="checkbox" class="filled-in chk-col-indigo" value="" id="REQUEST_CHECK_5"
+          formControlName="REQUEST_CHECK_5" (change)="selectCheckbox($event)" [checked]="statusMode">
+        <label class="form-check-label"
+          for="REQUEST_CHECK_5">พบบุคคลที่ถูกออกหมายจับตามสำเนาหมายจับที่แนบมาพร้อมนี้</label>
+      </div>
+      <div class="row">
+        <div class="col-md-7">
+          <div class="row">
+            <label class="col-lg-7 col-sm-3 col-md-4"> ผู้ร้องเคยร้องขอหมายค้นสถานที่ข้างต้นในอดีต
+              <span style="color: red">*</span></label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="custom-control custom-radio col-form-label col-md-9">
+            <input name="REQUEST_CHECK_EVER" id="REQUEST_CHECK_EVER_0" formControlName="REQUEST_CHECK_EVER" [value]="0"
+              class="col-form-label with-gap radio-col-indigo" type="radio"
+              (change)="onChangeDisable('REQUEST_CHECK_EVER_0')" [disabled]="false">
+            <label for="REQUEST_CHECK_EVER_0" class="col-4">ไม่เคยร้องขอ</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="custom-control custom-radio col-form-label col-md-9 col-lg-12">
+            <input name="REQUEST_CHECK_EVER" id="REQUEST_CHECK_EVER_1" formControlName="REQUEST_CHECK_EVER" [value]="1"
+              class="col-form-label with-gap radio-col-indigo" type="radio"
+              (change)="onChangeDisable('REQUEST_CHECK_EVER_1')" [disabled]="false">
+            <label for="REQUEST_CHECK_EVER_1">เคยร้องขอที่ศาล</label>
+          </div>
+        </div>
+        <div class="col-lg-10 col-md-7 col-sm-4">
+          <div class="form-group">
+            <!-- <input class="form-control form-control-sm" type="text" formControlName="PAST_COURT_NAME"> -->
+            <ng-template #rt let-r="result" let-t="term">
+              {{ r.COURT_NAME }}
+            </ng-template>
+
+            <input type="text" class="form-control form-control-sm" [ngClass]="{'ng-touched':isRequired}"
+              [ngbTypeahead]="serachCourt" [resultTemplate]="rt" [disabled]="DIS_PAST_COURT_NAME"
+              [inputFormatter]="formatterCourt" (selectItem)="selectItemCourt($event ,'PAST')"
+              [value]="SearchWarrantFG.value.PAST_COURT_NAME" required />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-2">
+          <div class="col">
+            <label class="control-label">เหตุที่ออกหมายค้น</label>
+          </div>
+        </div>
+        <div class="col-lg-10 col-md-7 col-sm-4">
+          <div class="form-group">
+            <textarea cols="" rows="5" class="form-control form-control-sm"
+              formControlName="PAST_REQUEST_REASON"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-2">
+          <div class="col">
+            <label class="control-label">คำสั่งศาล</label>
+          </div>
+        </div>
+        <div class="col-lg-10 col-md-7 col-sm-4">
+          <div class="form-group">
+            <input class="form-control form-control-sm" type="text" formControlName="PAST_COMMAND">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="advSearch | async" class="card card-outline-bluish unset-radius">
+      <div class="card-header unset-radius">
+        <app-card-actions-collapse></app-card-actions-collapse>
+        <h4 class="card-title m-b-0">เจ้าบ้าน/ผู้ดูแลแทน</h4>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <label class="col-lg-2 col-sm-4 control-label">ประเภท<span style="color: red">*</span></label>
+          <div class="col-lg-4 col-md-7 col-sm-8 form-group">
+            <select name="PERSON" ngModel class="form-control form-control-sm" formControlName="PERSON_TYPE">
+              <option value="" disabled>กรุณาเลือก</option>
+              <option value="0">เจ้าบ้าน</option>
+              <option value="1">ผู้ดูแลแทน</option>
+            </select>
+
+          </div>
+          <label class="col-lg-2 col-sm-4 control-label">คำนำหน้าชื่อ<span style="color: red">*</span></label>
+          <div class="col-lg-4 col-md-7 col-sm-8 form-group">
+            <ng-template #title let-r="result" let-t="term">
+              {{ r.TITLE_NAME_TH }}
+            </ng-template>
+            <input type="text" class="form-control form-control-sm"
+              [value]="SearchWarrantFG.get('PERSON_TITLE_NAME_TH')?.value" [ngbTypeahead]="searchMasTitle"
+              [resultTemplate]="title" [readOnly]="isEdit || requiredCompanyRegister" [inputFormatter]="T_MasTitle"
+              (selectItem)="selectPersonTitle($event)" />
+          </div>
+        </div>
+        <div class="row">
+          <label class="col-lg-2 col-sm-4 control-label">ชื่อจริง<span style="color: red">*</span></label>
+          <div class="col-lg-4 col-md-7 col-sm-8 form-group">
+            <input type="text" class="form-control form-control-sm" formControlName="PERSON_FIRST_NAME">
+          </div>
+          <label class="col-lg-2 col-sm-4 control-label">นามสกุล<span style="color: red">*</span></label>
+          <div class="col-lg-4 col-md-7 col-sm-8 form-group">
+            <input type="text" class="form-control form-control-sm" formControlName="PERSON_LAST_NAME">
+          </div>
+        </div>
+
+        <div class="row">
+          <label class="col-lg-2 col-sm-4 control-label">เลขบัตรประชาชน</label>
+          <div class="col-lg-4 col-md-7 col-sm-8 form-group">
+            <input type="text" class="form-control form-control-sm" formControlName="PERSON_ID_CARD">
+          </div>
+          <label class="col-lg-2 col-sm-4 control-label">อายุ</label>
+          <div class="col-lg-4 col-md-7 col-sm-8 form-group">
+            <input type="text" class="form-control form-control-sm" formControlName="PERSON_AGE">
+          </div>
+        </div>
+
+        <div class="row">
+          <label class="col-lg-2 col-sm-4 control-label">อาชีพ</label>
+          <div class="col-lg-4 col-md-7 col-sm-8 form-group">
+            <input type="text" class="form-control form-control-sm" formControlName="PERSON_CAREER">
+          </div>
+          <label class="col-lg-2 col-sm-4 control-label">ตำแหน่ง</label>
+          <div class="col-lg-4 col-md-7 col-sm-8 form-group">
+            <input type="text" class="form-control form-control-sm" formControlName="PERSON_POSITION">
+          </div>
+        </div>
+
+        <div class="row">
+          <label class="col-lg-2 col-sm-4 control-label">ละติจูด</label>
+          <div class="col-lg-4 col-md-7 col-sm-8 form-group">
+            <input type="text" class="form-control form-control-sm" formControlName="GPS">
+          </div>
+          <label class="col-lg-2 col-sm-4 control-label">ลองจิจูด</label>
+          <div class="col-lg-4 col-md-7 col-sm-8 form-group">
+            <input type="text" class="form-control form-control-sm" formControlName="GPS">
+          </div>
+        </div>
+
+        <div class="row">
+          <label class="col-lg-2 col-sm-4 control-label">บ้านเลขที่</label>
+          <div class="col-lg-4 col-md-7 col-sm-8 form-group">
+            <input type="text" class="form-control form-control-sm" formControlName="ADDRESS_NO">
+          </div>
+          <label class="col-lg-2 col-sm-4 control-label">หมู่ที่</label>
+          <div class="col-lg-4 col-md-7 col-sm-8 form-group">
+            <input type="text" class="form-control form-control-sm" formControlName="VILLAGE_NO">
+          </div>
+        </div>
+
+        <div class="row">
+          <label class="col-lg-2 col-sm-4 control-label">อาคาร</label>
+          <div class="col-lg-4 col-md-7 col-sm-8 form-group">
+            <input type="text" class="form-control form-control-sm" formControlName="BUILDING_NAME">
+          </div>
+          <label class="col-lg-2 col-sm-4 control-label">ห้อง</label>
+          <div class="col-lg-4 col-md-7 col-sm-8 form-group">
+            <input type="text" class="form-control form-control-sm" formControlName="ROOM_NO">
+          </div>
+        </div>
+
+        <div class="row">
+          <label class="col-lg-2 col-sm-4 control-label">ชั้น</label>
+          <div class="col-lg-4 col-md-7 col-sm-8 form-group">
+            <input type="text" class="form-control form-control-sm" formControlName="FLOOR">
+          </div>
+          <label class="col-lg-2 col-sm-4 control-label">หมู่บ้าน</label>
+          <div class="col-lg-4 col-md-7 col-sm-8 form-group">
+            <input type="text" class="form-control form-control-sm" formControlName="VILLAGE_NAME">
+          </div>
+        </div>
+
+        <div class="row">
+          <label class="col-lg-2 col-sm-4 control-label">ตรอก</label>
+          <div class="col-lg-4 col-md-7 col-sm-8 form-group">
+            <input type="text" class="form-control form-control-sm" formControlName="ALLEY">
+          </div>
+          <label class="col-lg-2 col-sm-4 control-label">ซอย</label>
+          <div class="col-lg-4 col-md-7 col-sm-8 form-group">
+            <input type="text" class="form-control form-control-sm" formControlName="LANE">
+          </div>
+        </div>
+
+        <div class="row">
+          <label class="col-lg-2 col-sm-4 control-label">ถนน</label>
+          <div class="col-lg-4 col-md-7 col-sm-8 form-group">
+            <input type="text" class="form-control form-control-sm" formControlName="ROAD">
+          </div>
+          <label class="col-lg-2 col-sm-4 control-label">ตำบล/อำเภอ/จังหวัด<span style="color: red">*</span></label>
+          <div class="col-lg-4 col-md-7 col-sm-8 form-group">
+            <ng-template #local let-r="result" let-t="term">
+              {{ r.SUB_DISTRICT_NAME_TH }}/{{r.DISTRICT_NAME_TH}}/{{r.PROVINCE_NAME_TH}}
+            </ng-template>
+            <input type="text" class="form-control form-control-sm" [ngbTypeahead]="searchLocale"
+              [resultTemplate]="local" [inputFormatter]="T_LocaleFormatter" (selectItem)="selectItemLocale($event)"
+              [readOnly]="isEdit" [value]="SearchWarrantFG.get('SUB_DISTRICT_ID')?.value" required />
+            <br>
+            <div class="alert alert-danger mt-3" role="alert" *ngIf="invalid.value">
+              กรุณาระบุข้อมูล "ตำบล/อำเภอ/จังหวัด"
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ILG60_03_02_00_00_E13 ข้อมูลเจ้าหน้าที่-->
+    <!-- <app-ilg60-03-02-00-00-e13></app-ilg60-03-02-00-00-e13> -->
+
+    <div class="card card-outline-bluish unset-radius">
+      <div class="card-header unset-radius">
+        <app-card-actions-collapse></app-card-actions-collapse>
+        <h4 class="card-title m-b-0">ข้อมูลเจ้าหน้าที่</h4>
+      </div>
+      <div class="card-body">
+        <table class="table table-sm table-striped table-set-border">
+          <thead>
+            <tr>
+              <th class="text-center">ลำดับ</th>
+              <th>ชื่อเจ้าหนัาที่</th>
+              <th>ตำแหน่ง</th>
+              <th>หน่วยงาน</th>
+              <th>ฐานะ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let item of SearchWarrantStaff.value; let i=index;">
+              <tr>
+                <td class="text-center">{{i+1}}</td>
+                <td>
+                  <ng-template #rt let-r="result" let-t="term">
+                    {{ r.TITLE_NAME_TH}} {{r.FIRST_NAME}} {{r.LAST_NAME}}
+                  </ng-template>
+                  <input type="text" #region1 class="form-control form-control-sm" [ngbTypeahead]="searchStaff"
+                    [resultTemplate]="rt" [readOnly]="showEditField" [inputFormatter]="formatterStaff"
+                    (selectItem)="selectItemStaff($event, i)" [value]="item.FULL_NAME" (keyup)="deleteStaff(region1 ,i)"
+                    [ngClass]="{'ng-touched':isRequired}" (keyup)="s(region1 ,i)" required />
+                </td>
+                <td>
+                  <input type="text" [value]="item.OPREATION_POS_NAME" class="form-control form-control-sm"
+                    [readonly]="true" required>
+                </td>
+                <td>
+                  <input type="text" [value]="item.OPERATION_OFFICE_SHORT_NAME" class="form-control form-control-sm"
+                    [readonly]="true" required>
+                </td>
+                <td>
+                  {{getContributorID(i)}}
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+    <div *ngIf="advSearch | async" class="card card-outline-bluish unset-radius" formGroupName="searchWarrantConsider">
+      <div class="card-header unset-radius">
+        <app-card-actions-collapse></app-card-actions-collapse>
+        <h4 class="card-title m-b-0">รายงานกระบวนการพิจารณา</h4>
+      </div>
+      <div class="card-body">
+
+        <div class="row">
+          <div class="col-lg-8 col-sm-3">
+            <div class="form-check">
+              <input type="checkbox" class="filled-in chk-col-indigo" value="" id="IS_CONSIDER"
+                (change)="selectCheckbox($event)" [checked]="isConsiderChecked">
+              <label class="form-check-label" for="IS_CONSIDER">ศาลพิจารณาคำร้องเรียบร้อยแล้ว</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row">
+              <label class="col-lg-4 col-sm-3 col-md-4 control-label">หมายเลขคดีดำ<span style="color: red">*</span>
+              </label>
+              <div class="form-group col-md-3">
+                <input class="form-control form-control-sm" type="text" formControlName="CONSIDER_UNDECIDE_NO">
+              </div>
+              <label class=" col-sm-2 px-0" style="text-align: center"> / </label>
+              <div class="col-md-3">
+                <!-- <select formControlName="CONSIDER_UNDECIDE_NO_YEAR" class="form-control form-control-sm">
+                  <option [value]="yyyy_th">{{yyyy_th}}</option>
+                </select> -->
+                <input class="form-control form-control-sm" type="text" formControlName="CONSIDER_UNDECIDE_NO_YEAR"
+                  disabled>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="row">
+              <label class="col-lg-4 col-sm-3 col-md-4 control-label">หมายเลขคดีแดง<span style="color: red">*</span>
+              </label>
+              <div class="form-group col-md-3">
+                <input class="form-control form-control-sm" type="text" formControlName="CONSIDER_DECIDE_NO">
+              </div>
+              <label class=" col-sm-2 px-0" style="text-align: center"> / </label>
+              <div class="col-md-3">
+                <!-- <select formControlName="CONSIDER_DECIDE_NO_YEAR" class="form-control form-control-sm">
+                  <option [value]="yyyy_th">{{yyyy_th}}</option>
+                </select> -->
+                <input class="form-control form-control-sm" type="text" formControlName="CONSIDER_DECIDE_NO_YEAR"
+                  disabled>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row">
+              <label class="col-lg-4 col-sm-3 col-md-4 control-label">วันที่พิจารณา<span style="color: red">*</span>
+              </label>
+              <div class="form-group col-md-3">
+                <my-date-picker-th formControlName="CONSIDER_DATE" placeholder="" locale="th"
+                  class="form-control form-control-sm unset-form-control"></my-date-picker-th>
+              </div>
+              <label class=" col-sm-2 px-0" style="text-align: center">เวลา </label>
+              <div class="col-md-3">
+                <input type="text" name="CONSIDER_DATE_TIME" formControlName="CONSIDER_DATE_TIME"
+                  class="form-control form-control-sm" (keypress)="keyPress($event)">
+              </div>
+            </div>
+          </div>
+          <label class="col-lg-2 col-sm-3 control-label">จำนวนพยาน</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group">
+              <input class="form-control form-control-sm" type="text" formControlName="CONSIDER_WITNESS_QTY">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <label class="col-lg-2 col-sm-3 control-label">รายงานการพิจารณา<span style="color: red">*</span></label>
+          <div class="col-lg-10 col-md-7 col-sm-4">
+            <div class="form-group">
+              <textarea cols="" rows="5" class="form-control form-control-sm" formControlName="CONSIDER_COMMAND"
+                required></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-7">
+            <div class="row">
+              <label class="col-lg-7 col-sm-3 col-md-4"> ผลการพิจารณาหมายค้น<span style="color: red">*</span></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <input name="IS_APPROVE" id="CONSIDER_0" class="col-form-label with-gap radio-col-indigo" type="radio"
+              (change)="onChangeDisable('CONSIDER_0')" [value]="1" formControlName="IS_APPROVE">
+            <label for="CONSIDER_0" class="col-4">อนุมัติ</label>
+          </div>
+        </div>
+
+        <div class="row">
+
+          <div class="col">
+            <input name="IS_APPROVE" id="CONSIDER_1" class="col-form-label with-gap radio-col-indigo" type="radio"
+              (change)="onChangeDisable('CONSIDER_1')" [value]="0" formControlName="IS_APPROVE">
+            <label for="CONSIDER_1" class="col-9">ไม่อนุมัติเนื่องจาก</label>
+          </div>
+
+          <div class="col-lg-10 col-md-7 col-sm-4">
+            <div class="form-group">
+              <input class="form-control form-control-sm" type="text" formControlName="REMARK_NOT_APPROVE"
+                [disabled]="IS_APPROVE ==0">
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="advSearch | async" class="card card-outline-bluish unset-radius" formGroupName="searchWarrantConsider">
+      <div formGroupName="searchWarrant">
+        <div class="card-header unset-radius">
+          <app-card-actions-collapse></app-card-actions-collapse>
+          <h4 class="card-title m-b-0">หมายค้น</h4>
+        </div>
+        <div class="card-body">
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <label class="col-lg-4 col-sm-3 col-md-4 control-label">เลขที่หมายค้น<span style="color: red">*</span>
+                </label>
+                <div class="form-group col-md-3">
+                  <input class="form-control form-control-sm" type="text" formControlName="SEARCH_WARRANT_NO">
+                </div>
+                <label class=" col-sm-2 px-0" style="text-align: center"> / </label>
+                <div class="col-md-3">
+                  <!-- <select formControlName="SEARCH_WARRANT_NO_YEAR" class="form-control form-control-sm">
+                    <option [value]="yyyy_th">{{yyyy_th}}</option>
+                  </select> -->
+                  <input class="form-control form-control-sm" type="text" formControlName="SEARCH_WARRANT_NO_YEAR_TEXT"
+                    disabled>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <label class="col-lg-4 col-sm-3 col-md-4 control-label">วันที่ออกหมายค้น<span
+                    style="color: red">*</span>
+                </label>
+                <div class="form-group col-md-3">
+                  <my-date-picker-th formControlName="SEARCH_WARRANT_DATE" placeholder="" locale="th"
+                    class="form-control form-control-sm unset-form-control"></my-date-picker-th>
+                </div>
+                <label class=" col-sm-2 px-0" style="text-align: center"> เวลา </label>
+                <div class="col-md-3">
+                  <input type="text" name="SEARCH_WARRANT_DATE_TIME" placeholder="hh.mm" maxlength="5"
+                    formControlName="SEARCH_WARRANT_DATE_TIME" class="form-control form-control-sm"
+                    (keypress)="keyPress($event)">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <label class="col-lg-2 col-sm-4 control-label">วันที่ให้เข้าตรวจค้น<span style="color: red">*</span></label>
+            <div class="col-lg-4 col-md-7 col-sm-8 form-group">
+              <my-date-picker-th formControlName="SEARCH_WARRANT_DATE_FROM" placeholder="" locale="th"
+                class="form-control form-control-sm unset-form-control"></my-date-picker-th>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <label class="col-lg-4 col-sm-3 col-md-4 control-label">เวลาที่ให้เข้าตรวจค้น<span
+                    style="color: red">*</span> </label>
+                <div class="form-group col-md-3">
+                  <input class="form-control form-control-sm" type="text" formControlName="SEARCH_WARRANT_TIME_FROM"
+                    (keypress)="keyPress($event)">
+                </div>
+                <label class=" col-sm-2 px-0" style="text-align: center"> ถึง </label>
+                <div class="col-md-3">
+                  <input class="form-control form-control-sm" type="text" placeholder="hh.mm" maxlength="5"
+                    formControlName="SEARCH_WARRANT_TIME_TO" (keypress)="keyPress($event)">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <input type="checkbox" id="SEARCH_WARRANT_CHECK_TO_FINISH"
+                  formControlName="SEARCH_WARRANT_CHECK_TO_FINISH" (change)="selectCheckbox($event)"
+                  class="col-lg-4 col-sm-3 col-md-4 filled-in chk-col-indigo">
+                <label for="SEARCH_WARRANT_CHECK_TO_FINISH"
+                  class="col-md-6">ติดต่อกันไปจนกว่าจะเสร็จสิ้นการตรวจค้น</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-2">
+              <div class="col" style="padding: 10px;">
+                <input type="checkbox" id="SEARCH_WARRANT_CHECK_1" formControlName="SEARCH_WARRANT_CHECK_1"
+                  (change)="selectCheckbox($event)" [checked]="searchWarrantCheck1Checked"
+                  class="filled-in chk-col-indigo">
+                <label for="SEARCH_WARRANT_CHECK_1" class="control-label">เพื่อพบและยึดสิ่งของ</label>
+              </div>
+            </div>
+            <div class="col-lg-10 col-md-7 col-sm-4">
+              <div class="form-group">
+                <input class="form-control form-control-sm" type="text" formControlName="SEARCH_WARRANT_CHECK_1_DESC">
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-8 col-sm-3">
+              <div class="col" style="padding: 10px; margin-left: 40px;">
+                <!-- <div class="col-lg-2" ></div> -->
+                <input type="checkbox" id="SEARCH_WARRANT_CHECK_1_1" formControlName="SEARCH_WARRANT_CHECK_1_1"
+                  [checked]="searchWarrantCheck1_1Checked"
+                  class="col-lg-4 col-sm-3 col-md-4 filled-in chk-col-indigo form-control">
+                <label for="SEARCH_WARRANT_CHECK_1_1">ซึ่งจะเป็นพยานหลักฐานประกอบการสอบสวน
+                  ไต่สวนมูลฟ้องหรือพิจารณา</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-8 col-sm-3">
+              <div class="col" style="padding: 10px; margin-left: 40px;">
+                <input type="checkbox" id="SEARCH_WARRANT_CHECK_1_2" formControlName="SEARCH_WARRANT_CHECK_1_2"
+                  [checked]="searchWarrantCheck1_2Checked"
+                  class="col-lg-4 col-sm-3 col-md-4 filled-in chk-col-indigo form-control">
+                <label for="SEARCH_WARRANT_CHECK_1_2">ซึ่งมีไว้เป็นความผิดหรือได้มาโดยผิดกฎหมาย หรือได้ใช้
+                  หรือตั้งใจจะใช้ในการกระทำความผิด</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-8 col-sm-3">
+              <div class="col" style="padding: 10px;  margin-left: 40px;">
+                <input type="checkbox" id="SEARCH_WARRANT_CHECK_1_3" formControlName="SEARCH_WARRANT_CHECK_1_3"
+                  [checked]="searchWarrantCheck1_3Checked"
+                  class="col-lg-4 col-sm-3 col-md-4 filled-in chk-col-indigo form-control">
+                <label for="SEARCH_WARRANT_CHECK_1_3">ตามคำพิพากษาหรือคำสั่งของศาล</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-2">
+              <div class="col" style="padding: 10px;">
+                <input type="checkbox" id="SEARCH_WARRANT_CHECK_2" formControlName="SEARCH_WARRANT_CHECK_2"
+                  [checked]="searchWarrantCheck2Checked" class="filled-in chk-col-indigo form-control"
+                  (change)="selectCheckbox($event)">
+                <label for="SEARCH_WARRANT_CHECK_2" class="control-label">เพื่อพบ</label>
+              </div>
+            </div>
+            <div class="col-lg-10 col-md-7 col-sm-4">
+              <div class="form-group">
+                <input class="form-control form-control-sm" type="text" formControlName="SEARCH_WARRANT_CHECK_2_DESC">
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-8 col-sm-3">
+              <div class="col" style="padding: 10px;  margin-left: 40px;">
+                <input type="checkbox" id="SEARCH_WARRANT_CHECK_2_1" formControlName="SEARCH_WARRANT_CHECK_2_1"
+                  [checked]="searchWarrantCheck2_1Checked"
+                  class="col-lg-4 col-sm-3 col-md-4 filled-in chk-col-indigo form-control">
+                <label for="SEARCH_WARRANT_CHECK_2_1">บุคคลที่ถูกหน่วงเหนี่ยวหรือกักขังโดยมิชอบด้วยกฎหมาย</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-8 col-sm-3">
+              <div class="col" style="padding: 10px;  margin-left: 40px;">
+                <input type="checkbox" id="SEARCH_WARRANT_CHECK_2_2" formControlName="SEARCH_WARRANT_CHECK_2_2"
+                  [checked]="searchWarrantCheck2_2Checked" (change)="selectCheckbox($event)"
+                  class="col-lg-4 col-sm-3 col-md-4 filled-in chk-col-indigo form-control">
+                <label for="SEARCH_WARRANT_CHECK_2_2">บุคคลที่ถูกออกหมายจับ ตามหมายจับเลขที่</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <label class="col-lg-4 col-sm-3 col-md-4 control-label">หมายจับที่<span style="color: red">*</span>
+                </label>
+                <div class="form-group col-md-3">
+                  <input class="form-control form-control-sm" type="text" formControlName="ARREAT_WARRANT_NO">
+                </div>
+                <label class=" col-sm-2 px-0" style="text-align: center"> / </label>
+                <div class="col-md-3">
+                  <!-- <select formControlName="ARREST_WARRANT_NO_YEAR" class="form-control form-control-sm">
+                    <option [value]="yyyy_th">{{yyyy_th}}</option>
+                  </select> -->
+                  <input class="form-control form-control-sm" type="text" formControlName="ARREST_WARRANT_NO_YEAR"
+                    disabled>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <label class="col-lg-4 col-sm-3 col-md-4 control-label">วันที่ออกหมายจับ<span
+                    style="color: red">*</span>
+                </label>
+                <div class="form-group col-md-3">
+                  <my-date-picker-th formControlName="ARREST_WARRANT_DATE" placeholder="" locale="th"
+                    class="form-control form-control-sm unset-form-control"></my-date-picker-th>
+                </div>
+                <label class=" col-sm-2 px-0" style="text-align: center"> เวลา </label>
+                <div class="col-md-3">
+                  <input type="text" name="ARREST_WARRANT_DATE_TIME" formControlName="ARREST_WARRANT_DATE_TIME"
+                    class="form-control form-control-sm" (keypress)="keyPress($event)">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <label class="col-lg-2 col-sm-4 control-label">ออกโดยศาล<span style="color: red">*</span></label>
+            <div class="col-lg-4 col-md-7 col-sm-8 form-group">
+              <input type="text" class="form-control form-control-sm" formControlName="ARREST_WARRANT_COURT_NAME">
+            </div>
+          </div>
+
+          <div class="row">
+            <label class="col-lg-2 col-sm-4 control-label">เมื่อค้นแล้วให้ส่ง<span style="color: red">*</span></label>
+            <div class="col-lg-10 col-md-7 col-sm-4">
+              <div class="form-group">
+                <input class="form-control form-control-sm" type="text" formControlName="SEARCH_WARRANT_SEND_TO">
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <label class="col-lg-2 col-sm-4 control-label">ไปยัง<span style="color: red">*</span></label>
+            <div class="col-lg-10 col-md-7 col-sm-4">
+              <div class="form-group">
+                <input class="form-control form-control-sm" type="text" formControlName="SEARCH_WARRANT_SEND_DESC_TO">
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <label class="col-lg-2 col-sm-3 control-label">บันทึกหลังหมาย</label>
+            <div class="col-lg-10 col-md-7 col-sm-4">
+              <div class="form-group">
+                <textarea cols="" rows="5" class="form-control form-control-sm"
+                  formControlName="SEARCH_WARRANT_RESULT"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ILG60_03_02_00_00_E28 เอกสารแนบภายใน-->
+    <app-ilg60-03-02-00-00-e28></app-ilg60-03-02-00-00-e28>
+  </form>
+</div>

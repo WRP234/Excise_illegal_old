@@ -1,0 +1,25 @@
+.view {
+  position: absolute;
+  right: 20px;
+  top: 2px;
+}
+
+#education,
+#relationship,
+#address {
+    tbody tr td:not(.not-set-width) {
+        width: 240px;
+    }
+}
+
+.modal { 
+  overflow: auto !important; 
+}
+
+.is-invalid {
+  border-color: red;
+}
+
+.ng-invalid-req {
+  border-color: #fc4b6c
+}

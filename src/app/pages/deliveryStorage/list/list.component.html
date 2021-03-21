@@ -1,0 +1,250 @@
+<header class="topbar">
+    <nav class="navbar top-navbar navbar-expand-md navbar-light">
+        <div class="navbar-collapse" style="padding-right: 55px;">
+            <ul class="navbar-nav mr-auto mt-md-0">
+            </ul>
+            <ul *ngIf="true" class="navbar-nav my-lg-0">
+                <li class="nav-item col-8">
+                    <form autocomplete="off" class="app-search" #formSearch="ngForm"
+                        (ngSubmit)="clickSearch(formSearch.form.value)">
+                        <input type="search" name="TEXT_SEARCH" id="" [(ngModel)]="TEMP_TEXT_SEARCH"
+                            class="form-control">
+                        <a href="javaScript:void(0);" (click)="clickSearch(formSearch.form.value)" class="srh-btn">
+                            <i class="ti-search"></i>
+                        </a>
+                    </form>
+                </li>
+                <li class="nav-item col-9">
+                    <a href="javaScript:void(0);" class="btn text-white" (click)="setAdvSearch()">
+                        ค้นหาขั้นสูง
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<div *ngIf="advSearch | async" class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius">
+        <app-card-actions-close></app-card-actions-close>
+        <h4 class="card-title m-b-0">ค้นหาขั้นสูง</h4>
+    </div>
+
+    <div class="card-body">
+        <form class="form-horizontal" #advForm="ngForm" (ngSubmit)="onAdvSearch(advForm)">
+            <div>
+                <div class="row">
+                    <label for="" class="col-lg-2 col-sm-3 control-label">เลขที่งาน</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" name="ARREST_CODE" ngModel [(ngModel)]="TEMP_ARREST_CODE"
+                                    class="form-control form-control-sm" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <label for="" class="col-lg-2 col-sm-3 control-label">วันที่จับกุม</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group input-group">
+                            <my-date-picker-th ngModel name="OCCURRENCE_DATE_START" placeholder="" locale="th"
+                                id="OCCURRENCE_DATE_START" [options]="myDatePickerOccurrenceFromOptions"
+                                [(ngModel)]="OCCURRENCE_DATE_START" (dateChanged)="onOccurrenceDateFromChanged($event)"
+                                class="form-control form-control-sm unset-form-control">
+                            </my-date-picker-th>
+
+                            <label for="">&nbsp;ถึง&nbsp;</label>
+
+                            <my-date-picker-th ngModel name="OCCURRENCE_DATE_END" placeholder="" locale="th"
+                                id="OCCURRENCE_DATE_END" [options]="myDatePickerOccurrenceToOptions"
+                                [(ngModel)]="OCCURRENCE_DATE_END" (dateChanged)="onOccurrenceDateToChanged($event)"
+                                class="form-control form-control-sm unset-form-control">
+                            </my-date-picker-th>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="" class="col-lg-2 col-sm-3 control-label">เลขที่คดี</label>
+                    <div class="form-group input-group col-lg-4 col-md-7">
+                        <input type="text" name="LAWSUIT_NO" ngModel [(ngModel)]="TEMP_LAWSUIT_NO"
+                            class="form-control form-control-sm" placeholder="" (keypress)="isNumberOnly($event)">
+                        <label for="" class="">&nbsp; / &nbsp;</label>
+                        <input type="text" name="LAWSUIT_NO_YEAR" ngModel [(ngModel)]="TEMP_LAWSUIT_NO_YEAR"
+                            class="form-control form-control-sm" placeholder="" (keypress)="isNumberOnly($event)">
+                    </div>
+
+                    <label for="" class="col-lg-2 col-sm-3 control-label">วันที่รับคดี</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group input-group">
+                            <my-date-picker-th ngModel name="LAWSUIT_DATE_START" placeholder="" locale="th"
+                                id="LAWSUIT_DATE_START" [options]="myDatePickerLawsuitFromOptions"
+                                [(ngModel)]="LAWSUIT_DATE_START" (dateChanged)="onLawsuitDateFromChanged($event)"
+                                class="form-control form-control-sm unset-form-control">
+                            </my-date-picker-th>
+
+                            <label for="">&nbsp;ถึง&nbsp;</label>
+
+                            <my-date-picker-th ngModel name="LAWSUIT_DATE_END" placeholder="" locale="th"
+                                id="LAWSUIT_DATE_END" [options]="myDatePickerLawsuitToOptions"
+                                [(ngModel)]="LAWSUIT_DATE_END" (dateChanged)="onLawsuitDateToChanged($event)"
+                                class="form-control form-control-sm unset-form-control">
+                            </my-date-picker-th>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="" class="col-lg-2 col-sm-3 control-label">เลขที่หนังสือนำส่ง</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" name="DELIVERY_NO" ngModel [(ngModel)]="TEMP_DELIVERY_NO"
+                                    class="form-control form-control-sm" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <label for="" class="col-lg-2 col-sm-3 control-label">วันที่นำส่ง</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group input-group">
+                            <my-date-picker-th ngModel name="DELIVERY_DATE_START" placeholder="" locale="th"
+                                id="DELIVERY_DATE_START" [options]="myDatePickerDeliveryFromOptions"
+                                [(ngModel)]="DELIVERY_DATE_START" (dateChanged)="onDeliveryDateFromChanged($event)"
+                                class="form-control form-control-sm unset-form-control">
+                            </my-date-picker-th>
+
+                            <label for="">&nbsp;ถึง&nbsp;</label>
+
+                            <my-date-picker-th ngModel name="DELIVERY_DATE_END" placeholder="" locale="th"
+                                id="DELIVERY_DATE_END" [options]="myDatePickerDeliveryToOptions"
+                                [(ngModel)]="DELIVERY_DATE_END" (dateChanged)="onDeliveryDateToChanged($event)"
+                                class="form-control form-control-sm unset-form-control">
+                            </my-date-picker-th>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="" class="col-lg-2 col-sm-3 control-label">ชื่อผู้นำส่ง</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" name="DELIVERY_NAME" ngModel [(ngModel)]="TEMP_DELIVERY_NAME"
+                                    class="form-control form-control-sm" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <label for="" class="col-lg-2 col-sm-3 control-label">หน่วยงานนำส่ง</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <ng-template #rt let-OFFICE_SHORT_NAME="result" let-t="term">
+                                    {{ OFFICE_SHORT_NAME }}
+                                </ng-template>
+                                <input type="text" name="DELIVERY_OFFICE_NAME" ngModel
+                                    [(ngModel)]="TEMP_DELIVERY_OFFICE_NAME" class="form-control form-control-sm "
+                                    [ngbTypeahead]="searchOffice_ll" [resultTemplate]="rt"
+                                    placeholder="{{staffInfo.OPERATION_OFFICE_SHORT_NAME}}"
+                                    [disabled]="canOfficeSearch()" />
+                                <!-- <input type="text" class="form-control form-control-sm" ngModel [(ngModel)]="TEMP_DELIVERY_OFFICE_NAME" name="DELIVERY_OFFICE_NAME"> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="" class="col-lg-2 col-sm-3 control-label">สถานะนำส่ง</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <select ngModel name="IS_RECEIVE" ngModel [(ngModel)]="TEMP_IS_RECEIVE"
+                                    class="form-control form-control-sm">
+                                    <option value="">ทั้งหมด</option>
+                                    <option value="0">นำส่งแล้ว</option>
+                                    <option value="-1">ยังไม่นำส่ง</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-10"></div>
+                    <div class="col-2">
+                        <button type="submit" class="btn btn-block btn-themecolor">ค้นข้อมูล</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div style="overflow: auto;">
+            <table class="table table-sm table-striped table-nowrap" style="width:2000px">
+                <thead>
+                    <tr>
+                        <th style="text-align: center;width:5%">ลำดับ</th>
+                        <th>เลขที่งาน<i
+                                [ngClass]="(TN_SORTING | async) ? 'mdi mdi-sort-descending' : 'mdi mdi-sort-ascending'"
+                                style="margin-left: 5px;cursor: pointer;" (click)="Sorter(TN_SORTING,'TN')"></i></th>
+                        <th>วันที่จับกุม <i
+                                [ngClass]="(OCCURRENCE_DATE_SORTING | async) ? 'mdi mdi-sort-descending' : 'mdi mdi-sort-ascending'"
+                                style="margin-left: 5px;cursor: pointer;"
+                                (click)="Sorter(OCCURRENCE_DATE_SORTING,'OCCURRENCE_DATE')"></i></th>
+                        <th>เลขที่คดี<i
+                                [ngClass]="(LAWSUIT_NO_SORTING | async) ? 'mdi mdi-sort-descending' : 'mdi mdi-sort-ascending'"
+                                style="margin-left: 5px;cursor: pointer;"
+                                (click)="Sorter(LAWSUIT_NO_SORTING,'LAWSUIT_NO')"></i></th>
+                        <th>วันที่รับคดี<i
+                                [ngClass]="(LAWSUIT_DATE_SORTING | async) ? 'mdi mdi-sort-descending' : 'mdi mdi-sort-ascending'"
+                                style="margin-left: 5px;cursor: pointer;"
+                                (click)="Sorter(LAWSUIT_DATE_SORTING,'LAWSUIT_DATE')"></i>
+                        </th>
+                        <th>เลขที่หนังสือนำส่ง</th>
+                        <th>วันที่นำส่ง<i
+                                [ngClass]="(DELIVERY_DATE_SORTING | async) ? 'mdi mdi-sort-descending' : 'mdi mdi-sort-ascending'"
+                                style="margin-left: 5px;cursor: pointer;"
+                                (click)="Sorter(DELIVERY_DATE_SORTING,'DELIVERY_DATE')"></i>
+                        <th>ชื่อผู้นำส่ง</th>
+                        <th>หน่วยงานนำส่ง</th>
+                        <th>สถานะนำส่ง</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of deliveryStorageDataList; let i=index;"
+                        class="text-{{item.IS_RECEIVE != '-1'? 'danger':''}}"
+                        (click)="clickView(item.IS_RECEIVE,item.ARREST_ID,item.EVIDENCE_IN_ID)"
+                        style="cursor: pointer;">
+                        <td class="text-center text-{{item.IS_RECEIVE != '-1'? 'danger':''}}">{{i + 1}}</td>
+                        <td>{{item.ARREST_CODE}}</td>
+                        <td>{{item.OCCURRENCE_DATE}}</td>
+                        <td>
+                            <p class="m-0" *ngFor="let str of item.LAWSUIT_NO.split(',')">
+                                <a>{{str}}</a>
+                            </p>
+                        </td>
+                        <td>{{item.LAWSUIT_DATE}}</td>
+                        <td>{{item.DELIVERY_NO}}</td>
+                        <td>{{item.DELIVERY_DATE}}</td>
+                        <td>{{item.DELIVERY_FULL_NAME}}</td>
+                        <td>{{item.DELIVERY_OFFICE_NAME}}</td>
+                        <td>{{item.IS_RECEIVE_TEXT}}</td>
+                        <td class="text-center;">
+                            <a href="javaScript:void(0);" class="text-secondary"
+                                (click)="clickView(item.IS_RECEIVE,item.ARREST_ID,item.EVIDENCE_IN_ID)">
+                                <i class="mdi mdi-eye fa-lg text-{{item.IS_RECEIVE != '-1' ? 'danger':''}}"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer card-footer-unset">
+            <app-pagination-table [TotalItems]="paginage.TotalItems" [CurrentPage]="paginage.CurrentPage"
+                [PageSize]="paginage.PageSize" [RowsPerPageOptions]="paginage.RowsPerPageOptions"
+                (onPageChange)="pageChanges($event)">
+            </app-pagination-table>
+        </div>
+    </div>
+</div>

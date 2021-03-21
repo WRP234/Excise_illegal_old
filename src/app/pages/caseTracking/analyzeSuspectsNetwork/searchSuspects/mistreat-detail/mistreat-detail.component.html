@@ -1,0 +1,71 @@
+<form action="">
+  <div class="modal-header bg-theme">
+    <div class="row">
+      <div class="col-lg-5">
+        <h4 class="modal-title text-white">รายละเอียดการกระทำผิด</h4>
+      </div>
+      <a href="javaScript:void(0);" class="close text-white font-14" aria-label="Close"
+        (click)="dismiss('Cross click')">
+        <span aria-hidden="true">
+          <i class=" ti-close"></i>
+        </span>
+      </a>
+    </div>
+  </div>
+  <h5 class="text-right mt-3 pr-3">ILG60_M_01_01_02_01</h5>
+  <div class="modal-body font-14">
+    <div class="card">
+      <div class="card-body">
+
+        <div class="table-responsive table-striped scroll">
+          <table class="table ">
+            <thead>
+              <tr>
+                <th style="text-align: center;width:5%">ลำดับ</th>
+                <th>เลขที่ใบงาน</th>
+                <th>เลขที่คดีรับคำกล่าวโทษ</th>
+                <th>วันที่จับกุม</th>
+                <th>ฐานความผิดมาตรา</th>
+                <th>ฐานความผิด</th>
+                <th style="width:15%">สถานที่จับกุม</th>
+                <th style="width:10%">กลุ่มสินค้า</th>
+                <th style="width:15%">ผู้กล่าวหา</th>
+                <th style="width:15%">หน่วยงานผู้กล่าวหา</th>
+                <th style="width:16%">ผู้รับคดี</th>
+                <th style="width:16%">หน่วยงานผู้รับคดี</th>
+                <th style="width:20%">ค่าปรับ</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr *ngFor="let item of ArstLawbkDetailList; let i=index;" class="table-fix">
+                <td style="text-align: center;">{{i+1}}</td>
+                <td>{{item.ARREST_CODE}}</td>
+                <td>{{item.ARREST_ID}}</td>
+                <td>{{item.OCCURRENCE_DATE}}</td>
+                <td>{{item.SECTION_ID}}</td>
+                <td>{{item.GUILTBASE_NAME}}</td>
+                <td>{{item.LOCALE_ADDRESS}}</td>
+                <td>{{item.PRODUCT_GROUP_NAME}}</td>
+                <td>{{item.ARREST_STAFF_NAME}}</td>
+                <td>{{item.ARREST_STAFF_OFFICE_NAME}}</td>
+                <td>{{item.LAWSUIT_STAFF_NAME}}</td>
+                <td>{{item.LAWSUIT_STAFF_OFFICE_NAME}}</td>
+                <td>{{item.PAYMENT_FINE}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card-footer card-footer-unset">
+          <app-pagination-table [TotalItems]="paginage.TotalItems" [CurrentPage]="paginage.CurrentPage"
+            [PageSize]="paginage.PageSize" [RowsPerPageOptions]="paginage.RowsPerPageOptions"
+            (onPageChange)="pageChanges($event)">
+          </app-pagination-table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</form>

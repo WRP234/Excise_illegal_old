@@ -1,0 +1,56 @@
+<form [formGroup]="printForm">
+    <div class="modal-header bg-theme">
+        <div class="row">
+          <div class="col-lg-5">
+            <h4 class="modal-title text-white">พิมพ์เอกสาร</h4> 
+          </div>
+          <a href="javaScript:void(0);" class="close text-white font-14" aria-label="Close" (click)="dismiss(click)">
+            <span aria-hidden="true">
+              <i class=" ti-close"></i>
+            </span>
+          </a>
+        </div>
+      </div>
+    <div class="modal-body font-14" >
+  
+      <div class="table-responsive">
+        <table class="table table-sm table-striped table-set-border" style="max-width: unset; width: 100%">
+          <thead>
+            <tr>
+              <th style="width:10%" class="a-center">
+                <input type="checkbox" (click)="onSelect($event,'all')" id="all" name="all" class="filled-in chk-col-indigo">
+                <label for="all" class="m-0"></label>
+              </th>
+              <th style="width:10%" class="text-center">ลำดับ</th>
+              <!-- <th style="width:25%">ชื่อผู้ต้องหา</th> -->
+              <th style="width:50%">ชื่อเอกสาร</th>
+              <th style="width:40%" [ngSwitch]="sort" style="cursor: pointer;">
+                <div (click)="sortPrintDoc()">
+                  ประเภทเอกสาร
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody formArrayName="print">
+            <tr [formGroupName]="i" class="form-control-sm" *ngFor="let item of print.controls; let i=index">
+                <td class="a-center">
+                    <input type="checkbox" [checked]="item.get('printIndex').value == true"
+                    (click)="onSelect($event,i)" [value]="i" [id]="i" [name]="i" class="filled-in chk-col-indigo">
+                    <label [for]="i" class="m-0"></label>
+                </td>
+                <td class="a-center">{{i+1}}</td>
+                <td>{{item.get('NAME').value}}</td>
+                <td>
+                    <p>แบบฟอร์ม</p>
+                </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="col-lg-2 col-4">
+        <button (click)="onPrint()" type="submit" class="btn btn-block btn-themecolor">พิมพ์</button>
+      </div>
+    </div>
+  </form>

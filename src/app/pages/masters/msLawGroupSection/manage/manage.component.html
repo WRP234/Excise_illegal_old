@@ -1,0 +1,366 @@
+<header class="topbar">
+    <nav class="navbar top-navbar navbar-expand-md navbar-light">
+        <div class="navbar-collapse" style="padding-right: 55px;">
+            <ul class="navbar-nav mr-auto mt-md-0">
+                <li *ngIf="PrintButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickPrint()">
+                            พิมพ์
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="EditButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnEdit()">
+                            แก้ไข
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="DeleteButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnDelete()" style="background-color: #f47023">
+                            ลบ
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="SaveButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnSave()">
+                            บันทึก
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="CancelButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnCancel()">
+                            ยกเลิก
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<div class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius">
+        <app-card-actions-collapse></app-card-actions-collapse>
+        <h4 class="card-title m-b-0">มาตรา พ.ร.บ.</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label is-required">ชื่อหมวด</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <div class="form-line">
+                        <select name="LAW_GROUP_NO" [(ngModel)]="LAW_GROUP_NO" class="form-control" style="font-size: 15px" (change)="getPart()"
+                            [disabled]="showEditField">
+                            <option *ngFor="let o of LAW_GROUP_LIST" [value]="o.LAW_GROUP_NO">
+                                {{ o.LAW_GROUP_NAME }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="alert alert-danger mt-3" role="alert" *ngIf="isReq_lawGroupNo.value">
+                        กรุณาระบุข้อมูล "ชื่อหมวด"
+                    </div>
+                </div>
+            </div>
+
+            <label for="" class="col-lg-2 col-sm-4 control-label is-required">ชื่อส่วน</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group">
+                    <div class="form-line">
+                        <select name="PART_NO" [(ngModel)]="PART_NO" class="form-control" style="font-size: 15px" (change)="isReq_partNo.next(false)"
+                            [disabled]="showEditField">
+                            <option *ngFor="let o of PART_LIST" [value]="o.PART_NO">
+                                {{ o.PART_NAME }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="alert alert-danger mt-3" role="alert" *ngIf="isReq_partNo.value">
+                        กรุณาระบุข้อมูล "ชื่อส่วน"
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label is-required">มาตรา</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <input type="text" name="SECTION_NAME" [(ngModel)]="SECTION_NAME" class="form-control" class="form-control" [disabled]="showEditField"
+                        [ngClass]="{'ng-touched':isRequired}" (keydown)="isReq_sectionName.next(false)">
+                    <div class="alert alert-danger mt-3" role="alert" *ngIf="isReq_sectionName.value">
+                        กรุณาระบุข้อมูล "มาตรา"
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="" class="col-lg-2 col-md-2 control-label is-required">รายละเอียดมาตรา</label>
+            <div class="col-lg-10 col-md-10">
+                <div class="form-group ">
+                    <textarea [(ngModel)]="SECTION_DESC_1" name="SECTION_DESC_1" cols="" rows="10" class="form-control" [ngClass]="{'ng-touched':isRequired}"
+                        [disabled]="showEditField" (keydown)="isReq_sectionDesc1.next(false)"></textarea>
+                    <div class="alert alert-danger mt-3" role="alert" *ngIf="isReq_sectionDesc1.value">
+                        กรุณาระบุข้อมูล "รายละเอียดมาตรา"
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="" class="col-lg-2 col-md-4 control-label is-required">วันที่เริ่มใช้งาน</label>
+            <div class="col-lg-4 col-md-7">
+                <div class="form-group input-group">
+                    <my-date-picker-th name="EFFECTIVE_DATE" [options]="myDatePickerOptions" class="form-control unset-form-control" [(ngModel)]="EFFECTIVE_DATE"
+                        [disabled]="showEditField" [ngClass]="{'ng-touched':isRequired}" (dateChanged)="isReq_effective.next(false)"></my-date-picker-th>
+                </div>
+                <div class="alert alert-danger mt-3" role="alert" *ngIf="isReq_effective.value">
+                    กรุณาระบุข้อมูล "วันที่เริ่มใช้งาน"
+                </div>
+            </div>
+
+            <label for="" class="col-lg-2 col-md-4 control-label is-required">วันที่สิ้นสุดใช้งาน</label>
+            <div class="col-lg-4 col-md-7">
+                <div class="form-group input-group">
+                    <my-date-picker-th name="EXPIRE_DATE" [options]="myDatePickerOptions" class="form-control unset-form-control" [(ngModel)]="EXPIRE_DATE"
+                        [disabled]="showEditField" [ngClass]="{'ng-touched':isRequired}" (dateChanged)="isReq_expDate.next(false)"></my-date-picker-th>
+                </div>
+                <div class="alert alert-danger mt-3" role="alert" *ngIf="isReq_expDate.value">
+                    กรุณาระบุข้อมูล "วันที่สิ้นสุดใช้งาน"
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-2 col-sm-3">
+                <div class="row form-group">
+                    <div class="col">
+                        <input type="checkbox" id="md_isActive" [(ngModel)]="chk1" name="chk1" class="filled-in chk-col-indigo" [disabled]="showEditField"
+                            [checked]="IS_ACTIVE=='1'">
+                        <label for="md_isActive">ใช้งาน</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius">
+        <app-card-actions-collapse></app-card-actions-collapse>
+        <h4 class="card-title m-b-0">ข้อย่อย/วรรค</h4>
+    </div>
+
+    <div class="card-body">
+        <div class="row form-group">
+            <div class="col-lg-10 col-md-9 col-sm-8"></div>
+            <div class="col-lg-2 col-md-3 col-sm-4">
+                <button class="btn btn-block btn-themecolor" (click)="AddSubSection()" [disabled]="showEditField">เพิ่มข้อย่อย/วรรค</button>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive table-striped" style="overflow: hidden;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center; width: 5%">ลำดับ</th>
+                                <th>ชื่อข้อย่อย/วรรค</th>
+                                <th>รายละเอียดข้อ/วรรค</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of ListSubSection | IsActivePipe; let i=index;">
+                                <td style="text-align: center">{{ i + 1 }}</td>
+                                <td>
+                                    <input type="text" [(ngModel)]="item.SUBSECTION_NAME" name="item.SUBSECTION_NAME" class="form-control" [disabled]="showEditField">
+                                </td>
+                                <td>
+                                    <input type="text" [(ngModel)]="item.SUBSECTION_DESC" name="item.SUBSECTION_DESC" class="form-control" [disabled]="showEditField">
+                                </td>
+                                <td>
+                                    <a href="javaScript:void(0);" class="text-warning">
+                                        <i class="fa fa-trash-o fa-lg" (click)="DelSubSection(item.SUBSECTION_SEQ)" [hidden]="showEditField"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius">
+        <app-card-actions-collapse></app-card-actions-collapse>
+        <h4 class="card-title m-b-0">อัตราโทษ</h4>
+    </div>
+
+    <div class="card-body">
+        <div class="row form-group">
+            <div class="col">
+                <input type="checkbox" id="md_checkbox_1" [(ngModel)]="CHK_IS_TAX_PAID" name="CHK_IS_TAX_PAID" class="filled-in chk-col-indigo"
+                    [disabled]="showEditField">
+                <label for="md_checkbox_1">ต้องชะระภาษี</label>
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col">
+                <input type="checkbox" id="md_checkbox_2" name="CHK_IS_FINE" class="filled-in chk-col-indigo" [(ngModel)]="CHK_IS_FINE" [disabled]="showEditField"
+                    (change)="checkValidate()">
+                <label for="md_checkbox_2">มีค่าปรับ</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="" class="col-lg-2 col-md-2"></label>
+            <label for="" class="col-lg-2 col-md-2 control-label">ปรับเป็นจำนวนเท่า</label>
+            <div class="col-lg-4 col-md-7">
+                <div class="form-group input-group ">
+                    <input type="number" name="FINE_RATE_MIN" [(ngModel)]="FINE_RATE_MIN" class="form-control" [disabled]="showEditField || CHK_IS_FINE == false"
+                        (input)="validateFineRate()">
+                    <label for="" class="">&nbsp; ถึง &nbsp;</label>
+                    <input type="number" name="FINE_RATE_MAX" [(ngModel)]="FINE_RATE_MAX" class="form-control" [disabled]="showEditField || CHK_IS_FINE == false"
+                        (input)="validateFineRate()">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="" class="col-lg-2 col-md-2"></label>
+            <label for="" class="col-lg-2 col-md-2">ปรับเป็นจำนวนเงิน</label>
+            <div class="col-lg-2 col-md-2">
+                <div class="form-group input-group ">
+                    <input type="radio" id="rd_1" name="rd_fine" class="with-gap radio-col-indigo" value="1" [(ngModel)]="rd_fine" [disabled]="showEditField || CHK_IS_FINE == false"
+                        (change)="clearRDFine()">
+                    <label for="rd_1">ปรับไม่ต่ำกว่า </label>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4">
+                <input type="number" name="FINE_START" [(ngModel)]="FINE_START" class="form-control" [disabled]="showEditField || CHK_IS_FINE == false || rd_fine != 1">
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="" class="col-lg-2 col-md-2"></label>
+            <label for="" class="col-lg-2 col-md-2"></label>
+            <div class="col-lg-2 col-md-2">
+                <div class="form-group input-group ">
+                    <input type="radio" id="rd_2" name="rd_fine" class="with-gap radio-col-indigo" value="2" [(ngModel)]="rd_fine" [disabled]="showEditField || CHK_IS_FINE == false"
+                        (change)="clearRDFine()">
+                    <label for="rd_2">ปรับตั้งแต่ </label>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4">
+                <div class="form-group input-group ">
+                    <input type="number" name="FINE_MIN" [(ngModel)]="FINE_MIN" class="form-control" [disabled]="showEditField || CHK_IS_FINE == false || rd_fine != 2"
+                        (input)="validateFine()">
+                    <label for="" class="">&nbsp; ถึง &nbsp;</label>
+                    <input type="number" name="FINE_MAX" [(ngModel)]="FINE_MAX" class="form-control" [disabled]="showEditField || CHK_IS_FINE == false || rd_fine != 2"
+                        (input)="validateFine()">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="" class="col-lg-2 col-md-2"></label>
+            <label for="" class="col-lg-2 col-md-2"></label>
+            <div class="col-lg-2 col-md-2">
+                <div class="form-group input-group ">
+                    <input type="radio" id="rd_3" name="rd_fine" class="with-gap radio-col-indigo" value="3" [(ngModel)]="rd_fine" [disabled]="showEditField || CHK_IS_FINE == false"
+                        (change)="clearRDFine()">
+                    <label for="rd_3">ปรับไม่เกิน </label>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4">
+                <input type="number" name="FINE_TO" [(ngModel)]="FINE_TO" class="form-control" [disabled]="showEditField || CHK_IS_FINE == false || rd_fine != 3">
+            </div>
+        </div>
+
+
+        <div class="row form-group">
+            <div class="col">
+                <input type="checkbox" id="md_checkbox_3" name="CHK_IS_IMPRISON" class="filled-in chk-col-indigo" [(ngModel)]="CHK_IS_IMPRISON"
+                    [disabled]="showEditField" (change)="checkValidatePrison()">
+                <label for="md_checkbox_3">ต้องจำคุก</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="" class="col-lg-2 col-md-2"></label>
+            <label for="" class="col-lg-2 col-md-2">ระยะเวลาจำคุก</label>
+            <div class="col-lg-2 col-md-2">
+                <div class="form-group input-group ">
+                    <input type="radio" id="rd_4" name="rd_prison" class="with-gap radio-col-indigo" value="1" [(ngModel)]="rd_prison" [disabled]="showEditField || CHK_IS_IMPRISON == false"
+                        (change)="clearRDPrison()">
+                    <label for="rd_4">จำคุกไม่เกิน </label>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4">
+                <div class="form-group input-group ">
+                    <input type="number" name="PRISON_RATE_LIMIT" [(ngModel)]="PRISON_RATE_LIMIT" class="form-control" [disabled]="showEditField || CHK_IS_IMPRISON == false || rd_prison != 1">
+                    <label for="" class="">&nbsp;</label>
+                    <select name="FINE_TYPE" [(ngModel)]="FINE_TYPE" class="form-control" [disabled]="showEditField || CHK_IS_IMPRISON == false || rd_prison != 1">
+                        <option value="1">เดือน</option>
+                        <option value="2">ปี</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="" class="col-lg-2 col-md-2"></label>
+            <label for="" class="col-lg-2 col-md-2"></label>
+            <div class="col-lg-2 col-md-2">
+                <div class="form-group input-group ">
+                    <input type="radio" id="rd_5" name="rd_prison" class="with-gap radio-col-indigo" value="2" [(ngModel)]="rd_prison" [disabled]="showEditField || CHK_IS_IMPRISON == false"
+                        (change)="clearRDPrison()">
+                    <label for="rd_5">จำคุกตั้งแต่ </label>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4">
+                <div class="form-group input-group ">
+                    <input type="number" name="PRISON_RATE_MIN" [(ngModel)]="PRISON_RATE_MIN" class="form-control" [disabled]="showEditField || CHK_IS_IMPRISON == false || rd_prison != 2"
+                        (input)="ValidatePrisonRate()">
+                    <label for="" class="">&nbsp;</label>
+                    <select name="FINE_TYPE_START" [(ngModel)]="FINE_TYPE_START" class="form-control" [disabled]="showEditField || CHK_IS_IMPRISON == false || rd_prison != 2"
+                        (change)="ValidatePrisonRate()">
+                        <option value="1">เดือน</option>
+                        <option value="2">ปี</option>
+                    </select>
+                    <label for="" class="">&nbsp; ถึง &nbsp;</label>
+                    <input type="number" name="PRISON_RATE_MAX" [(ngModel)]="PRISON_RATE_MAX" class="form-control" [disabled]="showEditField || CHK_IS_IMPRISON == false || rd_prison != 2"
+                        (input)="ValidatePrisonRate()">
+                    <label for="" class="">&nbsp;</label>
+                    <select name="FINE_TYPE_END" [(ngModel)]="FINE_TYPE_END" class="form-control" [disabled]="showEditField || CHK_IS_IMPRISON == false || rd_prison != 2"
+                        (change)="ValidatePrisonRate()">
+                        <option value="1">เดือน</option>
+                        <option value="2">ปี</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="" class="col-lg-2 col-md-2 control-label">อัตราโทษ</label>
+            <div class="col-lg-10 col-md-10">
+                <div class="form-group ">
+                    <textarea [(ngModel)]="PENALTY_DESC" name="PENALTY_DESC" cols="" rows="10" class="form-control" [ngClass]="{'ng-touched':isRequired}"
+                        [disabled]="showEditField || (CHK_IS_IMPRISON == false && CHK_IS_TAX_PAID == false && CHK_IS_FINE == false)"
+                        (keydown)="isReq_penaltyDesc.next(false)"></textarea>
+                    <div class="alert alert-danger mt-3" role="alert" *ngIf="isReq_penaltyDesc.value">
+                        กรุณาระบุข้อมูล "อัตราโทษ"
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

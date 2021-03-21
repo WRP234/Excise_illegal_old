@@ -1,0 +1,186 @@
+<header class="topbar">
+    <nav class="navbar top-navbar navbar-expand-md navbar-light">
+        <div class="navbar-collapse" style="padding-right: 55px;">
+            <ul class="navbar-nav mr-auto mt-md-0">
+                <li class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickNew()">
+                            สร้างข้อมูล
+                        </a>
+                    </div>
+                </li>
+            </ul>
+            <ul class="navbar-nav my-lg-0">
+                <li class="nav-item col-8">
+                    <form autocomplete="off" class="app-search" #formSearch="ngForm"
+                        (ngSubmit)="clickSearch(formSearch.form.value)">
+                        <input type="search" name="TEXT_SEARCH" id="" ngModel [(ngModel)]="TEMP_TEXT_SEARCH"
+                            class="form-control">
+                        <a href="javaScript:void(0);" (click)="clickSearch(formSearch.form.value)" class="srh-btn">
+                            <i class="ti-search"></i>
+                        </a>
+                    </form>
+                </li>
+                <li class="nav-item col-9">
+                    <a href="javaScript:void(0);" class="btn text-white" (click)="setAdvSearch()">
+                        ค้นหาขั้นสูง
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<div *ngIf="advSearch | async" class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius">
+        <app-card-actions-close></app-card-actions-close>
+        <h4 class="card-title m-b-0">ค้นหาขั้นสูง</h4>
+    </div>
+
+    <div class="card-body">
+        <form class="form-horizontal" #advForm="ngForm" (ngSubmit)="onAdvSearch(advForm)">
+            <div>
+                <div class="row">
+                    <label for="" class="col-lg-2 col-sm-3 control-label">หมวดสินค้า</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <select name="PRODUCT_GROUP_ID" [(ngModel)]="PRODUCT_GROUP_ID"
+                                    class="form-control form-control-sm" style="font-size: 15px"
+                                    (change)="getProductCategory()">
+                                    <option value="" selected>ทั้งหมด</option>
+                                    <option *ngFor="let o of PRODUCT_GROUP_LIST" [value]="o.PRODUCT_GROUP_ID">
+                                        {{ o.PRODUCT_GROUP_NAME }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <label for="" class="col-lg-2 col-sm-3 control-label">กลุ่มประเภทสินค้า</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <select name="PRODUCT_CATEGORY_ID" [(ngModel)]="PRODUCT_CATEGORY_ID"
+                                    class="form-control form-control-sm" (change)="getProductType()">
+                                    <option value="" selected>ทั้งหมด</option>
+                                    <option *ngFor="let o of PRODUCT_CATEGORY_LIST" [value]="o.PRODUCT_CATEGORY_ID">
+                                        {{ o.PRODUCT_CATEGORY_NAME }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="" class="col-lg-2 col-sm-3 control-label">ประเภทสินค้า</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <select name="PRODUCT_TYPE_ID" ngModel class="form-control form-control-sm">
+                                    <option value="" selected>ทั้งหมด</option>
+                                    <option *ngFor="let o of PRODUCT_TYPE_LIST" [value]="o.PRODUCT_TYPE_ID">
+                                        {{ o.PRODUCT_TYPE_NAME }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <label for="" class="col-lg-2 col-sm-3 control-label">ยี่ห้อหลัก</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" name="PRODUCT_BRAND_NAME" ngModel
+                                    class="form-control form-control-sm" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="" class="col-lg-2 col-sm-3 control-label">ชื่อสินค้า</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" name="PRODUCT_NAME_DESC" ngModel class="form-control form-control-sm"
+                                    placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                    <label for="" class="col-lg-2 col-sm-3 control-label">ขนาดบรรจุ</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" name="SIZES" ngModel class="form-control form-control-sm"
+                                    placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="" class="col-lg-2 col-sm-3 control-label">หน่วยบรรจุ</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" name="SIZES_UNIT" ngModel class="form-control form-control-sm"
+                                    placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-10"></div>
+                    <div class="col-2">
+                        <button type="submit" class="btn btn-block btn-themecolor">ค้นข้อมูล</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+
+        <div class="table-responsive table-striped table-sm" style="overflow: hidden;">
+            <table #EvidenceTable class="table">
+                <thead>
+                    <tr>
+                        <th style="text-align: center;width:3%">ลำดับ</th>
+                        <th style="width:14%">หมวดสินค้า</th>
+                        <th style="width:14%">ยี่ห้อหลัก</th>
+                        <th style="width:25%">ชื่อสินค้า</th>
+                        <th style="text-align: right;width:6%">ขนาดบรรจุ</th>
+                        <th style="text-align: left;width:8%">หน่วยบรรจุ</th>
+                        <th style="width:5%">สถานะ</th>
+                        <th style="text-align: center;width:3%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of showDataList; let i=index;" (click)="clickView(item.PRODUCT_MAPPING_ID)"
+                        style="cursor: pointer;">
+                        <td style="text-align: center;">{{item.index}}</td>
+                        <td>{{item.PRODUCT_GROUP_NAME}}</td>
+                        <td>{{item.PRODUCT_BRAND_NAME_TH}}</td>
+                        <td>{{item.PRODUCT_NAME_DESC}}</td>
+                        <td style="text-align: right;">{{item.SIZES}}</td>
+                        <td style="text-align: left;">{{item.SIZES_UNIT}}</td>
+                        <td>{{item.IS_ACTIVE_STATUS}}</td>
+                        <td style="text-align: center;">
+                            <a href="javaScript:void(0);" class="text-secondary"
+                                (click)="clickView(item.PRODUCT_MAPPING_ID)">
+                                <i class="mdi mdi-eye fa-lg"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="card-footer card-footer-unset">
+            <app-pagination-table [TotalItems]="paginage.TotalItems" [CurrentPage]="paginage.CurrentPage"
+                [PageSize]="paginage.PageSize" [RowsPerPageOptions]="paginage.RowsPerPageOptions"
+                (onPageChange)="pageChanges($event)">
+            </app-pagination-table>
+        </div>
+    </div>
+</div>

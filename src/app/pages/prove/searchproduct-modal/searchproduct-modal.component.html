@@ -1,0 +1,156 @@
+<div class="modal-header bg-theme">
+    <div class="row">
+        <div class="col-lg-7">
+            <h4 class="modal-title text-white">เพิ่มของกลาง</h4>
+        </div>
+        <div class="col-lg-4">
+            <form autocomplete="off" class="app-search" #formSearch="ngForm" (ngSubmit)="clickSearch(formSearch.form.value)">
+                <input type="search" name="TEXT_SEARCH" id="" ngModel class="form-control">
+                <a href="javaScript:void(0);" (click)="clickSearch(formSearch.form.value)" class="srh-btn">
+                    <i class="ti-search"></i>
+                </a>
+            </form>
+        </div>
+        <a href="javaScript:void(0);" class="close text-white font-14" aria-label="Close" (click)="dismiss('Close')">
+            <span aria-hidden="true">
+                <i class=" ti-close"></i>
+            </span>
+        </a>
+    </div>
+</div>
+<h5 class="text-right mt-3 pr-3">ILG60_0_04_00_02_01</h5>
+<div class="modal-body font-16">
+    <!-- ค้นหาขั้นสูง -->
+    <div class="card card-outline-bluish unset-radius">
+        <div class="card-header unset-radius">
+            <app-card-actions-collapse></app-card-actions-collapse>
+            <h4 class="card-title m-b-0">ค้นหาขั้นสูง</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-2 control-label">หมวดสินค้า</label>
+                <div class="col-lg-4 col-md-7 col-sm-9">
+                    <div class="form-group">
+                        <div class="form-line">
+                            <select name="PRODUCT_GROUP_ID" [(ngModel)]="PRODUCT_GROUP_ID" class="form-control" style="font-size: 15px">
+                                <option *ngFor="let o of PRODUCT_GROUP_LIST" [value]="o.PRODUCT_GROUP_ID">
+                                    {{ o.PRODUCT_GROUP_NAME }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <label for="" class="col-lg-2 col-sm-2 control-label">ยี่ห้อสินค้า</label>
+                <div class="col-lg-4 col-md-7 col-sm-9">
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input type="text" name="PRODUCT_NAME_DESC" [(ngModel)]="PRODUCT_NAME_DESC" class="form-control" placeholder="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-10"></div>
+                <div class="col-2">
+                    <button type="button" class="btn btn-block btn-themecolor" (click)="clickAdvSearch()">ค้นหาสินค้า</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- รายการของกลาง -->
+    <div class="card card-outline-bluish unset-radius">
+        <div class="card-header unset-radius">
+            <app-card-actions-collapse></app-card-actions-collapse>
+            <h4 class="card-title m-b-0">รายการสินค้าที่เพิ่ม</h4>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped" style="font-size: 14px">
+                <thead>
+                    <tr>
+                        <th style="text-align: center; width:5%">ลำดับ</th>
+                        <th>สินค้า</th>
+                        <th style="text-align: center; width:17%">จำนวน</th>
+                        <th style="text-align: center; width:17%">ปริมาณสุทธิ</th>
+                        <th style="text-align: center; width:13%">ดีกรี/ความหวาน/CO2</th>
+                        <th style="text-align: center; width:13%">ข้อมูลสินค้าเพิ่มเติม</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of SHOW_PRODUCT_LIST | IsSelectPipe; let i=index;">
+                        <td style="text-align: center;">{{ i + 1 }}</td>
+                        <td>{{ item.PRODUCT_NAME_DESC }}</td>
+                        <td class="text-center">
+                            <div class="input-group">
+                                <input type="text" [(ngModel)]="item.QUANTITY" name="item.QUANTITY" class="form-control form-control-sm"> &nbsp;
+                                <input type="text" [(ngModel)]="item.QUANTITY_UNIT" name="item.QUANTITY_UNIT" class="form-control form-control-sm">
+                            </div>
+
+                        </td>
+                        <td class="text-center">
+                            <div class="input-group">
+                                <input type="text" [(ngModel)]="item.VOLUMN" name="item.VOLUMN" class="form-control form-control-sm"> &nbsp;
+                                <input type="text" [(ngModel)]="item.VOLUMN_UNIT" name="item.VOLUMN_UNIT" class="form-control form-control-sm">
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <input type="text" [(ngModel)]="item.DEGREE" name="item.DEGREE" class="form-control form-control-sm">
+                        </td>
+                        <td class="text-center">
+                            <div class="input-group">
+                                <input type="text" [(ngModel)]="item.REMARK" name="item.REMARK" class="form-control form-control-sm">
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="row form-group">
+                <div class="col-10"></div>
+                <div class="col-2">
+                    <button type="button" class="btn btn-block btn-themecolor" (click)="AddProduct()">เพิ่มรายการสินค้า</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card card-outline-bluish unset-radius">
+        <div class="card-body">
+            <table class="table table-striped" style="font-size: 14px">
+                <thead>
+                    <tr>
+                        <th style="text-align: center; width:5%">
+                            <input type="checkbox" id="H_0" class="filled-in chk-col-indigo" name="selectAllChb" [(ngModel)]="selectAllChb" (change)="selectedChkAll();">
+                            <label for="H_0" class="m-0"></label>
+                        </th>
+                        <th style="text-align: center; width:5%">ลำดับ</th>
+                        <th>สินค้า</th>
+                        <th style="text-align: center;width:15%">หน่วยสินค้า</th>
+                        <th style="text-align: center;width:15%">ใน/ต่างประเทศ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of SHOW_PRODUCT_LIST; let i=index;">
+                        <td>
+                            <input type="checkbox" class="filled-in chk-col-indigo" [id]="'td'+i" name="ProveChK{{i}}" [(ngModel)]="item.ISSELECTED"
+                                (change)="checkIfAllChbSelected();">
+                            <label [for]="'td'+i" class="m-0"></label>
+                        </td>
+                        <td style="text-align: center;">{{ i + 1 }}</td>
+                        <td>{{ item.PRODUCT_NAME_DESC }}</td>
+                        <td style="text-align: center;">{{ item.QUANTITY_UNIT }}</td>
+                        <td style="text-align: center;">{{ item.DOMESTIC_NAME }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="card-footer card-footer-unset">
+                <app-pagination-table [TotalItems]="paginage.TotalItems" [CurrentPage]="paginage.CurrentPage" [PageSize]="paginage.PageSize"
+                    [RowsPerPageOptions]="paginage.RowsPerPageOptions" (onPageChange)="pageChanges($event)">
+                </app-pagination-table>
+            </div>
+        </div>
+    </div>
+</div>

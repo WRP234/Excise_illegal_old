@@ -1,0 +1,228 @@
+  <header class="topbar">
+    <nav class="navbar top-navbar navbar-expand-md navbar-light">
+
+      <div class="navbar-collapse" style="padding-right: 55px;">
+        <ul class="navbar-nav mr-auto mt-md-0">
+          <li *ngIf="false" class="nav-item">
+            <div class="nav-link text-muted waves-effect waves-dark">
+              <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickNew()">
+                สร้างข้อมูล
+              </a>
+            </div>
+          </li>
+          <li *ngIf="false" class="nav-item">
+            <div class="nav-link text-muted waves-effect waves-dark">
+              <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickPrint()">
+                พิมพ์
+              </a>
+            </div>
+          </li>
+          <li *ngIf="visableEditBtn" class="nav-item">
+            <div class="nav-link text-muted waves-effect waves-dark">
+              <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickEdit()">
+                แก้ไข
+              </a>
+            </div>
+          </li>
+          <!-- <li *ngIf="visableEditBtn" class="nav-item">
+            <div class="nav-link text-muted waves-effect waves-dark">
+              <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickDelete()"
+                style="background-color: #f47023">
+                ลบ
+              </a>
+            </div>
+          </li> -->
+          <li *ngIf="visableUpdateBtn" class="nav-item">
+            <div class="nav-link text-muted waves-effect waves-dark">
+              <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickSave()">
+                บันทึก
+              </a>
+            </div>
+          </li>
+          <li *ngIf="visableCancelBtn" class="nav-item">
+            <div class="nav-link text-muted waves-effect waves-dark">
+              <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickCancel()">
+                ยกเลิก
+              </a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <div class="card ">
+    <div class="card-header  unset-radius">
+      <app-card-actions-collapse></app-card-actions-collapse>
+      <h4 class="card-title m-b-0">ข้อมูลบทบาท</h4>
+    </div>
+    <div class="card-body">
+      <div class="form-body">
+        <form class="form-horizontal" autocomplete="off" #advForm="ngForm" >
+          <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label">รหัสบทบาท :</label>
+            <div class="col-lg-4 col-md-7 col-sm-8 form-group">
+              <input type="text" value="{{roleCode}}" name="RoleCode" ngModel class="form-control form-control-sm" [readonly]="!visableUpdateBtn">
+            </div>
+            <label for="" class="col-lg-2 col-sm-4 control-label">ชื่อบทบาท :</label>
+            <div class="col-lg-4 col-md-7 col-sm-8 form-group">
+              <input type="text" value="{{roleName}}" name="RoleName" ngModel class="form-control form-control-sm" [readonly]="!visableUpdateBtn">
+            </div>
+          </div>
+        </form>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-outline-bluish unset-radius">
+    <!-- <div class="card-header  unset-radius"> -->
+        <!-- <div class="card-actions">
+            <a class="" (click)="card5 = !card5">
+                <i class="fa" [ngClass]="{'fa-chevron-down': card5, 'fa-chevron-up': !card5}"></i>
+            </a>
+        </div>
+        <h4 class="card-title m-b-0">สินค้าต้องสงสัย</h4>
+    </div> -->
+    <div class="card-body" [class]="classForPosition">
+        <div class="row form-group">
+            <div class="col-lg-10 col-md-9 col-sm-8"></div>
+            <div class="col-lg-2 col-md-3 col-sm-4">
+                <button type="button" class="btn btn-block btn-themecolor" (click)="addRole()">เพิ่มตำแหน่ง</button>
+            </div>
+        </div>
+
+        <table class="table table-sm table-striped table-set-border">
+            <thead>
+                <tr>
+                    <th style="width:5%">ลำดับ</th>
+                    <th style="width:90%">ตำแหน่ง</th>
+                    <th style="width:5%"></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let item of rolePositionList; let i = index;">
+                  <td> {{ i+1 }} </td>
+                  <td> <input type="text" name="test" class="form-control form-control-sm" value="{{ item.OPERATION_POS_NAME }}"> </td>
+                  <td> <i class="fa fa-trash" aria-hidden="true" (click)="deleteRolePosition()"></i> </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+  <div class="card ">
+    <div class="card-header  unset-radius">
+      <app-card-actions-collapse></app-card-actions-collapse>
+      <h4 class="card-title m-b-0">การจัดการสิทธิ์เข้าถึงข้อมูล</h4>
+    </div>
+
+    <div class="card-body">
+      <div class="form-body">
+        <div class="table-responsive table-striped ">
+          <table #fineTable class="table">
+            <thead>
+              <tr>
+                <th>การจัดการข้อมูล</th>
+                <th>การจัดการข้อมูลย่อย</th>
+                <th style="text-align:center;">สร้างข้อมูล</th>
+                <th style="text-align:center;">เรียกดูข้อมูล</th>
+                <th style="text-align:center;">แก้ไขข้อมูล</th>
+                <th style="text-align:center;">ลบข้อมูล</th>
+              </tr>
+            </thead>
+            <tbody *ngIf="roleID == 0">
+              <tr *ngFor="let item of moduleAllList; let i=index;" >
+                <div class="td-list">
+                  <td>{{item.MODULE_NAME}}</td>
+                </div>
+
+                <td>
+                {{item.MODULE_NAME_DETIAL}} 
+                </td>
+                <td style="text-align:center;">
+                  <input type="checkbox" name="chk4" id="chk4{{i}}" [(ngModel)]="item.IS_CREATE" [disabled]="!visableUpdateBtn">
+                  <label for="chk4{{i}}"></label>
+                </td>
+                <td style="text-align:center;">
+                  <input type="checkbox" name="chk5" id="chk5{{i}}" [(ngModel)]="item.IS_READ" [disabled]="!visableUpdateBtn">
+                  <label for="chk5{{i}}"></label>
+                </td>
+                <td style="text-align:center;">
+                  <input type="checkbox" name="chk6" id="chk6{{i}}" [(ngModel)]="item.IS_UPDATE" [disabled]="!visableUpdateBtn">
+                  <label for="chk6{{i}}"></label>
+                </td>
+                <td style="text-align:center;">
+                  <input type="checkbox" name="chk7" id="chk7{{i}}" [(ngModel)]="item.IS_DELETE" [disabled]="!visableUpdateBtn">
+                  <label for="chk7{{i}}"></label>
+                </td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="roleID != 0">
+              <tr *ngFor="let item of moduleFilterAllList; let i=index;" >
+                <div class="td-list">
+                    <td>{{item.MODULE_NAME}} </td>
+                </div>
+
+                <td>
+                {{item.MODULE_NAME_DETIAL}} 
+                </td>
+                <td style="text-align:center;">
+                  <input type="checkbox" name="chk4" id="chk4{{i}}" [(ngModel)]="item.IS_CREATE" [disabled]="!visableUpdateBtn">
+                  <label for="chk4{{i}}"></label>
+                </td>
+                <td style="text-align:center;">
+                  <input type="checkbox" name="chk5" id="chk5{{i}}" [(ngModel)]="item.IS_READ" [disabled]="!visableUpdateBtn">
+                  <label for="chk5{{i}}"></label>
+                </td>
+                <td style="text-align:center;">
+                  <input type="checkbox" name="chk6" id="chk6{{i}}" [(ngModel)]="item.IS_UPDATE" [disabled]="!visableUpdateBtn">
+                  <label for="chk6{{i}}"></label>
+                </td>
+                <td style="text-align:center;">
+                  <input type="checkbox" name="chk7" id="chk7{{i}}" [(ngModel)]="item.IS_DELETE" [disabled]="!visableUpdateBtn">
+                  <label for="chk7{{i}}"></label>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- <form class="form-horizontal" autocomplete="off" #masterForm="ngForm" > -->
+          <!-- <table #fineTable class="table">
+            <thead>
+              <tr>
+                <th>การจัดการข้อมูล Master</th>
+                <th style="text-align:center;">สร้างข้อมูล</th>
+                <th style="text-align:center;">เรียกดูข้อมูล</th>
+                <th style="text-align:center;">แก้ไขข้อมูล</th>
+                <th style="text-align:center;">ลบข้อมูล</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of getProgramCodeList('Master'); let x =index;">
+                <td>{{item.programName}} {{ visableUpdateBtn }} </td>
+                <td style="text-align:center;">
+                  <input type="checkbox" name="chkbox4" id="chkbox4{{x}}" [checked]="item.isCreate" ngModel (change)="doCheckbox(item , 'isCreate')" [disabled]="!visableUpdateBtn">
+                  <label for="chkbox4{{x}}"></label>
+                </td>
+                <td style="text-align:center;">
+                  <input type="checkbox" name="chkbox5" id="chkbox5{{x}}" [checked]="item.isRead" ngModel (change)="doCheckbox(item , 'isRead')" [disabled]="!visableUpdateBtn">
+                  <label for="chkbox5{{x}}"></label>
+                </td>
+                <td style="text-align:center;">
+                  <input type="checkbox" name="chkbox6" id="chkbox6{{x}}" ngModel [checked]="item.isUpdate"  (change)="doCheckbox(item , 'isUpdate')" [disabled]="!visableUpdateBtn ">
+                  <label for="chkbox6{{x}}"></label>
+                </td>
+                <td style="text-align:center;">
+                  <input type="checkbox" name="chkbox7" id="chkbox7{{x}}" [checked]="item.isDelete" ngModel (change)="doCheckbox(item , 'isDelete')" [disabled]="!visableUpdateBtn">
+                  <label for="chkbox7{{x}}"></label>
+                </td>
+              </tr>
+            </tbody>
+          </table> -->
+        <!-- </form> -->
+
+        </div>
+      </div>
+    </div>
+  </div>

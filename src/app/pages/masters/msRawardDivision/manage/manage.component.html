@@ -1,0 +1,243 @@
+<header class="topbar">
+    <nav class="navbar top-navbar navbar-expand-md navbar-light">
+        <div class="navbar-collapse" style="padding-right: 55px;">
+            <ul class="navbar-nav mr-auto mt-md-0">
+                <li *ngIf="PrintButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickPrint()">
+                            พิมพ์
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="EditButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnEdit()">
+                            แก้ไข
+                        </a>
+                    </div>
+                </li>
+                <!-- <li *ngIf="DeleteButton | async" class="nav-item">
+                        <div class="nav-link text-muted waves-effect waves-dark">
+                            <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnDelete()" style="background-color: #f47023">
+                                ลบ
+                            </a>
+                        </div>
+                    </li> -->
+                <li *ngIf="SaveButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnSave()">
+                            บันทึก
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="CancelButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnCancel()">
+                            ยกเลิก
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<!-- สัดส่วนการแบ่งเงินรางวัล -->
+<div class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius">
+        <app-card-actions-collapse></app-card-actions-collapse>
+        <h4 class="card-title m-b-0">สัดส่วนการแบ่งเงินรางวัล</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label">รหัสส่วนแบ่งเงินรางวัล :</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <input type="text" name="REWARD_DIVISION_ID" [(ngModel)]="REWARD_DIVISION_ID" class="form-control " disabled>
+                </div>
+            </div>
+
+            <label for="" class="col-lg-2 col-md-4 control-label">สัดส่วนเงินส่วนแรก :</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <input type="text" name="FIRST_PART" [(ngModel)]="FIRST_PART" class="form-control" [disabled]="showEditField" [ngClass]="{'ng-touched':isRequired}"
+                        (change)="FirstPartFormat()" (keypress)="VaridateNumber($event)" required>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="" class="col-lg-2 col-md-4 control-label">สัดส่วนเงินส่วนหลัง :</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <input type="text" name="SECOND_PART" [(ngModel)]="SECOND_PART" class="form-control" [disabled]="showEditField" [ngClass]="{'ng-touched':isRequired}"
+                        (change)="SecondPartFormat()" (keypress)="VaridateNumber($event)" required>
+                </div>
+            </div>
+
+            <label for="" class="col-lg-2 col-md-4 control-label">สัดส่วนทั้งหมด :</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <input type="text" name="TOTAL_PART" [(ngModel)]="TOTAL_PART" class="form-control " readonly>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="" class="col-lg-2 col-md-4 control-label">วันที่เริ่มใช้งาน :</label>
+            <div class="col-lg-4 col-md-7">
+                <div class="input-group ">
+                    <my-date-picker-th name="EFFECTIVE_DATE" [(ngModel)]="EFFECTIVE_DATE" [disabled]="true" class="form-control  unset-form-control"></my-date-picker-th>
+                </div>
+            </div>
+
+            <label for="" class="col-lg-2 col-md-4 control-label">วันที่สิ้นสุด :</label>
+            <div class="col-lg-4 col-md-7">
+                <div class="input-group ">
+                    <my-date-picker-th name="EFEXPIRE_DATE" [(ngModel)]="EFEXPIRE_DATE" [ngClass]="{'ng-touched':isRequired}" [disabled]="showEditField"
+                        class="form-control  unset-form-control" required></my-date-picker-th>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- สัดส่วนเงินส่วนแรก -->
+<div class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius">
+        <app-card-actions-collapse></app-card-actions-collapse>
+        <h4 class="card-title m-b-0">สัดส่วนเงินส่วนแรก</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label">สัดส่วนเงินส่วนแรก :</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <input type="text" name="REWARD_DIVISION_ID" [(ngModel)]="REWARD_DIVISION_ID" class="form-control " disabled>
+                </div>
+            </div>
+
+            <label for="" class="col-lg-2 col-md-4 control-label">ประเภทการแบ่งเงิน :</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <select class="custom-select" [(ngModel)]="navigation">
+                        <option value="">เลือกประเภทการแบ่งเงิน</option>
+                        <option value="1">แบ่งเงินคนละเท่าๆ กัน</option>
+                        <option value="2">แบ่งเงินตามหน้าที่ที่รับผิดชอบ</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive table-striped" style="overflow: hidden;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center; width: 5%;">ลำดับ</th>
+                                <th>สถานะที่ได้จากส่วนแรก</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of LIST_ARREST_PRODUCT; let i=index;">
+                                <td class="text-center">{{i + 1}}</td>
+                                <td class="text-center">
+                                    <input type="checkbox" class="filled-in chk-col-indigo" [id]="'td'+i" name="ProveChK{{i}}" [(ngModel)]="item.ISPROVE">
+                                    <label [for]="'td'+i" class="m-0"></label>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- สัดส่วนเงินส่วนหลัง -->
+<div class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius">
+        <app-card-actions-collapse></app-card-actions-collapse>
+        <h4 class="card-title m-b-0">สัดส่วนเงินส่วนหลัง</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label">สัดส่วนเงินส่วนหลัง :</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <input type="text" name="REWARD_DIVISION_ID" [(ngModel)]="REWARD_DIVISION_ID" class="form-control " disabled>
+                </div>
+            </div>
+
+            <label for="" class="col-lg-2 col-md-4 control-label">ประเภทการแบ่งเงิน :</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <select class="custom-select" [(ngModel)]="navigation">
+                        <option value="">เลือกประเภทการแบ่งเงิน</option>
+                        <option value="1">แบ่งเงินคนละเท่าๆ กัน</option>
+                        <option value="2">แบ่งเงินตามหน้าที่ที่รับผิดชอบ</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive table-striped" style="overflow: hidden;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center; width: 5%;">ลำดับ</th>
+                                <th>สถานะที่ได้จากส่วนหลัง</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of LIST_ARREST_PRODUCT; let i=index;">
+                                <td class="text-center">{{i + 1}}</td>
+                                <td class="text-center">
+                                    <input type="checkbox" class="filled-in chk-col-indigo" [id]="'td'+i" name="ProveChK{{i}}" [(ngModel)]="item.ISPROVE">
+                                    <label [for]="'td'+i" class="m-0"></label>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card-body">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive table-striped" style="overflow: hidden;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center; width: 5%;">ลำดับ</th>
+                                <th>ตำแหน่ง</th>
+                                <th>จำนวนส่วน</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of LIST_ARREST_PRODUCT; let i=index;">
+                                <td class="text-center">{{i + 1}}</td>
+                                <td class="text-center">
+                                    <input type="checkbox" class="filled-in chk-col-indigo" [id]="'td'+i" name="ProveChK{{i}}" [(ngModel)]="item.ISPROVE">
+                                    <label [for]="'td'+i" class="m-0"></label>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

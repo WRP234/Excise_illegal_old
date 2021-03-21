@@ -1,0 +1,165 @@
+<div class="modal-header bg-theme">
+  <div class="row">
+    <div class="col-lg-7">
+      <h4 class="modal-title text-white">อ้างอิงใบรับรองความบริสุทธิ์
+        <a class="btn btn-ghost" href="javaScript:void(0);" [routerLink]="['/puritycerts/manage', 'C', 'NEW']"
+          target="_blank">
+          สร้างข้อมูล
+        </a>
+      </h4>
+    </div>
+    <div class="col-lg-3 col-sm-5">
+      <form autocomplete="off" class="app-search" #searchFrom="ngForm" (ngSubmit)="onSearch(searchFrom.value)">
+        <input type="search" name="TEXT_SEARCH" ngModel [(ngModel)]="TEMP_TEXT_SEARCH"
+          class="form-control form-control-sm">
+        <a href="javaScript:void(0);" class="srh-btn" (click)="onSearch(searchFrom.value)">
+          <i class="ti-search"></i>
+        </a>
+      </form>
+    </div>
+    <div class="col-lg-1 col-sm-4 p-0">
+      <a href="javaScript:void(0);" class="btn text-white" (click)="setAdvSearch()">
+        ค้นหาขั้นสูง
+      </a>
+    </div>
+
+    <a href="javaScript:void(0);" class="close text-white font-14" aria-label="Close" (click)="dismiss('Cross click')">
+      <span aria-hidden="true">
+        <i class=" ti-close"></i>
+      </span>
+    </a>
+  </div>
+</div>
+<h5 class="text-right mt-3 pr-3">ILG60_O_02_00_02_01</h5>
+<div class="modal-body font-14">
+  <div *ngIf="advSearch | async" class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius">
+      <app-card-actions-close></app-card-actions-close>
+      <h4 class="card-title m-b-0">ค้นหาขั้นสูง</h4>
+    </div>
+    <div class="card-body">
+      <form class="form-horizontal" #advForm="ngForm" (ngSubmit)="onAdvSearch(advForm.value)">
+        <div>
+          <div class="row">
+            <label for="" class="col-lg-2 col-sm-3 control-label">เลขที่ ส.ส.2/27</label>
+            <div class="col-lg-3 col-md-7 col-sm-9">
+              <div class="form-group">
+                <input type="text" name="PURITYCERT_CODE" ngModel [(ngModel)]="TEMP_PURITYCERT_CODE"
+                  class="form-control form-control-sm">
+              </div>
+            </div>
+
+            <label for="" class="col-lg-2 col-sm-3 control-label">วันที่ตรวจค้น</label>
+            <div class="col-lg-5 col-md-7 col-sm-9">
+              <div class="form-group input-group">
+                <my-date-picker-th class="form-control form-control-sm unset-form-control" name="PURITYCERT_DATE_FROM"
+                  [options]="sDateOption" (dateChanged)="onSDateChange($event)" [(ngModel)]="DATE_START_FROM">
+                </my-date-picker-th>
+                <label for="">&nbsp;ถึง&nbsp;</label>
+                <my-date-picker-th class="form-control form-control-sm unset-form-control" name="PURITYCERT_DATE_TO"
+                  [options]="eDateOption" (dateChanged)="onEDateChange($event)" [(ngModel)]="DATE_START_TO">
+                </my-date-picker-th>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <label for="" class="col-lg-2 col-sm-3 control-label">ผู้ตรวจค้น</label>
+            <div class="col-lg-3 col-md-7 col-sm-9">
+              <div class="form-group">
+                <input type="text" name="STAFF_NAME" ngModel [(ngModel)]="TEMP_STAFF_NAME"
+                  class="form-control form-control-sm">
+              </div>
+            </div>
+            <label for="" class="col-lg-2 col-sm-3 control-label">เขียนที่</label>
+            <div class="col-lg-5 col-md-7 col-sm-9">
+              <div class="form-group">
+                <!-- <input type="text" ngModel name="OFFICE_NAME" class="form-control form-control-sm"
+                  [disabled]="canOfficeSearch()" placeholder="{{officeShortName}}"> -->
+                <ng-template #rt let-OFFICE_SHORT_NAME="result" let-t="term">
+                  {{ OFFICE_SHORT_NAME }}
+                </ng-template>
+
+                <input type="text" name="OFFICE_NAME" ngModel [(ngModel)]="TEMP_OFFICE_NAME"
+                  class="form-control form-control-sm " [ngbTypeahead]="searchOffice_ll" [resultTemplate]="rt"
+                  placeholder="{{officeShortName}}" [disabled]="canOfficeSearch()" />
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <label for="" class="col-lg-2 col-sm-3 control-label">เจ้าบ้าน/ผู้ดูแลแทน</label>
+            <div class="col-lg-3 col-md-7 col-sm-9">
+              <div class="form-group">
+                <input type="text" name="PERSON_NAME" ngModel [(ngModel)]="TEMP_PERSON_NAME"
+                  class="form-control form-control-sm">
+              </div>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-lg-8 col-4"></div>
+            <div class="col-lg-2 col-4">
+              <button type="button" class="btn btn-block" [ngClass]="{'btn-green': selectedEntry}"
+                [disabled]="!selectedEntry" (click)="onSelect('Save click')">เลือก</button>
+            </div>
+            <div class="col-lg-2 col-4">
+              <button type="submit" class="btn btn-block btn-themecolor">ค้นข้อมูล</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="card unset-radius">
+    <div class="card-body p-0">
+      <div class="table-responsive overflow-hidden" style="width: 100%; max-width: unset;">
+        <table class="table table-sm table-striped table-nowrap" [formGroup]="formGroup">
+          <thead>
+            <tr>
+              <th class="text-center" style="width: 3%"></th>
+              <th class="text-center" style="width: 4%">ลำดับ</th>
+              <th style="width: 11%">เลขที่ ส.ส.2/27</th>
+              <th style="width: 12%">วันที่ตรวจค้น</th>
+              <th style="width: 14%">ผู้ตรวจค้น</th>
+              <th style="width: 20%">เขียนที่</th>
+              <th style="width: 14%">เจ้าบ้าน/ผู้ดูแลแทน</th>
+            </tr>
+          </thead>
+          <tbody formArrayName="PurityCert">
+            <tr *ngFor="let item of PurityCert.controls; let i=index;" [formGroupName]="i">
+              <td class="text-center">
+                <input type="radio" [id]="'customRadio'+i" name="IS_CHECKED" class="with-gap radio-col-indigo"
+                  (change)="onSelectionChange(item)">
+                <label [for]="'customRadio'+i" class="m-0"></label>
+
+              </td>
+              <td class="text-center">{{item.get('ROW_ID').value}}</td>
+              <td>{{item.get('PURITYCERT_CODE').value}}</td>
+              <td>{{setDateForThaiYear(item.get('PURITYCERT_DATE').value)}}</td>
+              <td>
+                {{item.get('STAFF_TITLE_SHORT_NAME_TH').value}}{{item.get('STAFF_FIRST_NAME').value}}
+                {{item.get('STAFF_LAST_NAME').value}}
+              </td>
+              <td>{{item.get('STAFF_OPERATION_OFFICE_SHORT_NAME').value}}</td>
+              <td>
+                {{item.get('PERSON_TITLE_SHORT_NAME_TH').value}}{{item.get('PERSON_FIRST_NAME').value}}
+                {{item.get('PERSON_MIDDLE_NAME').value}}
+                {{item.get('PERSON_LAST_NAME').value}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card-footer card-footer-unset">
+      <app-pagination-table [TotalItems]="paginage.TotalItems" [CurrentPage]="paginage.CurrentPage"
+        [PageSize]="paginage.PageSize" [RowsPerPageOptions]="paginage.RowsPerPageOptions"
+        (onPageChange)="pageChanges($event)">
+      </app-pagination-table>
+    </div>
+  </div>
+</div>
+
+
+<!-- <app-table-data [columns]="columns" [data]="gridData" [options]="TableDataOptions"></app-table-data> -->

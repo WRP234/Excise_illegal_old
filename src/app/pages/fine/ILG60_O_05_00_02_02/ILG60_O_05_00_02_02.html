@@ -1,0 +1,502 @@
+<form [formGroup]="controlForm" (ngSubmit)="onSubmit()">
+  <div class="modal-header bg-theme">
+    <div class="row">
+      <div class="col-lg-5">
+        <h4 class="modal-title text-white">ชำระค่าปรับ</h4>
+      </div>
+      <!-- <a href="javaScript:void(0);" class="close text-white font-14" aria-label="Close" (click)="dismiss(click)"> -->
+      <a href="javaScript:void(0);" class="close text-white font-14" aria-label="Close" (click)="dismiss()">
+        <span aria-hidden="true">
+          <i class=" ti-close"></i>
+        </span>
+      </a>
+    </div>
+  </div>
+  <h5 class="text-right mt-3 pr-3">ILG60_O_05_00_02_02&nbsp;&nbsp;</h5>
+
+  <!-- <div class="modal-body font-14" > -->
+  <!-- <div class="row"> -->
+  <div class="col-md-6">
+    &nbsp;<input class="col-form-label with-gap radio-col-indigo"
+      [checked]="controlForm.controls['RECEIPT_TYPE'].value == '0'" [disabled]="EditField" type="radio" name="check1"
+      id="check1" value="0" (click)="check('0')">
+    <label for="check1" class="">Manual</label>
+
+    <label for="" class="col-1"></label>
+
+    <input class="col-form-label with-gap radio-col-indigo"
+      [checked]="controlForm.controls['RECEIPT_TYPE'].value == '1'" [disabled]="EditField" type="radio" name="check2"
+      id="check2" value="1" (click)="check('1')">
+    <label for="check2" class="">Auto</label>
+  </div>
+  <!-- </div> -->
+  <!-- </div> -->
+  <div class="modal-body">
+    <div class="container">
+      <div class="card card-outline-bluish unset-radius">
+        <div class="card-header unset-radius">
+          <h5 class="card-title m-b-0" *ngIf="controlForm.controls['RECEIPT_TYPE'].value == '0'">ใบเสร็จประเภท Manual
+          </h5>
+          <h5 class="card-title m-b-0" *ngIf="controlForm.controls['RECEIPT_TYPE'].value == '1'">ใบเสร็จประเภท Auto</h5>
+        </div>
+        <!-- <div class="card-body"> -->
+        <div class="modal-body font-14">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-form-label col-md-4 control-label">ชื่อผู้ต้องหา</label>
+                <div class="col-md-8">
+                  <input class="form-control form-control-sm  ng-untouched ng-pristine ng-valid" type="text"
+                    formControlName="NAME" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-form-label col-md-4 control-label">วันที่กำหนดชำระ</label>
+                <div class="col-md-8">
+                  <div class="form-line">
+                    <div class="row" style="margin-left: 0px">
+                      <div class="col-md-6" style="padding-left: 0px">
+                        <!-- <my-date-picker-th class="form-control form-control-sm unset-form-control"
+                        [options]="myDatePickerOptions" 
+                        readonly
+                        [ngClass]="{'ng-touched':isRequired}" required
+                        formControlName="PAYMENT_FINE_DUE_DATE">
+                      </my-date-picker-th> -->
+                        <my-date-picker-th name="PAYMENT_FINE_DUE_DATE" placeholder="" locale="th" [disabled]="true"
+                          [options]="myDatePickerOccurrenceFromOptions" formControlName="PAYMENT_FINE_DUE_DATE"
+                          [ngClass]="{'ng-touched':isRequired}" required
+                          class="form-control form-control-sm unset-form-control">
+                        </my-date-picker-th>
+                      </div>
+                      <label class="col-form-label">&nbsp;&nbsp;เวลา&nbsp;&nbsp;</label>
+                      <div class="col-md-4">
+                        <input type="text" class="" class="form-control form-control-sm"
+                          formControlName="PAYMENT_FINE_DUE_DATE_TIME" disabled required>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-form-label col-md-4 control-label">ค่าปรับคดีรวม</label>
+                <div class="col-md-8">
+                  <input class="form-control form-control-sm  ng-untouched ng-pristine ng-valid" type="text"
+                    formControlName="PAYMENT_FINE" value="{{controlForm.get('PAYMENT_FINE').value | number : '1.2'}}"
+                    readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-form-label col-md-4 control-label">ที่ทำการ</label>
+                <div class="col-md-8" *ngIf="controlForm.controls['RECEIPT_TYPE'].value == '0'">
+                  <!-- <input class="form-control form-control-sm  ng-untouched ng-pristine ng-valid" type="text" formControlName="PAYMENT_OFFICE_NAME" value="{{controlForm.get('PAYMENT_OFFICE_NAME').value}}" [attr.disabled]=""> -->
+                  <ng-template #rt let-r="result" let-t="term">
+                    {{ r.OFFICE_SHORT_NAME }}
+                  </ng-template>
+                  <input type="text"
+                    class="form-control form-control-sm {{!controlForm.value.PAYMENT_OFFICE_NAME?'ng-invalid ng-touched':''}}"
+                    [ngClass]="{'ng-touched':isRequired}" [ngbTypeahead]="serachOffice" [resultTemplate]="rt"
+                    [inputFormatter]="formatterOffice2" [disabled]="EditField" (selectItem)="selectItemOffice($event)"
+                    [value]="controlForm.value.PAYMENT_OFFICE_NAME" (blur)="blurSelectItemOffice(PAYMENT_OFFICE_NAME)"
+                    (keydown)="isReq_OffName.next(false)" #PAYMENT_OFFICE_NAME required />
+                </div>
+                <div class="col-md-8" *ngIf="controlForm.controls['RECEIPT_TYPE'].value == '1'">
+                  <input class="form-control form-control-sm  ng-untouched ng-pristine ng-valid" type="text"
+                    formControlName="PAYMENT_OFFICE_NAME" value="{{controlForm.get('PAYMENT_OFFICE_NAME').value}}"
+                    readonly>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-form-label col-md-4 control-label is-required">วันที่ชำระค่าปรับ</label>
+                <div class="col-md-8">
+                  <div class="form-line">
+                    <div class="row" style="margin-left: 0px">
+                      <div class="col-md-6" style="padding-left: 0px">
+                        <!-- <my-date-picker-th class="form-control form-control-sm unset-form-control"
+                      [options]="myDatePickerOptions" 
+                      readonly
+                      [ngClass]="{'ng-touched':isRequired}" required
+                      formControlName="PAYMENT_DATE">
+                    </my-date-picker-th> -->
+                        <my-date-picker-th name="PAYMENT_DATE" placeholder="" locale="th" [disabled]="EditField"
+                          [options]="myDatePickerOccurrenceFromOptions" formControlName="PAYMENT_DATE"
+                          [ngClass]="{'ng-touched':isRequired}" required
+                          class="form-control form-control-sm unset-form-control">
+                        </my-date-picker-th>
+                      </div>
+                      <label class="col-form-label">&nbsp;&nbsp;เวลา&nbsp;&nbsp;</label>
+                      <div class="col-md-4">
+                        <!-- <input type="text" class="" class="form-control form-control-sm" formControlName="PAYMENT_TIME" required> -->
+                        <input class="form-control form-control-sm" type="text" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]"
+                          style="color: black;" formControlName="PAYMENT_TIME" [readonly]="EditField"
+                          (keyup)="setFormatTimeControl($event, 'PAYMENT_TIME', controlForm)" maxlength="5">
+                      </div>
+                      <div class="form-control col-md-11 alert alert-danger mt-0 mb-0 pt-2 pb-2 pl-0 pr-0 text-center"
+                        role="alert" *ngIf="controlForm.controls['PAYMENT_TIME'].invalid">
+                        กรุณาระบุข้อมูล hh:mm
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="controlForm.controls['RECEIPT_TYPE'].value == '0'">
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-form-label col-md-4 control-label is-required">ใบเสร็จเล่มที่</label>
+                <div class="col-md-8">
+                  <input class="form-control form-control-sm  ng-untouched ng-pristine ng-valid"
+                    (click)="require('isReq_RECEIPT_BOOK_NO')"
+                    (blur)="conVNUMFIVE(controlForm.get('RECEIPT_BOOK_NO').value)" maxlength="5"
+                    formControlName="RECEIPT_BOOK_NO" type="text" [readOnly]="EditField" disnumber
+                    [ngClass]="{'ng-invalid-req':isReq_RECEIPT_BOOK_NO}">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-form-label col-md-4 control-label is-required">ใบเสร็จเลขที่</label>
+                <div class="col-md-8">
+                  <input #RECEIPT_NO class="form-control form-control-sm  ng-untouched ng-pristine ng-valid"
+                    (click)="require('isReq_RECEIPT_NO')" (blur)="conVNUMTWO(controlForm.get('RECEIPT_NO').value)"
+                    maxlength="2" formControlName="RECEIPT_NO" type="text" [readOnly]="EditField" disnumber
+                    [ngClass]="{'ng-invalid-req':isReq_RECEIPT_NO}" (keyup)="receiptNoLessThanFifty(RECEIPT_NO.value)">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="controlForm.controls['RECEIPT_TYPE'].value == '1'">
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-form-label col-md-4 control-label">ใบเสร็จเลขที่</label>
+                <div class="col-md-8">
+                  <input class="form-control form-control-sm  ng-untouched ng-pristine ng-valid"
+                    formControlName="RECEIPT_NO" type="text" readOnly>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-form-label col-md-4 control-label">ผู้รับชำระค่าปรับ</label>
+                <div class="col-md-8">
+                  <ng-template #rt let-r="result" let-t="term">
+                    {{ r.TITLE_SHORT_NAME_TH}}{{r.FIRST_NAME}} {{r.LAST_NAME}}
+                  </ng-template>
+                  <input type="text" #region1 class="form-control form-control-sm" [readonly]="true"
+                    [ngbTypeahead]="searchStaff" [resultTemplate]="rt" [inputFormatter]="formatterStaff"
+                    (selectItem)="selectItemStaff($event, 0)" [value]="CompareStaff.value[0].FULL_NAME"
+                    [ngClass]="{'ng-invalid-req':isReq_FULL_NAME}" (keyup)="deleteStaff(region1 ,0)" required />
+                  <!-- [ngClass]="{'ng-invalid-req':isReq_FULL_NAME}" (keyup)="deleteStaff(region0 ,0)" required /> -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="controlForm.controls['RECEIPT_TYPE'].value == '0'">
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-form-label col-md-4 control-label is-required">ผู้รับชำระค่าปรับ</label>
+                <div class="col-md-8">
+                  <ng-template #rt let-r="result" let-t="term">
+                    {{ r.TITLE_SHORT_NAME_TH}}{{r.FIRST_NAME}} {{r.LAST_NAME}}
+                  </ng-template>
+                  <input type="text" #region1 class="form-control form-control-sm"
+                    [readonly]="CompareStaff.value[0].IS_ACTIVE == 1 || EditField" [ngbTypeahead]="searchStaff"
+                    [resultTemplate]="rt" [inputFormatter]="formatterStaff" (selectItem)="selectItemStaff($event, 0)"
+                    [value]="CompareStaff.value[0].FULL_NAME" [ngClass]="{'ng-invalid-req':isReq_FULL_NAME}"
+                    (keyup)="deleteStaff(region1 ,0)" required />
+                  <!-- (keyup)="deleteStaff(region0 ,0)" required /> -->
+                  <a *ngIf="CompareStaff.value[0].IS_ACTIVE == 1 && EditField == false" (click)="deleteContri(0)"
+                    href="javaScript:void(0);" class="times text-secondary text-danger">
+                    <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-form-label col-md-4 control-label">ตำเเหน่ง</label>
+                <div class="col-md-8">
+                  <input type="text" [value]=" CompareStaff.value[0].OPREATION_POS_NAME"
+                    class="form-control form-control-sm" readonly required>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="controlForm.controls['RECEIPT_TYPE'].value == '1'">
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-form-label col-md-4 control-label">ตำเเหน่ง</label>
+                <div class="col-md-8">
+                  <input type="text" [value]=" CompareStaff.value[0].OPREATION_POS_NAME"
+                    class="form-control form-control-sm" readonly required>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-form-label col-md-4 control-label">หน่วยงาน</label>
+                <div class="col-md-8">
+                  <input type="text" [value]=" CompareStaff.value[0].OPERATION_OFFICE_SHORT_NAME"
+                    class="form-control form-control-sm" readonly required>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="controlForm.controls['RECEIPT_TYPE'].value == '0'">
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-form-label col-md-4 control-label">หน่วยงาน</label>
+                <div class="col-md-8">
+                  <input type="text" [value]=" CompareStaff.value[0].OPERATION_OFFICE_SHORT_NAME"
+                    class="form-control form-control-sm" readonly required>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="controlForm.controls['RECEIPT_TYPE'].value == '1'">
+            <div class="col-md-6">
+            </div>
+            <div class="col-md-6" *ngIf="controlForm.get('signature').value == false">
+              <div class="form-group row">
+                <label class="col-form-label col-md-4 control-label">ลายมือชื่อ<br>ผู้รับชำระค่าปรับ</label>
+                <div class="col-md-8">
+                  <textarea cols="" rows="6" class="form-control form-control-sm" readonly></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6" *ngIf="controlForm.get('signature').value == true">
+              <div class="form-group row">
+                <label class="col-form-label col-md-4 control-label">ลายมือชื่อ<br>ผู้รับชำระค่าปรับ</label>
+                <div class="col-md-8">
+                  <img [src]="imageSource" alt="Image Source" width="275" height="150" class="img">
+                </div>
+                <label *ngIf="EditField == true" class="col-form-label col-md-4"></label>
+                <div *ngIf="EditField == true" class="col-md-8 a-right">
+                  <button type="button" (click)="signature(0)" class="aa">ตัวอย่างใบเสร็จ</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group row">
+                <div class="custom-control custom-checkbox col-form-label col-md-4">
+                  <input class="col-form-label filled-in chk-col-indigo" id="is_approve" type="checkbox"
+                    [disabled]="EditField" *ngIf="EditField == false" formControlName="IS_CHECK" name="is_approve"
+                    (click)="iS_CHECK($event)">
+                  <label for="is_approve">ปรับผิดจากบัญชี</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-form-label col-md-4 control-label">ผู้มีอำนาจอนุมัติ</label>
+                <div class="col-md-8" *ngIf="controlForm.controls['IS_CHECK'].value == true">
+                  <ng-template #rt let-r="result" let-t="term">
+                    {{ r.TITLE_SHORT_NAME_TH}}{{r.FIRST_NAME}} {{r.LAST_NAME}}
+                  </ng-template>
+                  <input type="text" #region1 class="form-control form-control-sm"
+                    [readonly]="CompareStaff.value[1].IS_ACTIVE == 1 || EditField" [ngbTypeahead]="searchStaff"
+                    [resultTemplate]="rt" [inputFormatter]="formatterStaff" (selectItem)="selectItemStaff($event, 1)"
+                    [value]="CompareStaff.value[1].FULL_NAME" [ngClass]="{'ng-invalid-req':isReq_FULL_NAME}"
+                    (keyup)="deleteStaff(region1 ,1)" required />
+                  <!-- <a href="javaScript:void(0);" class="times text-secondary text-danger">
+                  <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i> -->
+                  <a *ngIf="CompareStaff.value[1].IS_ACTIVE == 1 && EditField == false" (click)="deleteContri(1)"
+                    href="javaScript:void(0);" class="times text-secondary text-danger">
+                    <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i>
+                  </a>
+                </div>
+                <!-- <div class="form-group ">
+                <input type="text" formControlName="REQUEST_CODE" class="form-control form-control-sm"
+                  [readOnly]="isEdit" (mousedown)="false">
+                <a href="javaScript:void(0);" class="times text-secondary"
+                  (click)="!isEdit && clearRequestCode();">
+                  <i class="ti-close" aria-hidden="true"></i>
+                </a>
+              </div> -->
+                <div class="col-md-8" *ngIf="controlForm.controls['IS_CHECK'].value == false">
+                  <input class="form-control form-control-sm  ng-untouched ng-pristine ng-valid " type="text" readonly>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-form-label col-md-4 control-label">หน่วยงาน</label>
+                <div class="col-md-8"></div>
+            </div></div> -->
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-form-label col-md-4 control-label">ตำเเหน่ง</label>
+                <div class="col-md-8">
+                  <input type="text" [value]="CompareStaff.value[1].OPREATION_POS_NAME"
+                    *ngIf="controlForm.controls['IS_CHECK'].value == true" class="form-control form-control-sm" readonly
+                    required>
+                  <input class="form-control form-control-sm  ng-untouched ng-pristine ng-valid "
+                    *ngIf="controlForm.controls['IS_CHECK'].value == false" type="text" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-form-label col-md-4 control-label">หน่วยงาน</label>
+                <div class="col-md-8">
+                  <input type="text" [value]=" CompareStaff.value[1].OPERATION_OFFICE_SHORT_NAME"
+                    *ngIf="controlForm.controls['IS_CHECK'].value == true" class="form-control form-control-sm" readonly
+                    required>
+                  <input class="form-control form-control-sm  ng-untouched ng-pristine ng-valid "
+                    *ngIf="controlForm.controls['IS_CHECK'].value == false" type="text" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- </div> -->
+
+
+        <div class="modal-footer" *ngIf="EditField == false">
+          <div class="col-lg-2 col-4">
+            <button type="button" [disabled]="EditField" class="btn btn-block btn-themecolor"
+              (click)="addPayment()">เพิ่มช่องทางชำระ</button>
+          </div>
+        </div>
+        <div class="modal-body font-14">
+          <table class="table table-sm table-striped table-set-border">
+            <thead>
+              <tr>
+                <th class="footable-sortable a-center" style="width:5%">ลำดับ</th>
+                <th class="footable-sortable " style="width:15%">ประเภทการชำระเงิน</th>
+                <th class="footable-sortable " style="width:18%">ธนาคาร</th>
+                <th class="footable-sortable " style="width:10%"><span class="text-danger">*</span> หมายเลขอ้างอิง</th>
+                <th class="footable-sortable " style="width:15%"><span class="text-danger">*</span> จำนวนเงิน</th>
+                <th class="footable-sortable " style="width:5%"></th>
+              </tr>
+            </thead>
+            <tbody formArrayName="PAYMENT_DETAIL">
+              <tr [formGroupName]="i" *ngFor="let comp of controlForm.get('PAYMENT_DETAIL').controls; let i=index">
+                <td class="a-center">{{i+1}}</td>
+
+                <!-- ประเภทการชำระเงิน -->
+                <td class="">
+                  <select *ngIf="EditField == true" class="form-control form-control-sm" [attr.disabled]="EditField"
+                    formControlName="PAYMENT_TYPE" (click)="clear_PAYMENT_TYPE(comp.get('PAYMENT_TYPE').value,i)">
+                    <option [ngValue]="1">เงินสด</option>
+                    <!-- <option [ngValue]="2">เช็คพาณิชย์</option> -->
+                    <option [ngValue]="5">บัตรเดบิท</option>
+                    <option [ngValue]="6">บัตรเครดิต</option>
+                    <option [ngValue]="8">โอนเงินอิเล็กทรอนิกส์</option>
+                  </select>
+                  <select *ngIf="EditField == false" class="form-control form-control-sm" formControlName="PAYMENT_TYPE"
+                    (click)="clear_PAYMENT_TYPE(comp.get('PAYMENT_TYPE').value,i)">
+                    <option [ngValue]="1">เงินสด</option>
+                    <!-- <option [ngValue]="2">เช็คพาณิชย์</option> -->
+                    <option [ngValue]="5">บัตรเดบิท</option>
+                    <option [ngValue]="6">บัตรเครดิต</option>
+                    <option [ngValue]="8">โอนเงินอิเล็กทรอนิกส์</option>
+                  </select>
+                </td>
+
+                <!-- ธนาคาร -->
+                <td *ngIf="comp.get('PAYMENT_TYPE').value == 1" class=""><input
+                    class="form-control form-control-sm  ng-untouched ng-pristine ng-valid " type="text"
+                    formControlName="PAYMENT_BANK" readonly></td>
+                <td *ngIf="comp.get('PAYMENT_TYPE').value !== 1">
+                  <ng-template #rt let-r="result" let-t="term">
+                    {{ r.BANK_NAME }}
+                  </ng-template>
+                  <input type="text" class="form-control form-control-sm" [ngClass]="" [ngbTypeahead]="serachBank"
+                    [resultTemplate]="rt" [inputFormatter]="formatterBank" (selectItem)="selectItemBank($event,i)"
+                    value="{{comp.get('PAYMENT_TYPE').value !== 1 ? 'ธนาคารกรุงไทย จำกัด(มหาชน)' : ''}}"
+                    (blur)="blurSelectItemBank(PAYMENT_BANK,i)" (keydown)="isReq_Bank.next(false)" placeholder=""
+                    #PAYMENT_BANK readonly />
+                  <!--readonly-->
+                </td>
+
+                <!-- หมายเลขอ้างอิง -->
+                <td *ngIf="comp.get('PAYMENT_TYPE').value == 1" class=""><input
+                    class="form-control form-control-sm  ng-untouched ng-pristine ng-valid " type="text"
+                    formControlName="REFFERENCE_NO" maxlength="12" readonly></td>
+                <td *ngIf="comp.get('PAYMENT_TYPE').value !== 1" class=""><input class="form-control form-control-sm"
+                    [ngClass]="{'ng-invalid-req':isReq_REFERENCE_NO}" formControlName="REFFERENCE_NO" maxlength="12"
+                    [readOnly]="EditField" type="text"></td>
+                <!-- <td class=""><input class="form-control form-control-sm text-right" [ngClass]="{'ng-invalid-req':isReq_PAYMENT_AMOUNT}" required formControlName="PAYMENT_FINE" type="number"></td> -->
+
+                <!-- จำนวนเงิน -->
+                <td class=""><input class="form-control form-control-sm text-right" appAllowDecimalNumber
+                    (blur)="transformTotal(comp.value,i)" formControlName="PAYMENT_FINE_PIPE" [readOnly]="EditField"
+                    type="text"></td>
+
+                <td class="text-center">
+                  <a *ngIf="EditField == false" href="javaScript:void(0);" class="text-danger"
+                    (click)="deletePayment(i)">
+                    <i class="fa fa-trash-o fa-lg"></i>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="form-control-sm text-right">ค่าปรับรวม :</td>
+                <td class="form-control-sm text-right">{{set_payment() | number : '1.2'}}</td>
+                <td class="form-control-sm text-left">บาท</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer" *ngIf="mode == 'C'">
+    <div class="col-lg-2 col-4">
+      <button type="submit" class="btn btn-block btn-themecolor">ตกลง</button>
+    </div>
+    <div class="col-lg-2 col-4">
+      <button type="button" (click)="cancel()" class="btn btn-block button">ยกเลิกใบเสร็จ</button>
+    </div>
+  </div>
+
+  <div class="modal-footer" *ngIf="mode == 'R' && controlForm.controls['RECEIPT_TYPE'].value == '0'">
+    <div class="col-lg-2 col-4" *ngIf="IS_PAYMENT == 0">
+      <button type="submit" class="btn btn-block btn-themecolor">ตกลง</button>
+    </div>
+    <div class="col-lg-2 col-4" *ngIf="showEditField == false">
+      <button type="button" (click)="cancel_payment()" class="btn btn-block button">ยกเลิกใบเสร็จ</button>
+    </div>
+  </div>
+
+  <div class="modal-footer" *ngIf="mode == 'R' && controlForm.controls['RECEIPT_TYPE'].value == '1'">
+    <div class="col-lg-2 col-4" *ngIf="showEditField == true">
+      <button type="submit" (click)="signature(1)" class="btn btn-block btn-themecolor">ลงลายมือชื่อ</button>
+    </div>
+    <div class="col-lg-2 col-4" *ngIf="showEditField == false && EditField == false && IS_PAYMENT == 0">
+      <button type="submit" class="btn btn-block btn-themecolor">ตกลง</button>
+    </div>
+    <div class="col-lg-2 col-4" *ngIf="showEditField == false && EditField == false && IS_PAYMENT == 0">
+      <button type="button" (click)="cancel_payment()" class="btn btn-block button">ยกเลิกใบเสร็จ</button>
+    </div>
+    <div class="col-lg-2 col-4" *ngIf="showEditField == false && EditField == true && IS_PAYMENT == 1 && DID == false">
+      <button type="button" (click)="cancel_payment()" class="btn btn-block button">ยกเลิกใบเสร็จ</button>
+    </div>
+  </div>
+</form>

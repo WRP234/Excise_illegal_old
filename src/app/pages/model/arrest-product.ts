@@ -1,0 +1,33 @@
+export class ArrestProduct {
+    public ProductID = '';
+    public ProductType = '';
+    public ArrestCode = '';
+    public GroupCode = '';
+    public IsDomestic = '';
+    public ProductCode = '';
+    public BrandCode = '';
+    public BrandNameTH = '';
+    public BrandNameEN = '';
+    public SubBrandCode = '';
+    public SubBrandNameTH = '';
+    public SubBrandNameEN = '';
+    public ModelCode = '';
+    public ModelName = '';
+    public FixNo1 = '';
+    public DegreeCode = '';
+    public Degree = '';
+    public SizeCode = '';
+    public Size = '';
+    public SizeUnitCode = '';
+    public SizeUnitName = '';
+    public FixNo2 = '';
+    public SequenceNo = '';
+    public ProductDesc = '';
+    public CarNo = '';
+    public Qty = '';
+    public QtyUnit = '';
+    public NetVolume = '';
+    public NetVolumeUnit = '';
+    public IsActive = '';
+    public IsNewItem: boolean;
+}

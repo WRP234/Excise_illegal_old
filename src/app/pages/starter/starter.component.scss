@@ -1,0 +1,298 @@
+/deep/ .mat-step-header .mat-step-icon {
+    background-color: #005c97;
+  }
+
+
+.container {
+    width: 100%;
+}
+
+.progbar {
+     counter-reset: step;
+}
+
+.progbar li {
+    list-style-type: none;
+    float: left;
+    width: 33.33%;
+    position: relative;
+    text-align: center;
+    z-index: 6;
+}
+
+.progbar li:before {
+    // content: counter(step);
+    // counter-increment: xxx;
+    content: '';
+    width: 18px;
+    height: 18px;
+    line-height: 17px;
+    border: 1px solid #ddd;
+    display: block;
+    text-align: center;
+    margin: 0 auto 10px auto;
+    border-radius: 50%;
+    background-color: white;
+    border-color: #005c97;
+    border-width: 3px;
+    
+}
+
+.progbar li:after {
+    // content: '';
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    background-color: #ddd;
+    top: 15px;
+    left: 0px;
+    z-index: 1;
+
+    transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+}
+
+// .progbar li:first-child:after {
+//     content: none;
+// }
+
+/* .progbar li::before {
+    border-color: #005c97;
+    border-width: 3px
+} */
+
+/* .progbar li.active {
+    color: green;
+}
+.progbar li.active::before {
+    border-color: green;
+}
+.progbar li.active + li::after{
+    background-color: green;
+} */
+.solid {
+    border: 1px solid #ddd;
+    width: 10pc;
+    // height: 1px;
+    top: 165px;
+    left: 85px;
+    transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    background-color: #ddd;
+    position: relative;
+    z-index: 0;
+    margin: -2px;
+}
+.solid_dowload {
+    border: 1px solid #ddd;
+    width: 8pc;
+    // height: 1px;
+    top: 160px;
+    left: 101px;
+    transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    background-color: #ddd;
+    position: relative;
+    z-index: 0;
+    margin: -2px;
+}
+.solid1 {
+    border: 1px solid #ddd;
+    width: 88pc;
+    top: 46px;
+    left: 65px;
+    background-color: #ddd;
+    position: relative;
+    z-index: 0;
+    margin: -2px;
+}
+// .solid { //07/08/62
+//     border: 1px solid #ddd;
+//     width: 35pc;
+//     // height: 1px;
+//     top: 398px;
+//     left: -114px;
+//     transform: rotate(90deg);
+//     -ms-transform: rotate(90deg);
+//     -moz-transform: rotate(90deg);
+//     -webkit-transform: rotate(90deg);
+//     -o-transform: rotate(90deg);
+//     background-color: #ddd;
+//     position: relative;
+//     z-index: 0;
+//     margin: -2px;
+// }
+// .solid1 {  //07/08/62
+//     border: 1px solid #ddd;
+//     width: 88pc;
+//     top: 46px;
+//     left: 65px;
+//     background-color: #ddd;
+//     position: relative;
+//     z-index: 0;
+//     margin: -2px;
+// }
+
+
+
+/* .solid1 {
+    border: 2px solid rgb(216, 67, 8);
+    width: 20%;
+    height: 40px;
+    top: 15px;
+    left: 0px;
+    transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    background-color: rgb(216, 67, 8);
+    position: relative;
+    z-index: 4;
+}
+
+.solid2 {
+    border: 2px solid rgb(133, 196, 18);
+    width: 25%;
+    height: 50px;
+    top: 15px;
+    left: 0px;
+    transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    background-color: rgb(133, 196, 18);
+    position: relative;
+    z-index: 5;
+} */
+// .div{
+//     background-image: url('../../../assets/images/logo-excise-md.png');
+//     background-repeat: repeat;
+// }
+
+/*
+Template Name: Monster Admin
+Author: Themedesigner
+Email: niravjoshi87@gmail.com
+File: css
+*/
+// .wizard-content1 .wizard>.steps>ul>li.current .step {
+//     border-color: #005c97 ;
+//     background-color: #fff;
+//     color: #005c97 
+// }
+
+// .wizard-content1 .wizard {
+//     width: 100%;
+//     overflow: hidden
+// }
+// .wizard-content1 .wizard>.steps>ul {
+//     display: table;
+//     width: 100%;
+//     table-layout: fixed;
+//     margin: 0;
+//     padding: 0;
+//     list-style: none
+// }
+
+// .wizard-content1 .wizard>.steps>ul>li a {
+//     position: relative;
+//     padding-top: 52px;
+//     margin-top: 20px;
+//     margin-bottom: 20px;
+//     display: block
+// }
+
+// .wizard-content1 .wizard>.steps>ul>li.current .step::before {
+//     background-color: #005c97;
+// }
+// .wizard-content1 .wizard>.steps .step {
+//     background-color: #fff;
+//     display: inline-block;
+//     position: absolute;
+//     top: 13px;
+//     left: 50%;
+//     margin-left: -24px;
+//     z-index: 10;
+//     text-align: center
+// }
+
+// .wizard-content1 .wizard>.steps .step::before{
+//     content: '';
+//     width: 14px;
+//     height: 14px;
+//     border-radius: 50%;
+//     position: absolute;
+//     z-index: 1000;
+//     background: #999999;
+//     left: 3px;
+//     top: 3px;
+// }
+
+// .wizard-content1 .wizard>.content {
+//     overflow: hidden;
+//     position: relative;
+//     width: auto;
+//     padding: 0;
+//     margin: 0
+// }
+// .wizard-content1 .wizard.wizard-circle>.steps .step {
+//     width: 24px;
+//     height: 24px;
+//     line-height: 45px;
+//     border: 2px solid #999999;
+//     font-size: 1.3rem;
+//     border-radius: 50%
+// }
+
+// @media (max-width:768px) {
+//     .wizard-content1 .wizard>.steps>ul {
+//         margin-bottom: 20px
+//     }
+//     .wizard-content1 .wizard>.steps>ul>li {
+//         display: block;
+//         float: left;
+//         width: 50%
+//     }
+//     .wizard-content1 .wizard>.steps>ul>li>a {
+//         margin-bottom: 0
+//     }
+//     .wizard-content1 .wizard>.steps>ul>li:first-child:before {
+//         content: ''
+//     }
+//     .wizard-content1 .wizard>.steps>ul>li:last-child:after {
+//         content: '';
+//         background-color: #005c97 
+//     }
+//     .wizard-content1 .wizard.vertical>.steps {
+//         width: 15%
+//     }
+// }
+
+// @media (max-width:480px) {
+//     .wizard-content1 .wizard>.steps>ul>li {
+//         width: 100%
+//     }
+//     .wizard-content1 .wizard>.steps>ul>li.current:after {
+//         background-color: #005c97 
+//     }
+//      .wizard-content1 .wizard.vertical>.steps>ul>li {
+//         display: block;
+//         float: left;
+//         width: 50%
+//     }
+//     .wizard-content1 .wizard.vertical>.steps {
+//         width: 100%;
+//         float:none;
+//     }
+// }

@@ -1,0 +1,218 @@
+<div class="modal-header bg-theme">
+  <div class="row">
+    <div class="col-lg-5">
+      <h4 class="modal-title text-white">รายละเอียดข้อกล่าวหา</h4>
+    </div>
+    <a href="javaScript:void(0);" class="close text-white font-14" aria-label="Close" (click)="dismiss('Cross click')">
+      <span aria-hidden="true">
+        <i class=" ti-close"></i>
+      </span>
+    </a>
+  </div>
+</div>
+<h5 class="text-right mt-3 pr-3">ILG60_O_02_00_02_06</h5>
+<div class="card-body p-t-0 p-b-0">
+  <div class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius" (click)="onCollapse(ILG60_o_02_00_02_06_C1)">
+      <div class="card-actions">
+        <a class="">
+          <i class="fa"
+            [ngClass]="{'fa-chevron-up': (ILG60_o_02_00_02_06_C1 | async) || (invalid | async), 'fa-chevron-down': !(ILG60_o_02_00_02_06_C1 | async)}"></i>
+        </a>
+      </div>
+      <h4 class="card-title m-b-0">ข้อกล่าวหา</h4>
+    </div>
+    <div *ngIf="(ILG60_o_02_00_02_06_C1 | async)" class="modal-body font-14">
+      <div class="row">
+        <div class="col-lg-2 m-3"></div>
+        <div class="col-lg-8 m-3">
+          <form class="row" autocomplete="off" #searchFrom="ngForm" (ngSubmit)="onSearchByKey(searchFrom.value)">
+            <label for="">ค้นหามาตรา/ฐานความผิด : </label>
+
+            <input type="search" name="TEXT_SEARCH" ngModel class="form-control form-control-sm col-lg-4 ml-3 mr-3">
+
+            <button type="button" class="btn btn-block btn-themecolor col-lg-2"
+              (click)="onSearchByKey(searchFrom.value)">ค้นหา</button>
+          </form>
+        </div>
+      </div>
+      <div class="card unset-radius">
+        <div class="card-body p-0">
+          <table class="table table-sm table-striped table-nowrap" [formGroup]="formGroup">
+            <thead>
+              <tr>
+                <th class="text-center"></th>
+                <th class="text-center">ลำดับ</th>
+                <th class="text-left">มาตรา</th>
+                <th>ฐานความผิด</th>
+                <th class="text-left">บทลงโทษมาตรา</th>
+                <th> อัตราโทษ</th>
+              </tr>
+            </thead>
+            <tbody formArrayName="ArrestMasGuiltbase">
+              <tr *ngFor="let item of ArrestMasGuiltbase.controls; let i=index;" [formGroupName]="i">
+                <td style="width: 20px;" class="text-center">
+                  <input type="radio" [id]="'ArrestMasGuiltbase_rb'+i" name="IS_CHECKED"
+                    class="with-gap radio-col-indigo" (change)="onSelectionChange(item)">
+                  <label [for]="'ArrestMasGuiltbase_rb'+i"></label>
+                </td>
+                <td style="width: 20px;" class="text-center">{{item.get('ROW_ID').value}}</td>
+                <td style="width: 90px;" class="text-left">
+                  {{item.get('SUBSECTION_NAME').value}}
+                </td>
+                <td style="width: 350px;">
+                  {{item.get('GUILTBASE_NAME').value}}
+                </td>
+                <td style="width: 100px;" class="text-left">
+                  {{item.get('SECTION_NAME').value}}
+                </td>
+                <td style="width: 250px;">
+                  {{item.get('PENALTY_DESC').value}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card-footer card-footer-unset">
+          <app-pagination-table [TotalItems]="paginage.TotalItems" [CurrentPage]="paginage.CurrentPage"
+            [PageSize]="paginage.PageSize" [RowsPerPageOptions]="paginage.RowsPerPageOptions"
+            (onPageChange)="pageChanges($event)">
+          </app-pagination-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card-body p-t-0 p-b-0">
+  <div class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius" (click)="onCollapse(ILG60_o_02_00_02_06_C2)">
+      <div class="card-actions">
+        <a class="">
+          <i class="fa"
+            [ngClass]="{'fa-chevron-up': (ILG60_o_02_00_02_06_C2 | async) || (invalid | async), 'fa-chevron-down': !(ILG60_o_02_00_02_06_C2 | async)}"></i>
+        </a>
+      </div>
+      <h4 class="card-title m-b-0">ผู้ต้องหา</h4>
+    </div>
+    <div *ngIf="(ILG60_o_02_00_02_06_C2 | async)" class="modal-body font-14">
+
+      <div class="card-body p-0">
+        <table class="table table-sm table-striped table-nowrap" [formGroup]="formGroup">
+          <thead>
+            <tr>
+              <th class="text-center" style="width: 5%;">
+                <input type="checkbox" id="th" class="filled-in chk-col-indigo" (change)="LawbcheckAll($event)"
+                  [checked]="LawbcheckedAll">
+                <label for="th" class="m-t-10 m-b-0"></label></th>
+              <th class="text-center" style="width: 5%;">ลำดับ</th>
+              <th style="width: 30%;">ชื่อผู้ต้องหา</th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody formArrayName="IndictmentLawbreaker">
+            <tr *ngFor="let item of IndictmentLawbreaker.controls; let i=index;" [formGroupName]="i">
+              <td class="text-center">
+                <input type="checkbox" [id]="'IndictmentLawbreaker_rb'+i" name="IS_CHECKED"
+                  class="filled-in chk-col-indigo" formControlName="IS_CHECKED" (change)="onSelectionChangeLP$()">
+                <label [for]="'IndictmentLawbreaker_rb'+i" class="m-0"></label>
+              </td>
+              <td class="text-center">{{i+1}}</td>
+              <td>
+                <ng-container [ngSwitch]="item.get('PERSON_TYPE').value">
+                  <div *ngSwitchCase="2">
+                    {{item.get('TITLE_SHORT_NAME_TH').value}}{{item.get('COMPANY_NAME').value}}
+                  </div>
+                  <div *ngSwitchCase="1">
+                    {{item.get('TITLE_SHORT_NAME_EN').value}}{{item.get('FIRST_NAME').value}}
+                    {{item.get('MIDDLE_NAME').value}}
+                    {{item.get('LAST_NAME').value}}
+                  </div>
+                  <div *ngSwitchDefault>
+                    {{item.get('TITLE_SHORT_NAME_TH').value}}{{item.get('FIRST_NAME').value}}
+                    {{item.get('MIDDLE_NAME').value}}
+                    {{item.get('LAST_NAME').value}}
+                  </div>
+                </ng-container>
+              </td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="card-body p-t-0 p-b-0">
+  <div class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius" (click)="onCollapse(ILG60_o_02_00_02_06_C3)">
+      <div class="card-actions">
+        <a class="">
+          <i class="fa"
+            [ngClass]="{'fa-chevron-up': (ILG60_o_02_00_02_06_C3 | async) || (invalid | async), 'fa-chevron-down': !(ILG60_o_02_00_02_06_C3 | async)}"></i>
+        </a>
+      </div>
+      <h4 class="card-title m-b-0">ของกลาง</h4>
+    </div>
+    <div *ngIf="(ILG60_o_02_00_02_06_C3 | async)" class="modal-body font-14">
+
+
+      <div class="card-body p-0">
+        <table class="table table-sm table-striped table-nowrap" [formGroup]="formGroup">
+          <thead>
+            <tr>
+              <th class="text-center" style="width: 5%;">
+                <input type="checkbox" id="pd" class="filled-in chk-col-indigo" (change)="ProdcheckAll($event)"
+                  [checked]="ProdcheckedAll">
+                <label for="pd" class="m-t-10 m-b-0"></label></th>
+              <th class="text-center" style="width: 5%;">ลำดับ</th>
+              <th style="width: 60%;">ของกลาง</th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody formArrayName="IndictmentProducts">
+            <tr *ngFor="let item of IndictmentProducts.controls; let i=index;" [formGroupName]="i">
+              <td class="text-center">
+                <input type="checkbox" [id]="'IndictmentProducts_rb'+i" name="IS_CHECKED"
+                  class="filled-in chk-col-indigo" formControlName="IS_CHECKED" (change)="onSelectionChangeLP$()">
+                <label [for]="'IndictmentProducts_rb'+i" class="m-0"></label>
+              </td>
+              <td class="text-center">{{i+1}}</td>
+              <td>
+                {{item.get('PRODUCT_DESC')?.value}}
+              </td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<div class="modal-footer">
+  <div class="col-lg-2 col-4">
+    <button type="button" class="btn btn-block" [ngClass]="{'btn-green': !INDICT_LP_SELECTED$}"
+      [disabled]="INDICT_LP_SELECTED$" (click)="onSelect('Save click')">เลือก</button>
+  </div>
+</div>

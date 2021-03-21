@@ -1,0 +1,71 @@
+<div *ngIf="advSearch | async" class="card card-outline-bluish unset-radius">
+  <div class="card-header unset-radius">
+    <app-card-actions-close></app-card-actions-close>
+    <h4 class="card-title m-b-0">ค้นหาขั้นสูง</h4>
+  </div>
+  <div class="card-body">
+    <form class="form-horizontal" autocomplete="off" #advForm="ngForm" (ngSubmit)="onAdvSearch(advForm.value)">
+      <div>
+        <div class="row">
+          <label for="" class="col-lg-2 col-sm-3">ชื่อเจ้าพนักงาน :</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group">
+              <input type="text" name="StaffName" ngModel class="form-control form-control-sm" placeholder="">
+            </div>
+          </div>
+          <label for="" class="col-lg-2 col-sm-3">หน่วยงาน :</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group">
+              <input type="text" name="OfficeName" ngModel class="form-control form-control-sm" placeholder="">
+            </div>
+          </div>
+          <label for="" class="col-lg-2 col-sm-3">ตำแหน่ง :</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group">
+              <input type="text" name="PositionName" ngModel class="form-control form-control-sm" placeholder="">
+            </div>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-10"></div>
+          <div class="col-2">
+            <button type="submit" class="btn btn-block btn-themecolor">ค้นข้อมูล</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- ---------------------------------------------------------------------------------------------------- -->
+<div class="card">
+  <div class="card-body">
+
+    <div class="table-responsive table-striped ">
+      <table #fineTable class="table">
+        <thead>
+          <tr>
+            <th class="text-center">ลำดับ</th>
+            <th>ชื่อ</th>
+            <th>ตำแหน่ง</th>
+            <th>หน่วยงาน</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of List; let i=index;" style="cursor: pointer;" (click)="clickManage(item)">
+            <td style="text-align: center">{{i + 1}}</td>
+            <td>{{item.name}} </td>
+            <td>{{item.pName}}</td>
+            <td>{{item.offName}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card-footer card-footer-unset">
+      <app-pagination-table [TotalItems]="paginage.TotalItems" [CurrentPage]="paginage.CurrentPage" [PageSize]="paginage.PageSize"
+        [RowsPerPageOptions]="paginage.RowsPerPageOptions" (onPageChange)="pageChanges($event)">
+      </app-pagination-table>
+    </div>
+  </div>
+</div>

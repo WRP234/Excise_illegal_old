@@ -1,0 +1,73 @@
+<header class="topbar">
+        <nav class="navbar top-navbar navbar-expand-md navbar-light">
+    
+            <div class="navbar-collapse">
+                <ul class="navbar-nav mr-auto mt-md-0">
+                    <li *ngIf="craete_btn" class="nav-item" >
+                        <div class="nav-link text-muted waves-effect waves-dark">
+                            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickNew()">
+                                สร้างข้อมูล
+                            </a>
+                        </div>
+                    </li>
+                    <li *ngIf="print_btn" class="nav-item">
+                        <div class="nav-link text-muted waves-effect waves-dark">
+                            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickPrint()">
+                                พิมพ์
+                            </a>
+                        </div>
+                    </li>
+                    <li *ngIf="edit_btn" class="nav-item">
+                        <div class="nav-link text-muted waves-effect waves-dark">
+                            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickEdit()">
+    
+                                แก้ไข
+                            </a>
+                        </div>
+                    </li>
+                    <li *ngIf="delete_btn" class="nav-item">
+                        <div class="nav-link text-muted waves-effect waves-dark">
+                            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickDelete()"
+                                style="background-color: #f47023">
+    
+                                ลบ
+                            </a>
+                        </div>
+                    </li>
+                    <li *ngIf="save_btn" class="nav-item">
+                        <div class="nav-link text-muted waves-effect waves-dark">
+                            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickSave()">
+    
+                                บันทึก
+                            </a>
+                        </div>
+                    </li>
+                    <li *ngIf="cancel_btn" class="nav-item">
+                        <div class="nav-link text-muted waves-effect waves-dark">
+                            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickCancel()">
+    
+                                ยกเลิก
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+                <ul *ngIf="search_text" class="navbar-nav my-lg-0 ">
+                    <li class="nav-item col-8">
+                        <form autocomplete="off" class="app-search" #formSearch="ngForm"
+                            (ngSubmit)="clickSearch(formSearch)">
+                            <input type="search" name="Textsearch" id="" ngModel class="form-control">
+                            <a href="javaScript:void(0);" (click)="clickSearch(formSearch)" class="srh-btn">
+                                <i class="ti-search"></i>
+                            </a>
+                        </form>
+                    </li>
+                    <li class="nav-item col-9">
+                        <a href="javaScript:void(0);" class="btn text-white" (click)="clickAdvSearch()">
+                            ค้นหาขั้นสูง
+                        </a>
+                    </li>
+                </ul>           
+            </div>
+        </nav>
+    </header>
+    

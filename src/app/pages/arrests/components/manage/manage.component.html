@@ -1,0 +1,260 @@
+<header class="topbar">
+  <nav class="navbar top-navbar navbar-expand-md navbar-light">
+    <div class="navbar-collapse" style="padding-right: 55px;">
+      <ul class="navbar-nav mr-auto mt-md-0">
+        <li *ngIf="btn_onPrint | async" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickPrint()">
+              พิมพ์
+            </a>
+          </div>
+        </li>
+        <li *ngIf="btn_onEdit | async" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickEdit()">
+              แก้ไข
+            </a>
+          </div>
+        </li>
+        <li *ngIf="btn_onDelete | async" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickDelete()"
+              style="background-color: #f47023">
+              ลบ
+            </a>
+          </div>
+        </li>
+        <li *ngIf="btn_onSave | async" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickSave()">
+              บันทึก
+            </a>
+          </div>
+        </li>
+        <li *ngIf="btn_onCancel | async" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickCancel()">
+              ยกเลิก
+            </a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<app-step-wizard [sectionId]="2" [input]="INPUT_WIZARD"></app-step-wizard>
+
+<ng-template #printDocModal let-c="close" let-d="dismiss">
+  <app-Arrestprint-doc-modal [arrestCode]="arrestCode" (c)="modal.close()" (d)="modal.dismiss()">
+  </app-Arrestprint-doc-modal>
+</ng-template>
+
+<form action="" [formGroup]="ArrestFG">
+  <div class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius" (click)="onCollapse(ILG60_03_02_00_00_E08)">
+      <div class="card-actions">
+        <a class="">
+          <i class="fa"
+            [ngClass]="{'fa-chevron-up': (ILG60_03_02_00_00_E08 | async), 'fa-chevron-down': !(ILG60_03_02_00_00_E08 | async)}"></i>
+        </a>
+      </div>
+      <h4 class="card-title m-b-0">ข้อมูลการจับกุม</h4>
+    </div>
+    <div *ngIf="ILG60_03_02_00_00_E08 | async" class="card-body">
+      <div class="row">
+        <label for="" class="col-lg-2 col-sm-4 control-label">เลขที่งาน</label>
+        <div class="form-group col-lg-4 col-md-7 col-sm-8">
+          <input type="text" formControlName="ARREST_CODE" class="form-control form-control-sm" readonly
+            placeholder="Auto Generate">
+        </div>
+
+        <label for="" class="col-lg-2 col-sm-4 control-label is-required">เขียนที่</label>
+        <div class="form-group col-lg-4 col-md-7 col-sm-8">
+          <ng-template #rt let-r="result" let-t="term">
+            {{ r.OFFICE_SHORT_NAME }}
+          </ng-template>
+
+          <input #office type="text" class="form-control form-control-sm" [ngbTypeahead]="serachOffice"
+            [resultTemplate]="rt" [readOnly]="isEdit" [inputFormatter]="T_OfficeFormatter"
+            (selectItem)="selectItemOffice($event)" (keyup)="deleteItemOffice(office)"
+            value="{{ArrestFG.get('OFFICE_NAME').value}}" required [disabled]="canOfficeSearch()"
+            [ngClass]="{'is-invalid': ArrestFG.get('OFFICE_NAME').invalid && ArrestFG.get('OFFICE_NAME').dirty}" />
+          <!-- <div class="alert alert-danger" role="alert"
+            *ngIf="ArrestFG.get('OFFICE_NAME').invalid && ArrestFG.get('OFFICE_NAME').dirty">
+            กรุณาระบุข้อมูล "เขียนที่"
+          </div> -->
+        </div>
+      </div>
+      
+
+      <!-- comment for uat -->
+      <!-- <div class="row">
+        <label for="" class="col-lg-2 col-sm-4 control-label">อ้างอิงหมายค้น</label>
+        <div class="form-group col-lg-4 col-md-7 col-sm-8">
+          <input type="text" formControlName="REQUEST_CODE" class="form-control form-control-sm" [readOnly]="isEdit"
+            (mousedown)="false">
+          <a href="javaScript:void(0);" class="times text-secondary"
+            *ngIf="ArrestFG.get('REQUEST_CODE').value && !isEdit" (click)="!isEdit && clearRequestCode();">
+            <i class="ti-close" aria-hidden="true"></i>
+          </a>
+          <a href="javaScript:void(0);" class="more text-secondary" *ngIf="!isEdit"
+            (click)="!isEdit && openModal_XL(ilg60o02000202)">
+            <i class="ti-more-alt" aria-hidden="true"></i>
+          </a>
+        </div>
+        <ng-template #ilg60o02000202 let-c="close" let-d="dismiss">
+          <app-ilg60-o-02-00-02-02 (c)="modal.close()" (d)="modal.dismiss()" (Output)="Ilg60O02000202_Output($event)">
+          </app-ilg60-o-02-00-02-02>
+        </ng-template>
+
+
+        <label for="" class="col-lg-2 col-sm-4 control-label puritycertCode">อ้างอิงใบรับรองความบริสุทธิ์</label>
+        <div class="form-group col-lg-4 col-md-7 col-sm-8">
+          <input #PURITYCERT_CODE type="text" formControlName="PURITYCERT_CODE" class="form-control form-control-sm"
+            [readOnly]="isEdit" (mousedown)="false">
+          <a href="javaScript:void(0);" class="times text-secondary"
+            *ngIf="ArrestFG.get('PURITYCERT_CODE').value && !isEdit" (click)="!isEdit && clearPuritycertCode();">
+            <i class="ti-close" aria-hidden="true"></i>
+          </a>
+          <a href="javaScript:void(0);" class="more text-secondary" *ngIf="!isEdit"
+            (click)="!isEdit && openModal(ilg60o02000201)">
+            <i class="ti-more-alt" aria-hidden="true"></i>
+          </a>
+        </div>
+        <ng-template #ilg60o02000201 let-c="close" let-d="dismiss">
+          <app-ilg60-o-02-00-02-01 (c)="modal.close()" (d)="modal.dismiss()" (Output)="Ilg60O02000201_Output($event)">
+          </app-ilg60-o-02-00-02-01>
+        </ng-template>
+      </div> -->
+      <!-- end comment for uat -->
+
+
+      <div class="row">
+        <label for="" class="col-lg-2 col-sm-4 control-label is-required">วันที่เขียน</label>
+        <div class="col-lg-4 col-md-7 col-sm-8">
+          <div class="form-group input-group">
+            <my-date-picker-th [options]="arDateFromOption" class="form-control form-control-sm unset-form-control"
+              formControlName="ARREST_DATE" [disabled]="isEdit">
+            </my-date-picker-th>
+            <label for="">&nbsp;&nbsp;เวลา&nbsp;&nbsp;</label>
+            <input type="text" formControlName="ARREST_TIME" class="form-control form-control-sm" [readonly]="isEdit"
+              [ngClass]="{'is-invalid':ArrestFG.get('ARREST_TIME').invalid && ArrestFG.get('ARREST_TIME').touched}"
+              (keyup)="setFormatTimeControl($event,'ARREST_TIME',ArrestFG)" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]"
+              maxlength="5">
+          </div>
+          <div class="alert alert-danger" role="alert" *ngIf="ArrestFG.controls['ARREST_TIME'].invalid">
+            กรุณาระบุข้อมูล hh:mm
+          </div>
+          <!-- <div class="alert alert-danger" role="alert" *ngIf="ArrestFG.get('ARREST_DATE').invalid && ArrestFG.get('ARREST_DATE').dirty ||
+          ArrestFG.get('ARREST_TIME').invalid && ArrestFG.get('ARREST_TIME').dirty">
+            กรุณาระบุข้อมูล "วันที่เขียนและเวลา"
+          </div> -->
+        </div>
+
+        <label for="" class="col-lg-2 col-sm-4 control-label is-required">วันที่จับกุม</label>
+        <div class="col-lg-4 col-md-7 col-sm-8">
+          <div class="form-group input-group" style="z-index: 1;">
+            <my-date-picker-th [options]="ocDateToOption" class="form-control form-control-sm unset-form-control"
+              formControlName="OCCURRENCE_DATE" [disabled]="isEdit"></my-date-picker-th>
+            <label for="">&nbsp;&nbsp;เวลา&nbsp;&nbsp;</label>
+            <input type="text" formControlName="OCCURRENCE_TIME" class="form-control form-control-sm"
+              [readonly]="isEdit" [ngClass]="{
+                'ng-touched':ArrestFG.get('OCCURRENCE_TIME').invalid && ArrestFG.get('OCCURRENCE_TIME').touched
+              }" required (keyup)="setFormatTimeControl($event,'OCCURRENCE_TIME',ArrestFG)"
+              pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" maxlength="5">
+          </div>
+          <div class="alert alert-danger" role="alert" *ngIf="ArrestFG.controls['OCCURRENCE_TIME'].invalid">
+            กรุณาระบุข้อมูล hh:mm
+          </div>
+          <!-- <div class="alert alert-danger" role="alert" *ngIf="ArrestFG.get('OCCURRENCE_DATE').invalid && ArrestFG.get('OCCURRENCE_DATE').dirty || 
+          ArrestFG.get('OCCURRENCE_TIME').invalid && ArrestFG.get('OCCURRENCE_TIME').dirty">
+            กรุณาระบุข้อมูล "วันที่จับกุมและเวลา"
+          </div> -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ILG60_03_02_00_00_E10 (ใบแจ้งความนำจับ) -->
+  <app-ilg60-03-02-00-00-e10 [mode]="mode" [isEdit]="isEdit" [inputData]="_ILG60_03_02_00_00_E10$"
+    (Output)="ILG60_03_02_00_00_E10$.next($event)">
+  </app-ilg60-03-02-00-00-e10>
+
+  <!-- ILG60_03_02_00_00_E13 ผู้จับกุม-->
+  <app-ilg60-03-02-00-00-e13 [mode]="mode" [isEdit]="isEdit" [inputData]="_ILG60_03_02_00_00_E13$"
+    (Output)="ILG60_03_02_00_00_E13$.next($event)" [invalid]="INVALID_ILG60_03_02_00_00_E13"
+    (delStaff)="DELSTAFF_E13$.next($event)">
+  </app-ilg60-03-02-00-00-e13>
+
+  <!-- ILG60_03_02_00_00_E18 สถานที่เกิดเหตุ-->
+  <app-ilg60-03-02-00-00-e18 [mode]="mode" [isEdit]="isEdit" [inputData]="_ILG60_03_02_00_00_E18$"
+    [invalid]="INVALID_ILG60_03_02_00_00_E18" (Output)="ILG60_03_02_00_00_E18$.next($event)"
+    [LOCATION_REQ_E18]="LOCATION_REQ_E18" [REGION_REQ_E18]="REGION_REQ_E18" [LOCALE_OFFICE_CODE]="LOCALE_OFFICE_CODE">
+  </app-ilg60-03-02-00-00-e18>
+
+  <!-- ILG60_03_03_00_00_E15 ผู้ต้องหา-->
+  <app-ilg60-03-03-00-00-e15 [mode]="mode" [isEdit]="isEdit" [inputData]="_ILG60_03_03_00_00_E15$"
+    (Output)="ILG60_03_03_00_00_E15$.next($event)" (trashIndex)="ILG60_03_03_00_00_E15_TrashIndex.next($event)"
+    [ILG60_03_02_00_00_E25$]="ILG60_03_02_00_00_E25$" (delLawb)="DELLAWB_E15$.next($event)">
+  </app-ilg60-03-03-00-00-e15>
+
+  <!-- ILG60_03_02_00_00_E21 ของกลาง-->
+  <app-ilg60-03-02-00-00-e21 [mode]="mode" [isEdit]="isEdit" [inputData]="_ILG60_03_02_00_00_E21$"
+    (Output)="ILG60_03_02_00_00_E21$.next($event)" (trashIndex)="ILG60_03_02_00_00_E21_TrashIndex.next($event)"
+    [OCCURRENCE_DATE$]="OCCURRENCE_DATE$" [ILG60_03_02_00_00_E25$]="ILG60_03_02_00_00_E25$"
+    (delProd)="DELPROD_E21$.next($event)">
+  </app-ilg60-03-02-00-00-e21>
+
+  <!-- ILG60_03_02_00_00_E25 ข้อกล่าวหา -->
+  <app-ilg60-03-02-00-00-e25 [mode]="mode" [isEdit]="isEdit" [inputData]="_ILG60_03_02_00_00_E25$"
+    [ILG60_03_03_00_00_E15$]="ILG60_03_03_00_00_E15$" [ILG60_03_02_00_00_E21$]="ILG60_03_02_00_00_E21$"
+    [ILG60_03_02_00_00_E21_TrashIndex]="ILG60_03_02_00_00_E21_TrashIndex" [invalid]="INVALID_ILG60_03_02_00_00_E25"
+    (Output)="ILG60_03_02_00_00_E25$.next($event)" (delIndict)="DELINDICTMENT_E25$.next($event)">
+  </app-ilg60-03-02-00-00-e25>
+
+  <!-- ILG60_03_02_00_00_E20 รายละเอียดการจับกุม-->
+  <div class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius" (click)="onCollapse(ILG60_03_02_00_00_E20)">
+      <div class="card-actions">
+        <a class="">
+          <i class="fa"
+            [ngClass]="{'fa-chevron-up': (ILG60_03_02_00_00_E20 | async), 'fa-chevron-down': !(ILG60_03_02_00_00_E20 | async)}"></i>
+        </a>
+      </div>
+      <h4 class="card-title m-b-0">รายละเอียดการจับกุม</h4>
+    </div>
+    <div *ngIf="ILG60_03_02_00_00_E20 | async" class="card-body">
+      <div class="row">
+        <label for="" class="col-md-2 col-sm-4 control-label is-required">พฤติกรรมในการจับ</label>
+        <div class="col-md-10 col-sm-8 form-group ">
+          <textarea formControlName="BEHAVIOR_ALL" cols="" rows="3" maxlength="10000"
+            class="form-control form-control-sm" [readonly]="isEdit"
+            [ngClass]="{'is-invalid': (BEHAVIOR_1_REQ_M | async)}" (keypress)="BEHAVIOR_1_REQ_M.next(false)"></textarea>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <input type="checkbox" formControlName="IS_REQUEST" class="filled-in chk-col-indigo" id="IS_REQUEST"
+            (change)="IsRequestCheang($event)" [attr.disabled]="isEdit ? '' : null">
+          <label for="IS_REQUEST">ร้องขอ</label>
+        </div>
+      </div>
+      <div class="row">
+        <label for="" class="col-md-2 col-sm-4 control-label">และได้ดำเนินการ</label>
+        <div class="col-md-10 col-sm-8 form-group">
+          <input type="text" formControlName="REQUEST_DESC" maxlength="2000" class="form-control form-control-sm"
+            [readonly]="isEdit || ArrestFG.get('IS_REQUEST').value == false"
+            placeholder="{{ArrestFG.get('IS_REQUEST').value == false ? Text.isRequest : ArrestFG.get('REQUEST_DESC').value}}">
+        </div>
+        <!-- [value]="ArrestFG.get('IS_REQUEST').value == true ? 'ตามที่ข้าพเจ้าร้องขอแล้ว' : null" -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ILG60_03_02_00_00_E28 เอกสารแนบภายใน-->
+  <app-ilg60-03-02-00-00-e28 [mode]="mode" [isEdit]="isEdit" [inputData]="_ILG60_03_02_00_00_E28$"
+    (Output)="ILG60_03_02_00_00_E28$.next($event)" (delDoc)="DELDOC_E28$.next($event)">
+  </app-ilg60-03-02-00-00-e28>
+</form>

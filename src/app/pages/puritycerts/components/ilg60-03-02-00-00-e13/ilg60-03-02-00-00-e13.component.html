@@ -1,0 +1,84 @@
+<div class="card card-outline-bluish unset-radius">
+  <div class="card-header unset-radius">
+    <div class="card-actions">
+      <a class="" (click)="onCollapse(ILG60_03_02_00_00_E13)">
+        <i class="fa"
+          [ngClass]="{'fa-chevron-down': (ILG60_03_02_00_00_E13 | async), 'fa-chevron-up': !(ILG60_03_02_00_00_E13 | async)}"></i>
+      </a>
+    </div>
+    <h4 class="card-title m-b-0">ข้อมูลเจ้าหน้าที่</h4>
+  </div>
+  <div *ngIf="ILG60_03_02_00_00_E13 | async" class="card-body">
+    <div class="row form-group">
+      <div class="col-lg-10 col-md-9 col-sm-8"></div>
+      <div class="col-lg-2 col-md-3 col-sm-4">
+        <button type="button" class="btn btn-block btn-themecolor" [disabled]="isEdit"
+          (click)="addStaff()">เพิ่มผู้ร่วมตรวจค้น</button>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-sm table-striped table-set-border" [formGroup]="PuritycertFG">
+        <thead>
+          <tr>
+            <th class="text-center">ลำดับ</th>
+            <th>ชื่อเจ้าหน้าที่</th>
+            <th>ตำแหน่ง</th>
+            <th>หน่วยงาน</th>
+            <th>ฐานะ</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody formArrayName="ArrestStaff">
+          <ng-container *ngFor="let item of ArrestStaff.controls; let i=index;">
+            <tr [ngClass]="{'row-is-delete': item.get('ACTION').value == Action.DELETE}" [formGroupName]="i">
+              <td class="text-center">{{i+1}}</td>
+
+              <td>
+                <ng-template #rt let-r="result" let-t="term">
+                  {{r.TITLE_NAME_TH == null ? '' : r.TITLE_NAME_TH}}
+                  {{r.FIRST_NAME == null ? '' : r.FIRST_NAME}}
+                  {{r.LAST_NAME == null ? '' : r.LAST_NAME}}
+                </ng-template>
+
+                <input type="text" class="form-control form-control-sm" [ngbTypeahead]="searchStaff"
+                  [resultTemplate]="rt" [readOnly]="isEdit"
+                  value="{{item.get('TITLE_NAME_TH').value}}{{item.get('FIRST_NAME').value}} {{item.get('LAST_NAME').value}}"
+                  (selectItem)="selectItemStaff($event, i)" required/>
+                  <!-- [ngClass]="{
+                    'ng-touched':ArrestFG.get('STAFF_NAME').invalid && 
+                    (ArrestFG.get('STAFF_NAME').dirty || ArrestFG.get('STAFF_NAME').touched)
+                  }" -->
+              </td>
+
+              <td>
+                <input type="text" formControlName="OPREATION_POS_NAME" class="form-control form-control-sm" readonly>
+              </td>
+              <td>
+                <input type="text" formControlName="OPERATION_DEPT_NAME" class="form-control form-control-sm" readonly>
+              </td>
+              <td>
+                {{getContributorId(item.get('CONTRIBUTOR_ID').value)}}
+              </td>
+              <td>
+                <ng-container *ngIf="i > 0">
+                  <ng-container *ngIf="item.get('ACTION').value != Action.DELETE; else rowUndoStaff">
+                    <a *ngIf="!isEdit" href="javaScript:void(0);" class="text-danger" (click)="onDeleteStaff(i)">
+                      <i class="fa fa-trash fa-x4"></i>
+                    </a>
+                  </ng-container>
+                  <ng-template #rowUndoStaff>
+                    <a href="javaScript:void(0);" class="text-danger" (click)="onUndoDeleteStaff(i);">
+                      <i class="fa fa-trash fa-x4"></i>
+                    </a>
+                  </ng-template>
+                </ng-container>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>

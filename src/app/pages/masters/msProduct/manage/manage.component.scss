@@ -1,0 +1,11 @@
+::ng-deep [id^="ngb-typeahead-"] {
+    width: 392px !important;
+    top: 36px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+.is-invalid {
+    border-color: red;
+}

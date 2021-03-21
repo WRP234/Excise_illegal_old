@@ -1,0 +1,109 @@
+<form [formGroup]="printForm">
+    <div class="modal-header bg-theme">
+        <div class="row">
+          <div class="col-lg-5">
+            <h4 class="modal-title text-white">พิมพ์เอกสาร</h4> 
+          </div>
+          <a href="javaScript:void(0);" class="close text-white font-14" aria-label="Close" (click)="dismiss(click)">
+            <span aria-hidden="true">
+              <i class=" ti-close"></i>
+            </span>
+          </a>
+        </div>
+      </div>
+    <h5 class="text-right mt-3 pr-3">ILG60_O_05_00_02_04</h5>
+    <div class="modal-body font-14" >
+      <!-- แบบฟอร์มรายคดี -->
+      <div _ngcontent-c11="" class="row">
+        <label _ngcontent-c11="" class="col-sm-2" for="">&nbsp;แบบฟอร์มรายคดี</label>
+        <br>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-sm table-striped table-set-border" style="max-width: unset; width: 100%">
+          <thead>
+            <tr>
+              <th style="width:10%" class="a-center">
+                <input type="checkbox" (click)="onSelect($event,'all')" id="all" name="all" class="filled-in chk-col-indigo">
+                <label for="all" class="m-0"></label>
+              </th>
+              <th style="width:10%" class="text-center">ลำดับ</th>
+              <!-- <th style="width:25%">ชื่อผู้ต้องหา</th> -->
+              <th style="width:50%">ชื่อเอกสาร</th>
+              <th style="width:40%">
+                <div>
+                  ประเภทเอกสาร
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody formArrayName="print">
+            <tr [formGroupName]="i" class="form-control-sm" *ngFor="let item of print.controls; let i=index">
+                <td class="a-center">
+                    <input type="checkbox" [checked]="item.get('printIndex').value == true"
+                    (click)="onSelect($event,i)" [value]="i" [id]="'a'+i" [name]="'a'+i" class="filled-in chk-col-indigo">
+                    <label [for]="'a'+i" class="m-0"></label>
+                </td>
+                <td class="a-center">{{i+1}}</td>
+                <td>{{item.get('NAME').value}}</td>
+                <!-- <td>{{item.get('NAME').value}}</td> -->
+                <td>
+                    <p *ngIf="item.get('RECEIPT_TYPE').value == 0">แบบฟอร์ม (Manual)</p>
+                    <p *ngIf="item.get('RECEIPT_TYPE').value == 1">แบบฟอร์ม (Auto)</p>
+                    <p *ngIf="item.get('RECEIPT_TYPE').value !== 0 && item.get('RECEIPT_TYPE').value !== 1">แบบฟอร์ม</p>
+                </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- แบบฟอร์มรายบุคคล -->
+        <br>
+      <div _ngcontent-c11="" class="row">
+        <label _ngcontent-c11="" class="col-sm-2" for="">&nbsp;แบบฟอร์มรายบุคคล</label>
+        <br>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-sm table-striped table-set-border" style="max-width: unset; width: 100%">
+          <thead>
+            <tr>
+              <th style="width:10%" class="a-center">
+                <!-- <input type="checkbox" (click)="onSelect2($event,'all')" id="all2" name="all2" class="filled-in chk-col-indigo"> -->
+                <input type="checkbox" id="all2" name="all2" class="filled-in chk-col-indigo">
+                <label for="all2" class="m-0"></label>
+              </th>
+              <th style="width:10%" class="text-center">ลำดับ</th>
+              <!-- <th style="width:25%">ชื่อผู้ต้องหา</th> -->
+              <th style="width:50%">ชื่อเอกสาร</th>
+              <th style="width:40%">
+                <div>
+                  ประเภทเอกสาร
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody formArrayName="print">
+            <tr [formGroupName]="i" class="form-control-sm" *ngFor="let item of print2.controls; let i=index">
+                <td class="a-center">
+                    <!-- <input type="checkbox" [checked]="item.get('printIndex').value == true" 
+                    [disabled]="item.get('RECEIPT_TYPE').value == 1 || item.get('RECEIPT_TYPE').value == 0"
+                    (click)="onSelect2($event,i)" [value]="i" [id]="'s'+i" [name]="'s'+i" class="filled-in chk-col-indigo">
+                    <label [for]="'s'+i" class="m-0"></label> -->
+                </td>
+                <td class="a-center">{{i+1}}</td>
+                <td>{{item.get('NAME').value}}</td>
+                <!-- <td>{{item.get('NAME').value}}</td> -->
+                <td>
+                    <p *ngIf="item.get('RECEIPT_TYPE').value == 0">แบบฟอร์ม (Manual)</p>
+                    <p *ngIf="item.get('RECEIPT_TYPE').value == 1">แบบฟอร์ม (Auto)</p>
+                    <p *ngIf="item.get('RECEIPT_TYPE').value !== 0 && item.get('RECEIPT_TYPE').value !== 1">แบบฟอร์ม</p>
+                </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="col-lg-2 col-4">
+        <button (click)="onPrint()" type="submit" class="btn btn-block btn-themecolor">พิมพ์</button>
+      </div>
+    </div>
+  </form>

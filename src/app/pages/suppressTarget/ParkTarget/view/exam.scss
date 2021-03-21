@@ -1,0 +1,26 @@
+
+body {margin:0;padding:0}
+#container {width:605px}
+table#name {
+	width:100px;
+	background:#ffffcc;
+	float:left;
+}
+table#data {
+	background:#ffffcc;
+	width:900px;	
+}
+td {
+	border:1px solid red;
+}
+#data td {width:100px;}
+#wrap{
+	width:500px;
+	overflow:auto;
+	overflow-y:hidden;
+	border-right:1px solid red;
+	float:left;
+}
+.bottom {background:#ccc}
+
+// http://www.java2s.com/Code/HTMLCSSDemo/Fixedtablefirstcolumn.htm

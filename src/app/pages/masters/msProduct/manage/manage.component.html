@@ -1,0 +1,346 @@
+<ng-template #brandModal let-d="dismiss">
+    <app-brand-modal (passEntry)="GetDataModal($event)" [PopupType]="PopupType" [PopupMode]="PopupMode"
+        [PRODUCT_BRAND_ID]="PRODUCT_BRAND_ID" [PopupModel]="PopupModel" (c)="modal.close()" (d)="modal.dismiss()">
+    </app-brand-modal>
+</ng-template>
+
+<header class="topbar">
+    <nav class="navbar top-navbar navbar-expand-md navbar-light">
+        <div class="navbar-collapse" style="padding-right: 55px;">
+            <ul class="navbar-nav mr-auto mt-md-0">
+                <li *ngIf="PrintButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickPrint()">
+                            พิมพ์
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="EditButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnEdit()">
+                            แก้ไข
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="DeleteButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnDelete()"
+                            style="background-color: #f47023">
+                            ลบ
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="SaveButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnSave()">
+                            บันทึก
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="CancelButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnCancel()">
+                            ยกเลิก
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<form action="">
+    <div class="card card-outline-bluish unset-radius">
+        <div class="card-header unset-radius">
+            <app-card-actions-collapse></app-card-actions-collapse>
+            <h4 class="card-title m-b-0">สินค้า</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-3 control-label is-required">หมวดสินค้า</label>
+                <div class="col-lg-4 col-md-7 col-sm-9">
+                    <div class="form-group">
+                        <div class="form-line">
+                            <select #pGroup name="PRODUCT_GROUP_ID" [(ngModel)]="PRODUCT_GROUP_CODE_TEMP"
+                                class="form-control form-control-sm" [attr.disabled]="showEditField ? '': null" required
+                                [ngClass]="{'is-invalid': (REQ_PRODUCT_GROUP_ID | async)}"
+                                (change)="onSeleceChange('pGroup',pGroup.value, $event); onSetProductCode('pGroup',pGroup.value);">
+                                <option value="00" selected></option>
+                                <option *ngFor="let o of PRODUCT_GROUP_LIST" [value]="o.PRODUCT_GROUP_CODE">
+                                    {{ o.PRODUCT_GROUP_NAME }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <label for="" class="col-lg-2 col-sm-3 control-label">กลุ่มประเภทสินค้า</label>
+                <div class="col-lg-4 col-md-7 col-sm-9">
+                    <div class="form-group">
+                        <div class="form-line">
+                            <select #iDutyTable name="PRODUCT_CATEGORY_ID" [(ngModel)]="PRODUCT_CATEGORY_CODE_TEMP"
+                                class="form-control form-control-sm" style="text-overflow: ellipsis;"
+                                [attr.disabled]="((mode == 'C' ? false : showEditField) ||( !stringToNumber(pGroup.value))) ? '': null"
+                                (change)="onSeleceChange('iDutyTable',iDutyTable.value, $event); onSetProductCode('iDutyTable',iDutyTable.value);">
+                                <option value="0000" selected></option>
+                                <option *ngFor="let o of InquiryDutyTable_list" [value]="o.DUTY_CODE">
+                                    {{ o.DUTY_NAME }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-3 control-label">ประเภทสินค้า</label>
+                <div class="col-lg-4 col-md-7 col-sm-9">
+                    <div class="form-group">
+                        <div class="form-line">
+                            <select #iProductType name="TYPE_NAME" [(ngModel)]="PRODUCT_TYPE_CODE_TEMP"
+                                style="text-overflow: ellipsis;" class="form-control form-control-sm"
+                                [attr.disabled]="((mode == 'C' ? false : showEditField) ||(!stringToNumber(pGroup.value) || !stringToNumber(iDutyTable.value))) ? '': null"
+                                (change)="onSeleceChange('iProductType',iDutyTable.value, $event); onSetProductCode('iProductType',iProductType.value)">
+                                <option value="00" selected></option>
+                                <option *ngFor="let o of InquiryProductType_list" [value]="o.TYPE_CODE">
+                                    {{ o.TYPE_NAME }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <label for="" class="col-lg-2 col-sm-3 control-label">ประเภทย่อยสินค้า</label>
+                <div class="col-lg-4 col-md-7 col-sm-9">
+                    <div class="form-group">
+                        <div class="form-line">
+                            <select #iProductSubType name="SUBTYPE_NAME" [(ngModel)]="PRODUCT_SUBSETTYPE_CODE_TEMP"
+                                class="form-control form-control-sm" style="text-overflow: ellipsis;"
+                                [attr.disabled]="((mode == 'C' ? false : showEditField) ||(!stringToNumber(pGroup.value) || !stringToNumber(iDutyTable.value) || !stringToNumber(iProductType.value))) ? '': null"
+                                (change)="onSetProductCode('iProductSubType',iProductSubType.value)">
+                                <option value="00" selected></option>
+                                <option *ngFor="let o of InquiryProductSubType_list" [value]="o.SUBTYPE_CODE">
+                                    {{ o.SUBTYPE_NAME }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <label for="" class="col-lg-2 col-md-4 control-label">ยี่ห้อหลัก</label>
+                <div class="form-group input-group  col-lg-4 col-md-7">
+                    <ng-template #rtBrand let-r="result" let-t="term">
+                        {{ r.PRODUCT_BRAND_NAME_TH }}
+                    </ng-template>
+                    <input #Brand id="typeahead-template" type="text" class="form-control form-control-sm"
+                        [(ngModel)]="BRAND_MODEL" [ngModelOptions]="{standalone: true}" [ngbTypeahead]="searchBrand"
+                        [resultTemplate]="rtBrand" [inputFormatter]="formatter_brand"
+                        (selectItem)="selectItembrand($event)" (blur)="blurItembrand(Brand)"
+                        [value]="PRODUCT_BRAND_NAME_TH" [readOnly]="showEditField">&nbsp;
+
+                    <div class="dropdown">
+                        <button type="button" class="form-control form-control-sm" data-toggle="dropdown"
+                            [disabled]="showEditField" style="width: 33px; cursor: pointer;">...</button>
+                        <div class="dropdown-menu" style="cursor: pointer">
+                            <a class="dropdown-item" (click)="OpenPopupBrand('Brand','C')">
+                                <i class="mdi mdi-plus fa-lg"></i> สร้าง</a>
+                            <hr style="margin: 1px 0 1px 0;">
+                            <a class="dropdown-item" (click)="OpenPopupBrand('Brand','R')">
+                                <i class="mdi mdi-border-color fa-lg"></i> แก้ไข</a>
+                        </div>
+                    </div>
+                </div>
+
+                <label for="" class="col-lg-2 col-md-4 control-label">ยี่ห้อรอง</label>
+                <div class="form-group input-group  col-lg-4 col-md-7">
+                    <ng-template #rtSubBrand let-r="result" let-t="term">
+                        {{ r.PRODUCT_SUBBRAND_NAME_TH }}
+                    </ng-template>
+                    <input #SubBrand id="typeahead-template" type="text" class="form-control form-control-sm"
+                        [(ngModel)]="SUBBRAND_MODEL" [ngModelOptions]="{standalone: true}"
+                        [ngbTypeahead]="searchSubBrand" [resultTemplate]="rtSubBrand"
+                        [inputFormatter]="formatter_subbrand" (selectItem)="selectItemSubbrand($event)"
+                        (blur)="blurItemSubbrand(SubBrand)" [value]="PRODUCT_SUBBRAND_NAME_TH"
+                        [readOnly]="showEditField">&nbsp;
+
+                    <div class="dropdown">
+                        <button type="button" class="form-control form-control-sm" data-toggle="dropdown"
+                            [disabled]="showEditField" style="width: 33px; cursor: pointer;">...</button>
+                        <div class="dropdown-menu" style="cursor: pointer">
+                            <a class="dropdown-item" (click)="OpenPopupBrand('SubBrand','C')">
+                                <i class="mdi mdi-plus fa-lg"></i> สร้าง</a>
+                            <hr style="margin: 1px 0 1px 0;">
+                            <a class="dropdown-item" (click)="OpenPopupBrand('SubBrand','R')">
+                                <i class="mdi mdi-border-color fa-lg"></i> แก้ไข</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <label for="" class="col-lg-2 col-md-4 control-label">รุ่นสินค้า</label>
+                <div class="form-group input-group  col-lg-4 col-md-7">
+                    <ng-template #rtModel let-r="result" let-t="term">
+                        {{ r.PRODUCT_MODEL_NAME_TH }}
+                    </ng-template>
+                    <input #Model id="typeahead-template" type="text" class="form-control form-control-sm"
+                        [(ngModel)]="MODEL_MODEL" [ngModelOptions]="{standalone: true}" [ngbTypeahead]="searchModel"
+                        [resultTemplate]="rtModel" [inputFormatter]="formatter_model"
+                        (selectItem)="selectItemModel($event)" (blur)="blurItemModel(Model)"
+                        [value]="PRODUCT_MODEL_NAME_TH" [readOnly]="showEditField">&nbsp;
+
+                    <div class="dropdown">
+                        <button type="button" class="form-control form-control-sm" data-toggle="dropdown"
+                            [disabled]="showEditField" style="width: 33px; cursor: pointer;">...</button>
+                        <div class="dropdown-menu" style="cursor: pointer">
+                            <a class="dropdown-item" (click)="OpenPopupBrand('Model','C')">
+                                <i class="mdi mdi-plus fa-lg"></i> สร้าง</a>
+                            <hr style="margin: 1px 0 1px 0;">
+                            <a class="dropdown-item" (click)="OpenPopupBrand('Model','R')">
+                                <i class="mdi mdi-border-color fa-lg"></i> แก้ไข</a>
+                        </div>
+                    </div>
+                </div>
+
+                <label for="" class="col-lg-2 col-md-4 control-label">ขนาดบรรจุ</label>
+                <div class="form-group input-group col-lg-4 col-md-7">
+                    <input type="text" [(ngModel)]="SIZES" name="SIZES" class="form-control form-control-sm"
+                        [readOnly]="showEditField" (input)="!SIZES ? REQ_SIZES.next(true) : REQ_SIZES.next(false)"
+                        (keypress)="NumericDotOnly($event)" (change)="setSizesFormat()">
+
+                    <label for="" class="">&nbsp; หน่วย : &nbsp;</label>
+                    <ng-template #rtProductsize let-r="result" let-t="term">
+                        {{ r.UNIT_NAME_TH }}
+                    </ng-template>
+                    <input #Size id="typeahead-template" type="text" class="form-control form-control-sm"
+                        [(ngModel)]="PRODUCTSIZE_MODEL" [ngModelOptions]="{standalone: true}"
+                        [ngbTypeahead]="searchProductsize" [resultTemplate]="rtProductsize"
+                        [inputFormatter]="formatter_productsize" [value]="SIZES_UNIT" [readOnly]="showEditField"
+                        (selectItem)="selectItemSize($event)" (blur)="blurItemSize(Size)">&nbsp;
+                </div>
+            </div>
+
+            <div class="row">
+                <label for="" class="col-lg-2 col-md-4 control-label">หน่วยบรรจุภัณฑ์สินค้า</label>
+                <div class="form-group input-group  col-lg-4 col-md-7">
+                    <ng-template #rtProductunit let-r="result" let-t="term">
+                        {{ r.UNIT_NAME_TH }}
+                    </ng-template>
+                    <input id="typeahead-template" type="text" class="form-control form-control-sm"
+                        [(ngModel)]="PRODUCTUNIT_MODEL" [ngModelOptions]="{standalone: true}"
+                        [ngbTypeahead]="searchProductunit" [resultTemplate]="rtProductunit"
+                        [inputFormatter]="formatter_productunit" (selectItem)="selectItemUnit($event)"
+                        [disabled]="showEditField" [value]="UNIT_NAME_TH" [readOnly]="showEditField">&nbsp;
+
+                    <!-- <div class="dropdown">
+                    <button type="button" class="form-control form-control-sm" data-toggle="dropdown"
+                        style="width: 33px">...</button>
+                    <div class="dropdown-menu" style="cursor: pointer">
+                        <a class="dropdown-item" (click)="OpenPopupBrand('Unit','C')">
+                            <i class="mdi mdi-plus fa-lg"></i> สร้าง</a>
+                        <hr style="margin: 1px 0 1px 0;">
+                        <a class="dropdown-item" (click)="OpenPopupBrand('Unit','R')">
+                            <i class="mdi mdi-border-color fa-lg"></i> แก้ไข</a>
+                    </div>
+                </div> -->
+                </div>
+
+                <label for="" class="col-lg-2 col-sm-3 control-label">แรงแอลกอฮอล์</label>
+                <div class="col-lg-4 col-md-7 col-sm-9">
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input type="text" name="DEGREE" [(ngModel)]="DEGREE" class="form-control form-control-sm"
+                                [readOnly]="showEditField">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-3 control-label">ปริมาณน้ำตาล</label>
+                <div class="col-lg-4 col-md-7 col-sm-9">
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input type="text" name="SUGAR" [(ngModel)]="SUGAR" class="form-control form-control-sm"
+                                [readOnly]="showEditField">
+                        </div>
+                    </div>
+                </div>
+
+                <label for="" class="col-lg-2 col-sm-3 control-label">อัตราการปล่อย CO2</label>
+                <div class="col-lg-4 col-md-7 col-sm-9">
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input type="text" name="CO2" [(ngModel)]="CO2" class="form-control form-control-sm"
+                                [readOnly]="showEditField">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-3 control-label">ราคาขายปลีกแนะนำ</label>
+                <div class="col-lg-4 col-md-7 col-sm-9">
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input #x type="text" name="PRICE" [(ngModel)]="PRICE" class="form-control form-control-sm"
+                                [readOnly]="showEditField" (keypress)="NumericDotOnly($event)"
+                                (change)="setPriceFormat(x.value)">
+                        </div>
+                    </div>
+                </div>
+
+                <label for="" class=" col-lg-2 col-sm-3 control-label">สินค้าใน/ต่างประเทศ</label>
+                <div class="col-lg-4 col-md-7 col-sm-9">
+                    <div class="form-group">
+                        <div class="form-line">
+                            <select name="IS_DOMESTIC" [(ngModel)]="IS_DOMESTIC" class="form-control form-control-sm"
+                                [attr.disabled]="showEditField ? '': null">
+                                <option value="1">สินค้าในประเทศ</option>
+                                <option value="2">สินค้าในสถานบริการ</option>
+                                <option value="3">สินค้าต่างประเทศ</option>
+                                <option value="4">ไม่ระบุ</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-3 control-label">ชื่อสินค้า</label>
+                <div class="col-lg-4 col-md-7 col-sm-9">
+                    <div class="form-group">
+                        <div class="form-line">
+                            <textarea name="PRODUCT_NAME_DESC" [(ngModel)]="PRODUCT_NAME_DESC" rows="2"
+                                class="form-control form-control-sm" [readOnly]="showEditField"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-sm-3">
+                    <div class="row form-group">
+                        <div class="col">
+                            <input type="checkbox" id="md_isActive" [(ngModel)]="chk1" name="chk1"
+                                class="filled-in chk-col-indigo" [disabled]="showEditField">
+                            <label for="md_isActive">ใช้งาน</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="row">
+                <div class="col-lg-2 col-sm-3">
+                    <div class="row form-group">
+                        <div class="col">
+                            <input type="checkbox" id="md_isActive" [(ngModel)]="chk1" name="chk1"
+                                class="filled-in chk-col-indigo" [disabled]="showEditField">
+                            <label for="md_isActive">ใช้งาน</label>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</form>

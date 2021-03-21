@@ -1,0 +1,66 @@
+<div class="modal-body">
+  <form action="">
+    <div class="row text-center form-group">
+      <div style="width: 197.666px; height: 150.666px; position: relative; margin: auto;">
+        <div class=" my-1">
+          <div class="tile"
+            [ngStyle]="{'background': 'url('+IMAGE_SHOW+')no-repeat scroll center center / 140px 140px'}">
+            <div class="wBg">
+              <div class="tile" style="width: 140px; height: 140px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <input type="file" name="" id="fileUpload" (change)="onFileChange($event)" style="display: none;">
+    </div>
+    <div class="row">
+      <label for="" class="col-md-4 control-label">ชื่อไฟล์</label>
+      <div class="col-md-8">
+        <div class="form-group">
+          {{DOCUMENT_OLD_NAME}}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <label for="" class="col-md-4 control-label">นามสกุลไฟล์</label>
+      <div class="col-md-8">
+        <div class="form-group">
+          {{FILE_TYPE}}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <label for="" class="col-md-4 control-label">ตั้งชื่อไฟล์</label>
+      <div class="col-md-8">
+        <div class="form-group">
+          <input type="text" name="DOCUMENT_NAME" [(ngModel)]="DOCUMENT_NAME" class="form-control form-control-sm">
+        </div>
+      </div>
+    </div>
+    <div *ngIf="Dropdown_Show" class="row">
+      <label for="" class="col-md-4 control-label is-required">ประเภทรูปภาพ</label>
+      <div class="col-md-8">
+        <div class="form-group">
+          <select name="IMAGE_TYPE" [(ngModel)]="IMAGE_TYPE" class="form-control form-control-sm"
+            [ngClass]="{'ng-invalid-req':ReqImgType}" (change)="changeImgType()">
+            <option value="person">รูปภาพผู้ต้องหา</option>
+            <option value="product">รูปภาพของกลาง</option>
+            <option value="OTHER">อื่นๆ</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <label for="" class="col-md-3"></label>
+      <div class="col-md-4">
+        <button type="button" [disabled]="ReqImgType" class="btn btn-block btn-outline-info"
+          (click)="OnSelect('Save click')">ตกลง</button>
+      </div>
+      <div class="col-md-4">
+        <button type="button" class="btn btn-block btn-outline-info btn-Red"
+          (click)="dismiss('Save click')">ยกเลิก</button>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,1244 @@
+<header class="topbar">
+  <nav class="navbar top-navbar navbar-expand-md navbar-light">
+
+    <div class="navbar-collapse" style="padding-right: 55px;">
+      <ul class="navbar-nav mr-auto mt-md-0">
+        <li *ngIf="printButton" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickPrint()">
+              พิมพ์
+            </a>
+          </div>
+        </li>
+        <li *ngIf="saveButton" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickSave()">
+
+              บันทึก
+            </a>
+          </div>
+        </li>
+
+        <li *ngIf="saveButton_edit" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickSave_edit()">
+
+              บันทึก
+            </a>
+          </div>
+        </li>
+
+        <li *ngIf="cancelButton" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickCancel()">
+
+              ยกเลิก
+            </a>
+          </div>
+        </li>
+        <li *ngIf="cancelEdit" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickcancelEdit()">
+
+              ยกเลิก
+            </a>
+          </div>
+        </li>
+        <li *ngIf="editButton" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickEdit()">
+
+              แก้ไข
+            </a>
+          </div>
+        </li>
+        <li *ngIf="deleteButton" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickDelete()"
+              style="background-color: #f47023">
+
+              ลบ
+            </a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<app-step-wizard [sectionId]="5" [input]="INPUT_WIZARD"></app-step-wizard>
+
+<form [formGroup]="compareForm">
+  <div class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius cersor" (click)="toggleCollapse(collapse1)">
+      <div class="card-actions">
+        <a>
+          <i class="fa" [ngClass]="{'fa-chevron-up': (collapse1 | async), 'fa-chevron-down': !(collapse1 | async)}"></i>
+        </a>
+      </div>
+      <h4 class="card-title m-b-0">ข้อมูลการจับกุม</h4>
+    </div>
+    <div *ngIf="collapse1 | async" class="card-body">
+      <div class="form-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row">
+              <label class="col-sm-3 control-label" for="">เลขที่งาน</label>
+              <div class="form-group col-sm-9">
+                <input class="form-control form-control-sm ng-untouched ng-pristine" disabled=""
+                  formControlName="ARREST_CODE" name="ARREST_CODE" style="color: black;" type="text">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="row">
+              <label class="col-sm-3 control-label" for="">วันที่จับกุม</label>
+              <div class="form-group input-group col-sm-9">
+
+                <input class="form-control form-control-sm ng-untouched ng-pristine" disabled=""
+                  value="{{compareForm.get('OCCURRENCE_DATE').value.formatted}}" style="color: black;" type="text">
+                <label class="" for="">&nbsp; เวลา &nbsp;</label>
+                <input class="form-control form-control-sm ng-untouched ng-pristine" disabled=""
+                  formControlName="OCCURRENCE_TIME" style="color: black;" type="text">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row">
+              <label class="col-sm-3 control-label" for="">สถานที่เกิดเหตุ</label>
+              <div class="form-group col-sm-9">
+                <input class="form-control form-control-sm ng-untouched ng-pristine" disabled=""
+                  formControlName="SUB_DISTRICT_NAME" style="color: black;" type="text">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="row">
+              <label class="col-sm-3 control-label" for="">ชื่อผู้กล่าวหา</label>
+              <div class="form-group col-sm-9">
+                <input class="form-control form-control-sm ng-untouched ng-pristine" disabled=""
+                  formControlName="ARREST_STAFF" style="color: black;" type="text">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="row">
+            <label class="col-sm-3 control-label" for="">ตำแหน่ง</label>
+            <div class="form-group col-sm-9">
+              <input class="form-control form-control-sm ng-untouched ng-pristine" disabled=""
+                formControlName="ACCUSER_MANAGEMENT_POS_NAME" style="color: black;" type="text">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="row">
+            <label class="col-sm-3 control-label" for="">หน่วยงาน</label>
+            <div class="form-group col-sm-9">
+              <input class="form-control form-control-sm ng-untouched ng-pristine" disabled=""
+                formControlName="ACCUSER_OPERATION_OFFICE_SHORT_NAME" style="color: black;" type="text">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="row">
+            <label class="col-sm-3 control-label" for="">มาตรา</label>
+            <div class="form-group col-sm-9">
+              <input class="form-control form-control-sm ng-untouched ng-pristine" disabled=""
+                formControlName="SUBSECTION_NAME" style="color: black;" type="text">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="row">
+            <label class="col-sm-3 control-label" for="">บทลงโทษมาตรา</label>
+            <div class="form-group col-sm-9">
+              <input class="form-control form-control-sm ng-untouched ng-pristine" disabled=""
+                formControlName="SECTION_NAME" style="color: black;" type="text">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="row">
+            <label class="col-sm-3 control-label" for="">ฐานความผิด</label>
+            <div class="form-group col-sm-9">
+              <textarea class="form-control form-control-sm" rows="3" formControlName="GUILTBASE_NAME"
+                readonly></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="row">
+            <label class="col-sm-3 control-label" for="">อัตราโทษ</label>
+            <div class="form-group col-sm-9">
+              <textarea class="form-control form-control-sm" rows="3" formControlName="PENALTY_DESC"
+                readonly></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="row">
+            <label class="col-sm-3 control-label" for="">เลขที่คดี</label>
+            <div class="form-group input-group col-sm-9">
+              <input class="form-control form-control-sm ng-untouched ng-pristine" disabled=""
+                formControlName="ARREST_LAWSUIT_NO" style="color: black;" type="text">
+              <label class="" for="">&nbsp; / &nbsp;</label>
+              <input class="form-control form-control-sm ng-untouched ng-pristine" disabled=""
+                formControlName="ARREST_LAWSUIT_NO_YEAR" style="color: black;" type="text">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="row">
+            <label class="col-sm-3 control-label" for="">วันที่รับคดี</label>
+            <div class="form-group input-group col-sm-9">
+              <input class="form-control form-control-sm ng-untouched ng-pristine" disabled=""
+                value="{{compareForm.get('ARREST_LAWSUIT_DATE').value.formatted}}" style="color: black;" type="text">
+              <label class="" for="">&nbsp; เวลา &nbsp;</label>
+              <input class="form-control form-control-sm ng-untouched ng-pristine" disabled=""
+                formControlName="ARREST_LAWSUIT_TIME" style="color: black;" type="text">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="row">
+            <label class="col-sm-3 control-label" for="">ทะเบียนตรวจพิสูจน์</label>
+            <div class="form-group input-group col-sm-9">
+              <input class="form-control form-control-sm ng-untouched ng-pristine" disabled=""
+                formControlName="PROVE_NO" style="color: black;" type="text">
+              <label class="" for="">&nbsp; / &nbsp;</label>
+              <input class="form-control form-control-sm ng-untouched ng-pristine" disabled=""
+                formControlName="PROVE_NO_YEAR" style="color: black;" type="text">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="row">
+            <label class="col-sm-3 control-label" for="">วันที่พิสูจน์</label>
+            <div class="form-group input-group col-sm-9">
+              <input class="form-control form-control-sm ng-untouched ng-pristine" disabled=""
+                value="{{compareForm.get('PROVE_DATE').value.formatted}}" style="color: black;" type="text">
+              <label class="" for="">&nbsp; เวลา &nbsp;</label>
+              <input class="form-control form-control-sm ng-untouched ng-pristine" disabled=""
+                formControlName="PROVE_TIME" style="color: black;" type="text">
+            </div>
+          </div>
+        </div>
+        <!-- <input #SUBSECTION_NAME class="form-control form-control-sm" style="color: black;" type="text"
+                                    name="SUBSECTION_NAME" formControlName="SUBSECTION_NAME" (keypress)="DotNumericOnly($event)"
+                                    (blur)="setDecimal(SUBSECTION_NAME.value ,0 ,'SUBSECTION_NAME')" inputWithComma> -->
+      </div>
+    </div>
+  </div>
+
+
+  <div class="card card-outline-bluish unset-radius">
+    <div class="card-header  unset-radius cersor" (click)="toggleCollapse(collapse2)">
+      <div class="card-actions">
+        <a class="">
+          <i class="fa" [ngClass]="{'fa-chevron-up': (collapse2 | async), 'fa-chevron-down': !(collapse2 | async)}"></i>
+        </a>
+      </div>
+      <h4 class="card-title m-b-0">รายละเอียดเงินค่าปรับ</h4>
+    </div>
+    <div *ngIf="collapse2 | async" class="card-body">
+      <div class="row" *ngIf="showEditField == false">
+        <div class="col-md-12" *ngIf="NOTICE_ID !== 0">
+          <div class="custom-control custom-checkbox col-form-label col-md-4">
+            <input class="col-form-label filled-in chk-col-indigo" id="_IsRequestBribe" type="checkbox"
+              name="_IsRequestBribe" (change)="e_IsRequestBribe($event)" [readOnly]="showEditField"
+              [checked]="_CaseBribe == true">
+            <label for="_IsRequestBribe"> ไม่รับสินบน</label>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="custom-control custom-checkbox col-form-label col-md-4">
+            <input class="col-form-label filled-in chk-col-indigo" id="_IsRequestReward" type="checkbox"
+              name="_IsRequestReward" (change)="e_IsRequestReward($event)" [readOnly]="showEditField"
+              [checked]="_CaseReward == true">
+            <label for="_IsRequestReward"> ไม่รับรางวัล</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="card  unset-radius">
+    <div class="card-body p-0"> -->
+      <div class="table-responsive">
+        <table class="table table-sm table-striped table-set-border" style="max-width: unset; width: 122%">
+          <thead>
+            <tr>
+              <th class="a-center" style="width:5%">ลำดับ</th>
+              <th style="width:12%">ชื่อผู้ต้องหา</th>
+              <th style="width:7%;">จำนวนครั้ง</th>
+              <th style="width:10">ของกลาง</th>
+              <th style="width:8%">จำนวนเท่า</th>
+              <th style="width:8%">มูลค่าภาษี</th>
+              <th style="width:8%">ค่าปรับสุทธิ</th>
+              <th style="width:8%">ยอดชำระ</th>
+              <th style="width:8%">สินบน({{_IsRequestBribe}}%)</th>
+              <th style="width:8%">รางวัล({{_IsRequestReward}}%)</th>
+              <th style="width:8%">ส่งคลัง({{_IsRequestTRE}}%)</th>
+            </tr>
+          </thead>
+          <tbody formArrayName="aboutPayFine">
+            <tr class="form-control-sm" [formGroupName]="i"
+              *ngFor="let item of compareForm.get('aboutPayFine').controls; let i=index">
+              <!-- อันดับ -->
+              <td class="a-center" style="padding-top: 12px">
+                {{ i + 1}}
+              </td>
+
+              <!-- ชื่อผู้ต้องหา -->
+              <td>
+                <p style="padding-top: 6px">{{item.get('NAME').value}}</p>
+              </td>
+
+              <!-- จำนวนครั้งการกระทำผิด -->
+              <td class="a-center"> <!-- data-toggle="modal" data-target="#mistPopup"-->
+                <p> <!-- (click)="mistPopup(item.value,i)" style="color: blue;padding-top: 6px; cursor: pointer;"-->
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{item.get('MISTREAT').value}}</p>
+              </td>
+
+              <!-- ของกลาง -->
+              <td *ngIf="FINE_TYPE == '0' || FINE_TYPE == '1'" data-toggle="modal" data-target="#productPopup"
+                class="a-center">
+                <p (click)="productPopup(item.value,i)" style="color: blue;padding-top: 6px; cursor: pointer;">
+                  รายละเอียดของกลาง</p>
+              </td>
+              <td *ngIf="FINE_TYPE == '2' || FINE_TYPE == '3'">
+                <p style="padding-top: 6px" *ngFor="let items of item.get('product').controls; let j=index">
+                  {{items.get('PRODUCT_DESC').value}}
+                </p>
+              </td>
+
+              <!-- จำนวนเท่า -->
+              <td>
+                <p formArrayName="product" *ngFor="let items of item.get('product').controls; let j=index">
+                  <a [formGroupName]="j">
+                    <input *ngIf="FINE_TYPE == '3' && item.get('IS_PAYMENT').value == 0" type="number" step="any"
+                      class="form-control form-control-sm text-right" formControlName="FINE_RATE"
+                      [readOnly]="showEditField" />
+                    <input *ngIf="FINE_TYPE !== '3' && item.get('IS_PAYMENT').value == 0" type="number" step="any"
+                      class="form-control form-control-sm text-right" formControlName="FINE_RATE" [readonly]="true" />
+                    <input *ngIf="FINE_TYPE == '3' && item.get('IS_PAYMENT').value == 1" type="number" step="any"
+                      class="form-control form-control-sm text-right" formControlName="FINE_RATE" [readonly]="true" />
+                    <input *ngIf="FINE_TYPE !== '3' && item.get('IS_PAYMENT').value == 1" type="number" step="any"
+                      class="form-control form-control-sm text-right" formControlName="FINE_RATE" [readonly]="true" />
+                  </a>
+                </p>
+                <p style="padding-top: 6px"></p>
+              </td>
+
+              <!-- มูลค่าภาษี -->
+              <td>
+                <p formArrayName="product" *ngFor="let items of item.get('product').controls; let j=index">
+                  <a [formGroupName]="j">
+                    <input type="text" class="form-control form-control-sm text-right" formControlName="VAT"
+                      value="{{items.get('VAT').value | number : '1.2'}}" [readonly]="true" />
+                  </a>
+                </p>
+                <p style="padding-top: 6px" class="text-right"><b>รวม :</b>&nbsp;</p>
+              </td>
+
+              <!-- ค่าปรับสุทธิ -->
+              <td>
+                <p formArrayName="product" *ngFor="let items of item.get('product').controls; let j=index">
+                  <a [formGroupName]="j">
+                    <input *ngIf="FINE_TYPE == '3'" type="text" class="form-control form-control-sm text-right"
+                      formControlName="NET_FINE"
+                      value="{{items.get('FINE_RATE').value * items.get('VAT').value | number : '1.2'}}"
+                      [readonly]="true" />
+                    <input *ngIf="FINE_TYPE !== '3'" type="text" class="form-control form-control-sm text-right"
+                      formControlName="NET_FINE" value="{{items.get('NET_FINE').value | number : '1.2'}}"
+                      [readonly]="true" />
+                  </a>
+                </p>
+                <!-- รวม -->
+                <p *ngIf="FINE_TYPE == '3'" class="form-control-sm text-right" style="padding-top: 6px">
+                  <b>{{all_NET_FINE()[i].total | number : '1.2'}}</b></p>
+                <p *ngIf="FINE_TYPE !== '3'" class="form-control-sm text-right" style="padding-top: 6px">
+                  <b>{{all_NET()[i].total | number : '1.2'}}</b></p>
+              </td>
+
+              <!-- ยอดชำระ -->
+              <td>
+                <p formArrayName="product" *ngFor="let items of item.get('product').controls; let j=index">
+                  <a [formGroupName]="j">
+                    <input *ngIf="item.get('IS_PAYMENT').value == 0" type="text"
+                      class="form-control form-control-sm text-right" appAllowDecimalNumber
+                      (blur)="transformTotal(items.value,i,j)" formControlName="PAYMENT_FINE_PIPE"
+                      [readonly]="showEditField" />
+                    <input *ngIf="item.get('IS_PAYMENT').value == 1" type="text"
+                      class="form-control form-control-sm text-right" appAllowDecimalNumber
+                      (blur)="transformTotal(items.value,i,j)" formControlName="PAYMENT_FINE_PIPE" [readonly]="true" />
+                  </a>
+                </p>
+                <!-- รวม -->
+                <p class="form-control-sm text-right" style="padding-top: 6px">
+                  <b>{{all_PAYMENT_FINE()[i].total | number : '1.2'}}</b></p>
+              </td>
+
+              <!-- สินบน -->
+              <td>
+                <p formArrayName="product" *ngFor="let items of item.get('product').controls; let j=index">
+                  <a [formGroupName]="j">
+                    <!-- value="{{items.get('BRIBE_MONEY').value | number : '1.2'}}" -->
+                    <input *ngIf="item.get('IS_PAYMENT').value == 0" type="text"
+                      class="form-control form-control-sm text-right" appAllowDecimalNumber [readonly]="showEditField"
+                      (blur)="transformTotal_B(items.value,i,j)" formControlName="BRIBE_MONEY_PIPE" />
+                    <input *ngIf="item.get('IS_PAYMENT').value == 1" type="text"
+                      class="form-control form-control-sm text-right" appAllowDecimalNumber [readonly]="true"
+                      (blur)="transformTotal_B(items.value,i,j)" formControlName="BRIBE_MONEY_PIPE" />
+                  </a>
+                </p>
+                <!-- รวม -->
+                <p class="form-control-sm text-right" style="padding-top: 6px">
+                  <b>{{all_BRIBE_MONEY()[i].total | number : '1.2'}}</b></p>
+              </td>
+
+              <!-- รางวัล -->
+              <td>
+                <p formArrayName="product" *ngFor="let items of item.get('product').controls; let j=index">
+                  <a [formGroupName]="j">
+                    <input *ngIf="item.get('IS_PAYMENT').value == 0" type="text"
+                      class="form-control form-control-sm text-right" appAllowDecimalNumber [readonly]="showEditField"
+                      (blur)="transformTotal_R(items.value,i,j)" formControlName="REWARD_MONEY_PIPE" />
+                    <input *ngIf="item.get('IS_PAYMENT').value == 1" type="text"
+                      class="form-control form-control-sm text-right" appAllowDecimalNumber [readonly]="true"
+                      (blur)="transformTotal_R(items.value,i,j)" formControlName="REWARD_MONEY_PIPE" />
+                  </a>
+                </p>
+                <!-- รวม -->
+                <p class="form-control-sm text-right" style="padding-top: 6px">
+                  <b>{{all_REWARD_MONEY()[i].total | number : '1.2'}}</b></p>
+              </td>
+
+              <!-- ส่งคลัง -->
+              <td>
+                <p formArrayName="product" *ngFor="let items of item.get('product').controls; let j=index">
+                  <a [formGroupName]="j">
+                    <input *ngIf="item.get('IS_PAYMENT').value == 0" type="text"
+                      class="form-control form-control-sm text-right" appAllowDecimalNumber [readonly]="showEditField"
+                      (blur)="transformTotal_T(items.value,i,j)" formControlName="TREASURY_MONEY_PIPE" />
+                    <input *ngIf="item.get('IS_PAYMENT').value == 1" type="text"
+                      class="form-control form-control-sm text-right" appAllowDecimalNumber [readonly]="true"
+                      (blur)="transformTotal_T(items.value,i,j)" formControlName="TREASURY_MONEY_PIPE" />
+                  </a>
+                </p>
+                <!-- รวม -->
+                <p class="form-control-sm text-right" style="padding-top: 6px">
+                  <b>{{all_TREASURY_MONEY()[i].total | number : '1.2'}}</b></p>
+              </td>
+
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td class="form-control-sm text-right"><b>รวมทั้งหมด​ :</b>&nbsp;</td>
+              <td *ngIf="FINE_TYPE == '3'" class="form-control-sm text-right">
+                <b>{{cal_NET_FINE() | number : '1.2'}}</b>&nbsp;</td>
+              <td *ngIf="FINE_TYPE !== '3'" class="form-control-sm text-right">
+                <b>{{cal_FINE() | number : '1.2'}}</b>&nbsp;</td>
+              <td class="form-control-sm text-right"><b>{{cal_PAYMENT_FINE() | number : '1.2'}}</b>&nbsp;</td>
+              <td class="form-control-sm text-right"><b>{{cal_BRIBE_MONEY() | number : '1.2'}}</b>&nbsp;</td>
+              <td class="form-control-sm text-right"><b>{{cal_REWARD_MONEY() | number : '1.2'}}</b>&nbsp;</td>
+              <td class="form-control-sm text-right"><b>{{cal_TREASURY_MONEY() | number : '1.2'}}</b>&nbsp;</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-outline-bluish unset-radius">
+    <div class="card-header  unset-radius cersor" (click)="toggleCollapse(collapse3)">
+      <div class="card-actions">
+        <a class="">
+          <i class="fa" [ngClass]="{'fa-chevron-up': (collapse3 | async), 'fa-chevron-down': !(collapse3 | async)}"></i>
+        </a>
+      </div>
+      <h4 class="card-title m-b-0">คำให้การของผู้ต้องหา</h4>
+    </div>
+    <div *ngIf="collapse3 | async" class="card-body">
+      <!-- <div class="row">
+          <label for="" class="col-lg-2 col-sm-4 control-label is-required">วันที่ให้การผู้ต้องหา</label>
+            <div class="col-lg-4 col-md-7 col-sm-9">
+                <div class="form-group input-group">
+                  <my-date-picker-th class="form-control form-control-sm unset-form-control"
+                  [options]="myDatePickerOptions" [disabled]="showEditField"
+                  [ngClass]="{'ng-touched':isRequired}" required
+                  formControlName="SET_COMPARE_DATE"></my-date-picker-th>
+
+                    <label class="col-form-label" for="">&nbsp; เวลา &nbsp;</label>
+
+                    <input type="time" class="form-control form-control-sm" min="00:00" max="23:59" formControlName="SET_COMPARE_TIME" [ngClass]="{'ng-invalid-req':isReq_SET_COMPARE_TIME}" required  [readOnly]="showEditField">
+                </div>
+            </div>
+        </div> -->
+
+      <div class="table-striped">
+        <table class="table table-sm table-striped table-set-border">
+          <thead>
+            <tr>
+              <th class="a-center" style="width:8%">ลำดับ</th>
+              <th style="width:22%">ชื่อผู้ต้องหา</th>
+              <th style="width:10%">วันที่กำหนดชำระค่าปรับ <span class="text-danger">*</span></th>
+              <th style="width:10%">วันที่กำหนดชำระภาษี</th>
+
+              <th style="width:25%"></th>
+              <!-- <th style="width:10%">ร้องขอการแจ้งสิทธิ์</th>
+              <th style="width:10%" class="a-center">ปล่อยตัวชั่วคราว</th>
+              <th style="width:5%"></th> -->
+
+            </tr>
+          </thead>
+          <tbody formArrayName="aboutPayFine">
+            <tr [formGroupName]="i" class="form-control-sm"
+              *ngFor="let item of compareForm.get('aboutPayFine').controls; let i=index">
+              <td class="a-center">{{ i + 1 }}
+              </td>
+              <td>
+                {{item.get('NAME').value}}
+              </td>
+              <td>
+                <!-- <my-date-picker-th class="form-control-sm unset-form-control"
+                  [options]="myDatePickerOptions" [disabled]="showEditField"
+                  [ngClass]="{'ng-touched':isRequired}" required
+                  formControlName="PAYMENT_FINE_DUE_DATE"></my-date-picker-th> -->
+                <my-date-picker-th name="PAYMENT_FINE_DUE_DATE" placeholder="" locale="th" [disabled]="showEditField"
+                  [options]="myDatePickerSetFromOptions" formControlName="PAYMENT_FINE_DUE_DATE"
+                  [ngClass]="{'ng-touched':isRequired}" required class="form-control-sm unset-form-control">
+                </my-date-picker-th>
+              </td>
+              <td class="">
+                <!-- <my-date-picker-th class="form-control-sm unset-form-control"
+                  [options]="myDatePickerOptions" [disabled]="showEditField"
+                  [ngClass]="{'ng-touched':isRequired}" required
+                  formControlName="PAYMENT_VAT_DUE_DATE"></my-date-picker-th> -->
+                <my-date-picker-th name="PAYMENT_VAT_DUE_DATE" placeholder="" locale="th" [disabled]="showEditField"
+                  [options]="myDatePickerSetFromOptions" formControlName="PAYMENT_VAT_DUE_DATE"
+                  [ngClass]="{'ng-touched':isRequired}" required class="form-control-sm unset-form-control">
+                </my-date-picker-th>
+              </td>
+
+
+              <td></td>
+              <!-- <td>
+                <select class="form-control form-control-sm" *ngIf="showEditField == false" formControlName="IS_REQUEST"
+                  (click)="status_IS_REQUEST(item.value,i)" [ngClass]="{'ng-touched':isRequired}"
+                  [disabled]="showEditField">
+                  <option [ngValue]="1">
+                    ร้องขอ
+                  </option>
+                  <option [ngValue]="0">
+                    ไม่ร้องขอ
+                  </option>
+                </select>
+                <select class="form-control form-control-sm" *ngIf="showEditField == true"
+                  [attr.disabled]="showEditField" formControlName="IS_REQUEST" (click)="status_IS_REQUEST(item.value,i)"
+                  [ngClass]="{'ng-touched':isRequired}" [disabled]="showEditField">
+                  <option [ngValue]="1">
+                    ร้องขอ
+                  </option>
+                  <option [ngValue]="0">
+                    ไม่ร้องขอ
+                  </option>
+                </select>
+              </td>
+              <td class="a-center">
+                <h4 style="color: blue">{{item.get('IS_CHECK').value}}</h4>
+              </td>
+              <td class=" " *ngIf="item.get('IS_REQUEST').value == 1">
+                <button class="btn-navy button btn btn-block form-control-sm "
+                  [ngClass]="{'set-button':AboutPayFine.value[i].IS_CHECK !== '','set-button2':AboutPayFine.value[i].IS_PAYMENT == 1}" [disabled]="AboutPayFine.value[i].IS_PAYMENT == 1"
+                  (click)="ILG60_O_05_00_02_01(item.value,i)">ปล่อยตัว</button>
+              </td>
+              <td class=" " *ngIf="item.get('IS_REQUEST').value == 0">
+                <button class="btn-navy button btn btn-block form-control-sm"
+                [ngClass]="{'set-button2':AboutPayFine.value[i].IS_PAYMENT == 1}" [disabled]="AboutPayFine.value[i].IS_PAYMENT == 1"
+                >ปล่อยตัว</button>
+              </td> -->
+
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-outline-bluish unset-radius">
+    <div class="card-header  unset-radius cersor" (click)="toggleCollapse(collapse4)">
+      <div class="card-actions">
+        <a class="">
+          <i class="fa" [ngClass]="{'fa-chevron-up': (collapse4 | async), 'fa-chevron-down': !(collapse4 | async)}"></i>
+        </a>
+      </div>
+      <h4 class="card-title m-b-0">บันทึกการเปรียบเทียบคดีและชำระค่าปรับ</h4>
+    </div>
+    <div *ngIf="collapse4 | async" class="card-body">
+      <!-- <div class="row" *ngIf="showEditField == false">
+            <div class="col-md-12">
+              <div class="form-group row">
+                <div class="custom-control custom-checkbox col-form-label col-md-4">
+                  <input class="col-form-label filled-in chk-col-indigo" id="isoutside" type="checkbox" name="isoutside" (click)="iS_OUTSIDE($event)" [attr.disabled]="_edit" >
+                  <label for="isoutside">คดีเปรียบเทียบนอกสถานที่ทำการ</label>
+                </div>
+              </div>
+            </div>
+          </div> -->
+
+      <div class="row">
+        <label for="" class="col-lg-2 col-sm-4 control-label is-required">คดีเปรียบเทียบที่</label>
+        <div class="col-lg-4 col-md-7 col-sm-9">
+          <div class="form-group input-group">
+            <span class="form-control-sm" *ngIf="compareForm.controls['IS_OUTSIDE'].value == 1">น.</span>
+            <input #COMPARE_NO$ class="form-control form-control-sm" (click)="require('isReq_COMPARE_NO')"
+              formControlName="COMPARE_NO" disnumber type="text" name="COMPARE_NO"
+              [ngClass]="{'ng-invalid-req':isReq_COMPARE_NO}" required [readOnly]="showEditField_COMPARE_NO"
+              (keydown)="validateFirstZelo(COMPARE_NO$, 'COMPARE_NO', compareForm)"
+              (blur)="validateFirstZelo(COMPARE_NO$, 'COMPARE_NO', compareForm)">
+
+            <label for="">&nbsp; / &nbsp;</label>
+
+            <input *ngIf="showEditField == true" class="form-control form-control-sm" type="text"
+              value="{{compareForm.controls['SET_COMPARE_NO_YEAR'].value}}" readonly>
+            <select *ngIf="showEditField == false" class="form-control form-control-sm"
+              (change)="changeyear2($event.target.value);" [attr.disabled]="mode == 'R' ? '' : null">
+              <!-- <option value="item.value" selected disabled></option> -->
+              <option *ngFor="let item of YEAR; let i=index" [value]="item.value" [selected]="item.selected == true">
+                {{item.year}}</option>
+            </select>
+          </div>
+          <!-- <div class="col-lg-4 col-md-7 col-sm-9"> -->
+          <div class="form-group input-group">
+            <input class="col-form-label filled-in chk-col-indigo" [checked]="compareForm.get('IS_OUTSIDE').value == 1"
+              id="isoutside" type="checkbox" name="isoutside" (click)="iS_OUTSIDE($event)"
+              [disabled]="showEditField || mode == 'R'">
+            <label for="isoutside">คดีเปรียบเทียบนอกสถานที่</label>
+          </div>
+          <!-- </div> -->
+        </div>
+        <label for="" class="col-lg-2 col-sm-4 control-label is-required">วันที่เปรียบเทียบ</label>
+        <div class="col-lg-4 col-md-7 col-sm-9">
+          <div class="form-group input-group">
+            <!-- <my-date-picker-th class="form-control form-control-sm unset-form-control"
+                [options]="myDatePickerOptions" [disabled]="showEditField"
+                [ngClass]="{'ng-touched':isRequired}" required
+                formControlName="SET_COMPARE_DATE"></my-date-picker-th> -->
+            <my-date-picker-th name="SET_COMPARE_DATE" placeholder="" locale="th" [disabled]="showEditField"
+              [options]="myDatePickerNotSetFromOptions" formControlName="SET_COMPARE_DATE"
+              [ngClass]="{'ng-touched':isRequired}" required class="form-control form-control-sm unset-form-control">
+            </my-date-picker-th>
+
+            <label class="col-form-label" for="">&nbsp; เวลา &nbsp;</label>
+            <!-- <input type="text" class="form-control form-control-sm" formControlName="SET_COMPARE_TIME" [ngClass]="{'ng-invalid-req':isReq_SET_COMPARE_TIME}" required  [readOnly]="showEditField"> -->
+            <input class="form-control form-control-sm height" type="text" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]"
+              style="color: black;" formControlName="SET_COMPARE_TIME" [readOnly]="showEditField"
+              (keyup)="setFormatTimeControl($event, 'SET_COMPARE_TIME', compareForm)"
+              [ngClass]="{'ng-invalid-req':isReq_SET_COMPARE_TIME}" required maxlength="5">
+          </div>
+          <div class="col-sm-9"></div>
+          <!-- <label class="col-md-7" for=""></label> --><label for="" class="col-sm-6"></label>&nbsp;&nbsp;
+          <div class="form-control col-sm-3 alert alert-danger mt-0 mb-0 pt-2 pb-2 pl-0 pr-0 text-center" role="alert"
+            *ngIf="compareForm.controls['SET_COMPARE_TIME'].invalid">
+            กรุณาระบุข้อมูล hh:mm
+          </div>
+        </div>
+        <!-- <div class="col-lg-4 col-md-7 col-sm-9"></div> -->
+      </div>
+
+      <!-- <div class="row">
+            <div class="col-lg-4 col-md-7 col-sm-9">
+                <div class="form-group input-group">
+                  <input class="col-form-label filled-in chk-col-indigo" [checked]="compareForm.get('IS_OUTSIDE').value == 1" id="isoutside" type="checkbox" name="isoutside" (click)="iS_OUTSIDE($event)" [disabled]="showEditField" >
+                  <label for="isoutside">คดีเปรียบเทียบนอกสถานที่ทำการ</label>
+                </div>
+            </div>
+        </div> -->
+
+      <div class="row">
+        <label for="" class="col-lg-2 col-sm-4 control-label is-required">สถานที่เปรียบเทียบ</label>
+        <div class="col-lg-4 col-md-7 col-sm-9">
+          <div class="form-group input-group">
+            <ng-template #rt let-r="result" let-t="term">
+              {{ r.OFFICE_SHORT_NAME }}
+            </ng-template>
+            <input type="text"
+              class="form-control form-control-sm {{!compareForm.value.OFFICE_SHORT_NAME?'ng-invalid ng-touched':''}}"
+              [ngClass]="{'ng-invalid-req': (compareForm.get('OFFICE_SHORT_NAME').value == '') ? isReq_OFFICE_NAME.value : false}"
+              [ngbTypeahead]="serachOffice" [disabled]="show_office" [resultTemplate]="rt"
+              [inputFormatter]="formatterOffice2" (selectItem)="selectItemOffice($event)"
+              [value]="compareForm.value.OFFICE_SHORT_NAME" (blur)="blurSelectItemOffice(OFFICE_SHORT_NAME)"
+              #OFFICE_SHORT_NAME required />
+          </div>
+        </div>
+      </div><br>
+
+      <div class="table-striped">
+        <table class="table table-sm table-striped table-set-border">
+          <thead>
+            <tr>
+              <th class="a-center" style="width:7%">ลำดับ</th>
+              <th style="width:20%">ชื่อผู้ต้องหา</th>
+              <th style="width:12%">วันที่ชำระค่าปรับ</th>
+              <th style="width:20%">ผู้รับชำระค่าปรับ</th>
+              <th style="width:12%">จำนวนเงิน</th>
+              <th style="width:12%">ใบเสร็จเล่มที่</th>
+              <th style="width:12%">ใบเสร็จเลขที่</th>
+              <th style="width:12%;"></th>
+            </tr>
+          </thead>
+          <tbody formArrayName="aboutPayFine">
+            <tr [formGroupName]="i" *ngFor="let item of compareForm.get('aboutPayFine').controls; let i=index"
+              class="form-control-sm">
+              <td class="a-center">
+                {{ i + 1 }}
+              </td>
+              <td>
+                {{item.get('NAME').value}}
+              </td>
+              <td>
+                <input class="form-control form-control-sm" value="{{AboutPayFine.value[i].PAYMENT_DATE.formatted}}"
+                  readonly>
+              </td>
+              <td>
+                <input class="form-control form-control-sm" value="{{AboutPayFine.value[i].STAFF_NAME_28}}" readonly>
+              </td>
+              <td>
+                <input class="form-control form-control-sm"
+                  value="{{AboutPayFine.value[i].PAYMENT_AMOUNT | number : '1.2'}}" readonly>
+              </td>
+              <td>
+                <input class="form-control form-control-sm" value="{{AboutPayFine.value[i].RECEIPT_BOOK_NO}}" readonly>
+              </td>
+              <td>
+                <input class="form-control form-control-sm" value="{{AboutPayFine.value[i].RECEIPT_NO}}" readonly>
+              </td>
+              <td *ngIf="mode == 'C'">
+                <button class="btn-navy button btn btn-block"
+                  [ngClass]="{'set-button':AboutPayFine.value[i].IS_PAYMENT == 1,'set-button2':AboutPayFine.value[i].IS_REQUEST == 1}"
+                  [disabled]="AboutPayFine.value[i].IS_REQUEST == 1"
+                  (click)="ILG60_O_05_00_02_02(item.value,i, AboutPayFine.value)">ชำระค่าปรับ</button>
+              </td>
+              <td
+                *ngIf="mode == 'R' && showEditField == true && AboutPayFine.value[i].RECEIPT_TYPE == 0 && AboutPayFine.value[i].IS_PAYMENT == 1">
+                <button class="btn-navy button btn btn-block"
+                  [ngClass]="{'set-button':AboutPayFine.value[i].IS_PAYMENT == 1}"
+                  (click)="ILG60_O_05_00_02_02(item.value,i, AboutPayFine.value)">ใบเสร็จรับเงิน</button>
+              </td>
+              <td
+                *ngIf="mode == 'R' && showEditField == true && AboutPayFine.value[i].RECEIPT_TYPE == 0 && AboutPayFine.value[i].IS_PAYMENT == 0">
+                <button class="btn-navy button btn btn-block form-control-sm ">ชำระค่าปรับ</button>
+              </td>
+              <td
+                *ngIf="mode == 'R' && showEditField == true && AboutPayFine.value[i].RECEIPT_TYPE == 1 && AboutPayFine.value[i].DID == ''">
+                <button class="btn-navy button btn btn-block" [ngClass]="{'set-button':setButton == true}"
+                  (click)="ILG60_O_05_00_02_02(item.value,i, AboutPayFine.value)">ลายมือชื่อ</button>
+              </td>
+              <td
+                *ngIf="mode == 'R' && showEditField == true && AboutPayFine.value[i].RECEIPT_TYPE == 1 && AboutPayFine.value[i].DID !== ''">
+                <a style="color: crimson; text-align: right;"> <b> ผ่านการ<br>รับรอง</b></a>
+              </td>
+              <td
+                *ngIf="mode == 'R' && showEditField == false && AboutPayFine.value[i].RECEIPT_TYPE == 0 && AboutPayFine.value[i].IS_PAYMENT == 1">
+                <button class="btn-navy button btn btn-block"
+                  [ngClass]="{'set-button':AboutPayFine.value[i].IS_PAYMENT == 1}"
+                  (click)="ILG60_O_05_00_02_02(item.value,i, AboutPayFine.value)">ใบเสร็จรับเงิน</button>
+              </td>
+              <td
+                *ngIf="mode == 'R' && showEditField == false && AboutPayFine.value[i].RECEIPT_TYPE == 1 && AboutPayFine.value[i].DID == ''">
+                <button class="btn-navy button btn btn-block" [ngClass]="{'set-button':setButton == true}"
+                  (click)="ILG60_O_05_00_02_02(item.value,i, AboutPayFine.value)">ลายมือชื่อ</button>
+              </td>
+              <td
+                *ngIf="mode == 'R' && showEditField == false && AboutPayFine.value[i].RECEIPT_TYPE == 1 && AboutPayFine.value[i].DID !== ''">
+                <a style="color: crimson; text-align: right;"> <b> ผ่านการ<br>รับรอง</b></a>
+              </td>
+              <td *ngIf="mode == 'R' && showEditField == false && AboutPayFine.value[i].IS_PAYMENT == 0">
+                <button class="btn-navy button btn btn-block"
+                  [ngClass]="{'set-button':AboutPayFine.value[i].IS_PAYMENT == 1,'set-button2':AboutPayFine.value[i].IS_REQUEST == 1}"
+                  [disabled]="AboutPayFine.value[i].IS_REQUEST == 1"
+                  (click)="ILG60_O_05_00_02_02(item.value,i, AboutPayFine.value)">ชำระค่าปรับ</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-outline-bluish unset-radius">
+    <div class="card-header  unset-radius cersor" (click)="toggleCollapse(collapse5)">
+      <div class="card-actions">
+        <a class="">
+          <i class="fa" [ngClass]="{'fa-chevron-up': (collapse5 | async), 'fa-chevron-down': !(collapse5 | async)}"></i>
+        </a>
+      </div>
+      <h4 class="card-title m-b-0">รายงานขออนุมัติการเปรียบเทียบคดีและแบบอนุมัติ</h4>
+    </div>
+    <div *ngIf="collapse5 | async" class="card-body">
+      <div class="table-striped">
+        <table class="table table-sm table-striped table-set-border">
+          <thead>
+            <tr>
+              <th class=" a-center" style="width:7%">ลำดับ</th>
+              <th class="" style="width:20%">ชื่อผู้ต้องหา</th>
+              <th class="" style="width:15%">วันที่จัดทำรายงานฯ</th>
+              <th class="" style="width:15%">คำสั่งกรมฯ ที่</th>
+              <th class="" style="width:15%">วันที่ออกคำสั่ง</th>
+              <th class="" style="width:15%">แบบอนุมัติ</th>
+              <th *ngIf="setButton == false && setText == true" class="" style="width:7%"></th>
+            </tr>
+          </thead>
+          <tbody formArrayName="aboutPayFine">
+            <tr [formGroupName]="i" class="form-control-sm"
+              *ngFor="let item of compareForm.get('aboutPayFine').controls; let i=index">
+              <td class="a-center">
+                {{ i + 1 }}
+              </td>
+              <td>
+                {{item.get('NAME').value}}
+              </td>
+              <td>
+                <input class="form-control form-control-sm" value="{{AboutPayFine.value[i].APPROVE_DATE.formatted}}"
+                  readonly>
+                <!-- <my-date-picker-th class="form-control unset-form-control"
+                  [options]="myDatePickerOptions" [attr.disabled]="showEditField"
+                  [ngClass]="{'ng-touched':isRequired}" required
+                  formControlName="PAYMENT_FINE_DUE_DATE"></my-date-picker-th> -->
+              </td>
+              <td><input class="form-control form-control-sm" value="{{AboutPayFine.value[i].COMMAND_NO}}" readonly>
+              </td>
+              <td><input class="form-control form-control-sm" value="{{AboutPayFine.value[i].COMMAND_DATE.formatted}}"
+                  readonly></td>
+              <td *ngIf="AboutPayFine.value[i].CHECK_APPROVE == ''">
+                <input class="form-control form-control-sm" readonly>
+              </td>
+              <td *ngIf="AboutPayFine.value[i].CHECK_APPROVE == 5">
+                <input class="form-control form-control-sm" value="คด.2" readonly>
+              </td>
+              <td *ngIf="AboutPayFine.value[i].CHECK_APPROVE == 1">
+                <input class="form-control form-control-sm" value="คด.2, คด.3" readonly>
+              </td>
+              <td *ngIf="AboutPayFine.value[i].CHECK_APPROVE == 2">
+                <input class="form-control form-control-sm" value="คด.2, คด.4" readonly>
+              </td>
+              <td *ngIf="AboutPayFine.value[i].CHECK_APPROVE == 3">
+                <input class="form-control form-control-sm" value="คด.2, คด.5" readonly>
+              </td>
+              <td *ngIf="AboutPayFine.value[i].CHECK_APPROVE == 4">
+                <input class="form-control form-control-sm" value="คด.2, คด.6" readonly>
+              </td>
+              <td *ngIf="showEditField == false">
+                <button class="btn-navy button btn btn-block form-control form-control-sm"
+                  [ngClass]="{'set-button':AboutPayFine.value[i].CHECK_APPROVE !== ''}"
+                  (click)="ILG60_O_05_00_02_03(item.value,i)">ขออนุมัติ</button>
+              </td>
+              <td *ngIf="showEditField == true && AboutPayFine.value[i].COMMAND_NO !== ''">
+                <button class="btn-navy button btn btn-block form-control form-control-sm"
+                  [ngClass]="{'set-button':AboutPayFine.value[i].CHECK_APPROVE !== ''}"
+                  (click)="ILG60_O_05_00_02_03(item.value,i)">แบบอนุมัติ</button>
+              </td>
+              <td *ngIf="showEditField == true && AboutPayFine.value[i].COMMAND_NO == ''">
+                <button class="btn-navy button btn btn-block form-control-sm ">แบบอนุมัติ</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</form>
+
+<div class="card card-outline-bluish unset-radius">
+  <div class="card-header  unset-radius cersor" (click)="toggleCollapse(collapse6)">
+    <div class="card-actions">
+      <a class="">
+        <i class="fa" [ngClass]="{'fa-chevron-up': (collapse6 | async), 'fa-chevron-down': !(collapse6 | async)}"></i>
+      </a>
+    </div>
+    <h4 class="card-title m-b-0">ข้อมูลเจ้าหน้าที่</h4>
+  </div>
+  <div *ngIf="collapse6 | async" class="card-body">
+    <div class="table">
+      <table class="table table-sm table-striped table-set-border">
+        <thead>
+          <tr>
+            <th class=" a-center" style="width:5%">ลำดับ</th>
+            <th style="width:1%"></th>
+            <th class="" style="width:20%">ชื่อเจ้าหน้าที่</th>
+            <th class=" " style="width:20%">ตำแหน่ง</th>
+            <th class=" " style="width:20%">หน่วยงาน</th>
+            <th class=" " style="width:15%">ฐานะ</th>
+            <th *ngIf="showEditField == false" style="width:3%;"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="a-center">1</td>
+            <td><span class="text-danger right">*</span></td>
+            <td>
+              <ng-template #rt let-r="result" let-t="term">
+                {{ r.TITLE_SHORT_NAME_TH}}{{r.FIRST_NAME}} {{r.LAST_NAME}}
+              </ng-template>
+              <input type="text" #region1 class="form-control form-control-sm"
+                [readonly]="CompareStaff.value[0].IS_ACTIVE == 1 || showEditField" [ngbTypeahead]="searchStaff"
+                [resultTemplate]="rt" [ngClass]="{'ng-invalid-req':CompareStaff.value[0].IS_ACTIVE == 0}"
+                [inputFormatter]="formatterStaff" (selectItem)="selectItemStaff($event, 0)"
+                [value]="CompareStaff.value[0].FULL_NAME" [ngClass]="{'ng-touched':isRequired}"
+                (keyup)="deleteStaff(region0 ,0)" required />
+            </td>
+
+            <td class=""><input type="text" [value]=" CompareStaff.value[0].OPREATION_POS_NAME"
+                class="form-control form-control-sm" [readonly]="true" required></td>
+            <td class=""><input type="text" [value]=" CompareStaff.value[0].OPERATION_OFFICE_SHORT_NAME"
+                class="form-control form-control-sm" [readonly]="true" required></td>
+            <td class="form-control-sm">ผู้เปรียบเทียบคดี</td>
+            <td *ngIf="showEditField == false"><a *ngIf="CompareStaff.value[0].IS_ACTIVE == 1"
+                href="javaScript:void(0);" class="text-danger" (click)="deleteContri(0)">
+                <i class="fa fa-trash-o fa-lg"></i></a>
+            </td>
+          </tr>
+          <tr>
+            <td class="a-center">2</td>
+            <td></td>
+            <td>
+              <ng-template #rt let-r="result" let-t="term">
+                {{r.TITLE_SHORT_NAME_TH}}{{r.FIRST_NAME}} {{r.LAST_NAME}}
+              </ng-template>
+              <input type="text" #region1 class="form-control form-control-sm"
+                [readonly]="CompareStaff.value[1].IS_ACTIVE == 1 || showEditField" [ngbTypeahead]="searchStaff"
+                [resultTemplate]="rt" [inputFormatter]="formatterStaff" (selectItem)="selectItemStaff($event, 1)"
+                [value]="CompareStaff.value[1].FULL_NAME" [ngClass]="{'ng-touched':isRequired}"
+                (keyup)="deleteStaff(region1 ,1)" required />
+            </td>
+
+            <td class=""><input type="text" [value]=" CompareStaff.value[1].OPREATION_POS_NAME"
+                class="form-control form-control-sm" [readonly]="true" required></td>
+            <td class=""><input type="text" [value]=" CompareStaff.value[1].OPERATION_OFFICE_SHORT_NAME"
+                class="form-control form-control-sm" [readonly]="true" required></td>
+            <td class="form-control-sm">พยาน-บันทึก ส.ส.2/53</td>
+            <td *ngIf="showEditField == false"><a *ngIf="CompareStaff.value[1].IS_ACTIVE == 1"
+                href="javaScript:void(0);" class="text-danger" (click)="deleteContri(1)">
+                <i class="fa fa-trash-o fa-lg"></i></a>
+            </td>
+          </tr>
+          <tr>
+            <td class="a-center">3</td>
+            <td></td>
+            <td>
+              <ng-template #rt let-r="result" let-t="term">
+                {{ r.TITLE_SHORT_NAME_TH}}{{r.FIRST_NAME}} {{r.LAST_NAME}}
+              </ng-template>
+              <input type="text" #region1 class="form-control form-control-sm"
+                [readonly]="CompareStaff.value[2].IS_ACTIVE == 1 || showEditField" [ngbTypeahead]="searchStaff"
+                [resultTemplate]="rt" [inputFormatter]="formatterStaff" (selectItem)="selectItemStaff($event, 2)"
+                [value]="CompareStaff.value[2].FULL_NAME" [ngClass]="{'ng-touched':isRequired}"
+                (keyup)="deleteStaff(region3 ,2)" required />
+            </td>
+
+            <td class=""><input type="text" [value]=" CompareStaff.value[2].OPREATION_POS_NAME"
+                class="form-control form-control-sm" [readonly]="true" required></td>
+            <td class=""><input type="text" [value]=" CompareStaff.value[2].OPERATION_OFFICE_SHORT_NAME"
+                class="form-control form-control-sm" [readonly]="true" required></td>
+            <td class="form-control-sm">พยาน ส.ส.2/53</td>
+            <td *ngIf="showEditField == false"><a *ngIf="CompareStaff.value[2].IS_ACTIVE == 1"
+                href="javaScript:void(0);" class="text-danger" (click)="deleteContri(2)">
+                <i class="fa fa-trash-o fa-lg"></i></a>
+            </td>
+          </tr>
+          <tr>
+            <td class="a-center">4</td>
+            <td></td>
+            <td>
+              <ng-template #rt let-r="result" let-t="term">
+                {{ r.TITLE_SHORT_NAME_TH}}{{r.FIRST_NAME}} {{r.LAST_NAME}}
+              </ng-template>
+              <input type="text" #region1 class="form-control form-control-sm"
+                [readonly]="CompareStaff.value[3].IS_ACTIVE == 1 || showEditField" [ngbTypeahead]="searchStaff"
+                [resultTemplate]="rt" [inputFormatter]="formatterStaff" (selectItem)="selectItemStaff($event, 3)"
+                [value]="CompareStaff.value[3].FULL_NAME" [ngClass]="{'ng-touched':isRequired}"
+                (keyup)="deleteStaff(region4 ,3)" required />
+            </td>
+
+            <td class=""><input type="text" [value]=" CompareStaff.value[3].OPREATION_POS_NAME"
+                class="form-control form-control-sm" [readonly]="true" required></td>
+            <td class=""><input type="text" [value]=" CompareStaff.value[3].OPERATION_OFFICE_SHORT_NAME"
+                class="form-control form-control-sm" [readonly]="true" required></td>
+            <td class="form-control-sm">ผู้บันทึก-อ่าน ส.ส.2/53</td>
+            <td *ngIf="showEditField == false"><a *ngIf="CompareStaff.value[3].IS_ACTIVE == 1"
+                href="javaScript:void(0);" class="text-danger" (click)="deleteContri(3)">
+                <i class="fa fa-trash-o fa-lg"></i></a>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="card card-outline-bluish unset-radius">
+  <div class="card-header unset-radius" (click)="toggleCollapse(collapse7)">
+    <div class="card-actions">
+      <a class="">
+        <i class="fa" [ngClass]="{'fa-chevron-up': (collapse7 | async), 'fa-chevron-down': !(collapse7 | async)}"></i>
+      </a>
+    </div>
+    <h4 class="card-title m-b-0">เอกสารแนบภายใน</h4>
+  </div>
+  <div *ngIf="collapse7 | async" class="card-body">
+    <div class="row form-group">
+      <div class="col-lg-10 col-md-9 col-sm-8"></div>
+      <div class="col-lg-2 col-md-3 col-sm-4">
+        <!-- <button type="button" class="btn btn-block btn-themecolor" [disabled]="showEditField"
+            (click)="openModal(document)">เพิ่มเอกสารแนบ</button> -->
+        <!-- <ng-template #document let-c="close" let-d="dismiss">
+            <app-document (d)="modal.dismiss()" (Output)="Output($event)">
+            </app-document>
+          </ng-template> -->
+
+        <button type="button" class="btn btn-block btn-themecolor" [disabled]="showEditField"
+          (click)="openModal(ilg60o02000200)">เพิ่มเอกสารแนบ</button>
+        <ng-template #ilg60o02000200 let-c="close" let-d="dismiss">
+          <app-ilg60-o-02-00-02-00 (d)="modal.dismiss()" (Output)="Output($event)">
+          </app-ilg60-o-02-00-02-00>
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-1"></div>
+      <div class="col-10">
+        <owl-carousel [options]="owlOption" [items]="fileList" [carouselClasses]="['owl-theme', 'row', 'sliding']">
+          <div class="item my-1" *ngFor="let item of fileList;let i = index">
+            <a *ngIf="!showEditField" href="javaScript:void(0);" class="times-item" (click)="deleteItem(i)">
+              <i class="fa fa-times" aria-hidden="true"></i>
+            </a>
+            <a *ngIf="item.DOCUMENT_ID" href="javaScript:void(0);" (click)="DownloadItem(item)">
+              <i class="fa fa-download" aria-hidden="true"></i>
+            </a>
+            <div class="tile"
+              [ngStyle]="{'background': 'url('+item.IMAGE_SHOW+')no-repeat scroll center center / 90px 90px'}">
+              <div class="wBg">
+                <div class="tile" style="width: 90px; height: 90px;"></div>
+                <h5 class="mt-4 text-truncate">{{item.DOCUMENT_NAME}}</h5>
+              </div>
+            </div>
+          </div>
+        </owl-carousel>
+      </div>
+      <div class="col-1"></div>
+    </div>
+
+    <span class="text-danger">หมายเหตุ : ขนาดของไฟล์เอกสาร ไม่เกินไฟล์ละ 1 MB, รูปภาพ/วีดิโอ ไม่เกินไฟล์ละ 200
+      MB</span>
+  </div>
+</div>
+
+<!-- <button type="button" (click)="testsavedoc()">testsavedoc</button>
+  <button type="button" (click)="testdeldoc()">testdeldoc</button> -->
+
+<!-- เอกสารแนบภายใน -->
+<!-- <app-ilg60-03-02-00-00-e28 [isEdit]="showEditField"></app-ilg60-03-02-00-00-e28> -->
+
+<!-- รายละเอียดการกระทำผิด -->
+<div class="modal fade" id="mistPopup" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-theme">
+        <div class="row">
+          <div class="col-lg-5">
+            <h4 class="modal-title text-white">รายละเอียดการกระทำผิด</h4>
+          </div>
+          <a class="close text-white font-14">
+            <span aria-hidden="true">
+              <i class="ti-close text-white close-popup" data-dismiss="modal" data-target="testimonyPopup"></i>
+            </span>
+          </a>
+        </div>
+      </div>
+      <h5 class="text-right mt-3 pr-3">ILG60_MAS_01_01_02_01</h5>
+      <div class="modal-body font-14">
+        <div class="card">
+          <div class="card-body  p-0">
+            <div class="table-responsive">
+              <table class="table table-sm table-striped table-set-border" style="max-width: unset; width: 2000px">
+                <thead>
+                  <tr>
+                    <th class="a-center">ลำดับ</th>
+                    <th>เลขที่งาน</th>
+                    <th>วันที่จับกุม</th>
+                    <th>มาตรา</th>
+                    <th style="width:300px">ฐานความผิด</th>
+                    <th>สถานที่เกิดเหตุ</th>
+                    <th>ชื่อผู้กล่าวหา</th>
+                    <!-- <th >ตำแหน่ง</th> -->
+                    <th>หน่วยงาน</th>
+                    <th>หมวดสินค้า</th>
+                    <th>เลขที่คดี</th>
+                    <th>ชื่อผู้รับคดี</th>
+                    <th>หน่วยงานผู้รับคดี</th>
+                    <th>ค่าปรับ</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of fine_detail_m; let i=index;">
+                    <td class="a-center">{{i+1}}</td>
+                    <td class="">{{item.ARREST_CODE}}</td>
+                    <td class="">{{item.LAWSUIT_NO_YEAR | thaidate: 'date'}}</td>
+                    <td class="">{{item.SECTION_ID}}</td>
+                    <td class="">{{item.SUBSECTION_NAME}}</td>
+                    <td class="">{{item.LOCALE_ADDRESS}}</td>
+                    <td class="">{{item.ARREST_STAFF_NAME}}</td>
+                    <!-- <td class=""></td> -->
+                    <td class="">{{item.ARREST_STAFF_OFFICE_NAME}}</td>
+                    <td class="">{{item.PRODUCT_GROUP_NAME}}</td>
+                    <td class="">{{item.COMPARE_NO}}</td>
+                    <td class="">{{item.LAWSUIT_STAFF_NAME}}</td>
+                    <td class="">{{item.LAWSUIT_END}}</td>
+                    <td class="">{{item.PAYMENT_FINE}}</td>
+                    <!-- <td class=""><input class="a-center form-control form-control-sm" type="text" value="{{i+1}}" readonly></td>
+                          <td class=""><input class="form-control form-control-sm" type="text" [(ngModel)]="item.ARREST_CODE" readonly></td>
+                          <td class=""><input class="form-control form-control-sm" type="text" [(ngModel)]="item.LAWSUIT_NO" readonly></td>
+                          <td class=""><input class="form-control form-control-sm" type="text" [(ngModel)]="item.LOCALE_ADDRESS" readonly></td>
+                          <td class=""><input class="form-control form-control-sm" type="text" [(ngModel)]="item.SECTION_ID" readonly></td>
+                          <td class=""><input class="form-control form-control-sm" type="text" [(ngModel)]="item.SUBSECTION_NAME" readonly></td>
+                          <td class=""><input class="form-control form-control-sm" type="text" [(ngModel)]="item.PRODUCT_GROUP_NAME" readonly></td>
+                          <td class=""><input class="form-control form-control-sm" type="text" [(ngModel)]="item.ARREST_STAFF_NAME" readonly></td>
+                          <td class=""><input class="form-control form-control-sm" type="text" [(ngModel)]="item.ARREST_STAFF_OFFICE_NAME" readonly></td>
+                          <td class=""><input class="form-control form-control-sm" type="text" [(ngModel)]="item.LAWSUIT_STAFF_NAME" readonly></td>
+                          <td class=""><input class="form-control form-control-sm" type="text" [(ngModel)]="item.LAWSUIT_END" readonly></td>
+                          <td class=""><input class="form-control form-control-sm" type="text" [(ngModel)]="item.PAYMENT_FINE" readonly></td> -->
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ของกลาง -->
+<div class="modal fade" id="productPopup" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-theme">
+        <div class="row">
+          <div class="col-lg-5">
+            <h4 class="modal-title text-white">รายละเอียดของกลาง</h4>
+          </div>
+          <a class="close text-white font-14">
+            <span aria-hidden="true">
+              <i class="ti-close text-white close-popup" data-dismiss="modal" data-target="testimonyPopup"></i>
+            </span>
+          </a>
+        </div>
+      </div>
+      <h5 class="text-right mt-3 pr-3">ILG60_MAS_01_01_02_02</h5>
+      <div class="modal-body font-14">
+        <div class="card">
+          <div class="card-body  p-0">
+            <div class="table-responsive">
+              <table class="table table-sm table-striped table-set-border" style="max-width: unset; width: 1000px">
+                <thead>
+                  <tr>
+                    <th style="width: 50px" class="a-center">ลำดับ</th>
+                    <th>ของกลาง</th>
+                    <!-- <th style="width: 100px">หมวดหมู่</th> -->
+                    <th style="width: 150px">ราคาขายปลีกแนะนำ</th>
+                    <th style="width: 100px">จำนวน</th>
+                    <th style="width: 100px">หน่วยบรรจุ</th>
+                    <th style="width: 100px">ปริมาณสุทธิ</th>
+                    <th style="width: 130px">หน่วยปริมาณสุทธิ</th>
+                    <!-- <th style="width: 150px">ดีกรี/ความหวาน/CO2</th>
+                    <th style="width: 100px">หมายเลขเครื่อง</th>
+                    <th style="width: 100px">หมายเลขตัวถัง</th>
+                    <th style="width: 150px">หมายเลขทะเบียนรถ</th>
+                    <th style="width: 150px">ข้อมูลสินค้าเพิ่มเติม</th> -->
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of fine_detail_p; let i=index;">
+                    <td class="a-center">{{i+1}}</td>
+                    <td class="">{{item.PRODUCT_DESC}}</td>
+                    <!-- <td class="text-right"> 
+                      <input type="text" class="form-control form-control-sm text-right"
+                      value="{{item.PRODUCT_GROUP_NAME}}" [attr.disabled]="true" />
+                    </td> -->
+                    <td class="text-right">
+                      <input type="text" class="form-control form-control-sm text-right"
+                        value="{{item.PRICE | number:'1.2'}}" [attr.disabled]="true" />
+                    </td>
+                    <td class="text-right">
+                      <input type="text" class="form-control form-control-sm text-right" value="{{item.QUANTITY}}"
+                        [attr.disabled]="true" />
+                    </td>
+                    <td class="text-right">
+                      <input type="text" class="form-control form-control-sm text-left" value="{{item.QUANTITY_UNIT}}"
+                        [attr.disabled]="true" />
+                    </td>
+                    <td class="text-right">
+                      <input type="text" class="form-control form-control-sm text-right"
+                        value="{{item.VOLUMN | number : setToFixedByPid(item.PRODUCT_GROUP_ID)}}"
+                        [attr.disabled]="true" />
+                    </td>
+                    <td class="text-right">
+                      <input type="text" class="form-control form-control-sm text-left" value="{{item.VOLUMN_UNIT}}"
+                        [attr.disabled]="true" />
+                    </td>
+                    <!-- <td class="text-right">
+                      <input type="text" class="form-control form-control-sm text-right"
+                      value="" [attr.disabled]="true" />
+                    </td>
+                    <td class="text-right">
+                      <input type="text" class="form-control form-control-sm text-right"
+                      value="" [attr.disabled]="true" />
+                    </td>
+                    <td class="text-right">
+                      <input type="text" class="form-control form-control-sm text-right"
+                      value="" [attr.disabled]="true" />
+                    </td>
+                    <td class="text-right">
+                      <input type="text" class="form-control form-control-sm text-right"
+                      value="" [attr.disabled]="true" />
+                    </td>
+                    <td class="text-right">
+                      <input type="text" class="form-control form-control-sm text-right"
+                      value="" [attr.disabled]="true" />
+                    </td> -->
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <input [formControl]="formControl" [disableControl]="disible">
+<button (click)="disable = true">Disable</button>
+<button (click)="disable = false">Enable</button> -->

@@ -1,0 +1,156 @@
+<header class="topbar">
+    <nav class="navbar top-navbar navbar-expand-md navbar-light">
+
+        <div class="navbar-collapse" style="padding-right: 55px;">
+            <ul class="navbar-nav mr-auto mt-md-0">
+                <li class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickNew()">
+                            สร้างข้อมูล
+                        </a>
+                    </div>
+                </li>
+            </ul>
+            <ul class="navbar-nav my-lg-0">
+                <li class="nav-item col-8">
+                  <form autocomplete="off" class="app-search" #formSearch="ngForm"
+                        (ngSubmit)="clickSearch()">
+                    <input type="search" name="Textsearch" id="" [(ngModel)]="Textsearch"   class="form-control">
+                    <a href="javaScript:void(0);" (click)="onSearch()" class="srh-btn">
+                      <i class="ti-search"></i>
+<!--                      (input)="onSearch(Textsearch)"-->
+                    </a>
+                  </form>
+                </li>
+                <li class="nav-item col-9">
+                    <a href="javaScript:void(0);" class="btn text-white" (click)="setAdvSearch()">
+                        ค้นหาขั้นสูง
+                    </a>
+                </li>
+            </ul>           
+        </div>
+    </nav>
+</header>
+
+<div *ngIf="advSearch | async" class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius">
+        <app-card-actions-close></app-card-actions-close>
+        <h4 class="card-title m-b-0">ค้นหาขั้นสูง</h4>
+    </div>
+    <div class="card-body">
+        <form class="form-horizontal" autocomplete="off" #advForm="ngForm" (ngSubmit)="onAdvSearch(advForm)">
+            <div>
+                <div class="row">
+                    <label for="" class="col-lg-2 col-sm-3 control-label">เลขที่ใบ ส.ส.2/27</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <input type="text" name="putirycertCode" ngModel class="form-control form-control-sm"
+                            placeholder="">
+                        </div>
+                    </div>
+
+                    <label for="" class="col-lg-2 col-sm-3 control-label">วันที่ตรวจค้น</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group input-group">
+                            <my-date-picker locale="th" class="form-control form-control-sm unset-form-control"
+                            name="DateStartFrom" [options]="myDatePickerOptions"
+                            (dateChanged)="onSDateChange($event)" [(ngModel)]="putirycertStartDate" ></my-date-picker>
+                            <label for="">&nbsp;ถึง&nbsp;</label>
+                            <my-date-picker locale="th" class="form-control form-control-sm unset-form-control"
+                            name="DateStartTo" [options]="myDatePickerOptions"
+                            (dateChanged)="onEDateChange($event)" [(ngModel)]="putirycertEndDate"></my-date-picker>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label for="" class="col-lg-2 col-sm-3 control-label">เจ้าบ้าน/ผู้ดูเเลเเทน</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <input type="text" name="personName" ngModel class="form-control form-control-sm">
+                        </div>
+                    </div>
+                    <label for="" class="col-lg-2 col-sm-3 control-label">ผู้ตรวจค้น</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <input type="text" name="staffName" ngModel class="form-control form-control-sm">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label for="" class="col-lg-2 col-sm-3 control-label">เขียนที่</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <input type="text" name="officeName" ngModel class="form-control form-control-sm">
+                        </div>
+                    </div>
+
+                    <label for="" class="col-lg-2 col-sm-3 control-label">สถานะการจับกุม</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <select ngModel name="isArrest" class="form-control" >
+                                    <option value="">ทั้งหมด</option>
+                                    <option value="0">ยังไม่ดำเนินการ</option>
+                                    <option value="1">จับกุมแล้ว</option>
+                                    <option value="2">ไม่พบความผิด</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+
+                <div class="row form-group">
+                    <div class="col-lg-10 col-8"></div>
+                    <div class="col-lg-2 col-4">
+                        <button type="submit" class="btn btn-block btn-themecolor">ค้นข้อมูล</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<div class="card unset-radius">
+    <div class="card-body p-0">
+        <div class="table-responsive table-sm table-striped">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="text-center">ลำดับ</th>
+                        <th>เลขที่ใบ ส.ส.2/27</th>
+                        <th>วันที่ตรวจค้น</th>
+                        <th>เจ้าบ้าน/ผู้ดูเเลเเทน</th>
+                        <th>ผู้ตรวจค้น</th>
+                        <th>เขียนที่</th>
+                        <th>สถานะการจับกุม</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of puritycertList; let i=index;">
+                        <td class="text-center">{{item.index}}</td>
+                        <td>{{item.PURITYCERT_CODE}}</td>
+                        <td>{{item.PURITYCERT_DATE |  thaiDate  }}</td>
+                        <td>{{(item.PERSON_TITLE_NAME_TH + item.PERSON_FIRST_NAME  +' '+ item.PERSON_LAST_NAME)}}</td>
+                        <td>{{(item.TITLE_NAME_TH + item.FIRST_NAME +' '+ item.LAST_NAME)}}</td>
+                        <td>{{item.OFFICE_NAME}}</td>
+                        <td>{{getStatus(item.IS_ARREST)}}</td>
+                        <td class="text-center">
+                            <a href="javaScript:void(0);" class="text-secondary" (click)="view(item)">
+                                <i class="fa fa-eye fa-lg"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer card-footer-unset">
+        <app-pagination-table [TotalItems]="paginage.TotalItems" [CurrentPage]="paginage.CurrentPage" [PageSize]="paginage.PageSize"
+            [RowsPerPageOptions]="paginage.RowsPerPageOptions" (onPageChange)="pageChanges($event)">
+        </app-pagination-table>
+    </div>
+</div>

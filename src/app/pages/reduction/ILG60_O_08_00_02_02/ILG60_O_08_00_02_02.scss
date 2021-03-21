@@ -1,0 +1,97 @@
+.times {
+  position: absolute;
+  top: 5.5px;
+  right: 20px;
+
+  .ti-close::before {
+    font-weight: bold;
+  }
+}
+.a-center {
+  text-align: center;
+}
+
+.a-right {
+  text-align: right;
+}
+
+.button {
+  border: 1px solid #f44336;
+  background-color: white;
+  color: #f44336;
+}
+
+.btn-ct {
+  background: #ffffff;
+  color: #1e88e5;
+  border: 1px solid#1e88e5;
+}
+
+.item {
+  padding: 10px;
+  -webkit-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
+
+  .wBg {
+    text-align: center;
+  }
+}
+
+h1 {
+  min-height: 200px;
+  background-color: #ccc;
+  text-align: center;
+  line-height: 200px;
+}
+
+@media (min-width: 500px) {
+  .modal-lg {
+      max-width: 80% !important;
+  }
+}
+
+.ng-invalid-req {
+  border-color: #fc4b6c
+}
+
+.aa {
+  background-color: #005c97;
+  border-radius: 4px;
+  border: 1px;
+  color: white;
+  padding: 6px 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 10px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+img {
+  border: 1px solid #ddd;
+}
+
+.without_ampm::-webkit-datetime-edit-ampm-field {
+  display: none;
+}
+input[type=time]::-webkit-clear-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+  -ms-appearance:none;
+  appearance: none;
+  margin: -10px; 
+}
+
+.scollbar{
+  margin: auto;
+  position: auto;
+  max-height: 600px;
+  // overflow-y: auto;
+}
+
+::ng-deep.swal2-container {
+  z-index: 1000000;
+}

@@ -1,0 +1,497 @@
+<header class="topbar">
+  <nav class="navbar top-navbar navbar-expand-md navbar-light">
+
+    <div class="navbar-collapse" style="padding-right: 55px;">
+      <ul class="navbar-nav mr-auto mt-md-0">
+        <li *ngIf="false" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark" *ngIf="navService.showNewButton.value">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickNew()">
+              สร้างข้อมูล
+            </a>
+          </div>
+        </li>
+        <li *ngIf="false" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark" *ngIf="navService.showPrintButton.value">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickPrint()">
+              พิมพ์
+            </a>
+          </div>
+        </li>
+        <li *ngIf="false" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark" *ngIf="navService.showEditButton.value">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickEdit()">
+
+              แก้ไข
+            </a>
+          </div>
+        </li>
+        <li *ngIf="false" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark" *ngIf="navService.showDeleteButton.value">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickDelete()"
+              style="background-color: #f47023">
+
+              ลบ
+            </a>
+          </div>
+        </li>
+        <li *ngIf="false" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark" *ngIf="navService.showSaveButton.value">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickSave()">
+
+              บันทึก
+            </a>
+          </div>
+        </li>
+        <li *ngIf="false" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark" *ngIf="navService.showCancelButton.value">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickCancel()">
+
+              ยกเลิก
+            </a>
+          </div>
+        </li>
+      </ul>
+      <ul class="navbar-nav my-lg-0">
+        <li class="nav-item col-8">
+          <form autocomplete="off" class="app-search" #formSearch="ngForm" (ngSubmit)="onSearch(formSearch.form.value)">
+            <input type="search" [(ngModel)]="TEXT_SEARCH" name="TEXT_SEARCH" class="form-control">
+            <a href="javaScript:void(0);" (click)="onSearch(formSearch.form.value);clearCon();" class="srh-btn">
+              <i class="ti-search"></i>
+            </a>
+          </form>
+        </li>
+        <li class="nav-item col-9">
+          <a href="javaScript:void(0);" class="btn text-white" (click)="toggleCollapse(collapse1)">
+            ค้นหาขั้นสูง
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<div *ngIf="collapse1 | async" class="card card-outline-bluish unset-radius">
+  <div class="card-header  unset-radius">
+    <app-card-actions-close (click)="toggleCollapse(collapse1)"></app-card-actions-close>
+    <h4 class="card-title m-b-0">ค้นหาขั้นสูง</h4>
+  </div>
+
+  <div class="card-body">
+    <form class="form-horizontal" #advForm="ngForm" (ngSubmit)="onAdvSearch(advForm.value);clearADV();">
+      <div class="form-body">
+
+        <div class="row">
+          <label class="control-label col-sm-2">เลขที่งาน</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group">
+              <input class="form-control form-control-sm" type="text" [(ngModel)]="ARREST_CODE" name="ARREST_CODE">
+            </div>
+          </div>
+
+          <label for="" class="col-lg-2 col-sm-3 control-label">วันที่จับกุม</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group input-group">
+              <my-date-picker-th ngModel name="OCCURRENCE_DATE_FROM" placeholder="" locale="th"
+                [options]="myDatePickerOccurrenceFromOptions" [(ngModel)]="OCCURRENCE_DATE_FROM"
+                id="OCCURRENCE_DATE_FROM" (dateChanged)="onDateFromChanged($event)"
+                class="form-control form-control-sm unset-form-control">
+              </my-date-picker-th>
+
+              <label for="">&nbsp;ถึง&nbsp;</label>
+
+              <my-date-picker-th ngModel name="OCCURRENCE_DATE_TO" placeholder="" locale="th"
+                [options]="myDatePickerOccurrenceToOptions" [(ngModel)]="OCCURRENCE_DATE_TO" id="OCCURRENCE_DATE_TO"
+                (dateChanged)="onDateToChanged($event)" class="form-control form-control-sm unset-form-control">
+              </my-date-picker-th>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <label for="" class="col-md-2 control-label ">ชื่อผู้กล่าวหา</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group input-group">
+              <input type="text" name="ARREST_NAME" [(ngModel)]="ARREST_NAME" class="form-control form-control-sm"
+                placeholder="">
+            </div>
+          </div>
+          <label for="" class="col-md-2 control-label ">ชื่อผู้ต้องหา</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group input-group">
+              <input type="text" name="PERSON_NAME" [(ngModel)]="PERSON_NAME" class="form-control form-control-sm"
+                placeholder="">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <label for="" class="col-md-2 control-label ">มาตรา</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group input-group">
+              <input type="text" name="SUBSECTION_NAME" [(ngModel)]="SUBSECTION_NAME"
+                class="form-control form-control-sm" placeholder="">
+            </div>
+          </div>
+          <label for="" class="col-md-2 control-label ">ฐานความผิด</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group input-group">
+              <input type="text" name="GUILTBASE_NAME" [(ngModel)]="GUILTBASE_NAME" class="form-control form-control-sm"
+                placeholder="">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <label for="" class="col-md-2 control-label ">สถานที่เกิดเหตุ</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group input-group">
+              <input type="text" name="SUBDISTRIC_NAME" [(ngModel)]="SUBDISTRIC_NAME"
+                class="form-control form-control-sm" placeholder="">
+            </div>
+          </div>
+          <label for="" class="col-md-2 control-label ">เลขที่คดี</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group input-group">
+              <input name="text" disnumber class="form-control form-control-sm" [(ngModel)]="LAWSUIT_NO">
+
+              <label for="OccurrenceDateTo">&nbsp;&nbsp;/&nbsp;&nbsp;</label>
+
+              <input name="text" disnumber class="form-control form-control-sm" [(ngModel)]="LAWSUIT_NO_YEAR">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <label for="" class="col-md-2 control-label ">ประเภทคดี</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group input-group">
+              <select class="form-control form-control-sm" name="LAWSUIT_IS_OUTSIDE" ngModel
+                [(ngModel)]="LAWSUIT_IS_OUTSIDE">
+                <option value="">ทั้งหมด</option>
+                <option value="0">คดีในสถานที่ทำการ</option>
+                <option value="1">คดีนอกสถานที่ทำการ</option>
+              </select>
+            </div>
+          </div>
+
+          <label for="" class="col-lg-2 col-sm-3 control-label">วันที่รับคดี</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group input-group">
+              <my-date-picker-th ngModel name="LAWSUIT_DATE_FROM" placeholder="" locale="th"
+                [options]="myDatePickerLawsuitFromOptions" id="LAWSUIT_DATE_FROM" [(ngModel)]="LAWSUIT_DATE_FROM"
+                (dateChanged)="onLawsuitDateFromChanged($event)"
+                class="form-control form-control-sm unset-form-control">
+              </my-date-picker-th>
+
+              <label for="">&nbsp;ถึง&nbsp;</label>
+
+              <my-date-picker-th ngModel name="LAWSUIT_DATE_TO" placeholder="" locale="th"
+                [options]="myDatePickerLawsuitToOptions" id="LAWSUIT_DATE_TO" [(ngModel)]="LAWSUIT_DATE_TO"
+                (dateChanged)="onLawsuitDateToChanged($event)" class="form-control form-control-sm unset-form-control">
+              </my-date-picker-th>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <label for="" class="col-md-2 control-label ">ชื่อผู้รับคดี</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group input-group">
+              <input type="text" name="LAWSUIT_NAME" [(ngModel)]="LAWSUIT_NAME" class="form-control form-control-sm"
+                placeholder="">
+            </div>
+          </div>
+          <!-- <label for="" class="col-md-2 control-label ">ลักษณะคดี</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+              <div class="form-group input-group">
+              <select class="form-control form-control-sm" name="LAWSUIT_TYPE" ngModel [(ngModel)]="LAWSUIT_TYPE">
+                <option value="">ทั้งหมด</option>
+                <option value="1">เปรียบเทียบปรับ</option>
+                <option value="0">ส่งฟ้องศาล</option>
+                <option value="2">ส่งพนักงานสอบสวน</option>
+              </select>
+            </div>
+          </div> -->
+          <label for="" class="col-md-2 control-label ">ทะเบียนตรวจพิสูจน์</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group input-group">
+              <input name="text" disnumber class="form-control form-control-sm" [(ngModel)]="PROVE_NO">
+
+              <label for="OccurrenceDateTo">&nbsp;&nbsp;/&nbsp;&nbsp;</label>
+
+              <input name="text" disnumber class="form-control form-control-sm" [(ngModel)]="PROVE_NO_YEAR">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <label for="" class="col-md-2 control-label ">ลักษณะการพิสูจน์</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group input-group">
+              <select class="form-control form-control-sm" name="PROVE_IS_OUTSIDE" ngModel
+                [(ngModel)]="PROVE_IS_OUTSIDE">
+                <option value="">ทั้งหมด</option>
+                <option value="0">พิสูจน์ในสถานที่ทำการ</option>
+                <option value="1">พิสูจน์นอกสถานที่ทำการ</option>
+              </select>
+            </div>
+          </div>
+          <label for="" class="col-md-2 control-label ">วันที่พิสูจน์</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group input-group">
+              <my-date-picker-th ngModel name="RECEIVE_DOC_DATE_FROM" placeholder="" locale="th"
+                [options]="myDatePickerReceiveFromOptions" id="RECEIVE_DOC_DATE_FROM"
+                [(ngModel)]="RECEIVE_DOC_DATE_FROM" (dateChanged)="onReceiveDateFromChanged($event)"
+                class="form-control form-control-sm unset-form-control">
+              </my-date-picker-th>
+
+              <label for="OccurrenceDateTo">&nbsp;ถึง&nbsp;</label>
+
+              <my-date-picker-th ngModel name="RECEIVE_DOC_DATE_TO" placeholder="" locale="th"
+                [options]="myDatePickerReceiveToOptions" id="RECEIVE_DOC_DATE_TO" [(ngModel)]="RECEIVE_DOC_DATE_TO"
+                (dateChanged)="onReceiveDateToChanged($event)" class="form-control form-control-sm unset-form-control">
+              </my-date-picker-th>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <label for="" class="col-md-2 control-label ">ชื่อผู้พิสูจน์</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group input-group">
+              <input type="text" name="PROVE_NAME" [(ngModel)]="PROVE_NAME" class="form-control form-control-sm"
+                placeholder="">
+            </div>
+          </div>
+          <label for="" class="col-md-2 control-label ">เลขที่คดีเปรียบเทียบ</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group input-group">
+              <input name="text" disnumber class="form-control form-control-sm" [(ngModel)]="COMPARE_NO">
+
+              <label for="OccurrenceDateTo">&nbsp;&nbsp;/&nbsp;&nbsp;</label>
+
+              <input name="text" disnumber class="form-control form-control-sm" [(ngModel)]="COMPARE_NO_YEAR">
+
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <!-- <label for="" class="col-md-2 control-label ">สถานที่ตรวจพิสูจน์</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+              <div class="form-group input-group">
+                  <ng-template #rt let-OFFICE_SHORT_NAME="result" let-t="term">
+                    {{ OFFICE_SHORT_NAME }}
+                  </ng-template>
+    
+                  <input type="text" name="RECEIVE_OFFICE_NAME" ngModel [(ngModel)]="RECEIVE_OFFICE_NAME" class="form-control form-control-sm "
+                    [ngbTypeahead]="searchOffice_ll" [resultTemplate]="rt" [disabled]="show_office"
+                    placeholder="{{office_name}}" />
+              </div>
+          </div> -->
+          <label for="" class="col-md-2 control-label ">ประเภทการเปรียบเทียบ</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group input-group">
+              <select class="form-control form-control-sm" name="COMPARE_IS_OUTSIDE" ngModel
+                [(ngModel)]="COMPARE_IS_OUTSIDE">
+                <option value="">ทั้งหมด</option>
+                <option value="0">เปรียบเทียบในสถานที่ทำการ</option>
+                <option value="1">เปรียบเทียบนอกสถานที่ทำการ</option>
+              </select>
+            </div>
+          </div>
+          <label for="" class="col-md-2 control-label ">วันที่เปรียบเทียบคดี</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group input-group">
+              <my-date-picker-th ngModel name="COMPARE_DATE_FORM" placeholder="" locale="th"
+                [options]="myDatePickerCompareFromOptions" id="COMPARE_DATE_FORM" [(ngModel)]="COMPARE_DATE_FORM"
+                (dateChanged)="onCompareDateFromChanged($event)"
+                class="form-control form-control-sm unset-form-control">
+              </my-date-picker-th>
+
+              <label for="OccurrenceDateTo">&nbsp;ถึง&nbsp;</label>
+
+              <my-date-picker-th ngModel name="COMPARE_DATE_TO" placeholder="" locale="th"
+                [options]="myDatePickerCompareToOptions" id="COMPARE_DATE_TO" [(ngModel)]="COMPARE_DATE_TO"
+                (dateChanged)="onCompareDateFromChanged($event)"
+                class="form-control form-control-sm unset-form-control">
+              </my-date-picker-th>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <label for="" class="col-md-2 control-label ">ชื่อผู้เปรียบเทียบคดี</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group input-group">
+              <input type="text" name="COMPARE_NAME" [(ngModel)]="COMPARE_NAME" class="form-control form-control-sm"
+                placeholder="">
+            </div>
+          </div>
+          <label for="" class="col-md-2 control-label ">สถานที่เปรียบเทียบคดี</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group input-group">
+              <ng-template #rt let-OFFICE_SHORT_NAME="result" let-t="term">
+                {{ OFFICE_SHORT_NAME }}
+              </ng-template>
+
+              <input type="text" name="COMPARE_OFFICE_NAME" ngModel [(ngModel)]="COMPARE_OFFICE_NAME"
+                class="form-control form-control-sm " [ngbTypeahead]="searchOffice_ll" [resultTemplate]="rt"
+                [disabled]="show_office" placeholder="{{office_name}}" />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <label for="" class="col-md-2 control-label ">สถานะการเปรียบเทียบ</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group input-group">
+              <select class="form-control form-control-sm" name="COMPARE_TYPE" ngModel [(ngModel)]="COMPARE_TYPE">
+                <option value="">ทั้งหมด</option>
+                <option value="0">ยังไม่เปรียบเทียบ</option>
+                <option value="1">เปรียบเทียบแล้ว</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-10"></div>
+        <div class="col-2">
+          <button type="submit" (click)="clearADV()" class="btn btn-block btn-themecolor">ค้นข้อมูล</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <div style="overflow: auto;">
+      <table class="dataTable table table-sm table-striped table-nowrap" style="width:3500px">
+        <thead>
+          <tr>
+            <th class="text-center">ลำดับ</th>
+            <th>เลขที่งาน
+              <i [ngClass]="(ARREST_CODE_SORTING | async) ? 'mdi mdi-sort-descending' : 'mdi mdi-sort-ascending'"
+                style="margin-left: 5px;cursor: pointer;" (click)="Sorter(ARREST_CODE_SORTING,'ARREST_CODE')"></i>
+            </th>
+            <th style="width: 170px;">วันที่จับกุม
+              <i [ngClass]="(OCCURRENCE_DATE_SORTING | async) ? 'mdi mdi-sort-descending' : 'mdi mdi-sort-ascending'"
+                style="margin-left: 5px;cursor: pointer;"
+                (click)="Sorter(OCCURRENCE_DATE_SORTING,'OCCURRENCE_DATE')"></i>
+            </th>
+            <th style="width: 200px;">ชื่อผู้กล่าวหา</th>
+            <th style="width: 200px;">ชื่อผู้ต้องหา</th>
+            <th>มาตรา</th>
+            <th style="width: 300px;">ฐานความผิด</th>
+            <th>สถานที่เกิดเหตุ</th>
+            <th>เลขที่คดี
+              <i [ngClass]="(LAWSUIT_NO_SORTING | async) ? 'mdi mdi-sort-descending' : 'mdi mdi-sort-ascending'"
+                style="margin-left: 5px;cursor: pointer;" (click)="Sorter(LAWSUIT_NO_SORTING,'LAWSUIT_NO')"></i>
+            </th>
+            <!-- <th >ประเภทคดี</th> -->
+            <th style="width: 170px;">วันที่รับคดี
+              <i [ngClass]="(LAWSUIT_DATE_SORTING | async) ? 'mdi mdi-sort-descending' : 'mdi mdi-sort-ascending'"
+                style="margin-left: 5px;cursor: pointer;" (click)="Sorter(LAWSUIT_DATE_SORTING,'LAWSUIT_DATE')"></i>
+            </th>
+            <th style="width: 200px;">ชื่อผู้รับคดี</th>
+            <!-- <th >ลักษณะคดี</th> -->
+            <th>ทะเบียนตรวจพิสูจน์
+              <i [ngClass]="(PROVE_NO_SORTING | async) ? 'mdi mdi-sort-descending' : 'mdi mdi-sort-ascending'"
+                style="margin-left: 5px;cursor: pointer;" (click)="Sorter(PROVE_NO_SORTING,'PROVE_NO')"></i>
+            </th>
+            <th style="width: 170px;">วันที่พิสูจน์
+              <i [ngClass]="(RECEIVE_DOC_DATE_SORTING | async) ? 'mdi mdi-sort-descending' : 'mdi mdi-sort-ascending'"
+                style="margin-left: 5px;cursor: pointer;"
+                (click)="Sorter(RECEIVE_DOC_DATE_SORTING,'RECEIVE_DOC_DATE')"></i>
+            </th>
+            <th style="width: 200px;">ชื่อผู้พิสูจน์</th>
+            <!-- <th >สถานที่ตรวจพิสูจน์</th> -->
+            <th>เลขที่คดีเปรียบเทียบ
+              <i [ngClass]="(COMPARE_NO_SORTING | async) ? 'mdi mdi-sort-descending' : 'mdi mdi-sort-ascending'"
+                style="margin-left: 5px;cursor: pointer;" (click)="Sorter(COMPARE_NO_SORTING,'COMPARE_NO')"></i>
+            </th>
+            <th style="width: 170px;">วันที่เปรียบเทียบคดี
+              <i [ngClass]="(COMPARE_DATE_SORTING | async) ? 'mdi mdi-sort-descending' : 'mdi mdi-sort-ascending'"
+                style="margin-left: 5px;cursor: pointer;" (click)="Sorter(COMPARE_DATE_SORTING,'COMPARE_DATE')"></i>
+            </th>
+            <th style="width: 200px;">ชื่อผู้เปรียบเทียบคดี</th>
+            <th>สถานที่เปรียบเทียบคดี</th>
+            <th>สถานะการเปรียบเทียบ</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of CompareList; let i=index;" class="pointer"
+            (click)="clickView(item.INDICTMENT_ID, item.ARREST_CODE, item.COMPARE_ID)">
+            <td style="text-align: center" class="text-{{item.COMPARE_ID != 0? 'danger':''}}">{{item.RowsId}}</td>
+            <td class="text-{{item.COMPARE_ID != 0? 'danger':''}}">{{item.ARREST_CODE}}</td>
+            <td class="text-{{item.COMPARE_ID != 0? 'danger':''}}">{{item.OCCURRENCE_DATE | thaidate: 'date'}}</td>
+            <td class="text-{{item.COMPARE_ID != 0? 'danger':''}}">{{item.ARREST_STAFF_NAME}}</td>
+            <td class="text-{{item.COMPARE_ID != 0? 'danger':''}}">
+              <span *ngFor="let items of item.ArrestLawbreaker;let j=index">
+                <div *ngIf="items.PERSON_TYPE == 0">{{items.TITLE_SHORT_NAME_TH}}{{items.FIRST_NAME}}
+                  {{items.MIDDLE_NAME}} {{items.LAST_NAME}}</div>
+                <div *ngIf="items.PERSON_TYPE == 1">{{items.TITLE_SHORT_NAME_EN}}{{items.FIRST_NAME}}
+                  {{items.MIDDLE_NAME}} {{items.LAST_NAME}}</div>
+                <div *ngIf="items.PERSON_TYPE == 2">{{items.TITLE_SHORT_NAME_TH}}{{items.COMPANY_NAME}}</div>
+              </span>
+            </td>
+            <td class="text-{{item.COMPARE_ID != 0? 'danger':''}}">{{item.SUBSECTION_NAME}}</td>
+            <td class="text-{{item.COMPARE_ID != 0? 'danger':''}}">{{item.GUILTBASE_NAME}}</td>
+            <td class="text-{{item.COMPARE_ID != 0? 'danger':''}}">{{item.SUB_DISTRICT_NAME_TH}}
+              {{item.DISTRICT_NAME_TH}} {{item.PROVINCE_NAME_TH}}</td>
+            <td class="text-{{item.COMPARE_ID != 0? 'danger':''}}">{{item.LAWSUIT_NO}}</td>
+            <!-- <td class="text-{{item.COMPARE_ID != 0? 'danger':''}}" *ngIf="item.LAWSUIT_IS_OUTSIDE == 0">คดีในสถานที่ทำการ</td>
+            <td class="text-{{item.COMPARE_ID != 0? 'danger':''}}" *ngIf="item.LAWSUIT_IS_OUTSIDE == 1">คดีนอกสถานที่ทำการ</td> -->
+            <td class="text-{{item.COMPARE_ID != 0? 'danger':''}}">{{item.LAWSUIT_DATE  | thaidate: 'date'}}</td>
+            <td class="text-{{item.COMPARE_ID != 0? 'danger':''}}">{{item.LAWSUIT_STAF_NAME}}</td>
+            <!-- <td class="text-{{item.COMPARE_ID != 0? 'danger':''}}">
+              <p *ngIf="item.LAWSUIT_TYPE == 0">ส่งฟ้องศาล</p>
+              <p *ngIf="item.LAWSUIT_TYPE == 1">เปรียบเทียบปรับ</p>
+              <p *ngIf="item.LAWSUIT_TYPE == 2">ส่งพนักงานสอบสวน</p>
+            </td> -->
+            <td class="text-{{item.COMPARE_ID != 0? 'danger':''}}" *ngIf="item.PROVE_NO == 0"></td>
+            <td class="text-{{item.COMPARE_ID != 0? 'danger':''}}" *ngIf="item.PROVE_NO == 0"></td>
+            <td class="text-{{item.COMPARE_ID != 0? 'danger':''}}" *ngIf="item.PROVE_NO == 0"></td>
+            <td class="text-{{item.COMPARE_ID != 0? 'danger':''}}"
+              *ngIf="item.PROVE_IS_OUTSIDE ==1 && item.PROVE_NO == 0"></td>
+            <td class="text-{{item.COMPARE_ID != 0? 'danger':''}}"
+              *ngIf="item.PROVE_IS_OUTSIDE !=1 && item.PROVE_NO == 0"></td>
+            <td class="text-{{item.COMPARE_ID != 0? 'danger':''}}"
+              *ngIf="item.PROVE_IS_OUTSIDE ==1 && item.PROVE_NO !== 0">{{item.PROVE_NO}}</td>
+            <td class="text-{{item.COMPARE_ID != 0? 'danger':''}}"
+              *ngIf="item.PROVE_IS_OUTSIDE !=1 && item.PROVE_NO !== 0">{{item.PROVE_NO}}</td>
+            <td class="text-{{item.COMPARE_ID != 0? 'danger':''}}" *ngIf="item.PROVE_NO !== 0">
+              {{item.RECEIVE_DOC_DATE | thaidate: 'date'}}</td>
+            <td class="text-{{item.COMPARE_ID != 0? 'danger':''}}" *ngIf="item.PROVE_NO !== 0">{{item.PROVE_STAFF_NAME}}
+            </td>
+            <!-- <td class="text-{{item.COMPARE_ID != 0? 'danger':''}}" *ngIf="item.PROVE_NO !== 0">{{item.PROVE_OPERATION_OFFICE_SHORT_NAME}}</td> -->
+            <td class="text-{{item.COMPARE_ID != 0? 'danger':''}}"
+              *ngIf="item.COMPARE_IS_OUTSIDE == 0 && item.COMPARE_ID == 0">
+            </td>
+            <td class="text-{{item.COMPARE_ID != 0? 'danger':''}}"
+              *ngIf="item.COMPARE_IS_OUTSIDE == 1 && item.COMPARE_ID == 0">
+            </td>
+            <td class="text-{{item.COMPARE_ID != 0? 'danger':''}}"
+              *ngIf="item.COMPARE_IS_OUTSIDE == 0 && item.COMPARE_ID !== 0">{{item.COMPARE_NO }}
+            </td>
+            <td class="text-{{item.COMPARE_ID != 0? 'danger':''}}"
+              *ngIf="item.COMPARE_IS_OUTSIDE == 1 && item.COMPARE_ID !== 0">{{item.COMPARE_NO }}
+            </td>
+            <td class="text-{{item.COMPARE_ID != 0? 'danger':''}}" *ngIf="item.COMPARE_ID == 0"></td>
+            <td class="text-{{item.COMPARE_ID != 0? 'danger':''}}" *ngIf="item.COMPARE_ID !== 0">
+              {{item.COMPARE_DATE | thaidate: 'date'}}</td>
+            <td class="text-{{item.COMPARE_ID != 0? 'danger':''}}">{{item.COMPARE_STAFF_NAME}} </td>
+            <td class="text-{{item.COMPARE_ID != 0? 'danger':''}}">{{item.COMPARE_OPERATION_OFFICE_SHORT_NAME}}</td>
+            <td class="text-{{item.COMPARE_ID != 0? 'danger':''}}" *ngIf="item.COMPARE_ID !== 0">เปรียบเทียบแล้ว</td>
+            <td class="text-{{item.COMPARE_ID != 0? 'danger':''}}" *ngIf="item.COMPARE_ID == 0">ยังไม่เปรียบเทียบ</td>
+
+            <td class="text-center text-{{item.COMPARE_ID != 0? 'danger':''}}">
+              <a href="javaScript:void(0);" class="text-secondary">
+                <i class="mdi mdi-eye fa-lg text-{{item.COMPARE_ID != 0? 'danger':''}}"></i>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card-footer card-footer-unset">
+    <app-pagination-table [TotalItems]="paginage.TotalItems" [CurrentPage]="paginage.CurrentPage"
+      [PageSize]="paginage.PageSize" [RowsPerPageOptions]="paginage.RowsPerPageOptions"
+      (onPageChange)="pageChanges($event)">
+    </app-pagination-table>
+  </div>
+</div>

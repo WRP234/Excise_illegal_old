@@ -1,0 +1,27 @@
+<!-- <form action="" #form="ngForm" (ngSubmit)="onPrint(form)"> -->
+<div class="modal-header bg-theme">
+    <div class="row">
+        <div class="col-lg-5">
+            <h4 class="modal-title text-white">เลือกประเภทรายการตรวจรับของกลาง</h4>
+        </div>
+
+        <a href="javaScript:void(0);" class="close text-white font-14" aria-label="Close" (click)="dismiss('Cross click')">
+            <span aria-hidden="true">
+                <i class=" ti-close"></i>
+            </span>
+        </a>
+    </div>
+</div>
+<h5 class="text-right mt-3 pr-3">ILG60-10-01-01-00</h5>
+<div class="modal-body font-14">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <button type="button" class="btn btn-block btn-outline-info" style="height: 40px;" (click)="onNextPage('E')">ตรวจรับของกลางจากหน่วยงานภายนอก</button>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <button type="button" class="btn btn-block btn-outline-info" style="height: 40px;" (click)="onNextPage('G')">ตรวจรับของกลางที่นำออกจากคลังไปใช้ในราชการ</button>
+            </div>
+        </div>
+    </div>
+</div>

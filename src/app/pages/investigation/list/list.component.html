@@ -1,0 +1,145 @@
+<header class="topbar">
+    <nav class="navbar top-navbar navbar-expand-md navbar-light">
+
+        <div class="navbar-collapse" style="padding-right: 55px;">
+            <ul class="navbar-nav mr-auto mt-md-0">
+                <li class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickNew()">
+                            สร้างข้อมูล
+                        </a>
+                    </div>
+                </li>
+            </ul>
+            <ul class="navbar-nav my-lg-0">
+                <li class="nav-item col-8">
+                    <form autocomplete="off" class="app-search" #formSearch="ngForm"
+                        (ngSubmit)="onSearch(formSearch.form.value)">
+                        <input type="search" name="TEXT_SEARCH" ngModel class="form-control">
+                        <a href="javaScript:void(0);" (click)="onSearch(formSearch.form.value)" class="srh-btn">
+                            <i class="ti-search"></i>
+                        </a>
+                    </form>
+                </li>
+                <li class="nav-item col-9">
+                    <a href="javaScript:void(0);" class="btn text-white" (click)="setAdvSearch()">
+                        ค้นหาขั้นสูง
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<div *ngIf="advSearch | async" class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius">
+        <app-card-actions-close></app-card-actions-close>
+        <h4 class="card-title m-b-0">ค้นหาขั้นสูง</h4>
+    </div>
+    <div class="card-body">
+        <form class="form-horizontal" #advForm="ngForm" (ngSubmit)="onAdvSearch(advForm.value)">
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-3 control-label">เลขที่สืบสวน</label>
+                <div class="col-lg-4 col-md-7 col-sm-9">
+                    <div class="form-group">
+                        <input type="text" id="" name="INVESTIGATE_CODE" ngModel class="form-control form-control-sm"
+                            placeholder="">
+                    </div>
+                </div>
+                <label for="" class="col-lg-2 col-sm-3 control-label">คดีสืบสวนที่</label>
+                <div class="form-group col-lg-4 col-md-7 col-sm-8">
+                    <div class="input-group">
+                        <input type="text" id="" name="INVESTIGATE_NO" ngModel class="form-control form-control-sm">
+                        <strong>&nbsp;&nbsp;/&nbsp;&nbsp;</strong>
+                        <input type="text" id="" name="INVESTIGATE_YEAR" ngModel class="form-control form-control-sm">
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-3 control-label">หัวข้อการสืบสวน</label>
+                <div class="col-lg-4 col-md-7 col-sm-9">
+                    <div class="form-group">
+                        <input type="text" id="" name="SUBJECT" ngModel class="form-control form-control-sm"
+                            placeholder="">
+                    </div>
+                </div>
+
+                <label for="" class="col-lg-2 col-sm-3 control-label">วันที่เริ่มสืบสวน</label>
+                <div class="col-lg-4 col-md-7 col-sm-9">
+                    <div class="form-group input-group">
+                        <my-date-picker-th class="form-control form-control-sm unset-form-control" name="DATE_START"
+                            [options]="dateFromOption" (dateChanged)="onSDateChange($event)" [(ngModel)]="DATE_START">
+                        </my-date-picker-th>
+
+                        <label for="DateEnd">&nbsp;ถึง&nbsp;</label>
+
+                        <my-date-picker-th class="form-control form-control-sm unset-form-control" id="DateEnd"
+                            name="DATE_END" [options]="dateToOption" (dateChanged)="onEDateChange($event)"
+                            [(ngModel)]="DATE_END"></my-date-picker-th>
+                    </div>
+                </div>
+                <input type="text" name="STAFF_CODE" [(ngModel)]="STAFF_CODE" style="display: none;">
+            </div>
+
+            <div class="row form-group">
+                <div class="col-lg-10 col-8"></div>
+                <div class="col-lg-2 col-4">
+                    <button type="submit" class="btn btn-block btn-themecolor">ค้นข้อมูล</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<div class="card unset-radius">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table #invesTable class="table table-sm table-striped">
+                <thead>
+                    <tr>
+                        <th class="text-center">ลำดับ</th>
+                        <th>เลขที่สืบสวน</th>
+                        <th>คดีสืบสวนที่</th>
+                        <th>หัวข้อการสืบสวน</th>
+                        <th>วันที่เริ่มสืบสวน</th>
+                        <th>วันที่สิ้นสุดสืบสวน</th>
+                        <th>ครั้งที่สืบสวนล่าสุด</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="cursor: pointer;" *ngFor="let item of invesList; let i=index;"
+                        (click)="clickView(item.INVESTIGATE_ID)">
+                        <td class="text-center">{{item.RowsId}}</td>
+                        <td>{{item.INVESTIGATE_CODE}}</td>
+                        <td>{{item.INVESTIGATE_NO}}/{{item.INVESTIGATE_NO_YEAR}}</td>
+                        <td class="fix-table-word">
+                            <div>
+                                {{item.SUBJECT}}
+                            </div>
+                        </td>
+                        <td>{{item.DATE_START}}</td>
+                        <td>{{item.DATE_END}}</td>
+                        <td>{{item.INVESTIGATE_SEQUENCE}}</td>
+                        <td class="text-center">
+                            <!-- last_column-->
+                            <a href="javaScript:void(0);" class="text-secondary"
+                                (click)="clickView(item.INVESTIGATE_ID)">
+                                <i class="fa fa-eye fa-lg"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer card-footer-unset">
+        <app-pagination-table [TotalItems]="paginage.TotalItems" [CurrentPage]="paginage.CurrentPage"
+            [PageSize]="paginage.PageSize" [RowsPerPageOptions]="paginage.RowsPerPageOptions"
+            (onPageChange)="pageChanges($event)">
+        </app-pagination-table>
+    </div>
+</div>

@@ -1,0 +1,170 @@
+<header class="topbar">
+    <nav class="navbar top-navbar navbar-expand-md navbar-light">
+        <div class="navbar-collapse" style="padding-right: 55px;">
+            <ul class="navbar-nav mr-auto mt-md-0">
+                <li class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickNew()">
+                            สร้างข้อมูล
+                        </a>
+                    </div>
+                </li>
+            </ul>
+            <ul class="navbar-nav my-lg-0">
+                <li class="nav-item col-8">
+                    <form autocomplete="off" class="app-search" #formSearch="ngForm" (ngSubmit)="clickSearch(formSearch.form.value)">
+                        <input type="search" name="TEXT_SEARCH" id="" ngModel class="form-control">
+                        <a href="javaScript:void(0);" (click)="clickSearch(formSearch.form.value)" class="srh-btn">
+                            <i class="ti-search"></i>
+                        </a>
+                    </form>
+                </li>
+                <li class="nav-item col-9">
+                    <a href="javaScript:void(0);" class="btn text-white" (click)="setAdvSearch()">
+                        ค้นหาขั้นสูง
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<div *ngIf="advSearch | async" class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius">
+        <app-card-actions-close></app-card-actions-close>
+        <h4 class="card-title m-b-0">ค้นหาขั้นสูง</h4>
+    </div>
+
+    <div class="card-body">
+        <form class="form-horizontal" #advForm="ngForm" (ngSubmit)="onAdvSearch(advForm)">
+            <div>
+                <div class="row">
+                    <label for="" class="col-lg-2 col-sm-3 control-label">เลขที่หนังสือแต่งตั้ง</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" name="COMMAND_NO" ngModel class="form-control" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <label for="" class="col-lg-2 col-sm-3 control-label">วันที่ออกคำสั่ง</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="input-group form-line">
+                            <div style="width:45%">
+                                <my-date-picker-th name="EFFECTIVE_DATE_FROM" [options]="myDatePickerOptions" (dateChanged)="onSRecvDateChange($event)" [(ngModel)]="EFFECTIVE_DATE_FROM"></my-date-picker-th>
+                            </div>
+
+                            <div style="margin:10px;">
+                                <label for="">&nbsp;ถึง&nbsp;</label>
+                            </div>
+
+                            <div style="width:45%">
+                                <my-date-picker-th name="EFFECTIVE_DATE_TO" [options]="myDatePickerOptions" (dateChanged)="onERecvDateChange($event)" [(ngModel)]="EFFECTIVE_DATE_TO"></my-date-picker-th>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="" class="col-lg-2 col-sm-3 control-label">หน่วยงาน</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" name="OPERATION_OFFICE_SHORT_NAME" ngModel class="form-control" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <label for="" class="col-lg-2 col-sm-3 control-label">เลขที่งาน</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" class="form-control" ngModel name="TEAM_CODE">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="" class="col-lg-2 col-sm-3 control-label">รหัสสายตรวจ</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" name="PATROL_ID" ngModel class="form-control" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <label for="" class="col-lg-2 col-sm-3 control-label">ชื่อหัวหน้าสาย</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" class="form-control" ngModel name="FIRST_NAME">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="" class="col-lg-2 col-sm-3 control-label">สถานะคำสั่ง</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <select ngModel name="IS_ACTIVE" class="form-control" [disabled]="showEditField">
+                                    <option value="">ทั้งหมด</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-10"></div>
+                    <div class="col-2">
+                        <button type="submit" class="btn btn-block btn-themecolor">ค้นข้อมูล</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <table class="table table-responsive table-striped">
+            <thead>
+                <tr>
+                    <th style="text-align: center;width:5%">ลำดับ</th>
+                    <th>เลขที่หนังสือแต่งตั้ง</th>
+                    <th>วันที่ออกคำสั่ง</th>
+                    <th>รหัสสายตรวจ</th>
+                    <th>หน่วยงาน</th>
+                    <th>สถานะคำสั่ง</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let item of EvidenceInList; let i=index;">
+                    <td style="text-align: center;">{{i + 1}}</td>
+                    <td>{{item.EvidenceInCode}}</td>
+                    <td>{{item.EvidenceInDate}}</td>
+                    <td>{{item.DeptNameRecv}}</td>
+                    <td>{{item.DeliveryNo}}</td>
+                    <td>{{item.DeliveryDate}}</td>
+                    <td>{{item.DeptNameSent}}</td>
+                    <td class="text-center;">
+                        <a href="javaScript:void(0);" class="text-secondary" (click)="clickView(item.EvidenceInID, item.EvidenceInType, item.ProveID)">
+                            <i class="mdi mdi-eye fa-lg"></i>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+
+        <div class="card-footer card-footer-unset">
+            <app-pagination-table [TotalItems]="paginage.TotalItems" [CurrentPage]="paginage.CurrentPage" [PageSize]="paginage.PageSize"
+                [RowsPerPageOptions]="paginage.RowsPerPageOptions" (onPageChange)="pageChanges($event)">
+            </app-pagination-table>
+        </div>
+    </div>
+</div>

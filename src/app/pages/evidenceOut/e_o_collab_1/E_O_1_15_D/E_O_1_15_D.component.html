@@ -1,0 +1,97 @@
+<div class="card card-outline-bluish unset-radius">
+  <div class="card-header unset-radius" (click)="onCollapse(collapse_e_o_1)">
+    <div class="card-actions">
+      <div class="card-actions">
+        <a class="">
+          <i class="fa"
+            [ngClass]="{'fa-chevron-up': (collapse_e_o_1 | async), 'fa-chevron-down': !(collapse_e_o_1 | async)}"></i>
+        </a>
+      </div>
+    </div>
+    <h4 class="card-title m-b-0">รายละเอียดการขอนำของกลางออกจากคลังไปบริจาค</h4>
+  </div>
+  <div *ngIf="collapse_e_o_1 | async" [formGroup]="evidenceOutFG" class="card-body">
+    <div class="row">
+      <label for="" class="col-lg-2 col-md-4 control-label is-required">เลขที่หนังสือ</label>
+      <div class="form-group col-lg-4 col-md-7 col-sm-8">
+        <input type="text" class="form-control form-control-sm" formControlName="EVIDENCE_OUT_NO" name="EVIDENCE_OUT_NO"
+          [readOnly]="showEditField"
+          [ngClass]="{'is-invalid': evidenceOutFG.get('EVIDENCE_OUT_NO').invalid && evidenceOutFG.get('EVIDENCE_OUT_NO').dirty}"
+          required>
+      </div>
+
+      <label for="" class="col-lg-2 col-md-4 control-label is-required">ลงวันที่</label>
+      <div class="input-group col-lg-4 col-md-7">
+        <div style="width:45%">
+          <my-date-picker-th name="EVIDENCE_OUT_NO_DATE" [options]="optionsClearDateBtnFalse"
+            formControlName="EVIDENCE_OUT_NO_DATE" [ngClass]="{'ng-touched':isRequired}" [disabled]="showEditField"
+            required>
+          </my-date-picker-th>
+        </div>
+        <label for="" class="">&nbsp; เวลา &nbsp;</label>
+        <input type="text" formControlName="EVIDENCE_OUT_NO_TIME" name="EVIDENCE_OUT_NO_TIME" style="height: 35px;"
+          class="form-control form-control-sm" [readOnly]="showEditField" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]"
+          maxlength="5" (keyup)="setFormatTimeControl($event,'EVIDENCE_OUT_NO_TIME',evidenceOutFG)"
+          [ngClass]="{'ng-touched':isRequired}" required>
+      </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 10px;">
+      <label for="" class="col-lg-2 col-md-4 control-label">พิจารณาวันที่</label>
+      <div class="input-group col-lg-4 col-md-7">
+        <div style="width:45%">
+          <my-date-picker-th name="APPROVE_DATE" [options]="myDatePickerOptions" formControlName="APPROVE_DATE"
+            [ngClass]="{'ng-touched':isRequired}" [disabled]="showEditField">
+          </my-date-picker-th>
+        </div>
+        <label for="" class="">&nbsp; เวลา &nbsp;</label>
+        <input type="text" formControlName="APPROVE_TIME" name="APPROVE_TIME" style="height: 35px;"
+          class="form-control form-control-sm" [readOnly]="showEditField" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]"
+          maxlength="5" (keyup)="setFormatTimeControl($event,'APPROVE_TIME',evidenceOutFG)"
+          [ngClass]="{'is-invalid':evidenceOutFG.get('APPROVE_TIME').invalid && evidenceOutFG.get('APPROVE_TIME').touched}"
+          required>
+      </div>
+    </div>
+
+    <div class="row">
+      <label for="" class="col-lg-2 col-md-4 control-label is-required">ชื่อผู้รับบริจาค</label>
+      <div class="form-group col-lg-4 col-md-7 col-sm-8">
+        <input #FULL_NAME type="text" class="form-control form-control-sm" name="FULL_NAME"
+          [(ngModel)]="RECIPIENT_STAFF.FULL_NAME" [ngModelOptions]="{standalone: true}" [readOnly]="showEditField"
+          [ngClass]="{'is-invalid': RECIPIENT_FULL_NAME_REQ | async}"
+          (keyup)="setReceipientStaff(FULL_NAME.value,'FULL_NAME')" (keypress)="RECIPIENT_FULL_NAME_REQ.next(false)"
+          required>
+      </div>
+
+      <label for="" class="col-lg-2 col-md-4 control-label">ตำเเหน่ง</label>
+      <div class="form-group col-lg-4 col-md-7 col-sm-8">
+        <input #MANAGEMENT_POS_NAME type="text" class="form-control form-control-sm" name="MANAGEMENT_POS_NAME"
+          [(ngModel)]="RECIPIENT_STAFF.MANAGEMENT_POS_NAME" [ngModelOptions]="{standalone: true}"
+          [readOnly]="showEditField" [ngClass]="{'ng-touched':isRequired}"
+          (keyup)="setReceipientStaff(MANAGEMENT_POS_NAME.value,'MANAGEMENT_POS_NAME')">
+      </div>
+    </div>
+
+    <div class="row">
+      <label for="" class="col-lg-2 col-md-4 control-label is-required">หน่วยงาน</label>
+      <div class="form-group col-lg-4 col-md-7 col-sm-8">
+        <input #OPERATION_OFFICE_SHORT_NAME type="text" class="form-control form-control-sm"
+          name="OPERATION_OFFICE_SHORT_NAME" [(ngModel)]="RECIPIENT_STAFF.OPERATION_OFFICE_SHORT_NAME"
+          [ngModelOptions]="{standalone: true}" [readOnly]="showEditField"
+          [ngClass]="{'is-invalid': RECIPIENT_OFFICE_NAME_REQ | async}"
+          (keyup)="setReceipientStaff(OPERATION_OFFICE_SHORT_NAME.value,'OPERATION_OFFICE_SHORT_NAME')"
+          (keypress)="RECIPIENT_OFFICE_NAME_REQ.next(false)" required>
+      </div>
+    </div>
+
+    <div class="row">
+      <label for="" class="col-lg-2 col-md-4 control-label is-required">เหตุผลในการบริจาค</label>
+      <div class="form-group col-lg-10 col-md-7 col-sm-8">
+        <textarea class="form-control form-control-sm" rows="5" maxlength="2000" formControlName="REMARK" name="REMARK"
+          [ngClass]="{'is-invalid': evidenceOutFG.get('REMARK').invalid && evidenceOutFG.get('REMARK').dirty}"
+          [readOnly]="showEditField" required></textarea>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,24 @@
+.sidebar-nav > ul > li > a strong {
+    width: 27px;
+    height: 27px;
+    font-size: 21px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.sidebar-nav > ul > li > a strong{
+    padding-left: 4px;
+}
+
+.navbar-brand {
+    font-size: unset;
+    .heading{
+        font-size: 1.53rem;
+    }
+    .sub-heading{
+        font-size: smaller;
+        position: absolute;
+        top: 38px;
+        left: 57px;
+    }
+}

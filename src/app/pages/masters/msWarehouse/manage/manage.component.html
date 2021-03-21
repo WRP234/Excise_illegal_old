@@ -1,0 +1,236 @@
+<header class="topbar">
+    <nav class="navbar top-navbar navbar-expand-md navbar-light">
+        <div class="navbar-collapse" style="padding-right: 55px;">
+            <ul class="navbar-nav mr-auto mt-md-0">
+                <li *ngIf="PrintButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickPrint()">
+                            พิมพ์
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="EditButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnEdit()">
+                            แก้ไข
+                        </a>
+                    </div>
+                </li>
+                <!-- <li *ngIf="DeleteButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnDelete()" style="background-color: #f47023">
+                            ลบ
+                        </a>
+                    </div>
+                </li> -->
+                <li *ngIf="SaveButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnSave()">
+                            บันทึก
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="CancelButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnCancel()">
+                            ยกเลิก
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<div class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius">
+        <app-card-actions-collapse></app-card-actions-collapse>
+        <h4 class="card-title m-b-0">คลังสินค้า</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label">Running No :</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <input type="text" name="WAREHOUSE_ID" [(ngModel)]="WAREHOUSE_ID" class="form-control " disabled>
+                </div>
+            </div>
+
+            <label for="" class="col-lg-2 col-md-4 control-label">รหัสคลังสินค้า :</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <input type="text" name="WAREHOUSE_CODE" [(ngModel)]="WAREHOUSE_CODE" class="form-control" [disabled]="showEditField">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="" class="col-lg-2 col-sm-3 control-label is-required">ประเภทคลังสินค้า</label>
+            <div class="col-lg-4 col-md-7 col-sm-9">
+                <div class="form-line">
+                    <select name="WAREHOUSE_TYPE" [(ngModel)]="WAREHOUSE_TYPE" class="form-control" [disabled]="showEditField" [ngClass]="{'ng-touched':isRequired}"
+                        (change)="isReq_warehouseType.next(false)">
+                        <option value="">เลือกประเภทคลังสินค้า</option>
+                        <option value="0">คลังสินค้าของหน่วยงานภายใน</option>
+                        <option value="1">คลังสินค้าของหน่วยงานภายนอก</option>
+                    </select>
+                    <div class="alert alert-danger mt-3" role="alert" *ngIf="isReq_warehouseType.value">
+                        กรุณาระบุข้อมูล "ประเภทคลังสินค้า"
+                    </div>
+                </div>
+            </div>
+
+            <label for="" class="col-lg-2 col-md-4 control-label is-required">ชื่อคลังสินค้า</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <input type="text" name="WAREHOUSE_NAME" [(ngModel)]="WAREHOUSE_NAME" class="form-control" [disabled]="showEditField" [ngClass]="{'ng-touched':isRequired}"
+                        (keydown)="isReq_warehouseName.next(false)">
+                    <div class="alert alert-danger mt-3" role="alert" *ngIf="isReq_warehouseName.value">
+                        กรุณาระบุข้อมูล "ชื่อคลังสินค้า"
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label">บ้านเลขที่</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <input type="text" name="ADDRESS_NO" [(ngModel)]="ADDRESS_NO" class="form-control" [disabled]="showEditField">
+                </div>
+            </div>
+
+            <label for="" class="col-lg-2 col-md-4 control-label">หมู่ที่</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <input type="text" name="VILLAGE_NO" [(ngModel)]="VILLAGE_NO" class="form-control" [disabled]="showEditField">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label">อาคาร/สถานที่</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <input type="text" name="BUILDING_NAME" [(ngModel)]="BUILDING_NAME" class="form-control" [disabled]="showEditField">
+                </div>
+            </div>
+
+            <label for="" class="col-lg-2 col-md-4 control-label">ห้อง</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <input type="text" name="ROOM_NO" [(ngModel)]="ROOM_NO" class="form-control" [disabled]="showEditField">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label">ชั้น</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <input type="text" name="FLOOR" [(ngModel)]="FLOOR" class="form-control" [disabled]="showEditField">
+                </div>
+            </div>
+
+            <label for="" class="col-lg-2 col-md-4 control-label">ตรอก</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <input type="text" name="ALLEY" [(ngModel)]="ALLEY" class="form-control" [disabled]="showEditField">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label">ซอย</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <input type="text" name="LANE" [(ngModel)]="LANE" class="form-control" [disabled]="showEditField">
+                </div>
+            </div>
+
+            <label for="" class="col-lg-2 col-md-4 control-label">ถนน</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <input type="text" name="ROAD" [(ngModel)]="ROAD" class="form-control" [disabled]="showEditField">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label">ตำบล/อำเภอ/จังหวัด</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <!-- <ng-select [items]="SUB_DISTRICT_LIST" bindLabel="NAME" [(ngModel)]="selectedCity">
+                    </ng-select> -->
+                    <ng-template #rt let-r="result" let-t="term">
+                        {{ r.NAME }}
+                    </ng-template>
+                    <input id="typeahead-template" type="text" class="form-control" [(ngModel)]="SUB_DISTRICT_MODEL" [ngbTypeahead]="searchSubDistrict"
+                        [resultTemplate]="rt" [inputFormatter]="formatter" [value]="LOCATION" [disabled]="showEditField" />
+                    <!-- Model: {{ model.SUB_DISTRICT_ID }} -->
+                    <!-- Model: {{ model | json }} -->
+                </div>
+            </div>
+
+            <label for="" class="col-lg-2 col-sm-4 control-label is-required">หน่วยงานที่รับผิดชอบ</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <ng-template #rt2 let-r="result" let-t="term">
+                        {{ r.OFFICE_NAME }}
+                    </ng-template>
+                    <input id="typeahead-office" type="text" class="form-control" [(ngModel)]="OFFICE_MODEL" [ngbTypeahead]="searchOffice" [resultTemplate]="rt2"
+                        [inputFormatter]="formatter_Office" [value]="OFFICE_NAME" [disabled]="showEditField" 
+                        (selectItem)="OfficeselectItem($event)" (input)="OfficeClear()"
+                        (keydown)="isReq_office.next(false)"/>
+                    <div class="alert alert-danger mt-3" role="alert" *ngIf="isReq_office.value">
+                        กรุณาระบุข้อมูล "หน่วยงานที่รับผิดชอบ"
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="" class="col-lg-2 col-md-4 control-label is-required">วันที่เริ่มใช้งาน</label>
+            <div class="col-lg-4 col-md-7">
+                <div class="form-group input-group">
+                    <my-date-picker-th name="EFFECTIVE_DATE" [options]="myDatePickerOptions" class="form-control unset-form-control" [(ngModel)]="EFFECTIVE_DATE"
+                        [disabled]="showEditField" [ngClass]="{'ng-touched':isRequired}" (dateChanged)="isReq_effectiveDate.next(false)"></my-date-picker-th>
+                </div>
+                <div class="alert alert-danger mt-3" role="alert" *ngIf="isReq_effectiveDate.value">
+                    กรุณาระบุข้อมูล "วันที่เริ่มใช้งาน"
+                </div>
+            </div>
+
+            <label for="" class="col-lg-2 col-md-4 control-label is-required">วันที่สิ้นสุดใช้งาน</label>
+            <div class="col-lg-4 col-md-7">
+                <div class="form-group input-group">
+                    <my-date-picker-th name="EXPIRE_DATE" [options]="myDatePickerOptions" class="form-control unset-form-control" [(ngModel)]="EXPIRE_DATE"
+                        [disabled]="showEditField" [ngClass]="{'ng-touched':isRequired}" (dateChanged)="isReq_expDate.next(false)"></my-date-picker-th>
+                </div>
+                <div class="alert alert-danger mt-3" role="alert" *ngIf="isReq_expDate.value">
+                    กรุณาระบุข้อมูล "วันที่สิ้นสุดใช้งาน"
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="" class="col-lg-2 col-md-4 control-label">วันที่สิ้นสุดใช้งาน :</label>
+            <div class="form-group input-group  col-lg-4 col-md-7">
+                <my-date-picker-th name="EFEXPIRE_DATE" [options]="myDatePickerOptions" class="form-control unset-form-control" [(ngModel)]="EFEXPIRE_DATE"
+                    [disabled]="showEditField" [ngClass]="{'ng-touched':isRequired}" required></my-date-picker-th>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-2 col-sm-3">
+                <div class="row form-group">
+                    <div class="col">
+                        <input type="checkbox" id="md_isActive" [(ngModel)]="chk1" name="chk1" class="filled-in chk-col-indigo" [disabled]="showEditField"
+                            [checked]="IS_ACTIVE=='1'">
+                        <label for="md_isActive">ใช้งาน</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

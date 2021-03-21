@@ -1,0 +1,87 @@
+<div class="modal-header bg-theme">
+  <div class="row">
+    <div class="col-lg-5">
+      <h4 class="modal-title text-white">รายละเอียดข้อกล่าวหา</h4>
+    </div>
+    <div class="col-lg-6 col-md-5 col-8">
+      <form autocomplete="off" class="app-search" #searchFrom="ngForm" (ngSubmit)="onSearchByKey(searchFrom.value)">
+        <input type="search" name="TEXT_SEARCH" ngModel class="form-control form-control-sm"
+               placeholder="ค้นหาฐานความผิดมาตรา/ฐานความผิด">
+        <a class="srh-btn" (click)="onSearchByKey(searchFrom.value)" href="javaScript:void(0)">
+          <i class="ti-search"></i>
+        </a>
+      </form>
+    </div>
+
+    <a href="javaScript:void(0);" class="close text-white font-14" aria-label="Close" (click)="dismiss('Cross click')">
+      <span aria-hidden="true">
+        <i class=" ti-close"></i>
+      </span>
+    </a>
+  </div>
+</div>
+<h5 class="text-right mt-3 pr-3">ILG60-01-02-02-01</h5>
+<div class="modal-body font-14">
+  <div class="card unset-radius">
+    <div class="card-body p-0">
+      <table class="table table-sm table-striped table-nowrap" [formGroup]="formGroup">
+        <thead>
+        <tr>
+          <th class="text-center"></th>
+          <th class="text-center">ลำดับ</th>
+          <th>
+            ฐานความผิดมาตรา
+          </th>
+          <th class="">
+            ฐานความผิด
+          </th>
+          <th class="text-center">
+            บทกำหนดโทษ
+          </th>
+          <th class="">
+            อัตราโทษ
+          </th>
+        </tr>
+        </thead>
+        <tbody formArrayName="ArrestMasGuiltbase">
+        <tr *ngFor="let item of ArrestMasGuiltbase.controls; let i=index;" [formGroupName]="i">
+          <td class="text-center">
+            <input type="radio" [id]="'ArrestMasGuiltbase_rb'+i" name="IS_CHECKED" class="with-gap radio-col-indigo"
+                   (change)="onSelectionChange(item)">
+            <label [for]="'ArrestMasGuiltbase_rb'+i"></label>
+          </td>
+          <td class="text-center">{{item.get('ROW_ID').value}}</td>
+          <td class="text-left" style="width: 150px;">
+            {{item.get('SUBSECTION_NAME').value}}
+          </td>
+          <td style="width: 200px;">
+            <p class="text-truncate" style="width: 200px; white-space: unset;">
+              {{item.get('GUILTBASE_NAME').value}}
+            </p>
+          </td>
+          <td class="text-center">
+            {{item.get('SECTION_NAME').value}}
+          </td>
+          <td style="width: 200px;">
+            <p class="text-truncate" style="width: 200px; white-space: unset;">
+              {{item.get('PENALTY_DESC').value}}
+            </p>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card-footer card-footer-unset">
+      <app-pagination-table [TotalItems]="paginage.TotalItems" [CurrentPage]="paginage.CurrentPage"
+                            [PageSize]="paginage.PageSize" [RowsPerPageOptions]="paginage.RowsPerPageOptions"
+                            (onPageChange)="pageChanges($event)">
+      </app-pagination-table>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <div class="col-lg-2 col-4">
+    <button type="button" class="btn btn-block" [ngClass]="{'btn-green': selectedEntry}" [disabled]="!selectedEntry"
+            (click)="onSelect('Save click')">เลือก</button>
+  </div>
+</div>

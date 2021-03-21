@@ -1,0 +1,56 @@
+.item-center {
+    text-align: center;
+}
+
+.text-content {
+    color: #005c97;
+    font-weight: bold;
+}
+
+.img-resize {
+    width: 135px;
+    height: auto;
+}
+
+.text-weight {
+    font-weight: 500;
+}
+
+/** org chart modify */
+.oc-name {
+    font-size: 14px;
+    font-weight: 500;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.oc-designation {
+    font-size: 14px;
+    text-align: left;
+    white-space: nowrap;
+}
+.oc-img {
+    border: 3px solid rgba(108, 107, 107, 0.183);
+    border-radius: 3px;
+}
+
+.oc-border {
+    border: 1.5px solid rgba(7, 101, 159, 0.741);
+}
+
+.oc-background {
+    background-color: rgba(0, 0, 0, 0.04);
+}
+
+.oc-box.oc-border.oc-background {
+    padding: 0.2em 0.1em;
+}
+
+.scollbar {
+    overflow-x: auto;
+    text-align: center;
+    ng2-org-chart {
+        display: inline-flex;
+    }
+}
+/** end org chart modify */

@@ -1,0 +1,134 @@
+<div class="modal-header bg-theme">
+    <div class="row">
+        <div class="col-lg-7">
+            <h4 class="modal-title text-white">เพิ่มผู้ร่วมคณะจับกุม</h4>
+        </div>
+        <div class="col-lg-3">
+            <form autocomplete="off" class="app-search" #formSearch="ngForm" (ngSubmit)="clickSearch(formSearch.form.value)">
+                <input type="search" name="TEXT_SEARCH" id="" ngModel class="form-control">
+                <a href="javaScript:void(0);" (click)="clickSearch(formSearch.form.value)" class="srh-btn">
+                    <i class="ti-search"></i>
+                </a>
+            </form>
+        </div>
+        <div class="col-lg-1">
+            <a href="javaScript:void(0);" class="btn text-white" (click)="setAdvSearch()">
+                ค้นหาขั้นสูง
+            </a>
+        </div>
+        <a href="javaScript:void(0);" class="close text-white font-14" aria-label="Close" (click)="close('Cross click')">
+            <span aria-hidden="true">
+                <i class=" ti-close"></i>
+            </span>
+        </a>
+    </div>
+</div>
+
+<h5 class="text-right mt-3 pr-3">ILG60-99-05-02-01</h5>
+
+<div *ngIf="advSearch | async" class="modal-body font-14 card card-outline-bluish" style="margin:18px;padding: 0px;">
+    <div class="card-header unset-radius">
+        <app-card-actions-close></app-card-actions-close>
+        <h4 class="card-title m-b-0">ค้นหาขั้นสูง</h4>
+    </div>
+
+    <div class="card-body">
+        <form class="form-horizontal" #advForm="ngForm" (ngSubmit)="onAdvSearch(advForm)">
+            <div>
+                <div class="row">
+                    <label for="" class="col-lg-2 col-sm-3 control-label">รหัสพนักงาน :</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" name="STAFF_CODE" ngModel class="form-control" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <label for="" class="col-lg-2 col-sm-3 control-label">ชื่อพนักงาน :</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" name="STAFF_NAME" ngModel class="form-control" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="" class="col-lg-2 col-sm-3 control-label">ตำแหน่ง :</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" name="OPREATION_POS_NAME" ngModel class="form-control" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <label for="" class="col-lg-2 col-sm-3 control-label">หน่วยงาน :</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" name="OFFICE_NAME" ngModel class="form-control" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" name="STATUS" ngModel/>
+                </div>
+                <div class="row form-group">
+                    <div class="col-10"></div>
+                    <div class="col-2">
+                        <button type="submit" class="btn btn-block btn-themecolor">ค้นข้อมูล</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal-body font-14">
+    <div class="card unset-radius">
+        <div class="card-body p-0">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="text-align: center">
+                            <input type="checkbox" id="H_0" class="filled-in chk-col-indigo" name="selectAllChb" [(ngModel)]="selectAllChb" (change)="selectedChkAll();"
+                                [disabled]="showEditField">
+                            <label for="H_0" class="m-0"></label>
+                        </th>
+                        <th style="text-align: center;width: 7%">ลำดับ</th>
+                        <th>รหัสพนักงาน</th>
+                        <th>ชื่อพนักงาน</th>
+                        <th>ตำแหน่ง</th>
+                        <th>หน่วยงาน</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of showDataList; let i=index;">
+                        <td class="text-center">
+                            <input type="checkbox" class="filled-in chk-col-indigo" [id]="'td'+i" name="ListChK{{i}}" [(ngModel)]="item.IsCheck"
+                                (change)="checkIfAllChbSelected();" [ngClass]="{'ng-touched':isRequired}" [disabled]="showEditField">
+                            <label [for]="'td'+i" class="m-0"></label>
+                        </td>
+                        <td class="text-center">{{i+1}}</td>
+                        <td>{{item.STAFF_CODE}}</td>
+                        <td>{{item.TITLE_NAME_TH}}{{item.FIRST_NAME}} {{item.LAST_NAME}}</td>
+                        <td>{{item.OPREATION_POS_NAME}}</td>
+                        <td>{{item.OPERATION_OFFICE_SHORT_NAME}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="card-footer card-footer-unset">
+                <app-pagination-table [TotalItems]="paginage.TotalItems" [CurrentPage]="paginage.CurrentPage" [PageSize]="paginage.PageSize"
+                    [RowsPerPageOptions]="paginage.RowsPerPageOptions" (onPageChange)="pageChanges($event)">
+                </app-pagination-table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <div class="col-lg-2 col-sm-4">
+        <button type="button" class="btn btn-block btn-themecolor" (click)="onSave()">บันทึก</button>
+    </div>
+</div>

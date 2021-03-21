@@ -1,0 +1,369 @@
+<header class="topbar">
+  <nav class="navbar top-navbar navbar-expand-md navbar-light">
+    <div class="navbar-collapse" style="padding-right: 55px;">
+      <ul class="navbar-nav mr-auto mt-md-0">
+        <li *ngIf="btn_onPrint | async" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickPrint()">
+              พิมพ์
+            </a>
+          </div>
+        </li>
+        <li *ngIf="btn_onEdit | async" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickEdit()">
+              แก้ไข
+            </a>
+          </div>
+        </li>
+        <li *ngIf="btn_onDelete | async" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickDelete()"
+              style="background-color: #f47023">
+              ลบ
+            </a>
+          </div>
+        </li>
+        <li *ngIf="btn_onSave | async" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickSave()">
+              บันทึก
+            </a>
+          </div>
+        </li>
+        <li *ngIf="btn_onCancel | async" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickCancel()">
+              ยกเลิก
+            </a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<!-- Collapse 1 -->
+<form [formGroup]="evidenceInOutFG">
+  <div class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius" (click)="onCollapse(COLLAPSE_1_TOGGLE)">
+      <div class="card-actions">
+        <a class="">
+          <i class="fa"
+            [ngClass]="{'fa-chevron-up': (COLLAPSE_1_TOGGLE | async), 'fa-chevron-down': !(COLLAPSE_1_TOGGLE | async)}"></i>
+        </a>
+      </div>
+      <h4 class="card-title m-b-0">รายละเอียดประกอบการตรวจรับ</h4>
+    </div>
+    <div *ngIf="COLLAPSE_1_TOGGLE | async" class="card-body">
+
+      <div class="row">
+        <label for="" class="col-lg-2 col-md-4 control-label">เลขที่หนังสือนำส่ง</label>
+        <div class="col-lg-4 col-md-7 col-sm-8">
+          <div class="form-group ">
+            <input type="text" formControlName="EVIDENCE_OUT_CODE" name="EVIDENCE_OUT_CODE"
+              class="form-control form-control-sm" readonly>
+          </div>
+        </div>
+        <label for="" class="col-lg-2 col-md-4 control-label">ลงวันที่</label>
+        <div class="input-group col-lg-4 col-md-7">
+          <div style="width:45%">
+            <my-date-picker-th name="EVIDENCE_OUT_DATE" [options]="myDatePickerOptions" readOnly>
+            </my-date-picker-th>
+          </div>
+          <label for="" class="">&nbsp; เวลา &nbsp;</label>
+          <input type="text" formControlName="EVIDENCE_OUT_TIME" name="EVIDENCE_OUT_TIME" style="height: 35px;"
+            class="form-control form-control-sm" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" maxlength="5" readOnly>
+        </div>
+      </div>
+
+
+
+      <div class="row">
+        <label for="" class="col-lg-2 col-md-4 control-label">ผู้ขอโอนย้าย</label>
+        <div class="form-group col-lg-4 col-md-7 col-sm-8">
+          <input type="text" class="form-control form-control-sm" formControlName="BOOK_NO" name="BOOK_NO" readOnly>
+        </div>
+        <label for="" class="col-lg-2 col-md-4 control-label">ตำแหน่ง</label>
+        <div class="form-group col-lg-4 col-md-7 col-sm-8">
+          <input type="text" class="form-control form-control-sm" formControlName="RECEIPT_NO" name="RECEIPT_NO"
+            readOnly>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <label for="" class="col-lg-2 col-md-4 control-label">หน่วยงาน</label>
+        <div class="form-group col-lg-4 col-md-7 col-sm-8">
+          <input type="text" class="form-control form-control-sm" formControlName="BOOK_NO" name="BOOK_NO" readOnly>
+        </div>
+        <label for="" class="col-lg-2 col-md-4 control-label">เหตุผลในการโอนย้าย</label>
+        <div class="form-group col-lg-4 col-md-7 col-sm-8">
+          <input type="text" class="form-control form-control-sm" formControlName="RECEIPT_NO" name="RECEIPT_NO"
+            readOnly>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <label for="" class="col-lg-2 col-md-4 control-label">เลขที่นำออก</label>
+        <div class="col-lg-4 col-md-7 col-sm-8">
+          <div class="form-group ">
+            <input type="text" formControlName="EVIDENCE_OUT_CODE" name="EVIDENCE_OUT_CODE"
+              class="form-control form-control-sm" readonly>
+          </div>
+        </div>
+        <label for="" class="col-lg-2 col-md-4 control-label">วันที่นำออก</label>
+        <div class="input-group col-lg-4 col-md-7">
+          <div style="width:45%">
+            <my-date-picker-th name="EVIDENCE_OUT_DATE" [options]="myDatePickerOptions" readOnly>
+            </my-date-picker-th>
+          </div>
+          <label for="" class="">&nbsp; เวลา &nbsp;</label>
+          <input type="text" formControlName="EVIDENCE_OUT_TIME" name="EVIDENCE_OUT_TIME" style="height: 35px;"
+            class="form-control form-control-sm" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" maxlength="5" readOnly>
+        </div>
+      </div>
+
+      <div class="row">
+        <label for="" class="col-lg-2 col-md-4 control-label">เลขที่หนังสืออนุมัติ</label>
+        <div class="col-lg-4 col-md-7 col-sm-8">
+          <div class="form-group ">
+            <input type="text" formControlName="EVIDENCE_OUT_CODE" name="EVIDENCE_OUT_CODE"
+              class="form-control form-control-sm" readonly>
+          </div>
+        </div>
+        <label for="" class="col-lg-2 col-md-4 control-label">วันที่อนุมัติ</label>
+        <div class="input-group col-lg-4 col-md-7">
+          <div style="width:45%">
+            <my-date-picker-th name="EVIDENCE_OUT_DATE" [options]="myDatePickerOptions" readOnly>
+            </my-date-picker-th>
+          </div>
+          <label for="" class="">&nbsp; เวลา &nbsp;</label>
+          <input type="text" formControlName="EVIDENCE_OUT_TIME" name="EVIDENCE_OUT_TIME" style="height: 35px;"
+            class="form-control form-control-sm" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" maxlength="5" readOnly>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <label for="" class="col-lg-2 col-md-4 control-label">ผู้พิจารณาอนุมัติ</label>
+        <div class="form-group col-lg-4 col-md-7 col-sm-8">
+          <input type="text" class="form-control form-control-sm" formControlName="BOOK_NO" name="BOOK_NO" readOnly>
+        </div>
+        <label for="" class="col-lg-2 col-md-4 control-label">ตำแหน่ง</label>
+        <div class="form-group col-lg-4 col-md-7 col-sm-8">
+          <input type="text" class="form-control form-control-sm" formControlName="RECEIPT_NO" name="RECEIPT_NO"
+            readOnly>
+        </div>
+      </div>
+      <div class="row">
+        <label for="" class="col-lg-2 col-md-4 control-label">หน่วยงาน</label>
+        <div class="form-group col-lg-4 col-md-7 col-sm-8">
+          <input type="text" class="form-control form-control-sm" formControlName="BOOK_NO" name="BOOK_NO" readOnly>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+
+  <!-- Collapse 2 -->
+  <div class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius" (click)="onCollapse(COLLAPSE_2_TOGGLE)">
+      <div class="card-actions">
+        <a class="">
+          <i class="fa"
+            [ngClass]="{'fa-chevron-up': (COLLAPSE_2_TOGGLE | async), 'fa-chevron-down': !(COLLAPSE_2_TOGGLE | async)}"></i>
+        </a>
+      </div>
+      <h4 class="card-title m-b-0">รายละเอียดการตรวจรับของกลาง</h4>
+    </div>
+    <div *ngIf="COLLAPSE_2_TOGGLE | async" class="card-body">
+
+      <div class="row">
+        <label for="" class="col-lg-2 col-md-4 control-label">เลขที่รับ</label>
+        <div class="col-lg-4 col-md-7 col-sm-8">
+          <div class="form-group ">
+            <input type="text" formControlName="EVIDENCE_OUT_CODE" name="EVIDENCE_OUT_CODE"
+              class="form-control form-control-sm" readonly>
+          </div>
+        </div>
+        <label for="" class="col-lg-2 col-md-4 control-label">วันที่รับ</label>
+        <div class="input-group col-lg-4 col-md-7">
+          <div style="width:45%">
+            <my-date-picker-th name="EVIDENCE_OUT_DATE" [options]="myDatePickerOptions">
+            </my-date-picker-th>
+          </div>
+          <label for="" class="">&nbsp; เวลา &nbsp;</label>
+          <input type="text" formControlName="EVIDENCE_OUT_TIME" name="EVIDENCE_OUT_TIME" style="height: 35px;"
+            class="form-control form-control-sm" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" maxlength="5">
+        </div>
+      </div>
+
+      <div class="row">
+        <label for="" class="col-lg-2 col-md-4 control-label">หน่วยงาน</label>
+        <div class="form-group col-lg-4 col-md-7 col-sm-8">
+          <input type="text" class="form-control form-control-sm" formControlName="BOOK_NO" name="BOOK_NO">
+        </div>
+      </div>
+      <div class="table-responsive overflow-y-hidden">
+        <table class="table table-sm table-striped table-set-border" style="width: 155%; max-width: unset;">
+          <thead>
+            <tr>
+              <th class="text-center">ลำดับ</th>
+              <th>เลขคดี</th>
+              <th>เลขทะเบียนบัญชี</th>
+              <th>ของกลาง</th>
+              <th>จำนวนส่ง</th>
+              <th>จำนวนชำรุด</th>
+              <th>จำนวนรับ</th>
+              <th>หน่วย</th>
+              <th>ปริมาณส่ง</th>
+              <th>ปริมาณชำรุด</th>
+              <th>ปริมาณรับ</th>
+              <th>หน่วย</th>
+              <th>หมายเหตุ</th>
+            </tr>
+          </thead>
+          <tbody formArrayName="EvidenceOutItem">
+            <tr *ngFor="let item of EvidenceOutItem.controls; let i=index">
+              <td class="text-center">{{i+1}}</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Staff -->
+  <div class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius" (click)="onCollapse(COLLAPSE_3_TOGGLE)">
+      <div class="card-actions">
+        <a class="">
+          <i class="fa"
+            [ngClass]="{'fa-chevron-up': (COLLAPSE_3_TOGGLE | async), 'fa-chevron-down': !(COLLAPSE_3_TOGGLE | async)}"></i>
+        </a>
+      </div>
+      <h4 class="card-title m-b-0">ข้อมูลเจ้าหน้าที่</h4>
+    </div>
+    <div *ngIf="COLLAPSE_3_TOGGLE | async" class="card-body">
+      <table class="table table-sm table-striped table-set-border">
+        <thead>
+          <tr>
+            <th class="text-center">ลำดับ</th>
+            <th style="width: 1%;"></th>
+            <th>ชื่อเจ้าหนัาที่ </th>
+            <th>ตำแหน่ง</th>
+            <th>หน่วยงาน</th>
+            <th>ฐานะ</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody formArrayName="EvidenceOutStaff">
+          <tr *ngFor="let item of EvidenceOutStaff.controls; let i=index">
+            <td class="text-center">{{i+1}}</td>
+            <td><span *ngIf="item.get('IS_REQUIRE')?.value" class="text-danger">*</span> </td>
+            <td>
+              <ng-template #rt let-r="result" let-t="term">
+                {{ r.TITLE_SHORT_NAME_TH}}{{r.FIRST_NAME}} {{r.LAST_NAME}}
+              </ng-template>
+              <input type="text" #region1 class="form-control form-control-sm" [ngbTypeahead]="searchStaff"
+                [resultTemplate]="rt" [readOnly]="showEditField || item.get('FULL_NAME')?.value"
+                [inputFormatter]="formatterStaff" (selectItem)="selectItemStaff($event, i)"
+                [value]="item.get('FULL_NAME')?.value"
+                [ngClass]="{'is-invalid': !item.get('FULL_NAME').value ? item.get('IS_REQUIRE').value : false}"
+                required />
+            </td>
+            <td>
+              <input type="text" [value]="item.get('MANAGEMENT_POS_NAME')?.value" class="form-control form-control-sm"
+                readonly>
+            </td>
+            <td>
+              <input type="text" [value]="item.get('OPERATION_OFFICE_SHORT_NAME')?.value"
+                class="form-control form-control-sm" readonly>
+            </td>
+            <td>
+              {{getContributorName(i)}}
+            </td>
+            <td>
+              <a *ngIf="!showEditField && item.get('FULL_NAME')?.value" href="javaScript:void(0);" class="text-danger"
+                (click)="deleteStaff(i)">
+                <i class="fa fa-trash-o fa-lg"></i>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+  <!-- Document-->
+  <div class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius" (click)="onCollapse(COLLAPSE_4_TOGGLE)">
+      <div class="card-actions">
+        <a class="">
+          <i class="fa"
+            [ngClass]="{'fa-chevron-up': (COLLAPSE_4_TOGGLE | async), 'fa-chevron-down': !(COLLAPSE_4_TOGGLE | async)}"></i>
+        </a>
+      </div>
+      <h4 class="card-title m-b-0">เอกสารแนบภายใน</h4>
+    </div>
+    <div *ngIf="COLLAPSE_4_TOGGLE | async" class="card-body">
+      <div class="row form-group">
+        <div class="col-lg-10 col-md-9 col-sm-8"></div>
+        <div class="col-lg-2 col-md-3 col-sm-4">
+          <button type="button" class="btn btn-block btn-themecolor" [disabled]="showEditField"
+            (click)="openModal(document)">เพิ่มเอกสารแนบ</button>
+          <ng-template #document let-c="close" let-d="dismiss">
+            <app-document (d)="modal.dismiss()" (Output)="setItemDocument($event)">
+            </app-document>
+          </ng-template>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10">
+          <owl-carousel [options]="owlOption" [items]="fileList" [carouselClasses]="['owl-theme', 'row', 'sliding']">
+            <div class="item my-1" *ngFor="let item of fileList;let i = index">
+              <a *ngIf="!showEditField" href="javaScript:void(0);" class="times-item" (click)="deleteItem(i)">
+                <i class="fa fa-times" aria-hidden="true"></i>
+              </a>
+              <a *ngIf="item.DOCUMENT_ID" href="javaScript:void(0);" (click)="DownloadItem(item)">
+                <i class="fa fa-download" aria-hidden="true"></i>
+              </a>
+              <div class="tile"
+                [ngStyle]="{'background': 'url('+item.IMAGE_SHOW+')no-repeat scroll center center / 90px 90px'}">
+                <div class="wBg">
+                  <div class="tile" style="width: 90px; height: 90px;"></div>
+                  <h5 class="mt-4 text-truncate">{{item.DOCUMENT_NAME}}</h5>
+                </div>
+              </div>
+            </div>
+          </owl-carousel>
+        </div>
+        <div class="col-1"></div>
+      </div>
+
+      <span class="text-danger">หมายเหตุ : ขนาดของไฟล์เอกสาร ไม่เกินไฟล์ละ 1 MB, รูปภาพ/วีดิโอ ไม่เกินไฟล์ละ
+        200
+        MB</span>
+    </div>
+  </div>
+</form>

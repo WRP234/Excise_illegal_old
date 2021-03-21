@@ -1,0 +1,251 @@
+<header class="topbar">
+  <nav class="navbar top-navbar navbar-expand-md navbar-light">
+
+    <div class="navbar-collapse" style="padding-right: 55px;">
+      <ul class="navbar-nav mr-auto mt-md-0">
+        <li *ngIf="false" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickNew()">
+              สร้างข้อมูล
+            </a>
+          </div>
+        </li>
+        <li *ngIf="false" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickPrint()">
+              พิมพ์
+            </a>
+          </div>
+        </li>
+        <li *ngIf="false" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickEdit()">
+
+              แก้ไข
+            </a>
+          </div>
+        </li>
+        <li *ngIf="false" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickDelete()"
+              style="background-color: #f47023">
+
+              ลบ
+            </a>
+          </div>
+        </li>
+        <li *ngIf="false" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickSave()">
+
+              บันทึก
+            </a>
+          </div>
+        </li>
+        <li *ngIf="false" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickCancel()">
+              ยกเลิก
+            </a>
+          </div>
+        </li>
+      </ul>
+      <ul *ngIf="true" class="navbar-nav my-lg-0">
+        <li class="nav-item col-8">
+          <form autocomplete="off" class="app-search" #formSearch="ngForm" (ngSubmit)="clickSearch(formSearch)">
+            <input type="search" name="KEYWORD" id="" ngModel class="form-control">
+            <a href="javaScript:void(0);" (click)="onSearchByKeyword(formSearch.form.value)" class="srh-btn">
+              <i class="ti-search"></i>
+            </a>
+          </form>
+        </li>
+        <li class="nav-item col-9">
+          <a href="javaScript:void(0);" class="btn text-white" style="width: 122px;" (click)="clickimageSearch()">
+            ค้นหาด้วยรูปภาพ
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<div *ngIf="advSearch | async" class="card card-outline-bluish unset-radius">
+  <div class="card-header unset-radius">
+    <app-card-actions-close></app-card-actions-close>
+    <h4 class="card-title m-b-0">ค้นหาขั้นสูง</h4>
+  </div>
+
+  <div class="card-body">
+    <form class="form-horizontal" #advForm="ngForm" (ngSubmit)="onAdvSearch(advForm.value)">
+      <div class="row">
+        <label for="" class="col-lg-2 col-sm-3 control-label">ประเภทผู้ต้องหา</label>
+        <div class="col-lg-4 col-md-7 col-sm-9">
+          <div class="form-group">
+            <select class="form-control form-control-sm" name="ENTITY_TYPE" ngModel
+              [ngClass]="{'ng-touched':isRequired}" [disabled]="showEditField">
+              <option value="" selected disabled></option>
+              <option *ngFor="let item of ENTITY_TYPE; let i=index;" [value]="item.entity_value">{{item.entity_type}}
+              </option>
+            </select>
+          </div>
+        </div>
+        <label for="" class="col-lg-2 col-sm-3 control-label">ประเภทบุคคล </label>
+        <div class="col-lg-4 col-md-7 col-sm-9">
+          <div class="form-group">
+            <select class="form-control form-control-sm" name="PERSON_TYPE" ngModel
+              [ngClass]="{'ng-touched':isRequired}" [disabled]="showEditFieldADV">
+              <option value="" selected disabled></option>
+              <option *ngFor="let item of PERSON_TYPE; let i=index;" [value]="item.person_value">{{item.person_type}}
+              </option>
+            </select>
+          </div>
+        </div>
+
+      </div>
+      <div class="row">
+        <label for="" class="col-lg-2 col-sm-3 control-label">ชื่อผู้ต้องหา </label>
+        <div class="col-lg-4 col-md-7 col-sm-9">
+          <div class="form-group">
+            <input class="form-control form-control-sm" type="search" name="LAWBREAKER_NAME" ngModel>
+          </div>
+        </div>
+        <label for="" class="col-lg-2 col-sm-3 control-label">เลขบัตรประชาชน </label>
+        <div class="col-lg-4 col-md-7 col-sm-9">
+          <div class="form-group">
+            <input class="form-control form-control-sm" type="search" name="ID_CARD" ngModel>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <label for="" class="col-lg-2 col-sm-3 control-label">เลขหนังสือเดินทาง </label>
+        <div class="col-lg-4 col-md-7 col-sm-9">
+          <div class="form-group">
+            <input class="form-control form-control-sm" type="search" name="PASSPORT_NO" ngModel>
+          </div>
+        </div>
+        <label for="" class="col-lg-2 col-sm-3 control-label">เลขนิติบุคคล </label>
+        <div class="col-lg-4 col-md-7 col-sm-9">
+          <div class="form-group">
+            <input class="form-control form-control-sm" type="search" name="COMPANY_REGISTRATION_NO" ngModel>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <label for="" class="col-lg-2 col-sm-3 control-label">ชื่อสถานประกอบการ </label>
+        <div class="col-lg-4 col-md-7 col-sm-9">
+          <div class="form-group">
+            <input class="form-control form-control-sm" type="search" name="COMPANY_NAME" ngModel>
+          </div>
+        </div>
+        <label for="" class="col-lg-2 col-sm-3 control-label">ที่อยู่ผู้ต้องหา (ต/อ/จ) </label>
+        <div class="col-lg-4 col-md-7 col-sm-9">
+          <div class="form-group">
+            <input class="form-control form-control-sm" type="search" name="LAWBREAKER_ADDRESS" ngModel>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <label for="" class="col-lg-2 col-sm-3 control-label">ชื่อบิดา </label>
+        <div class="col-lg-4 col-md-7 col-sm-9">
+          <div class="form-group">
+            <input class="form-control form-control-sm" type="search" name="FATHER_NAME" ngModel>
+          </div>
+        </div>
+        <label for="" class="col-lg-2 col-sm-3 control-label">ชื่อมารดา </label>
+        <div class="col-lg-4 col-md-7 col-sm-9">
+          <div class="form-group">
+            <input class="form-control form-control-sm" type="search" name="MONTHER_NAME" ngModel>
+          </div>
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-10"></div>
+        <div class="col-2">
+          <button type="submit" class="btn btn-block btn-themecolor">ค้นข้อมูล</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<div class="card">
+  <div class="card-body">
+
+    <div class="table-responsive table-striped scroll table-sm">
+      <table class="table">
+        <thead>
+          <tr>
+            <th style="text-align: center;width:5%">ลำดับ</th>
+            <th style="width:15%">ประเภทผู้ต้องหา</th>
+            <th style="width:10%">ประเภทบุคคล</th>
+            <th style="width:15%">ชื่อผู้ต้องหา</th>
+            <th style="width:15%">เลขที่อ้างอิง</th>
+            <th style="width:16%">ชื่อสถานประกอบการ</th>
+            <th style="width:16%">ที่อยู่ผู้ต้องหา (ต/อ/จ)</th>
+            <th style="width:20%">จำนวนครั้งการกระทำผิด</th>
+            <th></th>
+            <!-- <th class="last-child ">&nbsp;</th> -->
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let item of fromSearch; let i=index;" class="table-fix">
+            <td style="text-align: center;">{{i+1}}</td>
+            <td>{{item.ENTITY_TYPE}}</td>
+            <td>{{item.PERSON_TYPE}}</td>
+            <td>{{item.LAWBREAKER_NAME}}</td>
+            <td>{{item.REFERENCE_ID}}</td>
+            <td>{{item.COMPANY_NAME}}</td>
+            <td>{{item.LAWBREAKER_ADDRESS}}</td>
+            <td style="text-align: center;">{{item.MISTREAT_NO}}</td>
+            <td class="text-center;">
+              <a href="javaScript:void(0);" class="text-secondary" (click)="clickView(item.PERSON_ID)">
+                <i class="mdi mdi-eye fa-lg"></i>
+              </a>
+            </td>
+          </tr>
+
+          <!-- <tr class="table-fix">
+            <td style="text-align: center;">1</td>
+            <td>บุคคลธรรมดา</td>
+            <td>คนไทย</td>
+            <td>นายเสนาะ คำใจ</td>
+            <td>1556900033301</td>
+            <td></td>
+            <td>มีนบุรี/มีนบุรี/กทม</td>
+            <td>2 ครั้ง</td>
+            <td class="text-center;">
+              <a href="javaScript:void(0);" class="text-secondary" (click)="clickView()">
+                <i class="mdi mdi-eye fa-lg"></i>
+              </a>
+            </td>
+          </tr>
+          <tr class="table-fix">
+            <td style="text-align: center;">2</td>
+            <td>นิติบุคคล</td>
+            <td>คนไทย</td>
+            <td>นางวรรณดี มีใจรัก</td>
+            <td>11249999000012</td>
+            <td>CP All</td>
+            <td>มีนบุรี/มีนบุรี/กทม</td>
+            <td>2 ครั้ง</td>
+            <td class="text-center;">
+              <a href="javaScript:void(0);" class="text-secondary" (click)="clickView()">
+                <i class="mdi mdi-eye fa-lg"></i>
+              </a>
+            </td>
+          </tr> -->
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card-footer card-footer-unset">
+      <app-pagination-table [TotalItems]="paginage.TotalItems" [CurrentPage]="paginage.CurrentPage"
+        [PageSize]="paginage.PageSize" [RowsPerPageOptions]="paginage.RowsPerPageOptions"
+        (onPageChange)="pageChanges($event)">
+      </app-pagination-table>
+    </div>
+  </div>
+</div>

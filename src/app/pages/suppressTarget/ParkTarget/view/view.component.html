@@ -1,0 +1,356 @@
+<header class="topbar">
+  <nav class="navbar top-navbar navbar-expand-md navbar-light">
+
+      <div class="navbar-collapse">
+          <ul class="navbar-nav mr-auto mt-md-0">
+              <li *ngIf="craete_btn" class="nav-item" >
+                  <div class="nav-link text-muted waves-effect waves-dark">
+                      <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickNew()">
+                          สร้างข้อมูล
+                      </a>
+                  </div>
+              </li>
+              <li *ngIf="print_btn" class="nav-item">
+                  <div class="nav-link text-muted waves-effect waves-dark">
+                      <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickPrint()">
+                          พิมพ์
+                      </a>
+                  </div>
+              </li>
+              <li *ngIf="edit_btn" class="nav-item">
+                  <div class="nav-link text-muted waves-effect waves-dark">
+                      <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickEdit()">
+
+                          แก้ไข
+                      </a>
+                  </div>
+              </li>
+              <li *ngIf="delete_btn" class="nav-item">
+                  <div class="nav-link text-muted waves-effect waves-dark">
+                      <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickDelete()"
+                          style="background-color: #f47023">
+
+                          ลบ
+                      </a>
+                  </div>
+              </li>
+              <li *ngIf="save_btn" class="nav-item">
+                  <div class="nav-link text-muted waves-effect waves-dark">
+                      <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickSave()">
+
+                          บันทึก
+                      </a>
+                  </div>
+              </li>
+              <li *ngIf="cancel_btn" class="nav-item">
+                  <div class="nav-link text-muted waves-effect waves-dark">
+                      <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickCancel()">
+
+                          ยกเลิก
+                      </a>
+                  </div>
+              </li>
+          </ul>
+          <ul *ngIf="search_text" class="navbar-nav my-lg-0 ">
+              <li class="nav-item col-8">
+                  <form autocomplete="off" class="app-search" #formSearch="ngForm"
+                      (ngSubmit)="clickSearch(formSearch)">
+                      <input type="search" name="Textsearch" id="" ngModel class="form-control">
+                      <a href="javaScript:void(0);" (click)="clickSearch(formSearch)" class="srh-btn">
+                          <i class="ti-search"></i>
+                      </a>
+                  </form>
+              </li>
+              <li class="nav-item col-9">
+                  <a href="javaScript:void(0);" class="btn text-white" (click)="clickAdvSearch()">
+                      ค้นหาขั้นสูง
+                  </a>
+              </li>
+          </ul>           
+      </div>
+  </nav>
+</header>
+
+<div class="card card-outline-bluish unset-radius">
+  <div class="card-header  unset-radius">
+    <!-- <div class="">
+
+    </div> -->
+    <app-card-actions-collapse>
+      <div class="card-actions">
+        <a href="" class="">
+          <i class="fa fa-chevron-down">
+            ::before
+          </i>
+        </a>
+      </div>
+    </app-card-actions-collapse>
+    <h4 class="card-title m-b-0">กำหนดเป้าปราบปราม</h4>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <label for="" class="col-lg-2 col-sm-4 control-label">ครั้งที่</label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+        <div class="form-group ">
+          <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            formcontrolname="" readonly="" ng-reflect-name="" value="1">
+        </div>
+      </div>
+      <label for="" class="col-lg-2 col-sm-4 control-label">หน่วยงาน</label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+        <div class="form-group ">
+          <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            formcontrolname="" readonly="" ng-reflect-name="" value="สพพ.พิษณุโลก สาขาเมือง">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <label for="" class="col-lg-2 col-sm-4 control-label">จำนวนคดีรวมที่ผ่านมา</label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+        <div class="form-group ">
+          <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            formcontrolname="" readonly="" ng-reflect-name="" value="4300">
+        </div>
+      </div>
+      <label for="" class="col-lg-2 col-sm-4 control-label">ค่าปรับรวมที่ผ่านมา</label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+        <div class="form-group ">
+          <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            formcontrolname="" readonly="" ng-reflect-name="" value="33,600,000">
+        </div>
+      </div>
+    </div>
+
+    <div class="row"> 
+      
+      <!-- เพิ่มลักษณะคดี 17/06/62 -->
+      <label for="" class="col-lg-2 col-sm-4 control-label">ลักษณะคดี</label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+          <div class="form-group ">
+            <!-- form-control ng-untouched ng-pristine ng-valid text-right -->
+            <select name="" id="" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+              [disabled]="mode=='R'">
+              <option value="เปรียบเทียบปรับ">เปรียบเทียบปรับ</option>
+              <option value="ส่งฟ้องศาล">ส่งฟ้องศาล</option>
+              <option value="ไม่มีตัว">ไม่มีตัว</option>
+            </select>
+          </div>
+        </div>
+
+      <label for="" class="col-lg-2 col-sm-4 control-label">กลุ่มสินค้า
+        <label for="" style="color: red">*</label>
+      </label>
+
+      <div class="col-lg-4 col-md-7 col-sm-8">
+        <div class="form-group ">
+          <!-- form-control ng-untouched ng-pristine ng-valid text-right -->
+          <select name="" id="" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            [disabled]="mode=='R'">
+            <option value="สุรา">สุรา</option>
+            <option value="ยาสูบ">ยาสูบ</option>
+            <option value="ไพ่">ไพ่</option>
+            <option value="สินค้าอื่นๆ">สินค้าอื่นๆ</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="card card-outline-bluish unset-radius">
+  <div class="card-header  unset-radius">
+    <app-card-actions-collapse>
+      <div class="card-actions">
+        <a href="" class="">
+          <i class="fa fa-chevron-down">
+            ::before
+          </i>
+        </a>
+      </div>
+    </app-card-actions-collapse>
+    <h4 class="card-title m-b-0">รายละเอียดเป้าปราบปราม</h4>
+  </div>
+
+  <div class="card-body">
+    <div class="card unset-radius">
+      <div class="card-body  p-0">
+        <div class="table-responsive table-sm table-striped inner">
+          <table class="table">
+
+            <thead>
+              <tr>
+                <th class="headcol"></th>
+                <th class="text-center" style="color: red" colspan="2">สสพ.พิษณุโลก</th>
+                <th class="text-center " colspan="2">สสพ.กำแพงเพชร</th>
+                <th class="text-center " colspan="2">สสพ.ตาก</th>
+                <th class="text-center " colspan="2">สสพ.นครสวรรค์</th>
+                <th class="text-center " colspan="2">สสพ.พิจิตร</th>
+                <th class="text-center " colspan="2">สสพ.เพชรบูรณ์</th>
+                <th class="text-center " colspan="2">สสพ.สุโขทัย</th>
+                <th class="text-center " colspan="2">สสพ.อุทัยธานี</th>
+
+                <th class="text-center " colspan="2">ยอดรวมทุกพื้นที่สาขาในเเต่ละเดือน</th>
+
+
+              </tr>
+              <tr>
+
+                <th class="headcol"></th>
+                <th class="text-center" style="color:#495057">จำนวนคดี</th>
+                <th class="text-center" style="color:#495057">จำนวนค่าปรับ</th>
+                <th class="text-center" style="color:#495057">จำนวนคดี</th>
+                <th class="text-center" style="color:#495057">จำนวนค่าปรับ</th>
+                <th class="text-center" style="color:#495057">จำนวนคดี</th>
+                <th class="text-center" style="color:#495057">จำนวนค่าปรับ</th>
+                <th class="text-center" style="color:#495057">จำนวนคดี</th>
+                <th class="text-center" style="color:#495057">จำนวนค่าปรับ</th>
+                <th class="text-center" style="color:#495057">จำนวนคดี</th>
+                <th class="text-center" style="color:#495057">จำนวนค่าปรับ</th>
+                <th class="text-center" style="color:#495057">จำนวนคดี</th>
+                <th class="text-center" style="color:#495057">จำนวนค่าปรับ</th>
+                <th class="text-center" style="color:#495057">จำนวนคดี</th>
+                <th class="text-center" style="color:#495057">จำนวนค่าปรับ</th>
+                <th class="text-center" style="color:#495057">จำนวนคดี</th>
+                <th class="text-center" style="color:#495057">จำนวนค่าปรับ</th>
+                
+                <th class="text-center" style="color:#495057">จำนวนคดี</th>
+                <th class="text-center" style="color:#495057">จำนวนค่าปรับ</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr *ngFor="let item of targetItemDetail_NON; let i = index;">
+                <td class="headcol table-fix">
+                  <label class="control-label ">{{item.MONTH}}</label>
+                  </td>
+                <td>
+                  <input type="number" [(ngModel)]='item.QTY_1'
+                    class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                    formcontrolname="QTY_1" #QTY_1 name="QTY_1" readonly="">
+
+                </td>
+                <td>
+                  <input type="number" [(ngModel)]='item.FINE_1' #FINE_1 name="FINE_1"
+                    class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right" readonly="">
+
+                </td>
+                <td>
+                  <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                    [(ngModel)]='item.QTY_2' #QTY_2 readonly="">
+
+                </td>
+                <td>
+                  <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                    [(ngModel)]='item.FINE_2' #FINE_2 readonly="">
+
+                </td>
+                <td>
+                  <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                    [(ngModel)]='item.QTY_3' #QTY_3 readonly="">
+
+                </td>
+                <td>
+                  <!-- {{ item.TotalFine.toLocaleString(undefined, {minimumFractionDigits: 2,maximumFractionDigits: 2}) }} -->
+                  <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                    [(ngModel)]='item.FINE_3' #FINE_3 readonly="">
+
+                </td>
+                <td>
+                  <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                    [(ngModel)]='item.QTY_3' #QTY_3 readonly="">
+
+                </td>
+                <td>
+                  <!-- {{ item.TotalFine.toLocaleString(undefined, {minimumFractionDigits: 2,maximumFractionDigits: 2}) }} -->
+                  <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                    [(ngModel)]='item.FINE_3' #FINE_3 readonly="">
+
+                </td>
+                <td>
+                  <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                    [(ngModel)]='item.QTY_3' #QTY_3 readonly="">
+
+                </td>
+                <td>
+                  <!-- {{ item.TotalFine.toLocaleString(undefined, {minimumFractionDigits: 2,maximumFractionDigits: 2}) }} -->
+                  <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                    [(ngModel)]='item.FINE_3' #FINE_3 readonly="">
+
+                </td>
+                <td>
+                  <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                    [(ngModel)]='item.QTY_3' #QTY_3 readonly="">
+
+                </td>
+                <td>
+                  <!-- {{ item.TotalFine.toLocaleString(undefined, {minimumFractionDigits: 2,maximumFractionDigits: 2}) }} -->
+                  <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                    [(ngModel)]='item.FINE_3' #FINE_3 readonly="">
+
+                </td>
+                <td>
+                  <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                    [(ngModel)]='item.QTY_3' #QTY_3 readonly="">
+
+                </td>
+                <td>
+                  <!-- {{ item.TotalFine.toLocaleString(undefined, {minimumFractionDigits: 2,maximumFractionDigits: 2}) }} -->
+                  <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                    [(ngModel)]='item.FINE_3' #FINE_3 readonly="">
+
+                </td>
+                <td>
+                  <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                    [(ngModel)]='item.QTY_3' #QTY_3 readonly="">
+
+                </td>
+                <td>
+                  <!-- {{ item.TotalFine.toLocaleString(undefined, {minimumFractionDigits: 2,maximumFractionDigits: 2}) }} -->
+                  <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                    [(ngModel)]='item.FINE_3' #FINE_3 readonly="">
+
+                </td>
+                <td>
+                  <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                    [(ngModel)]='item.QTY_4' #QTY_4 readonly="">
+
+                </td>
+                <td>
+                  <!-- {{ item.TotalFine.toLocaleString(undefined, {minimumFractionDigits: 2,maximumFractionDigits: 2}) }} -->
+                  <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                    [(ngModel)]='item.FINE_4' #FINE_4 readonly="">
+
+                </td>
+
+              </tr>
+
+              <tr>
+                <th class="headcol">รวม</th>
+                <th class="text-right">{{getTotalQTY_1_()}} คดี</th>
+                <th class="text-right">{{getTotalFINE_1_()}} บาท</th>
+                <th class="text-right">{{getTotalQTY_2_()}} คดี</th>
+                <th class="text-right">{{getTotalFINE_2_()}} บาท</th>
+                <th class="text-right">{{getTotalQTY_3_()}} คดี</th>
+                <th class="text-right">{{getTotalFINE_3_()}} บาท</th>
+                <th class="text-right">{{getTotalQTY_3_()}} คดี</th>
+                <th class="text-right">{{getTotalFINE_3_()}} บาท</th>
+                <th class="text-right">{{getTotalQTY_3_()}} คดี</th>
+                <th class="text-right">{{getTotalFINE_3_()}} บาท</th>
+                <th class="text-right">{{getTotalQTY_3_()}} คดี</th>
+                <th class="text-right">{{getTotalFINE_3_()}} บาท</th>
+                <th class="text-right">{{getTotalQTY_3_()}} คดี</th>
+                <th class="text-right">{{getTotalFINE_3_()}} บาท</th>
+                <th class="text-right">{{getTotalQTY_3_()}} คดี</th>
+                <th class="text-right">{{getTotalFINE_3_()}} บาท</th>
+                
+                <th class="text-right">{{getTotalQTY_4_()}} คดี</th>
+                <th class="text-right">{{getTotalFINE_4_()}} บาท</th>
+                <!-- <td></td> -->
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>

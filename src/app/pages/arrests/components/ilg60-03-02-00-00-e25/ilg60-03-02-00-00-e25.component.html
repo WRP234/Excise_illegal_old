@@ -1,0 +1,265 @@
+<ng-template #ilg60o02000206 let-c="close" let-d="dismiss">
+  <app-ilg60-o-02-00-02-06 (c)="modal.close()" (d)="modal.dismiss()" [ILG60_03_02_00_00_E21$]="ILG60_03_02_00_00_E21$"
+    [ILG60_03_03_00_00_E15$]="ILG60_03_03_00_00_E15$" (Output)="Ilg60O02000206_Output($event, j)">
+  </app-ilg60-o-02-00-02-06>
+</ng-template>
+
+<div class="card card-outline-bluish unset-radius">
+  <div class="card-header unset-radius" (click)="onCollapse(ILG60_03_02_00_00_E25)">
+    <div class="card-actions">
+      <a class="">
+        <i class="fa"
+          [ngClass]="{'fa-chevron-up': (ILG60_03_02_00_00_E25 | async) || (invalid | async), 'fa-chevron-down': !(ILG60_03_02_00_00_E25 | async)}"></i>
+      </a>
+    </div>
+    <h4 class="card-title m-b-0">ข้อกล่าวหา</h4>
+  </div>
+  <div *ngIf="(ILG60_03_02_00_00_E25 | async) || (invalid | async)" class="card-body">
+    <div class="row form-group">
+      <div class="col-lg-10 col-md-9 col-sm-8"></div>
+      <div class="col-lg-2 col-md-3 col-sm-4">
+        <button type="button" class="btn btn-block btn-themecolor" [disabled]="isEdit"
+          (click)="openModalIlg60o02000206(ilg60o02000206)">เพิ่มข้อกล่าวหา</button>
+      </div>
+    </div>
+    <!-- <button type="button" (click)="showGuiltBase()">Click</button> -->
+    <div class="table-responsive overflow-hidden">
+      <table #indictmentTable style="width: 100%; max-width: unset;"
+        class="table table-sm table-striped table-set-border table-nowrap" [formGroup]="ArrestFG">
+        <thead>
+          <tr>
+            <th class="text-center">ลำดับ</th>
+            <th>มาตรา</th>
+            <th>ฐานความผิด</th>
+            <th>ชื่อผู้ต้องหา</th>
+            <!-- <ng-container *ngIf="ArrestIndictment.length > 1">
+              <th class="text-center">ของกลางร่วม</th>
+              <th class="text-center" style="width: 8%;">ข้อกล่าวหา<br>ที่ใช้ของกลางร่วม</th>
+            </ng-container> -->
+            <th>ของกลาง</th>
+            <!-- <th>จำนวน</th>
+            <th>หน่วยบรรจุ</th>
+            <th>ปริมาณสุทธิ</th>
+            <th>หน่วยปริมาณสุทธิ</th> -->
+            <th>ค่าปรับประมาณการ</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody formArrayName="ArrestIndictment">
+          <ng-container *ngFor="let indict of ArrestIndictment.controls; let j=index;">
+            <tr [formGroupName]="j">
+              <td style="width: 20px;" class="text-center">{{j+1}}</td>
+              <!-- มาตรา -->
+              <td style="width: 100px;">
+                {{indict.get('SUBSECTION_NAME').value}}
+                <!-- <div class="input-group">
+                  <input id="'SECTION_NAME'+j" type="text" class="form-control form-control-sm" style="border-right: 0;"
+                    readonly formControlName="SECTION_NAME" required
+                    [ngClass]="{'is-invalid': (invalid | async) && indict.get('SECTION_NAME')?.value == null}">
+                  <div class="input-group-append">
+                    <a class="input-group-text custom-file-upload text-secondary"
+                      (click)="isEdit == false && indict.get('ACTION').value != Action.DELETE && openModal(ilg60o02000206)">
+                      <i class="ti-more-alt"></i>
+                    </a>
+                    <ng-template #ilg60o02000206 let-c="close" let-d="dismiss">
+                      <app-ilg60-o-02-00-02-06 (c)="modal.close()" (d)="modal.dismiss()"
+                        [ILG60_03_02_00_00_E21$]="ILG60_03_02_00_00_E21$" (Output)="Ilg60O02000206_Output($event, j)">
+                      </app-ilg60-o-02-00-02-06>
+                    </ng-template>
+                  </div>
+                </div> -->
+              </td>
+              <!-- ฐานความผิด -->
+              <td style="width: 300px;">
+                {{indict.get('GUILTBASE_NAME')?.value}}
+              </td>
+              <!-- ผู้ต้องหา -->
+              <td style="width: 200px;">
+                <ng-container formArrayName="ArrestIndictmentDetail">
+                  <ng-container *ngFor="let dt of getArrestIndictmentDetail(indict); let i1=index" [formGroupName]="i1">
+
+                    <ng-container [ngSwitch]="dt.get('ArrestLawbreaker')?.value['PERSON_TYPE']">
+
+                      <div *ngSwitchCase="2" class="mb-1" style="width: 300px;"
+                        [ngClass]="{'text-danger': dt.get('ACTION').value == Action.DELETE}">
+                        <label [for]="'lawbreaker'+i1+j" style="width: 100%;">
+                          {{dt.get('ArrestLawbreaker')?.value['TITLE_SHORT_NAME_TH']}}{{ dt.get('ArrestLawbreaker')?.value['COMPANY_NAME'] }}
+                        </label>
+                      </div>
+                      <div *ngSwitchCase="1" class="mb-1" style="width: 300px;"
+                        [ngClass]="{'text-danger': dt.get('ACTION').value == Action.DELETE}">
+                        <label [for]="'lawbreaker'+i1+j" style="width: 100%;">
+                          {{dt.get('ArrestLawbreaker')?.value['TITLE_SHORT_NAME_EN']}}{{ dt.get('ArrestLawbreaker')?.value['FIRST_NAME'] }}
+                          {{ dt.get('ArrestLawbreaker')?.value['MIDDLE_NAME'] }}
+                          {{ dt.get('ArrestLawbreaker')?.value['LAST_NAME'] }}
+                        </label>
+                      </div>
+                      <div *ngSwitchDefault class="mb-1" style="width: 300px;"
+                        [ngClass]="{'text-danger': dt.get('ACTION').value == Action.DELETE}">
+                        <!-- <input type="checkbox" formControlName="LAWBREAKER_IS_CHECKED" class="filled-in chk-col-indigo"
+                        [id]="'lawbreaker'+i1+j"
+                        [attr.disabled]="(isEdit || indict.get('ACTION').value == Action.DELETE || dt.get('ACTION').value == Action.DELETE) ? '' : null"> -->
+                        <label [for]="'lawbreaker'+i1+j" style="width: 100%;">
+                          {{dt.get('ArrestLawbreaker')?.value['TITLE_SHORT_NAME_TH']}}{{ dt.get('ArrestLawbreaker')?.value['FIRST_NAME'] }}
+                          {{ dt.get('ArrestLawbreaker')?.value['MIDDLE_NAME'] }}
+                          {{ dt.get('ArrestLawbreaker')?.value['LAST_NAME'] }}
+                        </label>
+                      </div>
+
+                    </ng-container>
+
+                  </ng-container>
+                </ng-container>
+              </td>
+
+              <!-- <ng-container *ngIf="j==0; else elseProduct">
+                <ng-container *ngIf="ArrestIndictment.length > 1">
+                  <td></td>
+                  <td></td>
+                </ng-container> -->
+              <!-- ของกลาง -->
+              <td style="width: 500px;">
+                <ng-container formArrayName="ArrestIndictmentDetail">
+                  <ng-container *ngFor="let dt of getArrestIndictmentDetail(indict); let i1=index" [formGroupName]="i1">
+
+                    <ng-container formArrayName="ArrestIndictmentProduct" *ngIf="i1 == 0">
+                      <ng-container *ngFor="let prod of getArrestIndictmentProduct(dt); let i2=index;">
+                        <div class="mb-1" [ngClass]="{'text-danger': prod.get('ACTION').value == Action.DELETE}"
+                          [formGroupName]="i2">
+                          <!-- <input formControlName="PRODUCT_IS_CHECKED" type="checkbox" class="filled-in chk-col-indigo"
+                              [id]="'product'+i2+j"
+                              [attr.disabled]="(isEdit || indict.get('ACTION').value == Action.DELETE || prod.get('ACTION').value == Action.DELETE) ? '' : null"> -->
+                          <label [for]="'product'+i2+j">{{prod.get('PRODUCT_DESC')?.value }}</label>
+                        </div>
+                      </ng-container>
+                    </ng-container>
+
+                  </ng-container>
+                </ng-container>
+              </td>
+              <!-- จำนวน -->
+              <!-- <td style="width: 150px;">
+                <ng-container formArrayName="ArrestIndictmentDetail">
+                  <ng-container *ngFor="let dt of getArrestIndictmentDetail(indict); let i1=index" [formGroupName]="i1">
+
+                    <ng-container formArrayName="ArrestIndictmentProduct" *ngIf="i1 == 0">
+                      <ng-container *ngFor="let prod of getArrestIndictmentProduct(dt); let i2=index;">
+                        <div [formGroupName]="i2" class="mb-1">
+                          <input type="text" (keypress)="numericOnly($event)" formControlName="QUANTITY"
+                            class="form-control form-control-sm text-right" readonly inputWithComma>
+                        </div>
+                      </ng-container>
+                    </ng-container>
+
+                  </ng-container>
+                </ng-container>
+              </td> -->
+              <!-- หน่วยจำนวน -->
+              <!-- <td style="width: 100px;">
+                <ng-container formArrayName="ArrestIndictmentDetail">
+                  <ng-container *ngFor="let dt of getArrestIndictmentDetail(indict); let i1=index" [formGroupName]="i1">
+
+                    <ng-container formArrayName="ArrestIndictmentProduct" *ngIf="i1 == 0">
+                      <ng-container *ngFor="let prod of getArrestIndictmentProduct(dt); let i2=index;">
+                        <div [formGroupName]="i2" class="mb-1">
+                          <input type="text" formControlName="QUANTITY_UNIT" readonly
+                            class="form-control form-control-sm">
+                        </div>
+                      </ng-container>
+                    </ng-container>
+
+                  </ng-container>
+                </ng-container>
+              </td> -->
+              <!-- ปริมาณสุทธิ -->
+              <!-- <td style="width: 150px;">
+                <ng-container formArrayName="ArrestIndictmentDetail">
+                  <ng-container *ngFor="let dt of getArrestIndictmentDetail(indict); let i1=index" [formGroupName]="i1">
+
+                    <ng-container formArrayName="ArrestIndictmentProduct" *ngIf="i1 == 0">
+                      <ng-container *ngFor="let prod of getArrestIndictmentProduct(dt); let i2=index;">
+                        <div [formGroupName]="i2" class="mb-1">
+                          <input type="text" (keypress)="numericOnly($event)" formControlName="VOLUMN"
+                            class="form-control form-control-sm text-right" readonly inputWithComma>
+                        </div>
+                      </ng-container>
+                    </ng-container>
+
+                  </ng-container>
+                </ng-container>
+              </td> -->
+              <!-- หน่วยปริมาณสุทธิ -->
+              <!-- <td style="width: 100px;">
+                <ng-container formArrayName="ArrestIndictmentDetail">
+                  <ng-container *ngFor="let dt of getArrestIndictmentDetail(indict); let i1=index" [formGroupName]="i1">
+
+                    <ng-container formArrayName="ArrestIndictmentProduct" *ngIf="i1 == 0">
+                      <ng-container *ngFor="let prod of getArrestIndictmentProduct(dt); let i2=index;">
+                        <div [formGroupName]="i2" class="mb-1">
+                          <input type="text" formControlName="SIZES_UNIT" class="form-control form-control-sm" readonly>
+                        </div>
+                      </ng-container>
+                    </ng-container>
+
+                  </ng-container>
+                </ng-container>
+              </td> -->
+              <!-- </ng-container> -->
+
+              <!-- <ng-template #elseProduct>
+                <td class="text-center">
+                  <input type="checkbox" class="filled-in chk-col-indigo" [id]="'joiner'+j">
+                  <label [for]="'joiner'+j"></label>
+                </td>
+                <td>
+                  <select #sectionName class="form-control">
+                    <option value=""></option>
+                    <ng-container *ngFor="let scName of sectionNameDropdown; let scIndex = index;">
+                      <option *ngIf="scIndex < j" [value]="scName.SECTION_NAME">
+                        {{scName.SECTION_NAME}}
+                      </option>
+                    </ng-container>
+                  </select>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </ng-template> -->
+              <!-- ค่าปรับประมาณการ -->
+              <td style="width: 150px;">
+                <ng-container formArrayName="ArrestIndictmentDetail">
+                  <ng-container *ngFor="let dt of getArrestIndictmentDetail(indict); let i1=index" [formGroupName]="i1">
+
+                    <div *ngIf="getArrestIndictmentProduct(dt).length > 0">
+                      <ng-container formArrayName="ArrestIndictmentProduct" *ngIf="i1 == 0">
+                        <ng-container *ngFor="let prod of getArrestIndictmentProduct(dt); let i2=index;">
+                          <div [formGroupName]="i2" class="mb-1">
+                            <input type="text" (keypress)="NumericDotOnly($event)" formControlName="FINE_ESTIMATE"
+                              class="form-control form-control-sm text-right" [readonly]="isEdit" inputWithComma>
+                          </div>
+                        </ng-container>
+                      </ng-container>
+                    </div>
+                    <div *ngIf="getArrestIndictmentProduct(dt).length == 0" class="mb-1">
+                      <input type="text" (keypress)="NumericDotOnly($event)" formControlName="FINE_ESTIMATE"
+                        class="form-control form-control-sm text-right" [readonly]="isEdit" inputWithComma>
+                    </div>
+
+                  </ng-container>
+                </ng-container>
+              </td>
+              <!-- Trash -->
+              <td style="width: 30px;" class="text-center">
+                <a *ngIf="!isEdit" href="javaScript:void(0);" class="text-danger" (click)="onDeleteIndictment(j)">
+                  <i class="fa fa-trash-o fa-lg"></i>
+                </a>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

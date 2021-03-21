@@ -1,0 +1,95 @@
+.pages {
+    padding: 10px;
+  }
+  
+  .pages a {
+    color: #67757c;
+  }
+  
+  .mat-autocomplete-panel {
+    position: fixed !important;
+    z-index:100000 !important;
+  }
+  /deep/ .cdk-overlay-container { z-index: 9999; }
+ 
+  
+  .pages {
+    padding: 10px;
+  }
+  
+  .border-navy {
+      border-color: #005C97;
+    }
+  
+    .table-striped tbody tr:nth-of-type(2n+1) {
+      background: rgb(229, 238, 244);
+    }
+  
+    .card-navy {
+      background: rgb(204, 222, 234);
+    }
+  
+    .btn-navy {
+      background: rgb(0, 94, 141);
+      color: white;
+    }
+  
+    .icn-collapse {
+      color: black;
+      font-size: 18px;
+    }
+  
+    .top-navbar {
+      background: linear-gradient(45deg, rgb(0, 94, 141), rgb(53, 57, 147));
+    }
+  
+    .btn-action {
+      color: red;
+      font-size: 20px;
+      cursor: pointer;
+    }
+  
+    #btn-browse {
+      opacity: 0;
+    }
+  
+    .modal-lg {
+      max-width: 1200px;
+      margin-left: 170px;
+    }
+  
+    .modal-content{
+      max-height: 650px;
+    }
+  
+    .card-popup {
+      max-height: 300px;
+    }
+  
+    .card-overflow {
+      overflow: auto;
+    }
+  
+    .form-popup {
+      margin-bottom: 0;
+    }
+  
+    .col-form-label {
+      color: black;
+      font-weight: 400;
+    }
+  
+    .close-popup {
+      cursor: pointer;
+    }
+  
+    .padding-adv-search {
+      padding-right: 0;
+      padding-left: 0px;
+  
+    }
+  
+    .padding-input-adv-search {
+      padding-left: 5px;
+    }
+    

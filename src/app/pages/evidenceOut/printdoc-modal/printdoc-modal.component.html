@@ -1,0 +1,56 @@
+<!-- <form action="" #form="ngForm" (ngSubmit)="onPrint(form)"> -->
+<div class="modal-header bg-theme">
+    <div class="row">
+        <div class="col-lg-5">
+            <h4 class="modal-title text-white">พิมพ์เอกสาร</h4>
+        </div>
+
+        <a href="javaScript:void(0);" class="close text-white font-14" aria-label="Close"
+            (click)="dismiss('Cross click')">
+            <span aria-hidden="true">
+                <i class=" ti-close"></i>
+            </span>
+        </a>
+    </div>
+</div>
+<h5 class="text-right mt-3 pr-3">ILG60-{{moduleType}}-02-01-00</h5>
+<div class="modal-body font-14">
+    <div class="card unset-radius">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <div class="table-responsive table-striped" style="overflow: hidden;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="width:7%"></th>
+                                <th style="width:5%" class="text-center">ลำดับ</th>
+                                <th style="width:60%">ชื่อเอกสาร</th>
+                                <th style="width:20%">ประเภทเอกสาร
+                                    <i class="mdi mdi-filter-variant fa-lg" style="margin-left: 5px;"></i>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of printDoc; let i=index;">
+                                <td class="text-center">
+                                    <input type="checkbox" class="filled-in chk-col-indigo" [id]="'td'+i"
+                                        name="ListChK{{i}}" [(ngModel)]="item.IsChecked">
+                                    <label [for]="'td'+i" class="m-0"></label>
+                                </td>
+                                <td class="text-center">{{i+1}}</td>
+                                <td>{{item.DocName}}</td>
+                                <td>{{item.DocTypeName}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <div class="col-lg-2 col-sm-4">
+        <button type="button" class="btn btn-block btn-themecolor" (click)="onPrint()">พิมพ์</button>
+    </div>
+</div>
+<!-- </form> -->

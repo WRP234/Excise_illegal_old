@@ -1,0 +1,135 @@
+<header class="topbar">
+  <nav class="navbar top-navbar navbar-expand-md navbar-light">
+    <div class="navbar-collapse" style="padding-right: 55px;">
+      <ul class="navbar-nav mr-auto mt-md-0">
+        <li *ngIf="PrintButton | async" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickPrint()">
+              พิมพ์
+            </a>
+          </div>
+        </li>
+        <li *ngIf="EditButton | async" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnEdit()">
+              แก้ไข
+            </a>
+          </div>
+        </li>
+        <li *ngIf="DeleteButton | async" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnDeleteUnit()" style="background-color: #f47023">
+              ลบ
+            </a>
+          </div>
+        </li>
+        <li *ngIf="SaveButton | async" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnSave()">
+              บันทึก
+            </a>
+          </div>
+        </li>
+        <li *ngIf="CancelButton | async" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnCancel()">
+              ยกเลิก
+            </a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<form [formGroup]="unitForm">
+  <div class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius">
+      <app-card-actions-collapse></app-card-actions-collapse>
+      <h4 class="card-title m-b-0">หน่วยสินค้า</h4>
+    </div>
+
+    <div class="card-body">
+      <div class="row">
+        <label for="" class="col-lg-2 col-sm-4 control-label is-required">ชื่อหน่วยนับภาษาไทย</label>
+        <div class="col-lg-4 col-md-7 col-sm-8">
+          <div class="form-group ">
+            <input type="text" name="UNIT_NAME_TH" formControlName="UNIT_NAME_TH" [readOnly]="showEditField"
+              class="form-control form-control-sm">
+          </div>
+        </div>
+
+        <label for="" class="col-lg-2 col-md-4 control-label">ชื่อหน่วยสินค้าภาษาอังกฤษ</label>
+        <div class="col-lg-4 col-md-7 col-sm-8">
+          <div class="form-group ">
+            <input type="text" name="UNIT_NAME_EN" formControlName="UNIT_NAME_EN" class="form-control form-control-sm"
+            [readOnly]="showEditField">
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <label for="" class="col-lg-2 col-sm-4 control-label">ชื่อย่อยหน่วยสินค้า</label>
+        <div class="col-lg-4 col-md-7 col-sm-8">
+          <div class="form-group ">
+            <input type="text" name="UNIT_SHORT_NAME" formControlName="UNIT_SHORT_NAME" [readOnly]="showEditField"
+              class="form-control form-control-sm">
+          </div>
+        </div>
+      </div>
+
+      <div class="row form-group">
+        <div class="col-lg-10 col-md-9 col-sm-8"></div>
+        <div class="col-lg-2 col-md-3 col-sm-4">
+          <button class="btn btn-block btn-themecolor" [disabled]="showEditField"
+            (click)="AddUnit()">เพิ่มหมวดสินค้า</button>
+        </div>
+      </div>
+      <table class="table table-sm table-striped table-set-border">
+        <thead>
+          <tr>
+            <th style="width: 5%" class="text-center">ลำดับ</th>
+            <th style="width: 20%" class=""><span class="text-danger">*</span>หมวดสินค้า</th>
+            <th style="width: 10%"></th>
+            <th style="width: 20%"><span class="text-danger">*</span>ประเภทหน่วยนับ</th>
+            <th style="width: 10%"></th>
+          </tr>
+        </thead>
+        <tbody formArrayName="MasProductUnitMapping">
+          <tr *ngFor="let item of MasProductUnitMapping.controls; let i=index;" [formGroupName]="i">
+            <td class="text-center">{{i+1}}</td>
+            <td>
+              <select class="form-control form-control-sm" formControlName="PRODUCT_GROUP_CODE"
+                [attr.disabled]="showEditField ? '' : null" (change)="DuplicateUnit()"
+                [ngClass]="{'ng-invalid-req': (item.get('PRODUCT_GROUP_CODE').value == '')? isReq_ProdGroup.value : false}">
+                <option value="" selected disabled>กรุณาเลือกหมวดสินค้า</option>
+                <option *ngFor="let item of ProductGroup" [value]="item.PRODUCT_GROUP_CODE"
+                  [disabled]="item.IS_DISABLED">
+                  {{item.PRODUCT_GROUP_NAME}}
+                </option>
+              </select>
+            </td>
+            <td></td>
+            <td>
+              <select class="form-control form-control-sm" formControlName="USED_FOR"
+                [attr.disabled]="showEditField ? '' : null"
+                [ngClass]="{'ng-invalid-req': (item.get('USED_FOR').value == '')? isReq_UsedType.value : false}">
+                <option value="" selected disabled>กรุณาเลือกประเภทหน่วยนับ</option>
+                <option *ngFor="let item of UsedForType" [value]="item.USED_FOR">
+                  {{item.USED_FOR_NAME}}
+                </option>
+              </select>
+            </td>
+            <td class="text-center">
+              <a href="javaScript:void(0);" class="text-danger" *ngIf="!showEditField"
+                (click)="onDeleteUnitMapping(item.get('UNIT_MAPPING_ID').value, i)">
+                <i class="fa fa-trash-o fa-lg"></i>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</form>

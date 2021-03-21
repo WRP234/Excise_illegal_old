@@ -1,0 +1,30 @@
+// .navbar-brand {
+//     font-size: unset;
+//     .heading{
+//         font-size: 1.53rem;
+//     }
+//     .sub-heading{
+//         font-size: smaller;
+//         position: absolute;
+//         top: 16px;
+//         left: 67px;
+//     }
+// }
+
+.app-search {
+    input {
+        background: transparent !important;
+        border: 1px solid #fff !important;
+        color: #fff !important;
+    }
+    input:active {
+        color: #fff !important;
+    }
+
+    .srh-btn {
+        position: absolute;
+        top: 8px;
+        right: 28px;
+        color: #fff;
+    }
+}

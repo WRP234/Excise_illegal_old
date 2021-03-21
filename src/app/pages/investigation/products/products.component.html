@@ -1,0 +1,523 @@
+<!-- **************************ADD PRODUCTS************************** -->
+<form [formGroup]="ProductsFG" *ngIf="onAddProducts | async" #advForm1="ngForm" (ngSubmit)="addProduct(advForm1.value)">
+  <div class="modal-header bg-theme">
+    <div class="row">
+      <div class="col-lg-2 col-md-4 col-sm-4 col-4">
+        <h4 class="modal-title text-white">เพิ่มของกลาง</h4>
+      </div>
+      <a href="javaScript:void(0);" class="close text-white font-14" aria-label="Close"
+        (click)="dismiss('Cross click')">
+        <span aria-hidden="true">
+          <i class=" ti-close"></i>
+        </span>
+      </a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="card card-outline-bluish unset-radius">
+      <div class="card-header  unset-radius">
+        <app-card-actions-collapse></app-card-actions-collapse>
+        <h4 class="card-title m-b-0">ข้อมูลของกลาง</h4>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <label for="" class="col-lg-2 col-sm-3 control-label">หมวดสินค้า</label>
+          <div class="col-lg-4  col-md-7 col-sm-9">
+            <div class="form-group ">
+              <select name="PRODUCT_GROUP_NAME" class="form-control form-control-sm"
+                formControlName="PRODUCT_GROUP_NAME" (change)="selectOptionChange('GROUP',$event)">
+                <option *ngFor="let item of ProductGroup" [value]="item.PRODUCT_GROUP_NAME">
+                  {{item.PRODUCT_GROUP_NAME}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <label for="" class="col-lg-2 col-sm-3 control-label">กลุ่มสินค้า</label>
+          <div class="col-lg-4  col-md-7 col-sm-9">
+            <div class="form-group">
+              <select name="PRODUCT_CATEGORY_NAME" class="form-control form-control-sm"
+                formControlName="PRODUCT_CATEGORY_NAME" (change)="selectOptionChange('CATEGORY',$event)">
+                <option *ngFor="let item of PRODUCT_CATEGORY_OPT" [value]="item.PRODUCT_CATEGORY_NAME">
+                  {{item.PRODUCT_CATEGORY_NAME}}
+                </option>
+              </select>
+            </div>
+          </div>
+
+
+          <label for="" class="col-lg-2 col-sm-3 control-label">ประเภทสินค้า</label>
+          <div class="col-lg-4  col-md-7 col-sm-9">
+            <div class="form-group ">
+              <select name="PRODUCT_TYPE_NAME" class="form-control form-control-sm" formControlName="PRODUCT_TYPE_NAME">
+                <option *ngFor="let item of PRODUCT_TYPE" [value]="item.PRODUCT_TYPE_NAME">
+                  {{ item.PRODUCT_TYPE_NAME }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <label for="" class="col-lg-2 col-sm-3 control-label">ยี่ห้อสินค้า</label>
+          <div class="col-lg-4  col-md-7 col-sm-9">
+            <div class="form-group">
+              <input type="text" formControlName="PRODUCT_BRAND_FULLNAME" class="form-control form-control-sm"
+                [readonly]="true" name="PRODUCT_BRAND_NAME">
+              <a href="javaScript:void(0);" class="more text-secondary" (click)="clickChangeCollapse()">
+                <i class="ti-more-alt" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <label for="" class="col-lg-2 col-sm-3 control-label">ขนาดบรรจุ</label>
+          <div class="col-lg-4  col-md-7 col-sm-9">
+            <div class="form-group ">
+              <input type="text" formControlName="SIZES" class="form-control form-control-sm" [readonly]="showEditField"
+                name="SIZES">
+            </div>
+          </div>
+          <label for="" class="col-lg-2 col-sm-3 control-label">หน่วยขนาดบรรจุ</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group">
+              <input type="text" formControlName="SIZES_UNIT" class="form-control form-control-sm" [readonly]="true"
+                name="SIZES_UNIT">
+              <!-- <select name="SIZES_UNIT" class="form-control form-control-sm" formControlName="SIZES_UNIT">
+                <option *ngFor="let item of ProductUnit; let i=index" value="item.Unit_Name">
+                  {{ item.Unit_Name }}
+                </option>
+              </select> -->
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <label for="" class="col-lg-2 col-sm-3 control-label">จำนวน</label>
+          <div class="col-lg-4  col-md-7 col-sm-9">
+            <div class="form-group ">
+              <input type="text" formControlName="QUANTITY" class="form-control form-control-sm"
+                [readonly]="showEditField" name="">
+            </div>
+          </div>
+          <label for="" class="col-lg-2 col-sm-3 control-label">หน่วยของจำนวน</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group">
+              <input type="text" formControlName="QUANTITY_UNIT" class="form-control form-control-sm"
+                [readonly]="showEditField" name="QUANTITY_UNIT">
+              <!-- <select name="QUANTITY_UNIT" formControlName="QUANTITY_UNIT" class="form-control form-control-sm">
+                <option *ngFor="let item of ProductUnit; let i=index" value="item.Unit_Name">
+                  {{ item.Unit_Name }}
+                </option>
+              </select> -->
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <label for="" class="col-lg-2 col-sm-3 control-label">ปริมาณสุทธิ</label>
+          <div class="col-lg-4  col-md-7 col-sm-9">
+            <div class="form-group ">
+              <input type="text" class="form-control form-control-sm" [readonly]="showEditField" name="VOLUMN"
+                formControlName="VOLUMN">
+            </div>
+          </div>
+          <label for="" class="col-lg-2 col-sm-3 control-label">หน่วยปริมาณสุทธิ</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group">
+              <input type="text" class="form-control form-control-sm" [readonly]="showEditField" name="VOLUMN_UNIT"
+                formControlName="VOLUMN_UNIT">
+              <!-- <select name="xxx" class="form-control form-control-sm" formControlName="VOLUMN_UNIT">
+                <option *ngFor="let item of ProductUnit; let i=index" value="item.Unit_Name">
+                  {{ item.Unit_Name }}
+                </option>
+              </select> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card card-outline-bluish unset-radius">
+      <div class="card-header  unset-radius">
+        <app-card-actions-collapse></app-card-actions-collapse>
+        <h4 class="card-title m-b-0">รายละเอียดของกลาง</h4>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <label for="" class="col-lg-2 col-sm-3 control-label">ใน/ต่างประเทศ</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group">
+              <!-- <select name="IS_DOMESTIC" class="form-control form-control-sm" formControlName="IS_DOMESTIC">
+                <option *ngFor="let item of IS_DOMESTIC; let i=index" value="item.IS_DOMESTIC"
+                  (selected)="item.IS_SELECT">
+                  {{ item.IS_DOMESTIC_NAME }}
+                </option>
+              </select> -->
+              <select name="IS_DOMESTIC" class="form-control form-control-sm" formControlName="IS_DOMESTIC">
+                <option *ngFor="let item of IS_DOMESTIC" [value]="item.IS_DOMESTIC">
+                  {{item.IS_DOMESTIC_NAME}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <label for="" class="col-lg-2 col-sm-3 control-label">ดีกรีสุรา</label>
+          <div class="col-lg-4  col-md-7 col-sm-9">
+            <div class="form-group ">
+              <input type="text" formControlName="DEGREE" class="form-control form-control-sm" [readonly]="DIS_DEGREE"
+                name="DEGREE">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <label for="" class="col-lg-2 col-sm-3 control-label">ปริมาณน้ำตาล</label>
+          <div class="col-lg-4  col-md-7 col-sm-9">
+            <div class="form-group ">
+              <input type="text" formControlName="SUGAR" class="form-control form-control-sm" [readonly]="DIS_SUGAR"
+                name="SUGAR">
+            </div>
+          </div>
+          <label for="" class="col-lg-2 col-sm-3 control-label">ก๊าซCO2</label>
+          <div class="col-lg-4  col-md-7 col-sm-9">
+            <div class="form-group ">
+              <input type="text" formControlName="CO2" class="form-control form-control-sm" [readonly]="DIS_CO2"
+                name="CO2">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <label for="" class="col-lg-2 col-sm-3 control-label">หมายเลขตัวถัง</label>
+          <div class="col-lg-4  col-md-7 col-sm-9">
+            <div class="form-group ">
+              <input type="text" class="form-control form-control-sm" [readonly]="DIS_CHASSIS_NO" name="CHASSIS_NO"
+                formControlName="CHASSIS_NO">
+            </div>
+          </div>
+          <label for="" class="col-lg-2 col-sm-3 control-label">เลขทะเบียนรถ</label>
+          <div class="col-lg-4  col-md-7 col-sm-9">
+            <div class="form-group ">
+              <input type="text" class="form-control form-control-sm" [readonly]="DIS_LICENSE_PLATE"
+                name="LICENSE_PLATE" formControlName="LICENSE_PLATE">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <label for="" class="col-lg-2 col-sm-3 control-label">เลขเครื่องยนต์</label>
+          <div class="col-lg-4  col-md-7 col-sm-9">
+            <div class="form-group ">
+              <input type="text" class="form-control form-control-sm" [readonly]="DIS_ENGINE_NO" name="ENGINE_NO"
+                formControlName="ENGINE_NO">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <label for="" class="col-lg-2 col-sm-3 control-label">ข้อมูลเพิ่มเติม</label>
+          <div class="col-lg-10  col-md-7 col-sm-9">
+            <div class="form-group ">
+              <textarea rows="3" class="form-control form-control-sm" [readonly]="showEditField" name="REMARK"
+                formControlName="REMARK"></textarea>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- </div> -->
+  </div>
+
+  <div class="modal-footer">
+    <div class="col-lg-2 col-4">
+      <button type="submit" class="btn btn-block btn-themecolor">เพิ่มของกลาง</button>
+    </div>
+  </div>
+</form>
+<!-- **************************END ADD PRODUCTS************************** -->
+
+
+<!-- **************************CREATE PRODUCTS************************** -->
+<div *ngIf="onCreateProducts | async">
+  <div class="modal-header bg-theme">
+    <div class="row">
+      <div class="col-lg-7 col-md-6 col-sm-4 col-4">
+        <h4 class="modal-title text-white">เพิ่มสินค้าต้องสงสัย</h4>
+      </div>
+ 
+      <div class="col-lg-3 col-md-3 col-sm-4 col-4">
+        <form autocomplete="off" class="app-search" #formSearch="ngForm" (ngSubmit)="onSearch(formSearch.form.value)">
+          <input type="search" name="TEXT_SEARCH" ngModel class="form-control">
+          <a href="javaScript:void(0);" (click)="onSearch(formSearch.form.value)" class="srh-btn">
+            <i class="ti-search"></i>
+          </a>
+        </form>
+      </div>
+      <div class="col-lg-2 col-md-3 col-sm-4 col-4">
+        <a href="javaScript:void(0);" class="btn text-white" (click)="setAdvSearch()">
+          ค้นหาขั้นสูง
+        </a>
+      </div>
+
+      <!-- <a *ngIf="onAddProducts | async" class="btn btn-ghost" (click)="clickChangeCollapse()">ค้นหาสินค้า</a>
+      <a *ngIf="onCreateProducts | async" class="btn btn-ghost" (click)="clickChangeCollapse()">สร้างสินค้า</a> -->
+      <a href="javaScript:void(0);" class="close text-white font-14" aria-label="Close"
+        (click)="dismiss('Cross click')">
+        <span aria-hidden="true">
+          <i class=" ti-close"></i>
+        </span>
+      </a>
+    </div>
+  </div>
+  <h5 class="text-right mt-3 pr-3"> ILG60_O_01_05_03_02</h5>
+  <div class="card-body">
+    <!-- <a href="javaScript:void(0);" style=" margin-bottom: 5px" (click)="clickChangeCollapse()">ย้อนกลับ</a> -->
+    <div *ngIf="advSearch" class="card card-outline-bluish unset-radius">
+      <div class="card-header unset-radius">
+        <app-card-actions-collapse></app-card-actions-collapse>
+        <h4 class="card-title m-b-0">ค้นหาขั้นสูง</h4>
+      </div>
+      <div class="card-body">
+        <form class="form-horizontal" #advForm="ngForm" (ngSubmit)="searchCreateProduct(advForm.value)">
+
+          <!-- ##################################################################################################################### -->
+          <!-- <div class="row">
+          <label for="" class="col-lg-2 col-sm-3 control-label">ยี่ห้อหลักสินค้า</label>
+          <div class="col-lg-4  col-md-7 col-sm-9">
+            <div class="form-group">
+              <input type="text" class="form-control form-control-sm" [readonly]="showEditField"
+                name="PRODUCT_BRAND_NAME">
+            </div>
+          </div>
+         
+        </div>
+       
+       -->
+          <!-- ##################################################################################################################### -->
+
+          <div class="row">
+            <label for="" class="col-lg-2 col-sm-3 control-label">หมวดสินค้า</label>
+            <div class="col-lg-4  col-md-7 col-sm-9">
+              <div class="form-group ">
+                <select name="PRODUCT_GROUP_ID" ngModel class="form-control form-control-sm"
+                  (change)="selectOptionChange('GROUP',$event)">
+                  <option value=""></option>
+                  <option *ngFor="let item of ProductGroup" [value]="item.PRODUCT_GROUP_ID">
+                    {{ item.PRODUCT_GROUP_NAME }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <label for="" class="col-lg-2 col-sm-3 control-label">กลุ่มประเภทสินค้า</label>
+            <div class="col-lg-4  col-md-7 col-sm-9">
+              <div class="form-group">
+                <select name="CATEGORY_GROUP" ngModel class="form-control form-control-sm"
+                  (change)="selectOptionChange('CATEGORY',$event)">
+                  <option value=""></option>
+                  <option *ngFor="let item of PRODUCT_CATEGORY_OPT" [value]="[item.CATEGORY_GROUP,item.PRODUCT_CODE]">
+                    {{ item.CATEGORY_GROUP_DESC }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <label for="" class="col-lg-2 col-sm-3 control-label">ประเภทสินค้า</label>
+            <div class="col-lg-4  col-md-7 col-sm-9">
+              <div class="form-group ">
+                <select name="CATEGORY_CODE" ngModel class="form-control form-control-sm">
+                  <option value=""></option>
+                  <option *ngFor="let item of PRODUCT_TYPE" [value]="item.CATEGORY_GROUP">
+                    {{ item.CATEGORY_DESC }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <label for="" class="col-lg-2 col-sm-3 control-label">ยี่ห้อหลักสินค้า</label>
+            <div class="col-lg-4  col-md-7 col-sm-9">
+              <div class="form-group">
+                <input type="text" ngModel class="form-control form-control-sm" [readonly]="isEdit"
+                  name="PRODUCT_BRAND_NAME">
+              </div>
+            </div>
+          </div>
+          <!-- <div class="row">
+            <label for="" class="col-lg-2 col-sm-3 control-label">ยี่ห้อรองสินค้า</label>
+            <div class="col-lg-4  col-md-7 col-sm-9">
+              <div class="form-group">
+                <input type="text" ngModel class="form-control form-control-sm" [readonly]="isEdit"
+                  name="PRODUCT_SUBBRAND_NAME">
+              </div>
+            </div>
+            <label for="" class="col-lg-2 col-sm-3 control-label">รุ่นสินค้า</label>
+            <div class="col-lg-4  col-md-7 col-sm-9">
+              <div class="form-group">
+                <input type="text" ngModel class="form-control form-control-sm" [readonly]="isEdit"
+                  name="PRODUCT_MODEL_NAME">
+              </div>
+            </div>
+          </div> -->
+          <div class="row">
+            <div class="col-lg-10 col-4"></div>
+            <div class="col-lg-2 col-4">
+              <button type="submit" class="btn btn-block btn-themecolor">ค้นหาสินค้า</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- ########################################### PRODUCT LIST SELECT ############################################################# -->
+    <div [formGroup]="ProductsFG">
+      <div *ngIf="_product_select.value.length" class="card card-outline-bluish unset-radius">
+        <div class="card-header unset-radius">
+          <h4 class="card-title m-b-0">รายการสินค้าที่เพิ่ม</h4>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive form-group">
+            <table class="table table-sm table-striped" style="width: 140%; max-width: unset;">
+              <thead>
+                <tr>
+                  <th style="text-align: center; width:0.2%">ลำดับ</th>
+                  <th style="width: 300px;">สินค้า</th>
+                  <th>จำนวน</th>
+                  <th>หน่วย</th>
+                  <th>ปริมาณสุทธิ </th>
+                  <th>หน่วย</th>
+                  <th>ดีกรี/ความหวาน/CO2</th>
+                  <th>ข้อมูลสินค้าเพิ่มเติม</th>
+                </tr>
+              </thead>
+              <tbody formArrayName="PRODUCT_SELECT">
+                <ng-container *ngFor="let item of _product_select.controls; let i = index">
+                  <tr [formGroupName]="i">
+                    <td class="text-center">{{i + 1}}</td>
+                    <td>
+                      <!-- class="text-truncate" -->
+                      <p style="width: 300px;">
+                        {{item.get('PRODUCT_DESC')?.value}}
+                      </p>
+                    </td>
+                    <td>
+                      <input type="number" min="0" step="0.01" class="form-control form-control-sm"
+                        formControlName="QUANTITY" [readonly]="showEditField">
+                    </td>
+                    <td style="width:10%">
+                      <input type="text" class="form-control form-control-sm" formControlName="QUANTITY_UNIT" readonly>
+                    </td>
+                    <td>
+                      <input type="number" min="0" step="0.01" class="form-control form-control-sm"
+                        formControlName="SIZES" [readonly]="showEditField">
+                    </td>
+                    <td style="width:10%">
+                      <input type="text" class="form-control form-control-sm" formControlName="SIZES_UNIT" readonly>
+                    </td>
+                    <td style="width:15%">
+                      <input type="text" formControlName="DEGREE" class="form-control form-control-sm"
+                        [readonly]="showEditField">
+                    </td>
+                    <td style="width:20%">
+                      <input type="text" class="form-control form-control-sm" [readonly]="showEditField">
+                    </td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div style="padding: 0 1.25rem 1.25rem 1.25rem;">
+          <div class="row" style=" margin-top: 14px">
+            <div class="col-lg-10 col-4"></div>
+            <div class="col-lg-2 col-4">
+              <button type="button" class="btn btn-block btn-themecolor"
+                (click)="addProduct()">เพิ่มรายการสินค้า</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ########################################### END PRODUCT LIST SELECT ############################################################# -->
+    <div class="card">
+      <div class="card-body">
+        <div [formGroup]="ProductsFG">
+          <div class="table-responsive table-striped ">
+            <table class="table" style="width: 130%; max-width: unset;">
+              <thead>
+                <tr>
+                  <th style="text-align: center;width:0.2%">
+                    <!-- <input type="checkbox" name="all" (change)="checkAll($event)" /> -->
+                    <input type="checkbox" class="filled-in chk-col-indigo" (change)="checkAll()" [checked]="isCheckAll"
+                      id="th">
+                    <label for="th" class="m-t-10 m-b-0"></label>
+                  </th>
+                  <th style="text-align: center;width:0.5%">ลำดับ</th>
+                  <th style="width:15%">ชื่อสินค้า</th>
+                  <th style="width:5%">ขนาดบรรจุ</th>
+                  <!-- <th style="width:5%">หน่วยสินค้า</th> -->
+                  <th style="width:7%">ปริมาณแอลกอฮอล์</th>
+                  <th style="width:6%">ปริมาณน้ำตาล</th>
+                  <th style="width:10%">อัตราการปล่อยก๊าซCO2</th>
+                  <!-- <th>หมายเลขทะเบียนรถ</th> -->
+                  <!-- <th>หมายเลขเครื่องยนต์</th> -->
+                  <!-- <th>หมายเลขตัวถัง</th> -->
+                  <th style="width:6%">ใน/ต่างประเทศ</th>
+                </tr>
+              </thead>
+
+              <!-- <form action="" [formGroup]="ProductsFG"> -->
+              <tbody formArrayName="PRODUCT_DETAIL">
+                <ng-container *ngFor="let item of _product_dtl.controls; let i = index">
+                  <tr [formGroupName]="i">
+                    <td>
+                      <!-- <input name="IS_CHECKED" type="radio" id="td{{i}}" class="with-gap radio-col-indigo"
+                        (change)="setIsChecked(item.value); clickChangeCollapse()">
+                      <label for="td{{i}}" class="m-0"></label> -->
+                      <input type="checkbox" formControlName="IsChecked" [id]="'PM_CHECK_BOX'+i"
+                        class="filled-in chk-col-indigo" [checked]="isCheckAll"
+                        (change)="checkOne($event, item.value , i)">
+                      <label [for]="'PM_CHECK_BOX'+i" class="m-0"></label>
+                    </td>
+                    <td style="text-align: center;">{{i + 1}}</td>
+                    <td> {{item.get('PRODUCT_DESC').value}}</td>
+                    <td>
+                      {{item.get('SIZES').value}} {{item.get('SIZES_UNIT').value}}
+                      <!-- <input type="text" class="form-control form-control-sm" name="SIZE" id="SIZE"> -->
+                      <!-- <select name="xxx" (keypress)="xxx()" formControlName="" class="form-control form-control-sm">
+                    <option *ngFor="let item of xxx" [value]="item.value">
+                      {{ item.label }}
+                    </option>
+                  </select> -->
+                    </td>
+                    <!-- <td> -->
+                    <!-- {{item.get('PRODUCT_MODEL_NAME_TH').value}} -->
+                    <!-- <select name="ProductUnit" (keypress)="xxx()" class="form-control form-control-sm"
+                        >
+                        <option *ngFor="let item of ProductUnit" [value]="item.Unit_Name">
+                          {{ item.Unit_Name }}
+                        </option>
+                      </select> -->
+                    <!-- </td> -->
+                    <td>{{item.get('DEGREE').value}}</td>
+                    <td>{{item.get('SUGAR').value}}</td>
+                    <td>{{item.get('CO2').value}}</td>
+                    <td>{{item.get('IS_DOMESTIC_NAME').value}}</td>
+                    <!-- <td class="text-center;">
+                  <a href="javaScript:void(0);" class="text-secondary" (click)="clickView(item.ProductID)">
+                    <i class="mdi mdi-eye fa-lg"></i>
+                  </a>
+                </td> -->
+                  </tr>
+                </ng-container>
+              </tbody>
+              <!-- </form> -->
+            </table>
+          </div>
+
+
+          <div class="card-footer card-footer-unset">
+            <app-pagination-table [TotalItems]="paginage.TotalItems" [CurrentPage]="paginage.CurrentPage"
+              [PageSize]="paginage.PageSize" [RowsPerPageOptions]="paginage.RowsPerPageOptions"
+              (onPageChange)="pageChanges($event)">
+            </app-pagination-table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!-- **************************END CREATE PRODUCTS************************** -->
+  </div>
+  <!-- <div class="modal-footer">
+    <div *ngIf="onAddProducts | async" class="col-lg-2 col-4">
+      <button type="submit" class="btn btn-block btn-themecolor">เพิ่ม</button>
+    </div>
+  </div> -->
+</div>

@@ -1,0 +1,106 @@
+<header class="topbar">
+  <nav class="navbar top-navbar navbar-expand-md navbar-light">
+    <div class="navbar-collapse" style="padding-right: 55px;">
+      <ul class="navbar-nav mr-auto mt-md-0">
+        <li class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickCreate()">
+              สร้างข้อมูล
+            </a>
+          </div>
+        </li>
+      </ul>
+      <ul class="navbar-nav my-lg-0">
+        <li class="nav-item col-9">
+          <a href="javaScript:void(0);" class="btn text-white" (click)="setAdvSearch()">
+            ค้นหาขั้นสูง
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<div *ngIf="advSearch | async" class="card card-outline-bluish unset-radius">
+  <div class="card-header unset-radius">
+    <app-card-actions-close></app-card-actions-close>
+    <h4 class="card-title m-b-0">ค้นหาขั้นสูง</h4>
+  </div>
+
+  <div class="card-body">
+    <form class="form-horizontal" #advForm="ngForm" (ngSubmit)="onAdvSearch(advForm)">
+      <div>
+        <div class="row">
+          <label for="" class="col-lg-2 col-sm-3 control-label">ชื่อหน่วยนับ</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group">
+              <div class="form-line">
+                <input type="text" name="TEXT_SEARCH" ngModel class="form-control form-control-sm" placeholder="">
+              </div>
+            </div>
+          </div>
+
+          <label for="" class="col-lg-2 col-sm-3 control-label">หมวดสินค้า</label>
+          <div class="col-lg-4 col-md-7 col-sm-9">
+            <div class="form-group">
+              <div class="form-line">
+                <select name="PRODUCT_GROUP_CODE" ngModel class="form-control form-control-sm">
+                  <option value="" selected>ทั้งหมด</option>
+                  <option *ngFor="let o of PRODUCT_GROUP_LIST" [value]="o.PRODUCT_GROUP_CODE">
+                    {{ o.PRODUCT_GROUP_NAME }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-10"></div>
+          <div class="col-2">
+            <button type="submit" class="btn btn-block btn-themecolor">ค้นข้อมูล</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <div class="table-sm table-responsive table-striped" style="overflow: hidden;">
+      <table #EvidenceTable class="table">
+        <thead>
+          <tr>
+            <th style="text-align: center;width:8%">ลำดับ</th>
+            <th>ชื่อหน่วยนับภาษาไทย</th>
+            <th>ชื่อหน่วยสินค้าภาษาอังกฤษ</th>
+            <th>ชื่อย่อหน่วยสินค้า</th>
+            <th style="text-align: center;width:8%"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of showDataList; let i=index;" style="cursor: pointer;"
+            (click)="clickView(item.UNIT_ID)">
+            <td style="text-align: center;">{{i + 1}}</td>
+            <td>{{item.UNIT_NAME_TH}}</td>
+            <td>{{item.UNIT_NAME_EN}}</td>
+            <td>{{item.UNIT_SHORT_NAME}}</td>
+            <td style="text-align: center;">
+              <a href="javaScript:void(0);" class="text-secondary" (click)="clickView(item.UNIT_ID)">
+                <i class="mdi mdi-eye fa-lg"></i>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+    <div class="card-footer card-footer-unset">
+      <app-pagination-table [TotalItems]="paginage.TotalItems" [CurrentPage]="paginage.CurrentPage"
+        [PageSize]="paginage.PageSize" [RowsPerPageOptions]="paginage.RowsPerPageOptions"
+        (onPageChange)="pageChanges($event)">
+      </app-pagination-table>
+    </div>
+  </div>
+</div>

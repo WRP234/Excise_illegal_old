@@ -1,0 +1,246 @@
+<form [formGroup]="controlForm" (ngSubmit)="onSubmit()">
+    <div class="modal-header bg-theme">
+      <div class="row">
+        <div class="col-lg-5">
+          <h4 class="modal-title text-white">รายละเอียดการปรับเพิ่ม-ปรับลด</h4>
+        </div>
+        <a href="javaScript:void(0);" class="close text-white font-14" aria-label="Close" (click)="dismiss()">
+          <span aria-hidden="true">
+            <i class=" ti-close"></i>
+          </span>
+        </a>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <div class="form-group row float-lg-right">
+              <label class="control-label "> ILG60_O_08_00_02_01</label>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          &nbsp;<input class="col-form-label with-gap radio-col-indigo" [checked]="controlForm.controls['RECEIPT_TYPE'].value == '0'" [disabled]="showEditField"
+          type="radio" name="check1" id="check1" value="0" (click)="check('0')">
+          <label for="check1" class="">Manual</label>
+          
+          <label for="" class="col-1"></label>
+    
+          <input class="col-form-label with-gap radio-col-indigo" [checked]="controlForm.controls['RECEIPT_TYPE'].value == '1'" [disabled]="showEditField"
+          type="radio" name="check2" id="check2" value="1" (click)="check('1')">
+          <label for="check2" class="">Auto</label>
+        </div>
+
+        <div class="card card-outline-bluish unset-radius">
+          <div class="card-header unset-radius">
+            <h5 class="card-title m-b-0">ปรับเพิ่ม</h5>
+          </div>
+          <div class="card-body">
+            <div class="modal-body font-14" >
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-form-label col-md-4 control-label">ชื่อผู้ต้องหา</label>
+                    <div class="col-md-8">
+                      <input class="form-control form-control-sm  ng-untouched ng-pristine ng-valid" type="text" formControlName="NAME" [readonly]="true">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-form-label col-md-4 control-label">ยอดค่าปรับเพิ่ม</label>
+                    <div class="col-md-8">
+                      <input class="form-control form-control-sm  ng-untouched ng-pristine ng-valid" type="text" value="{{controlForm.get('DIFFERENCE_PAYMENT_FINE').value | number : '1.2'}}" [readonly]="true">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row" *ngIf="controlForm.get('RECEIPT_TYPE').value == 0">
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-form-label col-md-4 control-label is-required">ใบเสร็จเล่มที่</label>
+                    <div class="col-md-8">
+                      <input [ngClass]="{'ng-invalid-req':isReq_NEW_RECEIPT_BOOK_NO}" class="form-control form-control-sm  ng-untouched ng-pristine ng-valid" 
+                      (blur)="conVNUMFIVE(controlForm.get('NEW_RECEIPT_BOOK_NO').value);setIsPeq('isReq_NEW_RECEIPT_BOOK_NO')" disnumber maxlength="5"
+                      type="text" [readonly]="showEditField" formControlName="NEW_RECEIPT_BOOK_NO">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-form-label col-md-4 control-label is-required">ใบเสร็จเลขที่</label>
+                    <div class="col-md-8">
+                      <input [ngClass]="{'ng-invalid-req':isReq_NEW_RECEIPT_NO}" class="form-control form-control-sm  ng-untouched ng-pristine ng-valid" 
+                      (blur)="conVNUMTWO(controlForm.get('NEW_RECEIPT_NO').value);setIsPeq('isReq_NEW_RECEIPT_NO')" disnumber maxlength="2"
+                      type="text" [readonly]="showEditField" formControlName="NEW_RECEIPT_NO">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row" *ngIf="controlForm.get('RECEIPT_TYPE').value == 1">
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-form-label col-md-4 control-label is-required">ใบเสร็จเลขที่</label>
+                    <div class="col-md-8">
+                      <input class="form-control form-control-sm  ng-untouched ng-pristine ng-valid" type="text" [readonly]="true" formControlName="NEW_RECEIPT_NO">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-form-label col-md-4 control-label">ชื่อเจ้าหน้าที่</label>
+                    <div class="col-md-8">
+                      <ng-template #rt let-r="result" let-t="term">
+                        {{ r.TITLE_SHORT_NAME_TH}}{{r.FIRST_NAME}} {{r.LAST_NAME}}
+                      </ng-template>
+                      <input type="text" #region1 class="form-control form-control-sm" [readonly]="setStaff.value[0].IS_ACTIVE == 1 || showEditField"
+                        [ngbTypeahead]="searchStaff" [resultTemplate]="rt" [ngClass]="{'ng-invalid-req':setStaff.value[0].IS_ACTIVE == 0}"
+                        [inputFormatter]="formatterStaff" (selectItem)="selectItemStaff($event, 0)"
+                        [value]="setStaff.value[0].FULL_NAME" [ngClass]="{'ng-touched':isRequired}"
+                        (keyup)="deleteStaff(i)" required />
+                        <a *ngIf="setStaff.value[0].IS_ACTIVE == 1 && showEditField == false" (click)="deleteContri(0)"  href="javaScript:void(0);" class="times text-secondary text-danger">
+                          <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-form-label col-md-4 control-label">ตำแหน่ง</label>
+                    <div class="col-md-8">
+                      <input type="text" [value]=" setStaff.value[0].OPREATION_POS_NAME" class="form-control form-control-sm" [readonly]="true" required>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-form-label col-md-4 control-label">หน่วยงาน</label>
+                    <div class="col-md-8">
+                      <input type="text" [value]=" setStaff.value[0].OPERATION_OFFICE_SHORT_NAME" class="form-control form-control-sm" [readonly]="true" required>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <label class="col-form-label col-md-2 control-label is-required">เหตุผลในการปรับ</label>
+                <div class="col-md-10">
+                  <textarea [ngClass]="{'ng-invalid-req':isReq_REASON}" 
+                  (blur)="setIsPeq('isReq_REASON')"
+                  class="form-control form-control-sm  ng-untouched ng-pristine ng-valid" type="text" formControlName="REASON" [readonly]="showEditField" rows="6"></textarea>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          
+          <div class="modal-footer" *ngIf="showEditField == false">
+            <div class="col-lg-2 col-4">
+              <button type="button" class="btn btn-block btn-themecolor" (click)="addPayment()">เพิ่มช่องทางชำระ</button>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-sm table-striped table-set-border">
+              <thead>
+                <tr>
+                  <th class="footable-sortable a-center" style="width:5%">ลำดับ</th>
+                  <th class="footable-sortable " style="width:15%">ประเภทการชำระเงิน</th>
+                  <th class="footable-sortable " style="width:15%">ธนาคาร</th>
+                  <th class="footable-sortable " style="width:15%">หมายเลขอ้างอิง<span class="text-danger">*</span></th>
+                  <th class="footable-sortable " style="width:15%">จำนวนเงิน<span class="text-danger">*</span></th>
+                  <th class="footable-sortable " style="width:5%"></th>
+                </tr>
+              </thead>
+              <tbody formArrayName="PAYMENT_DETAIL">
+                <tr [formGroupName]="i" *ngFor="let comp of controlForm.get('PAYMENT_DETAIL').controls; let i=index">
+                  <td class="a-center">{{i+1}}</td>
+                  <td class="">
+                    <select *ngIf="showEditField == true" class="form-control form-control-sm" [attr.disabled]="true" formControlName="PAYMENT_TYPE">
+                      <option [ngValue]="1">เงินสด</option>
+                      <option [ngValue]="2">เช็คพาณิชย์</option>
+                      <option [ngValue]="5">บัตรเดบิท</option>
+                      <option [ngValue]="6">บัตรเครดิต</option>
+                      <option [ngValue]="8">โอนเงินอิเล็กทรอนิกส์</option>
+                    </select>
+                    <select *ngIf="showEditField == false" class="form-control form-control-sm" formControlName="PAYMENT_TYPE"  (click)="set_PAYMENT_TYPE(comp.value,i)">
+                      <option [ngValue]="1">เงินสด</option>
+                      <option [ngValue]="2">เช็คพาณิชย์</option>
+                      <option [ngValue]="5">บัตรเดบิท</option>
+                      <option [ngValue]="6">บัตรเครดิต</option>
+                      <option [ngValue]="8">โอนเงินอิเล็กทรอนิกส์</option>
+                    </select></td>
+                  <td *ngIf="comp.get('PAYMENT_TYPE').value == 1" class=""><input class="form-control form-control-sm" type="text" formControlName="PAYMENT_BANK" [attr.disabled]="true"></td>
+                  <td *ngIf="comp.get('PAYMENT_TYPE').value !== 1">
+                    <ng-template #rt let-r="result" let-t="term">
+                      {{ r.BANK_NAME }}
+                    </ng-template>
+                    <input type="text"
+                        class="form-control form-control-sm"
+                        [ngClass]="" [ngbTypeahead]="serachBank" [resultTemplate]="rt"
+                        [inputFormatter]="formatterBank" [disabled]="showEditField"
+                        (selectItem)="selectItemBank($event,i)" value="{{comp.get('PAYMENT_BANK').value}}"
+                        (blur)="blurSelectItemBank(PAYMENT_BANK,i)" (keydown)="isReq_Bank.next(false)"
+                        #PAYMENT_BANK required/>
+                  </td>
+                  <td *ngIf="comp.get('PAYMENT_TYPE').value == 1" class=""><input class="form-control form-control-sm" maxlength="12" type="text" formControlName="REFFERENCE_NO" [attr.disabled]="true"></td>
+                  <td *ngIf="comp.get('PAYMENT_TYPE').value !== 1" class=""><input class="form-control form-control-sm" maxlength="12" formControlName="REFFERENCE_NO" type="text" [readonly]="showEditField"></td>
+                  <td *ngIf="showEditField == true" class=""><input class="form-control form-control-sm text-right" formControlName="PAYMENT_FINE_PIPE" type="number" disabled></td>
+                  <td *ngIf="showEditField == false" class=""><input class="form-control form-control-sm text-right" appAllowDecimalNumber (blur)="transformTotal(comp.value,i)" formControlName="PAYMENT_FINE_PIPE" type="text"></td>
+                  <td class="text-center">
+                    <a href="javaScript:void(0);" class="text-danger" (click)="deletePayment(i)">
+                      <i class="fa fa-trash-o fa-lg"></i>
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td class="form-control-sm text-right"><b>รวม :</b></td>
+                  <td class="form-control-sm text-right"><b>{{set_payment() | number : '1.2'}}</b>&nbsp;&nbsp;</td>
+                  <td class="form-control-sm text-left"><b>บาท</b></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+          <!-- <div class="card-body">
+            <div class="modal-body font-14" >
+              <div class="row">
+                <label class="col-form-label col-md-2 control-label">หมายเหตุ</label>
+                <div class="col-md-10">
+                  <textarea class="form-control form-control-sm  ng-untouched ng-pristine ng-valid" type="text" rows="6"></textarea>
+                </div>
+              </div>
+            </div>
+          </div> -->
+          
+          <div class="modal-footer" *ngIf="showEditField == false">
+            <div class="col-lg-2 col-4">
+                <button type="submit" [disabled]="showEditField"
+                  class="btn btn-block btn-themecolor">ตกลง</button>
+                  <!-- [class.disabled]="controlForm.get('INSURANCE').invalid || controlForm.get('GAURANTEE').invalid"
+                  [disabled]="controlForm.get('INSURANCE').invalid || controlForm.get('GAURANTEE').invalid" -->
+                </div>
+                <div class="col-lg-2 col-4">
+                <button type="button"[disabled]="showEditField"
+                  class="btn btn-block button"
+                  (click)="dismiss()">ยกเลิก</button>
+                </div>
+          </div>
+          <div class="modal-footer" *ngIf="showEditField == true && controlForm.controls['RECEIPT_TYPE'].value == '1'">
+            <div class="col-lg-2 col-4">
+              <button type="submit" (click)="signature()" class="btn btn-block btn-themecolor">ลงลายมือชื่อ</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </form>

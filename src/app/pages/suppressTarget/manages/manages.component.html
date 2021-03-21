@@ -1,0 +1,2262 @@
+<header class="topbar">
+    <nav class="navbar top-navbar navbar-expand-md navbar-light">
+
+        <div class="navbar-collapse">
+            <ul class="navbar-nav mr-auto mt-md-0">
+                <li *ngIf="craete_btn" class="nav-item" >
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickNew()">
+                            สร้างข้อมูล
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="print_btn" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickPrint()">
+                            พิมพ์
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="edit_btn" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickEdit()">
+
+                            แก้ไข
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="delete_btn" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickDelete()"
+                            style="background-color: #f47023">
+
+                            ลบ
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="save_btn" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickSave()">
+
+                            บันทึก
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="targetTotal" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickTotal()">
+
+                            รวมเป้า
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="cancel_btn" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickCancel()">
+
+                            ยกเลิก
+                        </a>
+                    </div>
+                </li>
+            </ul>        
+        </div>
+    </nav>
+</header>
+
+
+<div class="card card-outline-bluish unset-radius" >
+  <div class="card-header  unset-radius">
+    <!-- <div class="">
+
+    </div> -->
+    <!-- <app-card-actions-collapse>
+      <div class="card-actions">
+        <a href="" class="">
+          <i class="fa fa-chevron-down">
+            ::before
+          </i>
+        </a>
+      </div>
+    </app-card-actions-collapse> -->
+    <h4 class="card-title m-b-0">กำหนดเป้าหมายปราบปราม</h4>
+  </div>
+<!-- ---------------------------------------------------สตป----------------------------------------------------- -->
+<div class="card-body" *ngIf="nav0">
+  <div class="row">
+  <label for="" class="col-lg-2 col-sm-4 control-label">เลขที่เป้าปราบปราม</label>
+    <div class="col-lg-4 col-md-7 col-sm-8">
+      <div class="form-group ">
+        <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+          formcontrolname="" readonly="" ng-reflect-name="" value="Auto Generate">
+      </div>
+  </div>
+</div>
+  <div class="row">
+
+    <label for="" class="col-lg-2 col-sm-4 control-label">หน่วยงาน</label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+        <div class="form-group ">
+          <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            formcontrolname="" readonly="" ng-reflect-name="" [(ngModel)]="office_name" ngmodel>
+        </div>
+      </div>
+      <label for="" class="col-lg-2 col-sm-4 control-label">ปีงบประมาณ</label>
+    <div class="col-lg-4 col-md-7 col-sm-8">
+        <div class="form-group ">
+          <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+          formcontrolname=""  ng-reflect-name="" readonly="" [(ngModel)]="year" ngmodel>
+        </div>
+      </div>
+  </div>
+  <div class="row">
+      <label for="" class="col-lg-2 col-sm-4 control-label">จำนวนคดีรวมที่ผ่านมา</label>
+    <div class="col-lg-4 col-md-7 col-sm-8">
+      <div class="form-group ">
+        <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+          formcontrolname="" readonly="" ng-reflect-name="" [(ngModel)]="sum_qty" ngmodel>
+      </div>
+    </div>
+    <label for="" class="col-lg-2 col-sm-4 control-label">ค่าปรับรวมที่ผ่านมา</label>
+    <div class="col-lg-4 col-md-7 col-sm-8">
+      <div class="form-group ">
+        <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+          formcontrolname="" readonly="" ng-reflect-name="" [(ngModel)]="sum_fine" ngmodel>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ------------------------------------------------------lawsult1 product1------------------------------------------------------- -->
+<div class="card card-outline-bluish unset-radius" *ngIf="nav0">
+    <div class="card-header  unset-radius">
+      <app-card-actions-collapse>
+        <div class="card-actions">
+          <a href="" class="">
+            <i class="fa fa-chevron-down" [ngClass]="{'fa-chevron-down': true}">
+              <!-- ::before -->
+            </i>
+          </a>
+        </div>
+      </app-card-actions-collapse>
+      <h4 class="card-title m-b-0">ลักษณะคดี: เปรียบเทียบปรับสินค้าประเภทสุรา</h4>
+    </div>
+  <div class="card-body">
+    <div class="row">
+        <label for="" class="col-lg-2 col-sm-4 control-label">เลขที่เป้าปราบปราม</label>
+        <div class="col-lg-4 col-md-7 col-sm-8">
+          <div class="form-group ">
+            <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+              formcontrolname="" readonly="" ng-reflect-name="" value="Auto Generate">
+          </div>
+        </div>
+        <label for="" class="col-lg-2 col-sm-4 control-label">หน่วยงาน</label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+        <div class="form-group ">
+          <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            formcontrolname="" readonly="" ng-reflect-name="" [(ngModel)]="office_name" ngmodel>
+        </div>
+      </div>
+    </div>
+
+      <div class="row">
+       <label for="" class="col-lg-2 col-sm-4 ">ลักษณะคดี
+      </label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+        <div class="form-group ">
+          <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+          formcontrolname=""  ng-reflect-name="" readonly="" [(ngModel)]="ins_lawsult1" ngmodel>
+        </div>
+      </div>
+      <label for="" class="col-lg-2 col-sm-4 control-label">กลุ่มสินค้า
+        </label>
+        <div class="col-lg-4 col-md-7 col-sm-8">
+          <div class="form-group ">
+            <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            formcontrolname=""  ng-reflect-name="" readonly="" [(ngModel)]="ins_product1" ngmodel>
+          </div>
+        </div>
+    </div>
+    
+    <div class="row">
+       <label for="" class="col-lg-2 col-sm-4 control-label">ครั้งที่</label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+        <div class="form-group ">
+          <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            formcontrolname=""  ng-reflect-name="" readonly="" [(ngModel)]="sequence" ngmodel>
+        </div>
+      </div>
+      <label for="" class="col-lg-2 col-sm-4 control-label">ปีงบประมาณ</label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+          <div class="form-group ">
+            <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            formcontrolname=""  ng-reflect-name="" readonly="" [(ngModel)]="year" ngmodel>
+          </div>
+        </div>
+    </div>
+  <!-- ------------------------------------------------------card--------------------------------------------------- -->
+              <div class="card-body  p-0">
+                  <form class="form-horizontal" #calForm="ngForm" (ngSubmit)="calTarget(calForm.form.value)">
+                    <br>เป้าหมายที่ต้องการปรับ % เพิ่ม-ลด  : 
+                    <input type="checkbox" id="md_checkbox_" ngModel  name="QTY" class="filled-in chk-col-indigo">
+                    <label for="md_checkbox_"><p>จำนวนคดี</p> </label>
+    
+                    <input type="checkbox" id="md_checkbox" ngModel name="FINE" class="filled-in chk-col-indigo">
+                    <label for="md_checkbox"><p>ค่าปรับ</p> </label><br>
+                    <br>
+                    <div class="row"> 
+                        <label for="" class="col-lg-2 col-sm-4 ">% ปรับเพิ่ม-ลด :</label>
+                        <div class="col-lg-4 col-md-7 col-sm-8">
+                            <div class="form-group ">
+                              <input type="number" ngModel  name="params" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right">
+                            </div>
+                          </div>
+                          <label class="col-lg-2 col-sm-3" for=""> ปรับเพิ่ม-ลดช่วงเดือน</label>
+                          <div class="col-lg-4 col-md-7 col-sm-9">
+                              <div class="form-group input-group">
+                                  <select class="form-control form-control-sm  ng-untouched ng-pristine ng-valid " name="fmonth"
+                                  ngModel ng-reflect-name="" ng-reflect-model="">
+                                      <option value="0" ng-reflect-value="">ตุลาคม</option>
+                                      <option value="1" ng-reflect-value="">พฤศจิกายน</option>
+                                      <option value="2" ng-reflect-value="">ธันวาคม</option>
+                                      <option value="3" ng-reflect-value="">มกราคม</option>
+                                      <option value="4" ng-reflect-value="">กุมภาพันธ์</option>
+                                      <option value="5" ng-reflect-value="">มีนาคม</option>
+                                      <option value="6" ng-reflect-value="">เมษายน</option>
+                                      <option value="7" ng-reflect-value="">พฤษภาคม</option>
+                                      <option value="8" ng-reflect-value="">มิถุนายน</option>
+                                      <option value="9" ng-reflect-value="">กรกฎาคม</option>
+                                      <option value="10" ng-reflect-value="">สิงหาคม</option>
+                                      <option value="11" ng-reflect-value="">กันยายน</option>
+                                  </select>
+                                  <label for="">&nbsp;ถึง&nbsp;</label>
+                                  <select class="form-control form-control-sm ng-untouched ng-pristine ng-valid" name="lmonth"
+                                  ngModel ng-reflect-name="" ng-reflect-model="">
+                                      <option value="3" ng-reflect-value="">มกราคม</option>
+                                      <option value="4" ng-reflect-value="">กุมภาพันธ์</option>
+                                      <option value="5" ng-reflect-value="">มีนาคม</option>
+                                      <option value="6" ng-reflect-value="">เมษายน</option>
+                                      <option value="7" ng-reflect-value="">พฤษภาคม</option>
+                                      <option value="8" ng-reflect-value="">มิถุนายน</option>
+                                      <option value="9" ng-reflect-value="">กรกฎาคม</option>
+                                      <option value="10" ng-reflect-value="">สิงหาคม</option>
+                                      <option value="11" ng-reflect-value="">กันยายน</option>
+                                      <option value="0" ng-reflect-value="">ตุลาคม</option>
+                                      <option value="1" ng-reflect-value="">พฤศจิกายน</option>
+                                      <option value="2" ng-reflect-value="">ธันวาคม</option>
+                                  </select>
+                              </div>
+                          </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-10 col-8"></div>
+                        <div class="col-lg-2 col-4">
+                          <button class="btn-search btn-block btn-themecolor" type="submit"
+                          (click)="lawsuit_1 = !lawsuit_1"
+                          (click)="fine_1 = !fine_1"
+                          (click)="treasury_1 = !treasury_1"
+                          >คำนวณ %</button>
+                        </div>
+                      </div>
+                    </form>
+            </div>
+    </div>
+    
+      <div class="card-body">
+              <div class="card-body  p-0">
+                  <input type="checkbox" id="md_checkbox_2"  name="chk2" class="filled-in chk-col-indigo"
+                  [(ngModel)]="bribe"
+                  [(ngModel)]="award"
+                  >
+                  <label for="md_checkbox_2"><p>เเสดงเป้าหมายเงินสินบนเเละเงินรางวัล</p> </label><br>
+              </div>
+            
+      <div class="card unset-radius">
+        <div class="card-body  p-0">
+          <div class="table-responsive table-sm table-striped inner">
+            <table class="table">
+              
+              <thead>
+                <tr>
+                    <th></th>
+                    <th class="text-center" style="color:#495057" *ngIf="lawsuit_1">จำนวนคดีจริงปีที่ผ่านมา</th>
+                    <th class="text-center" style="color:#495057" >เป้าหมายจำนวนคดี</th>
+    
+                    <th class="text-center" style="color:#495057" *ngIf="fine_1">จำนวนค่าปรับจริงที่ผ่านมา</th>
+                    <th class="text-center" style="color:#495057" >เป้าหมายจำนวนค่าปรับ</th>
+    
+                    <th class="text-center" style="color:#495057" *ngIf="treasury_1">เงินส่งคลังจริงปีที่ผ่านมา</th>
+                    <th class="text-center" style="color:#495057" >เป้าหมายเงินส่งคลัง</th>
+    
+                    <th class="text-center" style="color:#495057" *ngIf="bribe">เป้าหมายเงินสินบน</th>
+                    <th class="text-center" style="color:#495057" *ngIf="award">เป้าหมายเงินรางวัล </th>
+    
+                </tr>
+              </thead>
+              
+              <tbody>
+    
+                <tr *ngFor="let item of targetItemDetail_Call; let i = index;">
+                  <td class="headcol table-fix">
+                    <label class="control-label ">{{item.MONTH}}</label>
+                    </td>
+                  <td *ngIf="lawsuit_1">
+                    <input type="number"  class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                    formcontrolname="QTY" #QTY name="QTY"  [(ngModel)]='item.QTY' readonly="" >
+                    
+                  </td>
+                  <td >
+                    <input type="number"  class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                    formcontrolname="QTY"  [(ngModel)]='item.sum_QTY' #QTY name="QTY"  >
+                      
+                    </td>
+                    <td *ngIf="fine_1">
+                      <input type="number" [(ngModel)]='item.FINE' class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                      formcontrolname="FINE" #FINE name="FINE" readonly="" >
+                      
+                    </td>
+                    <td >
+                      <input type="number"  class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                      formcontrolname="FINE" #FINE name="FINE"  [(ngModel)]='item.sum_FINE'>
+                      
+                    </td>
+                    <td *ngIf="treasury_1">
+                      <input type="number" [(ngModel)]='item.FINE*item.TRE' class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                      formcontrolname="FINE" #FINE name="FINE"  readonly="" >
+                    </td>
+                    <td >
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                       #TRE [(ngModel)]='item.sum_FINE*item.TRE' readonly="" >
+                        
+                      </td>
+                    <td *ngIf="bribe">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                       #AWA [(ngModel)]='item.sum_FINE*item.AWA' readonly="" >
+                    </td>
+                    <td *ngIf="award">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                       #BRI [(ngModel)]='item.sum_FINE*item.BRI' readonly="" >
+                    </td>
+    
+                </tr>
+    
+                <tr >
+                  <th class="headcol">รวม</th>
+                  <th class="text-right" *ngIf="lawsuit_1">{{getTotalQTY()}} คดี</th>
+                  <th class="text-right" >{{totalsum_QTY()}} คดี</th>
+                  <th class="text-right" *ngIf="fine_1">{{getTotalFINE()}} บาท</th>
+                  <th class="text-right" >{{totalsum_FINE()}} บาท</th>
+                  <th class="text-right" *ngIf="treasury_1">{{getTotalTRE()}} บาท</th>
+                  <th class="text-right" >{{getTotalTRE2()}} บาท</th>
+                  <th class="text-right" *ngIf="bribe">{{getTotalBRI()}} บาท</th>
+                  <th class="text-right" *ngIf="award">{{getTotalAWA()}} บาท</th>
+                  <!-- <td></td> -->
+    
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- ------------------------------------------------------lawsult1 product2------------------------------------------------------- -->
+<div class="card card-outline-bluish unset-radius" *ngIf="nav0">
+    <div class="card-header  unset-radius">
+      <app-card-actions-collapse>
+        <div class="card-actions">
+          <a href="" class="">
+            <i class="fa fa-chevron-down">
+              ::before
+            </i>
+          </a>
+        </div>
+      </app-card-actions-collapse>
+      <h4 class="card-title m-b-0">ลักษณะคดี: เปรียบเทียบปรับสินค้าประเภทยาสูบ</h4>
+    </div>
+  <div class="card-body">
+    <div class="row">
+        <label for="" class="col-lg-2 col-sm-4 control-label">เลขที่เป้าปราบปราม</label>
+        <div class="col-lg-4 col-md-7 col-sm-8">
+          <div class="form-group ">
+            <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+              formcontrolname="" readonly="" ng-reflect-name="" value="Auto Generate">
+          </div>
+        </div>
+        <label for="" class="col-lg-2 col-sm-4 control-label">หน่วยงาน</label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+        <div class="form-group ">
+          <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            formcontrolname="" readonly="" ng-reflect-name="" [(ngModel)]="office_name" ngmodel>
+        </div>
+      </div>
+    </div>
+
+      <div class="row">
+       <label for="" class="col-lg-2 col-sm-4 ">ลักษณะคดี
+      </label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+        <div class="form-group ">
+          <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+          formcontrolname=""  ng-reflect-name="" readonly="" [(ngModel)]="ins_lawsult1" ngmodel>
+        </div>
+      </div>
+      <label for="" class="col-lg-2 col-sm-4 control-label">กลุ่มสินค้า
+        </label>
+        <div class="col-lg-4 col-md-7 col-sm-8">
+          <div class="form-group ">
+            <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            formcontrolname=""  ng-reflect-name="" readonly="" [(ngModel)]="ins_product2" ngmodel>
+          </div>
+        </div>
+    </div>
+    
+    <div class="row">
+       <label for="" class="col-lg-2 col-sm-4 control-label">ครั้งที่</label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+        <div class="form-group ">
+          <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            formcontrolname=""  ng-reflect-name="" readonly="" [(ngModel)]="sequence" ngmodel>
+        </div>
+      </div>
+      <label for="" class="col-lg-2 col-sm-4 control-label">ปีงบประมาณ</label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+          <div class="form-group ">
+            <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            formcontrolname=""  ng-reflect-name="" readonly="" [(ngModel)]="year" ngmodel>
+          </div>
+        </div>
+    </div>
+  <!-- ------------------------------------------------------card--------------------------------------------------- -->
+              <div class="card-body  p-0">
+                  <form class="form-horizontal" #calForm="ngForm" (ngSubmit)="calTarget(calForm.form.value)">
+                    <br>เป้าหมายที่ต้องการปรับ % เพิ่ม-ลด  : 
+                    <input type="checkbox" id="md_checkbox_" ngModel  name="QTY" class="filled-in chk-col-indigo">
+                    <label for="md_checkbox_"><p>จำนวนคดี</p> </label>
+    
+                    <input type="checkbox" id="md_checkbox" ngModel name="FINE" class="filled-in chk-col-indigo">
+                    <label for="md_checkbox"><p>ค่าปรับ</p> </label><br>
+                    <br>
+                    <div class="row"> 
+                        <label for="" class="col-lg-2 col-sm-4 ">% ปรับเพิ่ม-ลด :</label>
+                        <div class="col-lg-4 col-md-7 col-sm-8">
+                            <div class="form-group ">
+                              <input type="number" ngModel  name="params" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right">
+                            </div>
+                          </div>
+                          <label class="col-lg-2 col-sm-3" for=""> ปรับเพิ่ม-ลดช่วงเดือน</label>
+                          <div class="col-lg-4 col-md-7 col-sm-9">
+                              <div class="form-group input-group">
+                                  <select class="form-control form-control-sm  ng-untouched ng-pristine ng-valid " name="fmonth"
+                                  ngModel ng-reflect-name="" ng-reflect-model="">
+                                      <option value="0" ng-reflect-value="">ตุลาคม</option>
+                                      <option value="1" ng-reflect-value="">พฤศจิกายน</option>
+                                      <option value="2" ng-reflect-value="">ธันวาคม</option>
+                                      <option value="3" ng-reflect-value="">มกราคม</option>
+                                      <option value="4" ng-reflect-value="">กุมภาพันธ์</option>
+                                      <option value="5" ng-reflect-value="">มีนาคม</option>
+                                      <option value="6" ng-reflect-value="">เมษายน</option>
+                                      <option value="7" ng-reflect-value="">พฤษภาคม</option>
+                                      <option value="8" ng-reflect-value="">มิถุนายน</option>
+                                      <option value="9" ng-reflect-value="">กรกฎาคม</option>
+                                      <option value="10" ng-reflect-value="">สิงหาคม</option>
+                                      <option value="11" ng-reflect-value="">กันยายน</option>
+                                  </select>
+                                  <label for="">&nbsp;ถึง&nbsp;</label>
+                                  <select class="form-control form-control-sm ng-untouched ng-pristine ng-valid" name="lmonth"
+                                  ngModel ng-reflect-name="" ng-reflect-model="">
+                                      <option value="3" ng-reflect-value="">มกราคม</option>
+                                      <option value="4" ng-reflect-value="">กุมภาพันธ์</option>
+                                      <option value="5" ng-reflect-value="">มีนาคม</option>
+                                      <option value="6" ng-reflect-value="">เมษายน</option>
+                                      <option value="7" ng-reflect-value="">พฤษภาคม</option>
+                                      <option value="8" ng-reflect-value="">มิถุนายน</option>
+                                      <option value="9" ng-reflect-value="">กรกฎาคม</option>
+                                      <option value="10" ng-reflect-value="">สิงหาคม</option>
+                                      <option value="11" ng-reflect-value="">กันยายน</option>
+                                      <option value="0" ng-reflect-value="">ตุลาคม</option>
+                                      <option value="1" ng-reflect-value="">พฤศจิกายน</option>
+                                      <option value="2" ng-reflect-value="">ธันวาคม</option>
+                                  </select>
+                              </div>
+                          </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-10 col-8"></div>
+                        <div class="col-lg-2 col-4">
+                          <button class="btn-search btn-block btn-themecolor" type="submit"
+                          (click)="lawsuit_1 = !lawsuit_1"
+                          (click)="fine_1 = !fine_1"
+                          (click)="treasury_1 = !treasury_1"
+                          >คำนวณ %</button>
+                        </div>
+                      </div>
+                    </form>
+            </div>
+    </div>
+    
+      <div class="card-body">
+              <div class="card-body  p-0">
+                  <input type="checkbox" id="md_checkbox_2"  name="chk2" class="filled-in chk-col-indigo"
+                  [(ngModel)]="bribe"
+                  [(ngModel)]="award"
+                  >
+                  <label for="md_checkbox_2"><p>เเสดงเป้าหมายเงินสินบนเเละเงินรางวัล</p> </label><br>
+              </div>    
+            
+      <div class="card unset-radius">
+        <div class="card-body  p-0">
+          <div class="table-responsive table-sm table-striped inner">
+            <table class="table">
+              
+              <thead>
+                <tr>
+                    <th></th>
+                    <th class="text-center" style="color:#495057" *ngIf="lawsuit_1">จำนวนคดีจริงปีที่ผ่านมา</th>
+                    <th class="text-center" style="color:#495057" >เป้าหมายจำนวนคดี</th>
+    
+                    <th class="text-center" style="color:#495057" *ngIf="fine_1">จำนวนค่าปรับจริงที่ผ่านมา</th>
+                    <th class="text-center" style="color:#495057" >เป้าหมายจำนวนค่าปรับ</th>
+    
+                    <th class="text-center" style="color:#495057" *ngIf="treasury_1">เงินส่งคลังจริงปีที่ผ่านมา</th>
+                    <th class="text-center" style="color:#495057" >เป้าหมายเงินส่งคลัง</th>
+    
+                    <th class="text-center" style="color:#495057" *ngIf="bribe">เป้าหมายเงินสินบน</th>
+                    <th class="text-center" style="color:#495057" *ngIf="award">เป้าหมายเงินรางวัล </th>
+    
+                </tr>
+              </thead>
+              
+              <tbody>
+    
+                <tr *ngFor="let item of targetItemDetail_Call; let i = index;">
+                  <td class="headcol table-fix">
+                    <label class="control-label ">{{item.MONTH}}</label>
+                    </td>
+                  <td *ngIf="lawsuit_1">
+                    <input type="number"  class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                    formcontrolname="QTY" #QTY name="QTY"  [(ngModel)]='item.QTY' readonly="" >
+                    
+                  </td>
+                  <td >
+                    <input type="number"  class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                    formcontrolname="QTY"  [(ngModel)]='item.sum_QTY' #QTY name="QTY"  >
+                      
+                    </td>
+                    <td *ngIf="fine_1">
+                      <input type="number" [(ngModel)]='item.FINE' class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                      formcontrolname="FINE" #FINE name="FINE" readonly="" >
+                      
+                    </td>
+                    <td >
+                      <input type="number"  class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                      formcontrolname="FINE" #FINE name="FINE"  [(ngModel)]='item.sum_FINE'>
+                      
+                    </td>
+                    <td *ngIf="treasury_1">
+                      <input type="number" [(ngModel)]='item.FINE*item.TRE' class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                      formcontrolname="FINE" #FINE name="FINE"  readonly="" >
+                    </td>
+                    <td >
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                       #TRE [(ngModel)]='item.sum_FINE*item.TRE' readonly="" >
+                        
+                      </td>
+                    <td *ngIf="bribe">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                       #AWA [(ngModel)]='item.sum_FINE*item.AWA' readonly="" >
+                    </td>
+                    <td *ngIf="award">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                       #BRI [(ngModel)]='item.sum_FINE*item.BRI' readonly="" >
+                    </td>
+    
+                </tr>
+    
+                <tr >
+                  <th class="headcol">รวม</th>
+                  <th class="text-right" *ngIf="lawsuit_1">{{getTotalQTY()}} คดี</th>
+                  <th class="text-right" >{{totalsum_QTY()}} คดี</th>
+                  <th class="text-right" *ngIf="fine_1">{{getTotalFINE()}} บาท</th>
+                  <th class="text-right" >{{totalsum_FINE()}} บาท</th>
+                  <th class="text-right" *ngIf="treasury_1">{{getTotalTRE()}} บาท</th>
+                  <th class="text-right" >{{getTotalTRE2()}} บาท</th>
+                  <th class="text-right" *ngIf="bribe">{{getTotalBRI()}} บาท</th>
+                  <th class="text-right" *ngIf="award">{{getTotalAWA()}} บาท</th>
+                  <!-- <td></td> -->
+    
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- ------------------------------------------------------lawsult1 product3------------------------------------------------------- -->
+<div class="card card-outline-bluish unset-radius" *ngIf="nav0">
+    <div class="card-header  unset-radius">
+      <app-card-actions-collapse>
+        <div class="card-actions">
+          <a href="" class="">
+            <i class="fa fa-chevron-down">
+              ::before
+            </i>
+          </a>
+        </div>
+      </app-card-actions-collapse>
+      <h4 class="card-title m-b-0">ลักษณะคดี: เปรียบเทียบปรับสินค้าประเภทไพ่</h4>
+    </div>
+  <div class="card-body">
+    <div class="row">
+        <label for="" class="col-lg-2 col-sm-4 control-label">เลขที่เป้าปราบปราม</label>
+        <div class="col-lg-4 col-md-7 col-sm-8">
+          <div class="form-group ">
+            <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+              formcontrolname="" readonly="" ng-reflect-name="" value="Auto Generate">
+          </div>
+        </div>
+        <label for="" class="col-lg-2 col-sm-4 control-label">หน่วยงาน</label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+        <div class="form-group ">
+          <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            formcontrolname="" readonly="" ng-reflect-name="" [(ngModel)]="office_name" ngmodel>
+        </div>
+      </div>
+    </div>
+
+      <div class="row">
+       <label for="" class="col-lg-2 col-sm-4 ">ลักษณะคดี
+      </label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+        <div class="form-group ">
+          <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+          formcontrolname=""  ng-reflect-name="" readonly="" [(ngModel)]="ins_lawsult1" ngmodel>
+        </div>
+      </div>
+      <label for="" class="col-lg-2 col-sm-4 control-label">กลุ่มสินค้า
+        </label>
+        <div class="col-lg-4 col-md-7 col-sm-8">
+          <div class="form-group ">
+            <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            formcontrolname=""  ng-reflect-name="" readonly="" [(ngModel)]="ins_product3" ngmodel>
+          </div>
+        </div>
+    </div>
+    
+    <div class="row">
+       <label for="" class="col-lg-2 col-sm-4 control-label">ครั้งที่</label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+        <div class="form-group ">
+          <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            formcontrolname=""  ng-reflect-name="" readonly="" [(ngModel)]="sequence" ngmodel>
+        </div>
+      </div>
+      <label for="" class="col-lg-2 col-sm-4 control-label">ปีงบประมาณ</label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+          <div class="form-group ">
+            <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            formcontrolname=""  ng-reflect-name="" readonly="" [(ngModel)]="year" ngmodel>
+          </div>
+        </div>
+    </div>
+  <!-- ------------------------------------------------------card--------------------------------------------------- -->
+              <div class="card-body  p-0">
+                  <form class="form-horizontal" #calForm="ngForm" (ngSubmit)="calTarget(calForm.form.value)">
+                    <br>เป้าหมายที่ต้องการปรับ % เพิ่ม-ลด  : 
+                    <input type="checkbox" id="md_checkbox_" ngModel  name="QTY" class="filled-in chk-col-indigo">
+                    <label for="md_checkbox_"><p>จำนวนคดี</p> </label>
+    
+                    <input type="checkbox" id="md_checkbox" ngModel name="FINE" class="filled-in chk-col-indigo">
+                    <label for="md_checkbox"><p>ค่าปรับ</p> </label><br>
+                    <br>
+                    <div class="row"> 
+                        <label for="" class="col-lg-2 col-sm-4 ">% ปรับเพิ่ม-ลด :</label>
+                        <div class="col-lg-4 col-md-7 col-sm-8">
+                            <div class="form-group ">
+                              <input type="number" ngModel  name="params" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right">
+                            </div>
+                          </div>
+                          <label class="col-lg-2 col-sm-3" for=""> ปรับเพิ่ม-ลดช่วงเดือน</label>
+                          <div class="col-lg-4 col-md-7 col-sm-9">
+                              <div class="form-group input-group">
+                                  <select class="form-control form-control-sm  ng-untouched ng-pristine ng-valid " name="fmonth"
+                                  ngModel ng-reflect-name="" ng-reflect-model="">
+                                      <option value="0" ng-reflect-value="">ตุลาคม</option>
+                                      <option value="1" ng-reflect-value="">พฤศจิกายน</option>
+                                      <option value="2" ng-reflect-value="">ธันวาคม</option>
+                                      <option value="3" ng-reflect-value="">มกราคม</option>
+                                      <option value="4" ng-reflect-value="">กุมภาพันธ์</option>
+                                      <option value="5" ng-reflect-value="">มีนาคม</option>
+                                      <option value="6" ng-reflect-value="">เมษายน</option>
+                                      <option value="7" ng-reflect-value="">พฤษภาคม</option>
+                                      <option value="8" ng-reflect-value="">มิถุนายน</option>
+                                      <option value="9" ng-reflect-value="">กรกฎาคม</option>
+                                      <option value="10" ng-reflect-value="">สิงหาคม</option>
+                                      <option value="11" ng-reflect-value="">กันยายน</option>
+                                  </select>
+                                  <label for="">&nbsp;ถึง&nbsp;</label>
+                                  <select class="form-control form-control-sm ng-untouched ng-pristine ng-valid" name="lmonth"
+                                  ngModel ng-reflect-name="" ng-reflect-model="">
+                                      <option value="3" ng-reflect-value="">มกราคม</option>
+                                      <option value="4" ng-reflect-value="">กุมภาพันธ์</option>
+                                      <option value="5" ng-reflect-value="">มีนาคม</option>
+                                      <option value="6" ng-reflect-value="">เมษายน</option>
+                                      <option value="7" ng-reflect-value="">พฤษภาคม</option>
+                                      <option value="8" ng-reflect-value="">มิถุนายน</option>
+                                      <option value="9" ng-reflect-value="">กรกฎาคม</option>
+                                      <option value="10" ng-reflect-value="">สิงหาคม</option>
+                                      <option value="11" ng-reflect-value="">กันยายน</option>
+                                      <option value="0" ng-reflect-value="">ตุลาคม</option>
+                                      <option value="1" ng-reflect-value="">พฤศจิกายน</option>
+                                      <option value="2" ng-reflect-value="">ธันวาคม</option>
+                                  </select>
+                              </div>
+                          </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-10 col-8"></div>
+                        <div class="col-lg-2 col-4">
+                          <button class="btn-search btn-block btn-themecolor" type="submit"
+                          (click)="lawsuit_1 = !lawsuit_1"
+                          (click)="fine_1 = !fine_1"
+                          (click)="treasury_1 = !treasury_1"
+                          >คำนวณ %</button>
+                        </div>
+                      </div>
+                    </form>
+            </div>
+    </div>
+    
+      <div class="card-body">
+              <div class="card-body  p-0">
+                  <input type="checkbox" id="md_checkbox_2"  name="chk2" class="filled-in chk-col-indigo"
+                  [(ngModel)]="bribe"
+                  [(ngModel)]="award"
+                  >
+                  <label for="md_checkbox_2"><p>เเสดงเป้าหมายเงินสินบนเเละเงินรางวัล</p> </label><br>
+              </div>    
+            
+      <div class="card unset-radius">
+        <div class="card-body  p-0">
+          <div class="table-responsive table-sm table-striped inner">
+            <table class="table">
+              
+              <thead>
+                <tr>
+                    <th></th>
+                    <th class="text-center" style="color:#495057" *ngIf="lawsuit_1">จำนวนคดีจริงปีที่ผ่านมา</th>
+                    <th class="text-center" style="color:#495057" >เป้าหมายจำนวนคดี</th>
+    
+                    <th class="text-center" style="color:#495057" *ngIf="fine_1">จำนวนค่าปรับจริงที่ผ่านมา</th>
+                    <th class="text-center" style="color:#495057" >เป้าหมายจำนวนค่าปรับ</th>
+    
+                    <th class="text-center" style="color:#495057" *ngIf="treasury_1">เงินส่งคลังจริงปีที่ผ่านมา</th>
+                    <th class="text-center" style="color:#495057" >เป้าหมายเงินส่งคลัง</th>
+    
+                    <th class="text-center" style="color:#495057" *ngIf="bribe">เป้าหมายเงินสินบน</th>
+                    <th class="text-center" style="color:#495057" *ngIf="award">เป้าหมายเงินรางวัล </th>
+    
+                </tr>
+              </thead>
+              
+              <tbody>
+    
+                <tr *ngFor="let item of targetItemDetail_Call; let i = index;">
+                  <td class="headcol table-fix">
+                    <label class="control-label ">{{item.MONTH}}</label>
+                    </td>
+                  <td *ngIf="lawsuit_1">
+                    <input type="number"  class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                    formcontrolname="QTY" #QTY name="QTY"  [(ngModel)]='item.QTY' readonly="" >
+                    
+                  </td>
+                  <td >
+                    <input type="number"  class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                    formcontrolname="QTY"  [(ngModel)]='item.sum_QTY' #QTY name="QTY"  >
+                      
+                    </td>
+                    <td *ngIf="fine_1">
+                      <input type="number" [(ngModel)]='item.FINE' class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                      formcontrolname="FINE" #FINE name="FINE" readonly="" >
+                      
+                    </td>
+                    <td >
+                      <input type="number"  class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                      formcontrolname="FINE" #FINE name="FINE"  [(ngModel)]='item.sum_FINE'>
+                      
+                    </td>
+                    <td *ngIf="treasury_1">
+                      <input type="number" [(ngModel)]='item.FINE*item.TRE' class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                      formcontrolname="FINE" #FINE name="FINE"  readonly="" >
+                    </td>
+                    <td >
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                       #TRE [(ngModel)]='item.sum_FINE*item.TRE' readonly="" >
+                        
+                      </td>
+                    <td *ngIf="bribe">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                       #AWA [(ngModel)]='item.sum_FINE*item.AWA' readonly="" >
+                    </td>
+                    <td *ngIf="award">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                       #BRI [(ngModel)]='item.sum_FINE*item.BRI' readonly="" >
+                    </td>
+    
+                </tr>
+    
+                <tr >
+                  <th class="headcol">รวม</th>
+                  <th class="text-right" *ngIf="lawsuit_1">{{getTotalQTY()}} คดี</th>
+                  <th class="text-right" >{{totalsum_QTY()}} คดี</th>
+                  <th class="text-right" *ngIf="fine_1">{{getTotalFINE()}} บาท</th>
+                  <th class="text-right" >{{totalsum_FINE()}} บาท</th>
+                  <th class="text-right" *ngIf="treasury_1">{{getTotalTRE()}} บาท</th>
+                  <th class="text-right" >{{getTotalTRE2()}} บาท</th>
+                  <th class="text-right" *ngIf="bribe">{{getTotalBRI()}} บาท</th>
+                  <th class="text-right" *ngIf="award">{{getTotalAWA()}} บาท</th>
+                  <!-- <td></td> -->
+    
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- ------------------------------------------------------lawsult1 product4------------------------------------------------------- -->
+<div class="card card-outline-bluish unset-radius" *ngIf="nav0">
+    <div class="card-header  unset-radius">
+      <app-card-actions-collapse>
+        <div class="card-actions">
+          <a href="" class="">
+            <i class="fa fa-chevron-down">
+              ::before
+            </i>
+          </a>
+        </div>
+      </app-card-actions-collapse>
+      <h4 class="card-title m-b-0">ลักษณะคดี: เปรียบเทียบปรับสินค้าประเภทอื่นๆ</h4>
+    </div>
+  <div class="card-body">
+    <div class="row">
+        <label for="" class="col-lg-2 col-sm-4 control-label">เลขที่เป้าปราบปราม</label>
+        <div class="col-lg-4 col-md-7 col-sm-8">
+          <div class="form-group ">
+            <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+              formcontrolname="" readonly="" ng-reflect-name="" value="Auto Generate">
+          </div>
+        </div>
+        <label for="" class="col-lg-2 col-sm-4 control-label">หน่วยงาน</label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+        <div class="form-group ">
+          <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            formcontrolname="" readonly="" ng-reflect-name="" [(ngModel)]="office_name" ngmodel>
+        </div>
+      </div>
+    </div>
+
+      <div class="row">
+       <label for="" class="col-lg-2 col-sm-4 ">ลักษณะคดี
+      </label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+        <div class="form-group ">
+          <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+          formcontrolname=""  ng-reflect-name="" readonly="" [(ngModel)]="ins_lawsult1" ngmodel>
+        </div>
+      </div>
+      <label for="" class="col-lg-2 col-sm-4 control-label">กลุ่มสินค้า
+        </label>
+        <div class="col-lg-4 col-md-7 col-sm-8">
+          <div class="form-group ">
+            <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            formcontrolname=""  ng-reflect-name="" readonly="" [(ngModel)]="ins_product4" ngmodel>
+          </div>
+        </div>
+    </div>
+    
+    <div class="row">
+       <label for="" class="col-lg-2 col-sm-4 control-label">ครั้งที่</label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+        <div class="form-group ">
+          <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            formcontrolname=""  ng-reflect-name="" readonly="" [(ngModel)]="sequence" ngmodel>
+        </div>
+      </div>
+      <label for="" class="col-lg-2 col-sm-4 control-label">ปีงบประมาณ</label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+          <div class="form-group ">
+            <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            formcontrolname=""  ng-reflect-name="" readonly="" [(ngModel)]="year" ngmodel>
+          </div>
+        </div>
+    </div>
+  <!-- ------------------------------------------------------card--------------------------------------------------- -->
+              <div class="card-body  p-0">
+                  <form class="form-horizontal" #calForm="ngForm" (ngSubmit)="calTarget(calForm.form.value)">
+                    <br>เป้าหมายที่ต้องการปรับ % เพิ่ม-ลด  : 
+                    <input type="checkbox" id="md_checkbox_" ngModel  name="QTY" class="filled-in chk-col-indigo">
+                    <label for="md_checkbox_"><p>จำนวนคดี</p> </label>
+    
+                    <input type="checkbox" id="md_checkbox" ngModel name="FINE" class="filled-in chk-col-indigo">
+                    <label for="md_checkbox"><p>ค่าปรับ</p> </label><br>
+                    <br>
+                    <div class="row"> 
+                        <label for="" class="col-lg-2 col-sm-4 ">% ปรับเพิ่ม-ลด :</label>
+                        <div class="col-lg-4 col-md-7 col-sm-8">
+                            <div class="form-group ">
+                              <input type="number" ngModel  name="params" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right">
+                            </div>
+                          </div>
+                          <label class="col-lg-2 col-sm-3" for=""> ปรับเพิ่ม-ลดช่วงเดือน</label>
+                          <div class="col-lg-4 col-md-7 col-sm-9">
+                              <div class="form-group input-group">
+                                  <select class="form-control form-control-sm  ng-untouched ng-pristine ng-valid " name="fmonth"
+                                  ngModel ng-reflect-name="" ng-reflect-model="">
+                                      <option value="0" ng-reflect-value="">ตุลาคม</option>
+                                      <option value="1" ng-reflect-value="">พฤศจิกายน</option>
+                                      <option value="2" ng-reflect-value="">ธันวาคม</option>
+                                      <option value="3" ng-reflect-value="">มกราคม</option>
+                                      <option value="4" ng-reflect-value="">กุมภาพันธ์</option>
+                                      <option value="5" ng-reflect-value="">มีนาคม</option>
+                                      <option value="6" ng-reflect-value="">เมษายน</option>
+                                      <option value="7" ng-reflect-value="">พฤษภาคม</option>
+                                      <option value="8" ng-reflect-value="">มิถุนายน</option>
+                                      <option value="9" ng-reflect-value="">กรกฎาคม</option>
+                                      <option value="10" ng-reflect-value="">สิงหาคม</option>
+                                      <option value="11" ng-reflect-value="">กันยายน</option>
+                                  </select>
+                                  <label for="">&nbsp;ถึง&nbsp;</label>
+                                  <select class="form-control form-control-sm ng-untouched ng-pristine ng-valid" name="lmonth"
+                                  ngModel ng-reflect-name="" ng-reflect-model="">
+                                      <option value="3" ng-reflect-value="">มกราคม</option>
+                                      <option value="4" ng-reflect-value="">กุมภาพันธ์</option>
+                                      <option value="5" ng-reflect-value="">มีนาคม</option>
+                                      <option value="6" ng-reflect-value="">เมษายน</option>
+                                      <option value="7" ng-reflect-value="">พฤษภาคม</option>
+                                      <option value="8" ng-reflect-value="">มิถุนายน</option>
+                                      <option value="9" ng-reflect-value="">กรกฎาคม</option>
+                                      <option value="10" ng-reflect-value="">สิงหาคม</option>
+                                      <option value="11" ng-reflect-value="">กันยายน</option>
+                                      <option value="0" ng-reflect-value="">ตุลาคม</option>
+                                      <option value="1" ng-reflect-value="">พฤศจิกายน</option>
+                                      <option value="2" ng-reflect-value="">ธันวาคม</option>
+                                  </select>
+                              </div>
+                          </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-10 col-8"></div>
+                        <div class="col-lg-2 col-4">
+                          <button class="btn-search btn-block btn-themecolor" type="submit"
+                          (click)="lawsuit_1 = !lawsuit_1"
+                          (click)="fine_1 = !fine_1"
+                          (click)="treasury_1 = !treasury_1"
+                          >คำนวณ %</button>
+                        </div>
+                      </div>
+                    </form>
+            </div>
+    </div>
+    
+      <div class="card-body">
+              <div class="card-body  p-0">
+                  <input type="checkbox" id="md_checkbox_2"  name="chk2" class="filled-in chk-col-indigo"
+                  [(ngModel)]="bribe"
+                  [(ngModel)]="award"
+                  >
+                  <label for="md_checkbox_2"><p>เเสดงเป้าหมายเงินสินบนเเละเงินรางวัล</p> </label><br>
+              </div>    
+            
+      <div class="card unset-radius">
+        <div class="card-body  p-0">
+          <div class="table-responsive table-sm table-striped inner">
+            <table class="table">
+              
+              <thead>
+                <tr>
+                    <th></th>
+                    <th class="text-center" style="color:#495057" *ngIf="lawsuit_1">จำนวนคดีจริงปีที่ผ่านมา</th>
+                    <th class="text-center" style="color:#495057" >เป้าหมายจำนวนคดี</th>
+    
+                    <th class="text-center" style="color:#495057" *ngIf="fine_1">จำนวนค่าปรับจริงที่ผ่านมา</th>
+                    <th class="text-center" style="color:#495057" >เป้าหมายจำนวนค่าปรับ</th>
+    
+                    <th class="text-center" style="color:#495057" *ngIf="treasury_1">เงินส่งคลังจริงปีที่ผ่านมา</th>
+                    <th class="text-center" style="color:#495057" >เป้าหมายเงินส่งคลัง</th>
+    
+                    <th class="text-center" style="color:#495057" *ngIf="bribe">เป้าหมายเงินสินบน</th>
+                    <th class="text-center" style="color:#495057" *ngIf="award">เป้าหมายเงินรางวัล </th>
+    
+                </tr>
+              </thead>
+              
+              <tbody>
+    
+                <tr *ngFor="let item of targetItemDetail_Call; let i = index;">
+                  <td class="headcol table-fix">
+                    <label class="control-label ">{{item.MONTH}}</label>
+                    </td>
+                  <td *ngIf="lawsuit_1">
+                    <input type="number"  class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                    formcontrolname="QTY" #QTY name="QTY"  [(ngModel)]='item.QTY' readonly="" >
+                    
+                  </td>
+                  <td >
+                    <input type="number"  class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                    formcontrolname="QTY"  [(ngModel)]='item.sum_QTY' #QTY name="QTY"  >
+                      
+                    </td>
+                    <td *ngIf="fine_1">
+                      <input type="number" [(ngModel)]='item.FINE' class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                      formcontrolname="FINE" #FINE name="FINE" readonly="" >
+                      
+                    </td>
+                    <td >
+                      <input type="number"  class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                      formcontrolname="FINE" #FINE name="FINE"  [(ngModel)]='item.sum_FINE'>
+                      
+                    </td>
+                    <td *ngIf="treasury_1">
+                      <input type="number" [(ngModel)]='item.FINE*item.TRE' class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                      formcontrolname="FINE" #FINE name="FINE"  readonly="" >
+                    </td>
+                    <td >
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                       #TRE [(ngModel)]='item.sum_FINE*item.TRE' readonly="" >
+                        
+                      </td>
+                    <td *ngIf="bribe">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                       #AWA [(ngModel)]='item.sum_FINE*item.AWA' readonly="" >
+                    </td>
+                    <td *ngIf="award">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                       #BRI [(ngModel)]='item.sum_FINE*item.BRI' readonly="" >
+                    </td>
+    
+                </tr>
+    
+                <tr >
+                  <th class="headcol">รวม</th>
+                  <th class="text-right" *ngIf="lawsuit_1">{{getTotalQTY()}} คดี</th>
+                  <th class="text-right" >{{totalsum_QTY()}} คดี</th>
+                  <th class="text-right" *ngIf="fine_1">{{getTotalFINE()}} บาท</th>
+                  <th class="text-right" >{{totalsum_FINE()}} บาท</th>
+                  <th class="text-right" *ngIf="treasury_1">{{getTotalTRE()}} บาท</th>
+                  <th class="text-right" >{{getTotalTRE2()}} บาท</th>
+                  <th class="text-right" *ngIf="bribe">{{getTotalBRI()}} บาท</th>
+                  <th class="text-right" *ngIf="award">{{getTotalAWA()}} บาท</th>
+                  <!-- <td></td> -->
+    
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- ---------------------------------------------------สาขา----------------------------------------------------- -->
+  <div class="card-body" *ngIf="nav1">
+    <div class="row">
+        <label for="" class="col-lg-2 col-sm-4 control-label">เลขที่เป้าปราบปราม</label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+        <div class="form-group ">
+          <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            formcontrolname="" readonly="" ng-reflect-name="" value="Auto Generate">
+        </div>
+      </div>
+      <label for="" class="col-lg-2 col-sm-4 control-label">ครั้งที่</label>
+      <div class="col-lg-4 col-md-7 col-sm-8" *ngIf="sequence1">
+        <div class="form-group ">
+          <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            formcontrolname=""  ng-reflect-name="" readonly="" [(ngModel)]="sequence" ngmodel>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-7 col-sm-8" *ngIf="sequence2">
+        <div class="form-group " *ngIf="sequence2_1">
+            <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+              formcontrolname=""  ng-reflect-name="" readonly="">
+          </div>
+          <div class="form-group" *ngIf="sequence2_2">
+              <select name="" id="" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+              (change)="event_sequence($event.target.value)">
+              <option value="0" disabled selected >select...</option>
+              <option [value]="item.name" *ngFor="let item of list_sequence">{{item.name}}</option>
+            </select>
+          </div>
+        </div>
+    </div>
+    <div class="row"> 
+      <label for="" class="col-lg-2 col-sm-4 control-label">ปีงบประมาณ</label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+          <div class="form-group ">
+            <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            formcontrolname=""  ng-reflect-name="" readonly="" [(ngModel)]="year" ngmodel>
+          </div>
+        </div>
+
+      <label for="" class="col-lg-2 col-sm-4 control-label">กลุ่มสินค้า
+      </label>
+      <!-- สาขา/สตป -->
+      <div class="col-lg-4 col-md-7 col-sm-8" *ngIf="product_type1">
+        <div class="form-group ">
+          <select name="" id="" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+          (change)="selectOption($event.target.value)"
+          [(ngModel)]="selected">
+          <option [value]="item.id" *ngFor="let item of items">{{item.name}}</option>
+          </select>
+        </div>
+      </div>
+      <!-- พื้นที่/ภาค -->
+      <div class="col-lg-4 col-md-7 col-sm-8" *ngIf="product_type2">
+        <div class="form-group ">
+          <select name="" id="" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+          (change)="selectOption2($event.target.value)"
+          [(ngModel)]="selected2">
+          <option [value]="item.id" *ngFor="let item of items2">{{item.name}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="row"> 
+      <label for="" class="col-lg-2 col-sm-4 ">ลักษณะคดี
+      </label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+          <!-- สาขา/สตป -->
+          <div class="form-group " *ngIf="lawsult1">
+            <select name="" id="" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            (change)="selectOptions($event.target.value)"
+            [(ngModel)]="selecteds">
+            <option [value]="item.id" *ngFor="let item of item">{{item.name}}</option>
+            </select>
+            
+          </div>
+          <!-- พื้นที่/ภาค -->
+          <div class="form-group " *ngIf="lawsult2">
+            <select name="" id="" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            (change)="selectOptions2($event.target.value)"
+            [(ngModel)]="selecteds2">
+            <option [value]="item.id" *ngFor="let item of item2">{{item.name}}</option>
+            </select>
+            
+          </div>
+        </div>
+
+        <label for="" class="col-lg-2 col-sm-4 control-label">หน่วยงาน</label>
+        <div class="col-lg-4 col-md-7 col-sm-8">
+          <div class="form-group ">
+            <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+              formcontrolname="" readonly="" ng-reflect-name="" [(ngModel)]="office_name" ngmodel>
+          </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <label for="" class="col-lg-2 col-sm-4 control-label">จำนวนคดีรวมที่ผ่านมา</label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+        <div class="form-group ">
+          <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            formcontrolname="" readonly="" ng-reflect-name="" [(ngModel)]="sum_qty" ngmodel>
+        </div>
+      </div>
+      <label for="" class="col-lg-2 col-sm-4 control-label">ค่าปรับรวมที่ผ่านมา</label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+        <div class="form-group ">
+          <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            formcontrolname="" readonly="" ng-reflect-name="" [(ngModel)]="sum_fine" ngmodel>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ----------------------------------------------------พื้นที่---------------------------------------------------- -->
+  <div class="card-body" *ngIf="nav2">
+    <div class="row">
+        <label for="" class="col-lg-2 col-sm-4 control-label">เลขที่เป้าปราบปราม</label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+        <div class="form-group ">
+          <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            formcontrolname="" readonly="" ng-reflect-name="" value="Auto Generate">
+        </div>
+      </div>
+      <label for="" class="col-lg-2 col-sm-4 control-label">ครั้งที่</label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+        <div class="form-group ">
+          <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            formcontrolname=""  ng-reflect-name="" readonly="" [(ngModel)]="sequence" ngmodel>
+        </div>
+      </div>
+    </div>
+
+    <div class="row"> 
+      <label for="" class="col-lg-2 col-sm-4 control-label">ปีงบประมาณ</label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+          <div class="form-group ">
+            <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            formcontrolname=""  ng-reflect-name="" readonly="" [(ngModel)]="year" ngmodel>
+          </div>
+        </div>
+
+      <label for="" class="col-lg-2 col-sm-4 control-label">กลุ่มสินค้า
+        <!-- <label for="" style="color: red">*</label> -->
+      </label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+        <div class="form-group " *ngIf="nav2_1">
+          <select name="" id="" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+          (change)="selectOption($event.target.value)"
+          [(ngModel)]="selected">
+          <option [value]="item.id" *ngFor="let item of items">{{item.name}}</option>
+          </select>
+        </div>
+        <div class="form-group " *ngIf="nav2_2">
+          <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+          formcontrolname="" readonly="" ng-reflect-name="">
+        </div>
+      </div>
+    </div>
+
+    <div class="row"> 
+      <label for="" class="col-lg-2 col-sm-4 ">ลักษณะคดี
+        <!-- <label for="" style="color: red">*</label> -->
+      </label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+          <div class="form-group " *ngIf="nav2_1">
+            <select name="" id="" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            (change)="selectOptions($event.target.value)"
+            [(ngModel)]="selecteds">
+            <option [value]="item.id" *ngFor="let item of item">{{item.name}}</option>
+            </select>
+            
+          </div>
+          <div class="form-group " *ngIf="nav2_2">
+            <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            formcontrolname="" readonly="" ng-reflect-name="">
+          </div>
+        </div>
+
+        <label for="" class="col-lg-2 col-sm-4 control-label">หน่วยงาน</label>
+        <div class="col-lg-4 col-md-7 col-sm-8">
+          <!-- <div class="form-group ">
+            <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            ngmodel size='100%'
+            type="text" ngModel name="OFFICE_NAME" 
+            input-autocomplete [config]="config2" [items]="ite2"
+            (inputChangedEvent)="onInputChangedEvent($event)"
+            (selectEvent)="onSelect($event)">
+          </div> -->
+
+          <div class="col-lg-4 col-md-7 col-sm-8">
+            <div class="form-group ">
+              <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+                formcontrolname="" readonly="" ng-reflect-name="" [(ngModel)]="office_name" ngmodel>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <label for="" class="col-lg-2 col-sm-4 control-label">จำนวนคดีรวมที่ผ่านมา</label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+        <div class="form-group ">
+          <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            formcontrolname="" readonly="" ng-reflect-name="" [(ngModel)]="sum_qty" ngmodel>
+        </div>
+      </div>
+      <label for="" class="col-lg-2 col-sm-4 control-label">ค่าปรับรวมที่ผ่านมา</label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+        <div class="form-group ">
+          <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            formcontrolname="" readonly="" ng-reflect-name="" [(ngModel)]="sum_fine" ngmodel>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- ----------------------------------------------ภาค---------------------------------------------------------- -->
+  <div class="card-body" *ngIf="nav3">
+    <div class="row">
+        <label for="" class="col-lg-2 col-sm-4 control-label">เลขที่เป้าปราบปราม</label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+        <div class="form-group ">
+          <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            formcontrolname="" readonly="" ng-reflect-name="" value="Auto Generate">
+        </div>
+      </div>
+      <label for="" class="col-lg-2 col-sm-4 control-label">ครั้งที่</label>
+
+      <div class="col-lg-4 col-md-7 col-sm-8" *ngIf="sequence2">
+        <div class="form-group " *ngIf="sequence2_1">
+            <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+              formcontrolname=""  ng-reflect-name="" readonly="">
+          </div>
+          <div class="form-group" *ngIf="sequence2_2">
+              <select name="" id="" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+              (change)="zone_event($event.target.value)">
+              <option value="0" disabled selected >select...</option>
+              <option [value]="item.name" *ngFor="let item of list_sequence">{{item.name}}</option>
+            </select>
+          </div>
+        </div>
+    </div>
+    <div class="row"> 
+      <label for="" class="col-lg-2 col-sm-4 control-label">ปีงบประมาณ</label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+          <div class="form-group ">
+            <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            formcontrolname=""  ng-reflect-name="" readonly="" [(ngModel)]="year" ngmodel>
+          </div>
+        </div>
+
+      <label for="" class="col-lg-2 col-sm-4 control-label">กลุ่มสินค้า
+      </label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+        <div class="form-group ">
+          <select name="" id="" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+          (change)="zoneoption($event.target.value)"
+          [(ngModel)]="selected">
+          <option [value]="item.id" *ngFor="let item of items">{{item.name}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row"> 
+      <label for="" class="col-lg-2 col-sm-4 ">ลักษณะคดี
+      </label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+          <div class="form-group ">
+            <select name="" id="" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            (change)="zoneoptions($event.target.value)"
+            [(ngModel)]="selecteds">
+            <option [value]="item.id" *ngFor="let item of item">{{item.name}}</option>
+            </select>
+          </div>
+        </div>
+
+        <label for="" class="col-lg-2 col-sm-4 control-label">หน่วยงาน</label>
+        <div class="col-lg-4 col-md-7 col-sm-8">
+          <div class="form-group ">
+            <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+              formcontrolname="" readonly="" ng-reflect-name="" [(ngModel)]="office_name" ngmodel>
+          </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <label for="" class="col-lg-2 col-sm-4 control-label">จำนวนคดีรวมที่ผ่านมา</label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+        <div class="form-group ">
+          <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            formcontrolname="" readonly="" ng-reflect-name="" [(ngModel)]="sum_qty" ngmodel>
+        </div>
+      </div>
+      <label for="" class="col-lg-2 col-sm-4 control-label">ค่าปรับรวมที่ผ่านมา</label>
+      <div class="col-lg-4 col-md-7 col-sm-8">
+        <div class="form-group ">
+          <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid"
+            formcontrolname="" readonly="" ng-reflect-name="" [(ngModel)]="sum_fine" ngmodel>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- สาขา/สตป -------------------------------------------------------------------------------------------- -->
+<div class="card card-outline-bluish unset-radius" *ngIf="box2">
+  <div class="card-header  unset-radius">
+    <app-card-actions-collapse>
+      <div class="card-actions">
+        <a href="" class="">
+          <i class="fa fa-chevron-down" >
+            ::before
+          </i>
+        </a>
+      </div>
+    </app-card-actions-collapse>
+    <h4 class="card-title m-b-0">กำหนดเปอร์เซ็นการปรับเพิ่ม-ลดเป้าหมายปราบปราม</h4>
+  </div>
+  <div class="card-body">
+          <div class="card-body  p-0">
+              <form class="form-horizontal" #calForm="ngForm" (ngSubmit)="calTarget(calForm.form.value)">
+                <br>เป้าหมายที่ต้องการปรับ % เพิ่ม-ลด  : 
+                <input type="checkbox" id="md_checkbox_" ngModel  name="QTY" class="filled-in chk-col-indigo">
+                <label for="md_checkbox_"><p>จำนวนคดี</p> </label>
+
+                <input type="checkbox" id="md_checkbox" ngModel name="FINE" class="filled-in chk-col-indigo">
+                <label for="md_checkbox"><p>ค่าปรับ</p> </label><br>
+                <br>
+                <div class="row"> 
+                    <label for="" class="col-lg-2 col-sm-4 ">% ปรับเพิ่ม-ลด :</label>
+                    <div class="col-lg-4 col-md-7 col-sm-8">
+                        <div class="form-group ">
+                          <input type="number" ngModel  name="params" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right">
+                        </div>
+                      </div>
+                      <label class="col-lg-2 col-sm-3" for=""> ปรับเพิ่ม-ลดช่วงเดือน</label>
+                      <div class="col-lg-4 col-md-7 col-sm-9">
+                          <div class="form-group input-group">
+                              <select class="form-control form-control-sm  ng-untouched ng-pristine ng-valid " name="fmonth"
+                              ngModel ng-reflect-name="" ng-reflect-model="">
+                                  <option value="0" ng-reflect-value="">ตุลาคม</option>
+                                  <option value="1" ng-reflect-value="">พฤศจิกายน</option>
+                                  <option value="2" ng-reflect-value="">ธันวาคม</option>
+                                  <option value="3" ng-reflect-value="">มกราคม</option>
+                                  <option value="4" ng-reflect-value="">กุมภาพันธ์</option>
+                                  <option value="5" ng-reflect-value="">มีนาคม</option>
+                                  <option value="6" ng-reflect-value="">เมษายน</option>
+                                  <option value="7" ng-reflect-value="">พฤษภาคม</option>
+                                  <option value="8" ng-reflect-value="">มิถุนายน</option>
+                                  <option value="9" ng-reflect-value="">กรกฎาคม</option>
+                                  <option value="10" ng-reflect-value="">สิงหาคม</option>
+                                  <option value="11" ng-reflect-value="">กันยายน</option>
+                              </select>
+                              <label for="">&nbsp;ถึง&nbsp;</label>
+                              <select class="form-control form-control-sm ng-untouched ng-pristine ng-valid" name="lmonth"
+                              ngModel ng-reflect-name="" ng-reflect-model="">
+                                  <option value="3" ng-reflect-value="">มกราคม</option>
+                                  <option value="4" ng-reflect-value="">กุมภาพันธ์</option>
+                                  <option value="5" ng-reflect-value="">มีนาคม</option>
+                                  <option value="6" ng-reflect-value="">เมษายน</option>
+                                  <option value="7" ng-reflect-value="">พฤษภาคม</option>
+                                  <option value="8" ng-reflect-value="">มิถุนายน</option>
+                                  <option value="9" ng-reflect-value="">กรกฎาคม</option>
+                                  <option value="10" ng-reflect-value="">สิงหาคม</option>
+                                  <option value="11" ng-reflect-value="">กันยายน</option>
+                                  <option value="0" ng-reflect-value="">ตุลาคม</option>
+                                  <option value="1" ng-reflect-value="">พฤศจิกายน</option>
+                                  <option value="2" ng-reflect-value="">ธันวาคม</option>
+                              </select>
+                          </div>
+                      </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-10 col-8"></div>
+                    <div class="col-lg-2 col-4">
+                      <button class="btn-search btn-block btn-themecolor" type="submit"
+                      (click)="lawsuit_1 = !lawsuit_1"
+                      (click)="fine_1 = !fine_1"
+                      (click)="treasury_1 = !treasury_1"
+                      >คำนวณ %</button>
+                    </div>
+                  </div>
+                </form>
+        </div>
+  </div>
+
+<div class="card card-outline-bluish unset-radius">
+  <div class="card-header  unset-radius">
+    <app-card-actions-collapse>
+      <div class="card-actions">
+        <a href="" class="">
+          <i class="fa fa-chevron-down">
+            ::before
+          </i>
+        </a>
+      </div>
+    </app-card-actions-collapse>
+    <h4 class="card-title m-b-0">รายละเอียดเป้าหมายปราบปราม</h4>
+  </div>
+  
+  <div class="card-body">
+          <div class="card-body  p-0">
+              <input type="checkbox" id="md_checkbox_2"  name="chk2" class="filled-in chk-col-indigo"
+              [(ngModel)]="bribe"
+              [(ngModel)]="award"
+              >
+              <label for="md_checkbox_2"><p>เเสดงเป้าหมายเงินสินบนเเละเงินรางวัล</p> </label><br>
+          </div>    
+        
+  <div class="card unset-radius">
+    <div class="card-body  p-0">
+      <div class="table-responsive table-sm table-striped inner">
+        <table class="table">
+          
+          <thead>
+            <tr>
+                <th></th>
+                <th class="text-center" style="color:#495057" *ngIf="lawsuit_1">จำนวนคดีจริงปีที่ผ่านมา</th>
+                <th class="text-center" style="color:#495057" >เป้าหมายจำนวนคดี</th>
+
+                <th class="text-center" style="color:#495057" *ngIf="fine_1">จำนวนค่าปรับจริงที่ผ่านมา</th>
+                <th class="text-center" style="color:#495057" >เป้าหมายจำนวนค่าปรับ</th>
+
+                <th class="text-center" style="color:#495057" *ngIf="treasury_1">เงินส่งคลังจริงปีที่ผ่านมา</th>
+                <th class="text-center" style="color:#495057" >เป้าหมายเงินส่งคลัง</th>
+
+                <th class="text-center" style="color:#495057" *ngIf="bribe">เป้าหมายเงินสินบน</th>
+                <th class="text-center" style="color:#495057" *ngIf="award">เป้าหมายเงินรางวัล </th>
+
+            </tr>
+          </thead>
+          
+          <tbody>
+
+            <tr *ngFor="let item of targetItemDetail_Call; let i = index;">
+              <td class="headcol table-fix">
+                <label class="control-label ">{{item.MONTH}}</label>
+                </td>
+              <td *ngIf="lawsuit_1">
+                <input type="number"  class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                formcontrolname="QTY" #QTY name="QTY"  [(ngModel)]='item.QTY' readonly="" >
+                
+              </td>
+              <td >
+                <input type="number"  class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                formcontrolname="QTY"  [(ngModel)]='item.sum_QTY' #QTY name="QTY"  >
+                  
+                </td>
+                <td *ngIf="fine_1">
+                  <input type="number" [(ngModel)]='item.FINE' class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                  formcontrolname="FINE" #FINE name="FINE" readonly="" >
+                  
+                </td>
+                <td >
+                  <input type="number"  class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                  formcontrolname="FINE" #FINE name="FINE"  [(ngModel)]='item.sum_FINE'>
+                  
+                </td>
+                <td *ngIf="treasury_1">
+                  <input type="number" [(ngModel)]='item.FINE*item.TRE' class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                  formcontrolname="FINE" #FINE name="FINE"  readonly="" >
+                </td>
+                <td >
+                  <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                   #TRE [(ngModel)]='item.sum_FINE*item.TRE' readonly="" >
+                    
+                  </td>
+                <td *ngIf="bribe">
+                  <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                   #AWA [(ngModel)]='item.sum_FINE*item.AWA' readonly="" >
+                </td>
+                <td *ngIf="award">
+                  <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                   #BRI [(ngModel)]='item.sum_FINE*item.BRI' readonly="" >
+                </td>
+
+            </tr>
+
+            <tr >
+              <th class="headcol">รวม</th>
+              <th class="text-right" *ngIf="lawsuit_1">{{getTotalQTY()}} คดี</th>
+              <th class="text-right" >{{totalsum_QTY()}} คดี</th>
+              <th class="text-right" *ngIf="fine_1">{{getTotalFINE()}} บาท</th>
+              <th class="text-right" >{{totalsum_FINE()}} บาท</th>
+              <th class="text-right" *ngIf="treasury_1">{{getTotalTRE()}} บาท</th>
+              <th class="text-right" >{{getTotalTRE2()}} บาท</th>
+              <th class="text-right" *ngIf="bribe">{{getTotalBRI()}} บาท</th>
+              <th class="text-right" *ngIf="award">{{getTotalAWA()}} บาท</th>
+              <!-- <td></td> -->
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- พื้นที่ ------------------------------------------------------------------------------------------>
+<div class="card card-outline-bluish unset-radius" *ngIf="box3">
+    <div class="card-header  unset-radius">
+      <app-card-actions-collapse>
+        <div class="card-actions">
+          <a href="" class="">
+            <i class="fa fa-chevron-down">
+              ::before
+            </i>
+          </a>
+        </div>
+      </app-card-actions-collapse>
+      <h4 class="card-title m-b-0">รายละเอียดเป้าปราบปราม</h4>
+    </div>
+    <div class="card-body">
+        <div class="card unset-radius">
+            <div class="card-body  p-0">
+
+              <div class="container">
+                  
+                  <div class="row">
+                      <div class="col-lg-4 col-sm-4">
+                        <br><h4>ข้อมูลที่ต้องการเเสดงเป้าปราบปราม</h4><br>
+                          <div class="row form-group">
+                              <div class="col" *ngFor="let item of list">
+                                  &nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="md_checkbox_1" [(ngModel)]="item.checked"
+                                  [(ngModel)]="row3"
+                                  [(ngModel)]="row4"
+                                  [(ngModel)]="row5"
+                                  name="chk1" class="filled-in chk-col-indigo">
+                                  <label for="md_checkbox_1"><p>ทั้งหมด</p> </label>
+                              </div>
+                              <div class="col" *ngFor="let item of list1">
+                                  &nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="md_checkbox_2"  [(ngModel)]="item.checked" [(ngModel)]="row4"  data-md-icheck (change)="toggleVisibility($event)" name="chk2" class="filled-in chk-col-indigo">
+                                  <label for="md_checkbox_2">เงินสินบน </label>
+                              </div>
+                          </div>
+                          <div class="row form-group">
+                              <div class="col" *ngFor="let item of list2">
+                                  &nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox"  disabled="disabled" id="md_checkbox_3"  [(ngModel)]="item.checked" [(ngModel)]="row1"  data-md-icheck (change)="toggleVisibility($event)" name="chk3" class="filled-in chk-col-indigo">
+                                  <label for="md_checkbox_3">จำนวนคดี </label>
+                                  <!-- disabled="disabled" -->
+                              </div>
+                              <div class="col" *ngFor="let item of list3">
+                                  &nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="md_checkbox_4"  [(ngModel)]="item.checked" [(ngModel)]="row5"  data-md-icheck (change)="toggleVisibility($event)" name="chk4" class="filled-in chk-col-indigo">
+                                  <label for="md_checkbox_4">เงินรางวัล </label>
+                              </div>
+                          </div>
+                          <div class="row form-group">
+                              <div class="col" *ngFor="let item of list4">
+                                  &nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox"  disabled="disabled" id="md_checkbox_5"  [(ngModel)]="item.checked" [(ngModel)]="row2"  data-md-icheck (change)="toggleVisibility($event)"  name="chk5" class="filled-in chk-col-indigo">
+                                  <label for="md_checkbox_5">เงินค่าปรับ </label>
+                                  <!-- disabled="disabled" -->
+                              </div>
+                              <div class="col" *ngFor="let item of list5">
+                                  &nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="md_checkbox_6"  [(ngModel)]="item.checked" [(ngModel)]="row3"  data-md-icheck (change)="toggleVisibility($event)" name="chk6" class="filled-in chk-col-indigo">
+                                  <label for="md_checkbox_6">เงินส่งคลัง </label>
+                              </div>
+                          </div>
+                      </div>
+                    </div>
+              </div>
+                
+
+            </div>
+          </div>
+          
+    <div class="card unset-radius" >
+      <div class="card-body  p-0">
+        <div class="table-responsive table-sm table-striped inner">
+          <table class="table" >
+            <!-- -----------------------------------------------------------table 1 ---------------------------------------------------------------->
+            <td *ngIf="table1">
+              <thead>
+                  <tr *ngIf="row">
+                      <th></th>
+                    <th class="text-center" *ngFor="let item of tempData" [attr.colspan]="5">{{ item.header1 }}</th>
+                  </tr>
+                  <tr>
+                      <th></th>
+                      <th class="text-center" style="color:#495057" *ngIf="row1">จำนวนคดี</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row2">จำนวนค่าปรับ</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row3">เงินส่งคลัง</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row4">เงินสินบน</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row5">เงินรางวัล</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of tempDatas1;let i = index;">
+                    <td class="headcol table-fix">
+                  <label class="control-label ">{{item.MONTH}}</label>
+                  </td>
+                  <td *ngIf="row1">
+                    <input type="number" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                    [(ngModel)]='item.QTY' readonly="">
+                  </td>
+                  <td *ngIf="row2">
+                    <input type="number" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right" 
+                    [(ngModel)]='item.FINE' readonly="">
+                  </td>
+                  <td *ngIf="row3">
+                    <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                    [(ngModel)]='item.TRE' readonly="">
+                  </td>
+                  <td *ngIf="row4">
+                    <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                    [(ngModel)]='item.BRI' readonly="">
+                  </td>
+                  <td *ngIf="row5">
+                    <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                    [(ngModel)]='item.AWA' readonly="">
+                  </td>
+                  </tr>
+                  <tr>
+                      <th class="headcol">รวม</th>
+                      <th class="text-right" *ngIf="row1">{{total_QTY1()}} คดี</th>
+                      <th class="text-right" *ngIf="row2">{{total_FINE1()}} บาท</th>
+                      <th class="text-right" *ngIf="row3">{{total_TRE1()}} บาท</th>
+                      <th class="text-right" *ngIf="row4">{{total_BRI1()}} บาท</th>
+                      <th class="text-right" *ngIf="row5">{{total_AWA1()}} บาท</th>
+                    </tr>
+                </tbody>
+              </td>
+              <!-- -----------------------------------------------------------table 2 ---------------------------------------------------------------->
+            <td *ngIf="table2">
+              <thead>
+                  <tr *ngIf="row">
+                    <th class="text-center" *ngFor="let item of tempData" [attr.colspan]="5">{{ item.header2 }}</th>
+                  </tr>
+                  <tr>
+                      <th class="text-center" style="color:#495057" *ngIf="row1">จำนวนคดี</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row2">จำนวนค่าปรับ</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row3">เงินส่งคลัง</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row4">เงินสินบน</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row5">เงินรางวัล</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of tempDatas2;let i = index;">
+                    <td *ngIf="row1">
+                      <input type="number" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                      [(ngModel)]='item.QTY' readonly="">
+                    </td>
+                    <td *ngIf="row2">
+                      <input type="number" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right" 
+                      [(ngModel)]='item.FINE' readonly="">
+                    </td>
+                    <td *ngIf="row3">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                      [(ngModel)]='item.TRE' readonly="">
+                    </td>
+                    <td *ngIf="row4">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                      [(ngModel)]='item.BRI' readonly="">
+                    </td>
+                    <td *ngIf="row5">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                      [(ngModel)]='item.AWA' readonly="">
+                    </td>
+                    </tr>
+                    <tr>
+                        <th class="text-right" *ngIf="row1">{{total_QTY2()}} คดี</th>
+                        <th class="text-right" *ngIf="row2">{{total_FINE2()}} บาท</th>
+                        <th class="text-right" *ngIf="row3">{{total_TRE2()}} บาท</th>
+                        <th class="text-right" *ngIf="row4">{{total_BRI2()}} บาท</th>
+                        <th class="text-right" *ngIf="row5">{{total_AWA2()}} บาท</th>
+                      </tr>
+                  </tbody>
+              </td>
+              <!-- -----------------------------------------------------------table 3 ---------------------------------------------------------------->
+            <td *ngIf="table3">
+              <thead>
+                  <tr *ngIf="row">
+                    <th class="text-center" *ngFor="let item of tempData" [attr.colspan]="5">{{ item.header3 }}</th>
+                  </tr>
+                  <tr>
+                      <th class="text-center" style="color:#495057" *ngIf="row1">จำนวนคดี</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row2">จำนวนค่าปรับ</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row3">เงินส่งคลัง</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row4">เงินสินบน</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row5">เงินรางวัล</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of tempDatas3;let i = index;">
+                    <td *ngIf="row1">
+                      <input type="number" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                      [(ngModel)]='item.QTY' readonly="">
+                    </td>
+                    <td *ngIf="row2">
+                      <input type="number" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right" 
+                      [(ngModel)]='item.FINE' readonly="">
+                    </td>
+                    <td *ngIf="row3">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                      [(ngModel)]='item.TRE' readonly="">
+                    </td>
+                    <td *ngIf="row4">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                      [(ngModel)]='item.BRI' readonly="">
+                    </td>
+                    <td *ngIf="row5">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                      [(ngModel)]='item.AWA' readonly="">
+                    </td>
+                    </tr>
+                    <tr>
+                        <th class="text-right" *ngIf="row1">{{total_QTY3()}} คดี</th>
+                        <th class="text-right" *ngIf="row2">{{total_FINE3()}} บาท</th>
+                        <th class="text-right" *ngIf="row3">{{total_TRE3()}} บาท</th>
+                        <th class="text-right" *ngIf="row4">{{total_BRI3()}} บาท</th>
+                        <th class="text-right" *ngIf="row5">{{total_AWA3()}} บาท</th>
+                      </tr>
+                  </tbody>
+              </td>
+              <!-- -----------------------------------------------------------table 4 ---------------------------------------------------------------->
+            <td *ngIf="table4">
+              <thead>
+                  <tr *ngIf="row">
+                    <th class="text-center" *ngFor="let item of tempData" [attr.colspan]="5">{{ item.header4 }}</th>
+                  </tr>
+                  <tr>
+                      <th class="text-center" style="color:#495057" *ngIf="row1">จำนวนคดี</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row2">จำนวนค่าปรับ</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row3">เงินส่งคลัง</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row4">เงินสินบน</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row5">เงินรางวัล</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of tempDatas4;let i = index;">
+                    <td *ngIf="row1">
+                      <input type="number" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                      [(ngModel)]='item.QTY' readonly="">
+                    </td>
+                    <td *ngIf="row2">
+                      <input type="number" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right" 
+                      [(ngModel)]='item.FINE' readonly="">
+                    </td>
+                    <td *ngIf="row3">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                      [(ngModel)]='item.TRE' readonly="">
+                    </td>
+                    <td *ngIf="row4">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                      [(ngModel)]='item.BRI' readonly="">
+                    </td>
+                    <td *ngIf="row5">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                      [(ngModel)]='item.AWA' readonly="">
+                    </td>
+                    </tr>
+                    <tr>
+                        <th class="text-right" *ngIf="row1">{{total_QTY4()}} คดี</th>
+                        <th class="text-right" *ngIf="row2">{{total_FINE4()}} บาท</th>
+                        <th class="text-right" *ngIf="row3">{{total_TRE4()}} บาท</th>
+                        <th class="text-right" *ngIf="row4">{{total_BRI4()}} บาท</th>
+                        <th class="text-right" *ngIf="row5">{{total_AWA4()}} บาท</th>
+                      </tr>
+                  </tbody>
+              </td>
+              <!-- -----------------------------------------------------------table 5 ---------------------------------------------------------------->
+            <td *ngIf="table5">
+              <thead>
+                  <tr *ngIf="row">
+                    <th class="text-center" *ngFor="let item of tempData" [attr.colspan]="5">{{ item.header5 }}</th>
+                  </tr>
+                  <tr>
+                      <th class="text-center" style="color:#495057" *ngIf="row1">จำนวนคดี</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row2">จำนวนค่าปรับ</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row3">เงินส่งคลัง</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row4">เงินสินบน</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row5">เงินรางวัล</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of tempDatas5;let i = index;">
+                    <td *ngIf="row1">
+                      <input type="number" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                      [(ngModel)]='item.QTY' readonly="">
+                    </td>
+                    <td *ngIf="row2">
+                      <input type="number" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right" 
+                      [(ngModel)]='item.FINE' readonly="">
+                    </td>
+                    <td *ngIf="row3">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                      [(ngModel)]='item.TRE' readonly="">
+                    </td>
+                    <td *ngIf="row4">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                      [(ngModel)]='item.BRI' readonly="">
+                    </td>
+                    <td *ngIf="row5">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                      [(ngModel)]='item.AWA' readonly="">
+                    </td>
+                    </tr>
+                    <tr>
+                        <th class="text-right" *ngIf="row1">{{total_QTY5()}} คดี</th>
+                        <th class="text-right" *ngIf="row2">{{total_FINE5()}} บาท</th>
+                        <th class="text-right" *ngIf="row3">{{total_TRE5()}} บาท</th>
+                        <th class="text-right" *ngIf="row4">{{total_BRI5()}} บาท</th>
+                        <th class="text-right" *ngIf="row5">{{total_AWA5()}} บาท</th>
+                      </tr>
+                  </tbody>
+              </td>
+              <!-- -----------------------------------------------------------table 6 ---------------------------------------------------------------->
+            <td *ngIf="table6">
+              <thead>
+                  <tr *ngIf="row">
+                    <th class="text-center" *ngFor="let item of tempData" [attr.colspan]="5">{{ item.header6 }}</th>
+                  </tr>
+                  <tr>
+                      <th class="text-center" style="color:#495057" *ngIf="row1">จำนวนคดี</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row2">จำนวนค่าปรับ</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row3">เงินส่งคลัง</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row4">เงินสินบน</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row5">เงินรางวัล</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of tempDatas6;let i = index;">
+                    <td *ngIf="row1">
+                      <input type="number" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                      [(ngModel)]='item.QTY' readonly="">
+                    </td>
+                    <td *ngIf="row2">
+                      <input type="number" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right" 
+                      [(ngModel)]='item.FINE' readonly="">
+                    </td>
+                    <td *ngIf="row3">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                      [(ngModel)]='item.TRE' readonly="">
+                    </td>
+                    <td *ngIf="row4">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                      [(ngModel)]='item.BRI' readonly="">
+                    </td>
+                    <td *ngIf="row5">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                      [(ngModel)]='item.AWA' readonly="">
+                    </td>
+                    </tr>
+                    <tr>
+                        <th class="text-right" *ngIf="row1">{{total_QTY6()}} คดี</th>
+                        <th class="text-right" *ngIf="row2">{{total_FINE6()}} บาท</th>
+                        <th class="text-right" *ngIf="row3">{{total_TRE6()}} บาท</th>
+                        <th class="text-right" *ngIf="row4">{{total_BRI6()}} บาท</th>
+                        <th class="text-right" *ngIf="row5">{{total_AWA6()}} บาท</th>
+                      </tr>
+                  </tbody>
+              </td>
+              <!-- -----------------------------------------------------------table 7 ---------------------------------------------------------------->
+            <td *ngIf="table7">
+              <thead>
+                  <tr *ngIf="row">
+                    <th class="text-center" *ngFor="let item of tempData" [attr.colspan]="5">{{ item.header7 }}</th>
+                  </tr>
+                  <tr>
+                      <th class="text-center" style="color:#495057" *ngIf="row1">จำนวนคดี</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row2">จำนวนค่าปรับ</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row3">เงินส่งคลัง</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row4">เงินสินบน</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row5">เงินรางวัล</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of tempDatas7;let i = index;">
+                    <td *ngIf="row1">
+                      <input type="number" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                      [(ngModel)]='item.QTY' readonly="">
+                    </td>
+                    <td *ngIf="row2">
+                      <input type="number" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right" 
+                      [(ngModel)]='item.FINE' readonly="">
+                    </td>
+                    <td *ngIf="row3">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                      [(ngModel)]='item.TRE' readonly="">
+                    </td>
+                    <td *ngIf="row4">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                      [(ngModel)]='item.BRI' readonly="">
+                    </td>
+                    <td *ngIf="row5">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                      [(ngModel)]='item.AWA' readonly="">
+                    </td>
+                    </tr>
+                    <tr>
+                        <th class="text-right" *ngIf="row1">{{total_QTY7()}} คดี</th>
+                        <th class="text-right" *ngIf="row2">{{total_FINE7()}} บาท</th>
+                        <th class="text-right" *ngIf="row3">{{total_TRE7()}} บาท</th>
+                        <th class="text-right" *ngIf="row4">{{total_BRI7()}} บาท</th>
+                        <th class="text-right" *ngIf="row5">{{total_AWA7()}} บาท</th>
+                      </tr>
+                  </tbody>
+              </td>
+              <!-- -----------------------------------------------------------table 8 ---------------------------------------------------------------->
+            <td *ngIf="table8">
+              <thead>
+                  <tr *ngIf="row">
+                    <th class="text-center" *ngFor="let item of tempData" [attr.colspan]="5">{{ item.header8 }}</th>
+                  </tr>
+                  <tr>
+                      <th class="text-center" style="color:#495057" *ngIf="row1">จำนวนคดี</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row2">จำนวนค่าปรับ</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row3">เงินส่งคลัง</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row4">เงินสินบน</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row5">เงินรางวัล</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of tempDatas8;let i = index;">
+                    <td *ngIf="row1">
+                      <input type="number" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                      [(ngModel)]='item.QTY' readonly="">
+                    </td>
+                    <td *ngIf="row2">
+                      <input type="number" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right" 
+                      [(ngModel)]='item.FINE' readonly="">
+                    </td>
+                    <td *ngIf="row3">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                      [(ngModel)]='item.TRE' readonly="">
+                    </td>
+                    <td *ngIf="row4">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                      [(ngModel)]='item.BRI' readonly="">
+                    </td>
+                    <td *ngIf="row5">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                      [(ngModel)]='item.AWA' readonly="">
+                    </td>
+                    </tr>
+                    <tr>
+                        <th class="text-right" *ngIf="row1">{{total_QTY8()}} คดี</th>
+                        <th class="text-right" *ngIf="row2">{{total_FINE8()}} บาท</th>
+                        <th class="text-right" *ngIf="row3">{{total_TRE8()}} บาท</th>
+                        <th class="text-right" *ngIf="row4">{{total_BRI8()}} บาท</th>
+                        <th class="text-right" *ngIf="row5">{{total_AWA8()}} บาท</th>
+                      </tr>
+                  </tbody>
+              </td>
+              <!-- -----------------------------------------------------------table 9 ---------------------------------------------------------------->
+            <td *ngIf="table9">
+              <thead>
+                  <tr *ngIf="row">
+                    <th class="text-center" *ngFor="let item of tempData" [attr.colspan]="5">{{ item.header9 }}</th>
+                  </tr>
+                  <tr>
+                      <th class="text-center" style="color:#495057" *ngIf="row1">จำนวนคดี</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row2">จำนวนค่าปรับ</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row3">เงินส่งคลัง</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row4">เงินสินบน</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row5">เงินรางวัล</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of tempDatas9;let i = index;">
+                    <td *ngIf="row1">
+                      <input type="number" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                      [(ngModel)]='item.QTY' readonly="">
+                    </td>
+                    <td *ngIf="row2">
+                      <input type="number" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right" 
+                      [(ngModel)]='item.FINE' readonly="">
+                    </td>
+                    <td *ngIf="row3">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                      [(ngModel)]='item.TRE' readonly="">
+                    </td>
+                    <td *ngIf="row4">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                      [(ngModel)]='item.BRI' readonly="">
+                    </td>
+                    <td *ngIf="row5">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                      [(ngModel)]='item.AWA' readonly="">
+                    </td>
+                    </tr>
+                    <tr>
+                        <th class="text-right" *ngIf="row1">{{total_QTY9()}} คดี</th>
+                        <th class="text-right" *ngIf="row2">{{total_FINE9()}} บาท</th>
+                        <th class="text-right" *ngIf="row3">{{total_TRE9()}} บาท</th>
+                        <th class="text-right" *ngIf="row4">{{total_BRI9()}} บาท</th>
+                        <th class="text-right" *ngIf="row5">{{total_AWA9()}} บาท</th>
+                      </tr>
+                  </tbody>
+              </td>
+              <!-- -----------------------------------------------------------table 10 ---------------------------------------------------------------->
+            <td *ngIf="table10">
+              <thead>
+                  <tr *ngIf="row">
+                    <th class="text-center" *ngFor="let item of tempData" [attr.colspan]="5">{{ item.header10 }}</th>
+                  </tr>
+                  <tr>
+                      <th class="text-center" style="color:#495057" *ngIf="row1">จำนวนคดี</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row2">จำนวนค่าปรับ</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row3">เงินส่งคลัง</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row4">เงินสินบน</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row5">เงินรางวัล</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of tempDatas10;let i = index;">
+                    <td *ngIf="row1">
+                      <input type="number" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                      [(ngModel)]='item.QTY' readonly="">
+                    </td>
+                    <td *ngIf="row2">
+                      <input type="number" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right" 
+                      [(ngModel)]='item.FINE' readonly="">
+                    </td>
+                    <td *ngIf="row3">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                      [(ngModel)]='item.TRE' readonly="">
+                    </td>
+                    <td *ngIf="row4">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                      [(ngModel)]='item.BRI' readonly="">
+                    </td>
+                    <td *ngIf="row5">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                      [(ngModel)]='item.AWA' readonly="">
+                    </td>
+                    </tr>
+                    <tr>
+                        <th class="text-right" *ngIf="row1">{{total_QTY10()}} คดี</th>
+                        <th class="text-right" *ngIf="row2">{{total_FINE10()}} บาท</th>
+                        <th class="text-right" *ngIf="row3">{{total_TRE10()}} บาท</th>
+                        <th class="text-right" *ngIf="row4">{{total_BRI10()}} บาท</th>
+                        <th class="text-right" *ngIf="row5">{{total_AWA10()}} บาท</th>
+                      </tr>
+                  </tbody>
+              </td>
+               <!-- -----------------------------------------------------------table 11 ---------------------------------------------------------------->
+            <td *ngIf="table11">
+              <thead>
+                  <tr *ngIf="row">
+                    <th class="text-center" *ngFor="let item of tempData" [attr.colspan]="5">{{ item.header11 }}</th>
+                  </tr>
+                  <tr>
+                      <th class="text-center" style="color:#495057" *ngIf="row1">จำนวนคดี</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row2">จำนวนค่าปรับ</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row3">เงินส่งคลัง</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row4">เงินสินบน</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row5">เงินรางวัล</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of tempDatas11;let i = index;">
+                    <td *ngIf="row1">
+                      <input type="number" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                      [(ngModel)]='item.QTY' readonly="">
+                    </td>
+                    <td *ngIf="row2">
+                      <input type="number" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right" 
+                      [(ngModel)]='item.FINE' readonly="">
+                    </td>
+                    <td *ngIf="row3">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                      [(ngModel)]='item.TRE' readonly="">
+                    </td>
+                    <td *ngIf="row4">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                      [(ngModel)]='item.BRI' readonly="">
+                    </td>
+                    <td *ngIf="row5">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                      [(ngModel)]='item.AWA' readonly="">
+                    </td>
+                    </tr>
+                    <tr>
+                        <th class="text-right" *ngIf="row1">{{total_QTY11()}} คดี</th>
+                        <th class="text-right" *ngIf="row2">{{total_FINE11()}} บาท</th>
+                        <th class="text-right" *ngIf="row3">{{total_TRE11()}} บาท</th>
+                        <th class="text-right" *ngIf="row4">{{total_BRI11()}} บาท</th>
+                        <th class="text-right" *ngIf="row5">{{total_AWA11()}} บาท</th>
+                      </tr>
+                  </tbody>
+              </td>
+              <!-- -----------------------------------------------------------table 12 ---------------------------------------------------------------->
+              <td *ngIf="table12">
+              <thead>
+                  <tr *ngIf="row">
+                    <th class="text-center" *ngFor="let item of tempData" [attr.colspan]="5">{{ item.header12 }}</th>
+                  </tr>
+                  <tr>
+                      <th class="text-center" style="color:#495057" *ngIf="row1">จำนวนคดี</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row2">จำนวนค่าปรับ</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row3">เงินส่งคลัง</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row4">เงินสินบน</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row5">เงินรางวัล</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of tempDatas12;let i = index;">
+                    <td *ngIf="row1">
+                      <input type="number" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                      [(ngModel)]='item.QTY' readonly="">
+                    </td>
+                    <td *ngIf="row2">
+                      <input type="number" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right" 
+                      [(ngModel)]='item.FINE' readonly="">
+                    </td>
+                    <td *ngIf="row3">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                      [(ngModel)]='item.TRE' readonly="">
+                    </td>
+                    <td *ngIf="row4">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                      [(ngModel)]='item.BRI' readonly="">
+                    </td>
+                    <td *ngIf="row5">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                      [(ngModel)]='item.AWA' readonly="">
+                    </td>
+                    </tr>
+                    <tr>
+                        <th class="text-right" *ngIf="row1">{{total_QTY12()}} คดี</th>
+                        <th class="text-right" *ngIf="row2">{{total_FINE12()}} บาท</th>
+                        <th class="text-right" *ngIf="row3">{{total_TRE12()}} บาท</th>
+                        <th class="text-right" *ngIf="row4">{{total_BRI12()}} บาท</th>
+                        <th class="text-right" *ngIf="row5">{{total_AWA12()}} บาท</th>
+                      </tr>
+                  </tbody>
+              </td>
+              <!-- ----------------------------------------------------------- total table ---------------------------------------------------------------->
+            <td *ngIf="table">
+              <thead>
+                  <tr *ngIf="row">
+                    <th class="text-center" *ngFor="let item of tempData" [attr.colspan]="5">ยอดรวมทุกพื้นที่ในเเต่ละเดือน</th>
+                  </tr>
+                  <tr>
+                      <th class="text-center" style="color:#495057" *ngIf="row1">เป้าจำนวนคดีรวม</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row2">เป้าค่าปรับรวม</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row3">เป้าเงินส่งคลังรวม</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row4">เป้าเงินสินบนรวม</th>
+                      <th class="text-center" style="color:#495057" *ngIf="row5">เป้าเงินรางวัลรวม</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of tempDatas;let i = index;">
+                    <td *ngIf="row1">
+                      <input type="number" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right "
+                      [(ngModel)]='item.QTY' readonly="">
+                    </td>
+                    <td *ngIf="row2">
+                      <input type="number" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right" 
+                      [(ngModel)]='item.FINE' readonly="">
+                    </td>
+                    <td *ngIf="row3">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                      [(ngModel)]='item.TRE' readonly="">
+                    </td>
+                    <td *ngIf="row4">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                      [(ngModel)]='item.BRI' readonly="">
+                    </td>
+                    <td *ngIf="row5">
+                      <input type="text" class="form-control form-control-sm ng-untouched ng-pristine ng-valid text-right"
+                      [(ngModel)]='item.AWA' readonly="">
+                    </td>
+                    </tr>
+                    <tr>
+                        <th class="text-right" *ngIf="row1">{{total_QTY()}} คดี</th>
+                        <th class="text-right" *ngIf="row2">{{total_FINE()}} บาท</th>
+                        <th class="text-right" *ngIf="row3">{{total_TRE()}} บาท</th>
+                        <th class="text-right" *ngIf="row4">{{total_BRI()}} บาท</th>
+                        <th class="text-right" *ngIf="row5">{{total_AWA()}} บาท</th>
+                      </tr>
+                  </tbody>
+              </td>
+          </table>
+        </div>
+      </div>
+    </div>
+</div>
+</div>
+  

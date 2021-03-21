@@ -1,0 +1,860 @@
+<form [formGroup]="controlForm" (ngSubmit)="onSubmit()">
+  <div class="modal-header bg-theme">
+    <div class="row">
+      <div class="col-lg-5">
+        <h4 class="modal-title text-white">รายงานขออนุมัติการเปรียบเทียบคดีและแบบอนุมัติ</h4>
+      </div>
+      <a href="javaScript:void(0);" class="close text-white font-14" aria-label="Close" (click)="dismiss()">
+      <!-- <a href="javaScript:void(0);" class="close text-white font-14" aria-label="Close" (click)="dismiss(click)"></a> -->
+        <span aria-hidden="true">
+          <i class=" ti-close"></i>
+        </span>
+      </a>
+    </div>
+  </div>
+  <h5 class="text-right mt-3 pr-3">ILG60_O_05_00_02_03</h5>
+
+  <div class="modal-body">
+    <div class="container">
+      <div class="card card-outline-bluish unset-radius">
+        <div class="card-header unset-radius">
+          <h5 class="card-title m-b-0">รายงานขออนุมัติ (คด.2)</h5>
+        </div>
+        <!-- <div class="card-body"> -->
+        <div class="modal-body font-14">
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-form-label col-md-4 control-label">ชื่อผู้ต้องหา</label>
+                <div class="col-md-8">
+                  <input class="form-control form-control-sm  ng-untouched ng-pristine ng-valid" type="text"
+                    formControlName="NAME" [attr.disabled]="true">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-form-label col-md-4 control-label">ค่าปรับคดีรวม</label>
+                <div class="col-md-8">
+                  <input class="form-control form-control-sm  ng-untouched ng-pristine ng-valid" type="text"
+                    formControlName="PAYMENT_FINE" value="{{controlForm.get('PAYMENT_FINE').value | number : '1.2'}}"
+                    [attr.disabled]="true">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-form-label col-md-4 control-label">หน่วยงานเปรียบเทียบ</label>
+                <div class="col-md-8">
+                  <!-- <input class="form-control form-control-sm  ng-untouched ng-pristine ng-valid" type="text" formControlName="APPROVE_OFFICE_NAME" [ngClass]="{'ng-invalid-req':isReq_APPROVE_OFFICE_NAME}"> -->
+                  <ng-template #rt let-r="result" let-t="term">
+                    {{ r.OFFICE_SHORT_NAME }}
+                  </ng-template>
+                  <input type="text"
+                    class="form-control form-control-sm {{!controlForm.value.APPROVE_OFFICE_NAME?'ng-invalid ng-touched':''}}"
+                    [ngClass]="{'ng-invalid-req':isReq_APPROVE_OFFICE_NAME}" [ngbTypeahead]="serachOffice"
+                    [resultTemplate]="rt" (click)="require('isReq_APPROVE_OFFICE_NAME')"
+                    [inputFormatter]="formatterOffice2" [readonly]="showEditField"
+                    (selectItem)="selectItemOffice($event)" [value]="controlForm.value.APPROVE_OFFICE_NAME"
+                    (blur)="blurSelectItemOffice(APPROVE_OFFICE_NAME)" (keydown)="isReq_OffName.next(false)"
+                    #APPROVE_OFFICE_NAME required />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-form-label col-md-4 control-label is-required">วันที่จัดทำรายงานฯ</label>
+                <div class="col-md-8">
+                  <div class="form-line">
+                    <div class="row" style="margin-left: 0px">
+                      <div class="col-md-6" style="padding-left: 0px">
+                        <!-- <my-date-picker-th class="form-control form-control-sm unset-form-control"
+                      [options]="myDatePickerOptions" 
+                      [attr.disabled]="true"
+                      [ngClass]="{'ng-touched':isRequired}" required
+                      formControlName="APPROVE_DATE">
+                    </my-date-picker-th> -->
+                        <my-date-picker-th name="APPROVE_DATE" placeholder="" locale="th" [disabled]="showEditField"
+                          [options]="myDatePickerOccurrenceFromOptions" formControlName="APPROVE_DATE"
+                          [ngClass]="{'ng-touched':isRequired}" required
+                          class="form-control form-control-sm unset-form-control">
+                        </my-date-picker-th>
+                      </div>
+                      <label class="col-form-label">&nbsp;&nbsp;เวลา&nbsp;&nbsp;</label>
+                      <div class="col-4">
+                        <!-- <input type="text" class="" class="form-control form-control-sm" formControlName="APPROVE_TIME" required> -->
+                        <input class="form-control form-control-sm" type="text" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]"
+                          style="color: black;" formControlName="APPROVE_TIME" [readonly]="showEditField"
+                          (keyup)="setFormatTimeControl($event, 'APPROVE_TIME', controlForm)" maxlength="5">
+                      </div>
+                      <div class="form-control col-md-11 alert alert-danger mt-0 mb-0 pt-2 pb-2 pl-0 pr-0 text-center"
+                        role="alert" *ngIf="controlForm.controls['APPROVE_TIME'].invalid">
+                        กรุณาระบุข้อมูล hh:mm
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-form-label col-md-4 control-label">คำสั่งกรมฯ ที่</label>
+                <div class="col-md-8">
+                  <input class="form-control form-control-sm  ng-untouched ng-pristine ng-valid" disnumber type="text"
+                    formControlName="COMMAND_NO" (click)="require('isReq_COMMAND_NO')" [readonly]="showEditField"
+                    [ngClass]="{'ng-invalid-req':isReq_COMMAND_NO}">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-form-label col-md-4 control-label is-required">วันที่ออกคำสั่ง</label>
+                <div class="col-md-8">
+                  <div class="form-line">
+                    <div class="row" style="margin-left: 0px">
+                      <div class="col-md-6" style="padding-left: 0px">
+                        <!-- <my-date-picker-th class="form-control form-control-sm unset-form-control"
+                      [options]="myDatePickerOptions" 
+                      [attr.disabled]="true"
+                      [ngClass]="{'ng-touched':isRequired}" required
+                      formControlName="COMMAND_DATE">
+                    </my-date-picker-th> -->
+                        <my-date-picker-th name="COMMAND_DATE" placeholder="" locale="th" [disabled]="showEditField"
+                          [options]="myDatePickerOccurrenceFromOptions" formControlName="COMMAND_DATE"
+                          [ngClass]="{'ng-touched':isRequired}" required
+                          class="form-control form-control-sm unset-form-control">
+                        </my-date-picker-th>
+                      </div>
+                      <label class="col-form-label">&nbsp;&nbsp;เวลา&nbsp;&nbsp;</label>
+                      <div class="col-md-4">
+                        <!-- <input type="text" class="" class="form-control form-control-sm" formControlName="COMMAND_TIME" required> -->
+                        <input class="form-control form-control-sm" type="text" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]"
+                          style="color: black;" formControlName="COMMAND_TIME" [readonly]="showEditField"
+                          (keyup)="setFormatTimeControl($event, 'COMMAND_TIME', controlForm)" maxlength="5">
+                      </div>
+                      <div class="form-control col-md-11 alert alert-danger mt-0 mb-0 pt-2 pb-2 pl-0 pr-0 text-center"
+                        role="alert" *ngIf="controlForm.controls['COMMAND_TIME'].invalid">
+                        กรุณาระบุข้อมูล hh:mm
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-2 control-label" for="">ข้อเท็จจริงเกี่ยวกับ<br>ความผิดโดยละเอียด</label>
+            <div class="col-md-10">
+              <textarea maxlength="2000" cols="" rows="3" class="form-control form-control-sm" formControlName="FACT"
+                [readonly]="showEditField" (click)="require('isReq_FACT')"
+                [ngClass]="{'ng-invalid-req':isReq_FACT}"></textarea>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-2 control-label" for="">เหตุผลที่เปรียบเทียบ<br>คดีและ/หรือจัดการ<br>ของกลาง</label>
+            <div class="col-md-10">
+              <textarea maxlength="2000" cols="" rows="3" class="form-control form-control-sm"
+                formControlName="COMPARE_REASON" [readonly]="showEditField" (click)="require('isReq_COMPARE_REASON')"
+                [ngClass]="{'ng-invalid-req':isReq_COMPARE_REASON}"></textarea>
+            </div>
+          </div>
+        </div>
+        <!-- </div> -->
+      </div>
+      <!-- </div>
+  </div> -->
+
+      <div class="row form-group">
+        <label class="col-md-2" for="">แบบอนุมัติเพิ่มเติม&nbsp;:</label>
+        <div class="col-md-10">
+          <div class="form-line">
+            <div class="row">
+              <input class="col-form-label filled-in chk-col-indigo" type="checkbox" [disabled]="showEditField"
+                [checked]="controlForm.controls['APPROVE_TYPE'].value == 1" name="check1" id="check1"
+                (click)="iS_CHECK($event,1)">
+              <label for="check1" class="col-3" placement="top" ngbTooltip="ค่าปรับไม่เกิน 1 แสนบาท">แบบอนุมัติ 1 (คด.3)</label>
+              <input class="col-form-label filled-in chk-col-indigo" type="checkbox" [disabled]="showEditField"
+                [checked]="controlForm.controls['APPROVE_TYPE'].value == 2" name="check2" id="check2"
+                (click)="iS_CHECK($event,2)">
+              <label for="check2" class="col-3" placement="top" ngbTooltip="ค่าปรับไม่เกิน 1 ล้านบาท">แบบอนุมัติ 2 (คด.4)</label>
+              <input class="col-form-label filled-in chk-col-indigo" type="checkbox" [disabled]="showEditField"
+                [checked]="controlForm.controls['APPROVE_TYPE'].value == 3" name="check3" id="check3"
+                (click)="iS_CHECK($event,3)">
+              <label for="check3" class="col-3" placement="top"
+                ngbTooltip="ค่าปรับไม่เกิน 5 ล้านบาท และเป็นคดีที่ทำการเปรียบเทียบที่สำนักกฎหมาย">แบบอนุมัติ 3 (คด.5)</label>
+              <input class="col-form-label filled-in chk-col-indigo" type="checkbox" [disabled]="showEditField"
+                [checked]="controlForm.controls['APPROVE_TYPE'].value == 4" name="check4" id="check4"
+                (click)="iS_CHECK($event,4)">
+              <label for="check4" class="col-3" placement="top"
+                ngbTooltip="ค่าปรับไม่เกิน 5 ล้านบาท และไม่เป็นคดีที่ทำการเปรียบเทียบที่สำนักกฎหมาย">แบบอนุมัติ 4 (คด.6)</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="modal-body">
+    <div class="container"> -->
+      <div class="card card-outline-bluish unset-radius" *ngIf="controlForm.controls['APPROVE_TYPE'].value == 1">
+        <div class="card-header unset-radius">
+          <h5 class="card-title m-b-0">แบบอนุมัติ 1 (คด.3)</h5>
+        </div>
+        <!-- <div class="card-body"> -->
+        <div class="modal-body font-14">
+          <div class="row form-group">
+            <label class="col-md-2 control-label" for="">สถานะการเห็นชอบ</label>
+            <div class="col-md-10">
+              <div class="form-line">
+                <div class="row">
+                  &nbsp;<input class="col-form-label with-gap radio-col-indigo" type="radio" [disabled]="showEditField"
+                    [checked]="controlForm.controls['IS_AGREE'].value == 1" name="IS_AGREE1" id="IS_AGREE1" value="1"
+                    (click)="check('IS_AGREE1')">
+                  <label for="IS_AGREE1" class="col-3">เห็นชอบ</label>
+                  <input class="col-form-label with-gap radio-col-indigo" type="radio" [disabled]="showEditField"
+                    [checked]="controlForm.controls['IS_AGREE'].value == 0" name="IS_AGREE2" id="IS_AGREE2" value="0"
+                    (click)="check('IS_AGREE2')">
+                  <label for="IS_AGREE2" class="col-3">ไม่เห็นชอบ
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="controlForm.controls['IS_AGREE'].value == 0" class="form-group row">
+            <div class="col-md-2"></div>
+            <div class="col-md-10">
+              <textarea maxlength="2000" placeholder="เหตุผลในการไม่เห็นชอบ" [readonly]="showEditField" cols="" rows="3"
+                class="form-control form-control-sm" formControlName="REMARK_NOT_AGREE"
+                [ngClass]="{'ng-invalid-req':isReq_IS_IS_AGREE}" (click)="require('isReq_IS_IS_AGREE')"></textarea>
+            </div>
+          </div>
+          <div class="row form-group">
+            <label class="col-md-2 control-label" for="">สถานะการอนุมัติ</label>
+            <div class="col-md-10">
+              <div class="form-line">
+                <div class="row">
+                  &nbsp;<input class="col-form-label with-gap radio-col-indigo" type="radio" [disabled]="showEditField"
+                    [checked]="controlForm.controls['IS_APPROVE'].value == 1" name="IS_APPROVE1" id="IS_APPROVE1"
+                    value="1" (click)="check('IS_APPROVE1')">
+                  <label for="IS_APPROVE1" class="col-3">อนุมัติ</label>
+                  <input class="col-form-label with-gap radio-col-indigo" type="radio" [disabled]="showEditField"
+                    [checked]="controlForm.controls['IS_APPROVE'].value == 0" name="IS_APPROVE2" id="IS_APPROVE2"
+                    value="0" (click)="check('IS_APPROVE2')">
+                  <label for="IS_APPROVE2" class="col-3">ไม่อนุมัติ</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="controlForm.controls['IS_APPROVE'].value == 0" class="form-group row">
+            <div class="col-md-2"></div>
+            <div class="col-md-10">
+              <textarea maxlength="2000" placeholder="เหตุผลในการไม่อนุมัติ" [readonly]="showEditField" cols="" rows="3"
+                class="form-control form-control-sm" formControlName="REMARK_NOT_APPROVE"
+                [ngClass]="{'ng-invalid-req':isReq_IS_APPROVE}" (click)="require('isReq_IS_APPROVE')"></textarea>
+            </div>
+          </div>
+          <div class="">
+            <table class="table table-sm table-striped table-set-border">
+              <thead>
+                <tr>
+                  <th class="a-center" style="width:5%">ลำดับ</th>
+                  <th class="" style="width:15%"><span class="text-danger">*</span> ชื่อเจ้าหน้าที่</th>
+                  <th class="" style="width:15%">ตำแหน่ง</th>
+                  <th class="" style="width:15%">หน่วยงาน</th>
+                  <th class="" style="width:15%">ฐานะ</th>
+                  <th style="width:3%"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="a-center">1</td>
+                  <td class="">
+                    <ng-template #rt1 let-r="result" let-t="term">
+                      {{ r.TITLE_SHORT_NAME_TH}}{{r.FIRST_NAME}} {{r.LAST_NAME}}
+                    </ng-template>
+                    <input type="text" class="form-control form-control-sm"
+                      [readonly]="CompareStaff.value[0].IS_ACTIVE == 1 || showEditField" [ngbTypeahead]="searchStaff"
+                      [resultTemplate]="rt1" [inputFormatter]="formatterStaff" (selectItem)="selectItemStaff($event, 0)"
+                      [value]="CompareStaff.value[0].FULL_NAME" [ngClass]="{'ng-invalid-req':isReq_Staff0}"
+                      (click)="require('isReq_Staff0')" (keyup)="deleteStaff(region0 ,0)" required />
+                  </td>
+                  <td class="">
+                    <input type="text" [value]=" CompareStaff.value[0].OPREATION_POS_NAME"
+                      class="form-control form-control-sm" [readonly]="true" required>
+                  </td>
+                  <td class="">
+                    <input type="text" [value]=" CompareStaff.value[0].OPERATION_OFFICE_SHORT_NAME"
+                      class="form-control form-control-sm" [readonly]="true" required>
+                  </td>
+                  <td class="">ผู้เสนอพิจารณาเห็นชอบ</td>
+                  <td><a *ngIf="CompareStaff.value[0].IS_ACTIVE == 1 && showEditField == false"
+                      href="javaScript:void(0);" class="text-danger" (click)="deleteContri(0)">
+                      <i class="fa fa-trash-o fa-lg"></i></a>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="a-center">2</td>
+                  <td class="">
+                    <ng-template #rt2 let-r="result" let-t="term">
+                      {{ r.TITLE_SHORT_NAME_TH}}{{r.FIRST_NAME}} {{r.LAST_NAME}}
+                    </ng-template>
+                    <input type="text" class="form-control form-control-sm"
+                      [readonly]="CompareStaff.value[1].IS_ACTIVE == 1 || showEditField" [ngbTypeahead]="searchStaff"
+                      [resultTemplate]="rt2" [inputFormatter]="formatterStaff" (selectItem)="selectItemStaff($event, 1)"
+                      [value]="CompareStaff.value[1].FULL_NAME" [ngClass]="{'ng-invalid-req':isReq_Staff1}"
+                      (click)="require('isReq_Staff1')" (keyup)="deleteStaff(region1 ,1)" required />
+                  </td>
+                  <td class="">
+                    <input type="text" [value]=" CompareStaff.value[1].OPREATION_POS_NAME"
+                      class="form-control form-control-sm" [readonly]="true" required>
+                  </td>
+                  <td class="">
+                    <input type="text" [value]=" CompareStaff.value[1].OPERATION_OFFICE_SHORT_NAME"
+                      class="form-control form-control-sm" [readonly]="true" required>
+                  </td>
+                  <td class="">ผู้พิจารณาเห็นชอบ</td>
+                  <td><a *ngIf="CompareStaff.value[1].IS_ACTIVE == 1 && showEditField == false"
+                      href="javaScript:void(0);" class="text-danger" (click)="deleteContri(1)">
+                      <i class="fa fa-trash-o fa-lg"></i></a>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="a-center">3</td>
+                  <td class="">
+                    <ng-template #rt3 let-r="result" let-t="term">
+                      {{ r.TITLE_SHORT_NAME_TH}}{{r.FIRST_NAME}} {{r.LAST_NAME}}
+                    </ng-template>
+                    <input type="text" class="form-control form-control-sm" [ngbTypeahead]="searchStaff"
+                      [resultTemplate]="rt3" [readonly]="CompareStaff.value[2].IS_ACTIVE == 1 || showEditField"
+                      [inputFormatter]="formatterStaff" (selectItem)="selectItemStaff($event, 2)"
+                      [value]="CompareStaff.value[2].FULL_NAME" [ngClass]="{'ng-invalid-req':isReq_Staff2}"
+                      (click)="require('isReq_Staff2')" (keyup)="deleteStaff(region2 ,2)" required />
+                  </td>
+                  <td class="">
+                    <input type="text" [value]=" CompareStaff.value[2].OPREATION_POS_NAME"
+                      class="form-control form-control-sm" [readonly]="true" required>
+                  </td>
+                  <td class="">
+                    <input type="text" [value]=" CompareStaff.value[2].OPERATION_OFFICE_SHORT_NAME"
+                      class="form-control form-control-sm" [readonly]="true" required>
+                  </td>
+                  <td class="">ผู้มีอำนาจอนุมัติ</td>
+                  <td><a *ngIf="CompareStaff.value[2].IS_ACTIVE == 1 && showEditField == false"
+                      href="javaScript:void(0);" class="text-danger" (click)="deleteContri(2)">
+                      <i class="fa fa-trash-o fa-lg"></i></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- </div> -->
+      </div>
+
+      <div class="card card-outline-bluish unset-radius" *ngIf="controlForm.controls['APPROVE_TYPE'].value == 2">
+        <div class="card-header unset-radius">
+          <h5 class="card-title m-b-0">แบบอนุมัติ 2 (คด.4)</h5>
+        </div>
+        <!-- <div class="card-body"> -->
+        <div class="modal-body font-14">
+          <div class="row form-group">
+            <label class="col-md-2 control-label" for="">สถานะการเห็นชอบ</label>
+            <div class="col-md-10">
+              <div class="form-line">
+                <div class="row">
+                  &nbsp;<input class="col-form-label with-gap radio-col-indigo" type="radio" [disabled]="showEditField"
+                    [checked]="controlForm.controls['IS_AGREE'].value == 1" name="IS_AGREE1" id="IS_AGREE1" value="1"
+                    (click)="check('IS_AGREE1')">
+                  <label for="IS_AGREE1" class="col-3">เห็นชอบ</label>
+                  <input class="col-form-label with-gap radio-col-indigo" type="radio" [disabled]="showEditField"
+                    [checked]="controlForm.controls['IS_AGREE'].value == 0" name="IS_AGREE2" id="IS_AGREE2" value="0"
+                    (click)="check('IS_AGREE2')">
+                  <label for="IS_AGREE2" class="col-3">ไม่เห็นชอบ
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="controlForm.controls['IS_AGREE'].value == 0" class="form-group row">
+            <div class="col-md-2"></div>
+            <div class="col-md-10">
+              <textarea maxlength="2000" placeholder="เหตุผลในการไม่เห็นชอบ" [readonly]="showEditField" cols="" rows="3"
+                class="form-control form-control-sm" formControlName="REMARK_NOT_AGREE"
+                [ngClass]="{'ng-invalid-req':isReq_IS_IS_AGREE}" (click)="require('isReq_IS_IS_AGREE')"></textarea>
+            </div>
+          </div>
+          <div class="row form-group">
+            <label class="col-md-2 control-label" for="">สถานะการอนุมัติ</label>
+            <div class="col-md-10">
+              <div class="form-line">
+                <div class="row">
+                  &nbsp;<input class="col-form-label with-gap radio-col-indigo" type="radio" [disabled]="showEditField"
+                    [checked]="controlForm.controls['IS_APPROVE'].value == 1" name="IS_APPROVE1" id="IS_APPROVE1"
+                    value="1" (click)="check('IS_APPROVE1')">
+                  <label for="IS_APPROVE1" class="col-3">อนุมัติ</label>
+                  <input class="col-form-label with-gap radio-col-indigo" type="radio" [disabled]="showEditField"
+                    [checked]="controlForm.controls['IS_APPROVE'].value == 0" name="IS_APPROVE2" id="IS_APPROVE2"
+                    value="0" (click)="check('IS_APPROVE2')">
+                  <label for="IS_APPROVE2" class="col-3">ไม่อนุมัติ</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="controlForm.controls['IS_APPROVE'].value == 0" class="form-group row">
+            <div class="col-md-2"></div>
+            <div class="col-md-10">
+              <textarea maxlength="2000" placeholder="เหตุผลในการไม่อนุมัติ" [readonly]="showEditField" cols="" rows="3"
+                class="form-control form-control-sm" formControlName="REMARK_NOT_APPROVE"
+                [ngClass]="{'ng-invalid-req':isReq_IS_APPROVE}" (click)="require('isReq_IS_APPROVE')"></textarea>
+            </div>
+          </div>
+          <div class="">
+            <table class="table table-sm table-striped table-set-border">
+              <thead>
+                <tr>
+                  <th class="a-center" style="width:5%">ลำดับ</th>
+                  <th class="" style="width:15%"><span class="text-danger">*</span> ชื่อเจ้าหน้าที่</th>
+                  <th class="" style="width:15%">ตำแหน่ง</th>
+                  <th class="" style="width:15%">หน่วยงาน</th>
+                  <th class="" style="width:15%">ฐานะ</th>
+                  <th style="width:3%"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="a-center">1</td>
+                  <td class="">
+                    <ng-template #rt1 let-r="result" let-t="term">
+                      {{ r.TITLE_SHORT_NAME_TH}}{{r.FIRST_NAME}} {{r.LAST_NAME}}
+                    </ng-template>
+                    <input type="text" class="form-control form-control-sm"
+                      [readonly]="CompareStaff.value[0].IS_ACTIVE == 1 || showEditField" [ngbTypeahead]="searchStaff"
+                      [resultTemplate]="rt1" [inputFormatter]="formatterStaff" (selectItem)="selectItemStaff($event, 0)"
+                      [value]="CompareStaff.value[0].FULL_NAME" [ngClass]="{'ng-invalid-req':isReq_Staff0}"
+                      (click)="require('isReq_Staff0')" (keyup)="deleteStaff(region0 ,0)" required />
+                  </td>
+                  <td class="">
+                    <input type="text" [value]=" CompareStaff.value[0].OPREATION_POS_NAME"
+                      class="form-control form-control-sm" [readonly]="true" required>
+                  </td>
+                  <td class="">
+                    <input type="text" [value]=" CompareStaff.value[0].OPERATION_OFFICE_SHORT_NAME"
+                      class="form-control form-control-sm" [readonly]="true" required>
+                  </td>
+                  <td class="">ผู้เสนอพิจารณาเห็นชอบ</td>
+                  <td><a *ngIf="CompareStaff.value[0].IS_ACTIVE == 1 && showEditField == false"
+                      href="javaScript:void(0);" class="text-danger" (click)="deleteContri(0)">
+                      <i class="fa fa-trash-o fa-lg"></i></a>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="a-center">2</td>
+                  <td class="">
+                    <ng-template #rt2 let-r="result" let-t="term">
+                      {{ r.TITLE_SHORT_NAME_TH}}{{r.FIRST_NAME}} {{r.LAST_NAME}}
+                    </ng-template>
+                    <input type="text" class="form-control form-control-sm"
+                      [readonly]="CompareStaff.value[1].IS_ACTIVE == 1 || showEditField" [ngbTypeahead]="searchStaff"
+                      [resultTemplate]="rt2" [inputFormatter]="formatterStaff" (selectItem)="selectItemStaff($event, 1)"
+                      [value]="CompareStaff.value[1].FULL_NAME" [ngClass]="{'ng-invalid-req':isReq_Staff1}"
+                      (click)="require('isReq_Staff1')" (keyup)="deleteStaff(region1 ,1)" required />
+                  </td>
+                  <td class="">
+                    <input type="text" [value]=" CompareStaff.value[1].OPREATION_POS_NAME"
+                      class="form-control form-control-sm" [readonly]="true" required>
+                  </td>
+                  <td class="">
+                    <input type="text" [value]=" CompareStaff.value[1].OPERATION_OFFICE_SHORT_NAME"
+                      class="form-control form-control-sm" [readonly]="true" required>
+                  </td>
+                  <td class="">ผู้พิจารณาเห็นชอบ</td>
+                  <td><a *ngIf="CompareStaff.value[1].IS_ACTIVE == 1 && showEditField == false"
+                      href="javaScript:void(0);" class="text-danger" (click)="deleteContri(1)">
+                      <i class="fa fa-trash-o fa-lg"></i></a>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="a-center">3</td>
+                  <td class="">
+                    <ng-template #rt3 let-r="result" let-t="term">
+                      {{ r.TITLE_SHORT_NAME_TH}}{{r.FIRST_NAME}} {{r.LAST_NAME}}
+                    </ng-template>
+                    <input type="text" class="form-control form-control-sm" [ngbTypeahead]="searchStaff"
+                      [resultTemplate]="rt3" [readonly]="CompareStaff.value[2].IS_ACTIVE == 1 || showEditField"
+                      [inputFormatter]="formatterStaff" (selectItem)="selectItemStaff($event, 2)"
+                      [value]="CompareStaff.value[2].FULL_NAME" [ngClass]="{'ng-invalid-req':isReq_Staff2}"
+                      (click)="require('isReq_Staff2')" (keyup)="deleteStaff(region2 ,2)" required />
+                  </td>
+                  <td class="">
+                    <input type="text" [value]=" CompareStaff.value[2].OPREATION_POS_NAME"
+                      class="form-control form-control-sm" [readonly]="true" required>
+                  </td>
+                  <td class="">
+                    <input type="text" [value]=" CompareStaff.value[2].OPERATION_OFFICE_SHORT_NAME"
+                      class="form-control form-control-sm" [readonly]="true" required>
+                  </td>
+                  <td class="">ผู้มีอำนาจอนุมัติ</td>
+                  <td><a *ngIf="CompareStaff.value[2].IS_ACTIVE == 1 && showEditField == false"
+                      href="javaScript:void(0);" class="text-danger" (click)="deleteContri(2)">
+                      <i class="fa fa-trash-o fa-lg"></i></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- </div> -->
+      </div>
+
+      <div class="card card-outline-bluish unset-radius" *ngIf="controlForm.controls['APPROVE_TYPE'].value == 3">
+        <div class="card-header unset-radius">
+          <h5 class="card-title m-b-0">แบบอนุมัติ 3 (คด.5)</h5>
+        </div>
+        <!-- <div class="card-body"> -->
+        <div class="modal-body font-14">
+          <div class="row form-group">
+            <label class="col-md-2 control-label" for="">สถานะการเห็นชอบ</label>
+            <div class="col-md-10">
+              <div class="form-line">
+                <div class="row">
+                  &nbsp;<input class="col-form-label with-gap radio-col-indigo" type="radio" [disabled]="showEditField"
+                    [checked]="controlForm.controls['IS_AGREE'].value == 1" name="IS_AGREE1" id="IS_AGREE1" value="1"
+                    (click)="check('IS_AGREE1')">
+                  <label for="IS_AGREE1" class="col-3">เห็นชอบ</label>
+                  <input class="col-form-label with-gap radio-col-indigo" type="radio" [disabled]="showEditField"
+                    [checked]="controlForm.controls['IS_AGREE'].value == 0" name="IS_AGREE2" id="IS_AGREE2" value="0"
+                    (click)="check('IS_AGREE2')">
+                  <label for="IS_AGREE2" class="col-3">ไม่เห็นชอบ
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="controlForm.controls['IS_AGREE'].value == 0" class="form-group row">
+            <div class="col-md-2"></div>
+            <div class="col-md-10">
+              <textarea maxlength="2000" placeholder="เหตุผลในการไม่เห็นชอบ" [readonly]="showEditField" cols="" rows="3"
+                class="form-control form-control-sm" formControlName="REMARK_NOT_AGREE"
+                [ngClass]="{'ng-invalid-req':isReq_IS_IS_AGREE}" (click)="require('isReq_IS_IS_AGREE')"></textarea>
+            </div>
+          </div>
+          <div class="row form-group">
+            <label class="col-md-2 control-label" for="">สถานะการอนุมัติ</label>
+            <div class="col-md-10">
+              <div class="form-line">
+                <div class="row">
+                  &nbsp;<input class="col-form-label with-gap radio-col-indigo" type="radio" [disabled]="showEditField"
+                    [checked]="controlForm.controls['IS_APPROVE'].value == 1" name="IS_APPROVE1" id="IS_APPROVE1"
+                    value="1" (click)="check('IS_APPROVE1')">
+                  <label for="IS_APPROVE1" class="col-3">อนุมัติ</label>
+                  <input class="col-form-label with-gap radio-col-indigo" type="radio" [disabled]="showEditField"
+                    [checked]="controlForm.controls['IS_APPROVE'].value == 0" name="IS_APPROVE2" id="IS_APPROVE2"
+                    value="0" (click)="check('IS_APPROVE2')">
+                  <label for="IS_APPROVE2" class="col-3">ไม่อนุมัติ</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="controlForm.controls['IS_APPROVE'].value == 0" class="form-group row">
+            <div class="col-md-2"></div>
+            <div class="col-md-10">
+              <textarea maxlength="2000" placeholder="เหตุผลในการไม่อนุมัติ" [readonly]="showEditField" cols="" rows="3"
+                class="form-control form-control-sm" formControlName="REMARK_NOT_APPROVE"
+                [ngClass]="{'ng-invalid-req':isReq_IS_APPROVE}" (click)="require('isReq_IS_APPROVE')"></textarea>
+            </div>
+          </div>
+          <div class="">
+            <table class="table table-sm table-striped table-set-border">
+              <thead>
+                <tr>
+                  <th class="a-center" style="width:5%">ลำดับ</th>
+                  <th class="" style="width:15%"><span class="text-danger">*</span> ชื่อเจ้าหน้าที่</th>
+                  <th class="" style="width:15%">ตำแหน่ง</th>
+                  <th class="" style="width:15%">หน่วยงาน</th>
+                  <th class="" style="width:15%">ฐานะ</th>
+                  <th style="width:3%"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="a-center">1</td>
+                  <td class="">
+                    <ng-template #rt1 let-r="result" let-t="term">
+                      {{ r.TITLE_SHORT_NAME_TH}}{{r.FIRST_NAME}} {{r.LAST_NAME}}
+                    </ng-template>
+                    <input type="text" class="form-control form-control-sm"
+                      [readonly]="CompareStaff.value[0].IS_ACTIVE == 1 || showEditField" [ngbTypeahead]="searchStaff"
+                      [resultTemplate]="rt1" [inputFormatter]="formatterStaff" (selectItem)="selectItemStaff($event, 0)"
+                      [value]="CompareStaff.value[0].FULL_NAME" [ngClass]="{'ng-invalid-req':isReq_Staff0}"
+                      (click)="require('isReq_Staff0')" (keyup)="deleteStaff(region0 ,0)" required />
+                  </td>
+                  <td class="">
+                    <input type="text" [value]=" CompareStaff.value[0].OPREATION_POS_NAME"
+                      class="form-control form-control-sm" [readonly]="true" required>
+                  </td>
+                  <td class="">
+                    <input type="text" [value]=" CompareStaff.value[0].OPERATION_OFFICE_SHORT_NAME"
+                      class="form-control form-control-sm" [readonly]="true" required>
+                  </td>
+                  <td class="">ผู้เสนอพิจารณาเห็นชอบ</td>
+                  <td><a *ngIf="CompareStaff.value[0].IS_ACTIVE == 1 && showEditField == false"
+                      href="javaScript:void(0);" class="text-danger" (click)="deleteContri(0)">
+                      <i class="fa fa-trash-o fa-lg"></i></a>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="a-center">2</td>
+                  <td class="">
+                    <ng-template #rt2 let-r="result" let-t="term">
+                      {{ r.TITLE_SHORT_NAME_TH}}{{r.FIRST_NAME}} {{r.LAST_NAME}}
+                    </ng-template>
+                    <input type="text" class="form-control form-control-sm"
+                      [readonly]="CompareStaff.value[1].IS_ACTIVE == 1 || showEditField" [ngbTypeahead]="searchStaff"
+                      [resultTemplate]="rt2" [inputFormatter]="formatterStaff" (selectItem)="selectItemStaff($event, 1)"
+                      [value]="CompareStaff.value[1].FULL_NAME" [ngClass]="{'ng-invalid-req':isReq_Staff1}"
+                      (click)="require('isReq_Staff1')" (keyup)="deleteStaff(region1 ,1)" required />
+                  </td>
+                  <td class="">
+                    <input type="text" [value]=" CompareStaff.value[1].OPREATION_POS_NAME"
+                      class="form-control form-control-sm" [readonly]="true" required>
+                  </td>
+                  <td class="">
+                    <input type="text" [value]=" CompareStaff.value[1].OPERATION_OFFICE_SHORT_NAME"
+                      class="form-control form-control-sm" [readonly]="true" required>
+                  </td>
+                  <td class="">ผู้พิจารณาเห็นชอบ</td>
+                  <td><a *ngIf="CompareStaff.value[1].IS_ACTIVE == 1 && showEditField == false"
+                      href="javaScript:void(0);" class="text-danger" (click)="deleteContri(1)">
+                      <i class="fa fa-trash-o fa-lg"></i></a>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="a-center">3</td>
+                  <td class="">
+                    <ng-template #rt3 let-r="result" let-t="term">
+                      {{ r.TITLE_SHORT_NAME_TH}}{{r.FIRST_NAME}} {{r.LAST_NAME}}
+                    </ng-template>
+                    <input type="text" class="form-control form-control-sm" [ngbTypeahead]="searchStaff"
+                      [resultTemplate]="rt3" [readonly]="CompareStaff.value[2].IS_ACTIVE == 1 || showEditField"
+                      [inputFormatter]="formatterStaff" (selectItem)="selectItemStaff($event, 2)"
+                      [value]="CompareStaff.value[2].FULL_NAME" [ngClass]="{'ng-invalid-req':isReq_Staff2}"
+                      (click)="require('isReq_Staff2')" (keyup)="deleteStaff(region2 ,2)" required />
+                  </td>
+                  <td class="">
+                    <input type="text" [value]=" CompareStaff.value[2].OPREATION_POS_NAME"
+                      class="form-control form-control-sm" [readonly]="true" required>
+                  </td>
+                  <td class="">
+                    <input type="text" [value]=" CompareStaff.value[2].OPERATION_OFFICE_SHORT_NAME"
+                      class="form-control form-control-sm" [readonly]="true" required>
+                  </td>
+                  <td class="">ผู้มีอำนาจอนุมัติ</td>
+                  <td><a *ngIf="CompareStaff.value[2].IS_ACTIVE == 1 && showEditField == false"
+                      href="javaScript:void(0);" class="text-danger" (click)="deleteContri(2)">
+                      <i class="fa fa-trash-o fa-lg"></i></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- </div> -->
+      </div>
+
+      <div class="card card-outline-bluish unset-radius" *ngIf="controlForm.controls['APPROVE_TYPE'].value == 4">
+        <div class="card-header unset-radius">
+          <h5 class="card-title m-b-0">แบบอนุมัติ 4 (คด.6)</h5>
+        </div>
+        <!-- <div class="card-body"> -->
+        <div class="modal-body font-14">
+          <div class="row form-group">
+            <label class="col-md-2 control-label" for="">สถานะการเห็นชอบ</label>
+            <div class="col-md-10">
+              <div class="form-line">
+                <div class="row">
+                  &nbsp;<input class="col-form-label with-gap radio-col-indigo" type="radio" [disabled]="showEditField"
+                    [checked]="controlForm.controls['IS_AGREE'].value == 1" name="IS_AGREE1" id="IS_AGREE1" value="1"
+                    (click)="check('IS_AGREE1')">
+                  <label for="IS_AGREE1" class="col-3">เห็นชอบ</label>
+                  <input class="col-form-label with-gap radio-col-indigo" type="radio" [disabled]="showEditField"
+                    [checked]="controlForm.controls['IS_AGREE'].value == 0" name="IS_AGREE2" id="IS_AGREE2" value="0"
+                    (click)="check('IS_AGREE2')">
+                  <label for="IS_AGREE2" class="col-3">ไม่เห็นชอบ
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="controlForm.controls['IS_AGREE'].value == 0" class="form-group row">
+            <div class="col-md-2"></div>
+            <div class="col-md-10">
+              <textarea maxlength="2000" placeholder="เหตุผลในการไม่เห็นชอบ" [readonly]="showEditField" cols="" rows="3"
+                class="form-control form-control-sm" formControlName="REMARK_NOT_AGREE"
+                [ngClass]="{'ng-invalid-req':isReq_IS_IS_AGREE}" (click)="require('isReq_IS_IS_AGREE')"></textarea>
+            </div>
+          </div>
+          <div class="row form-group">
+            <label class="col-md-2 control-label" for="">สถานะการอนุมัติ</label>
+            <div class="col-md-10">
+              <div class="form-line">
+                <div class="row">
+                  &nbsp;<input class="col-form-label with-gap radio-col-indigo" type="radio" [disabled]="showEditField"
+                    [checked]="controlForm.controls['IS_APPROVE'].value == 1" name="IS_APPROVE1" id="IS_APPROVE1"
+                    value="1" (click)="check('IS_APPROVE1')">
+                  <label for="IS_APPROVE1" class="col-3">อนุมัติ</label>
+                  <input class="col-form-label with-gap radio-col-indigo" type="radio" [disabled]="showEditField"
+                    [checked]="controlForm.controls['IS_APPROVE'].value == 0" name="IS_APPROVE2" id="IS_APPROVE2"
+                    value="0" (click)="check('IS_APPROVE2')">
+                  <label for="IS_APPROVE2" class="col-3">ไม่อนุมัติ</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="controlForm.controls['IS_APPROVE'].value == 0" class="form-group row">
+            <div class="col-md-2"></div>
+            <div class="col-md-10">
+              <textarea maxlength="2000" placeholder="เหตุผลในการไม่อนุมัติ" [readonly]="showEditField" cols="" rows="3"
+                class="form-control form-control-sm" formControlName="REMARK_NOT_APPROVE"
+                [ngClass]="{'ng-invalid-req':isReq_IS_APPROVE}" (click)="require('isReq_IS_APPROVE')"></textarea>
+            </div>
+          </div>
+          <div class="">
+            <table class="table table-sm table-striped table-set-border">
+              <thead>
+                <tr>
+                  <th class="a-center" style="width:5%">ลำดับ</th>
+                  <th class="" style="width:15%"><span class="text-danger">*</span> ชื่อเจ้าหน้าที่</th>
+                  <th class="" style="width:15%">ตำแหน่ง</th>
+                  <th class="" style="width:15%">หน่วยงาน</th>
+                  <th class="" style="width:15%">ฐานะ</th>
+                  <th style="width:3%"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="a-center">1</td>
+                  <td class="">
+                    <ng-template #rt0 let-r="result" let-t="term">
+                      {{ r.TITLE_SHORT_NAME_TH}}{{r.FIRST_NAME}} {{r.LAST_NAME}}
+                    </ng-template>
+                    <input type="text" class="form-control form-control-sm"
+                      [readonly]="CompareStaff.value[3].IS_ACTIVE == 1 || showEditField" [ngbTypeahead]="searchStaff"
+                      [resultTemplate]="rt0" [inputFormatter]="formatterStaff" (selectItem)="selectItemStaff($event, 3)"
+                      [value]="CompareStaff.value[3].FULL_NAME" [ngClass]="{'ng-invalid-req':isReq_Staff3}"
+                      (click)="require('isReq_Staff3')" (keyup)="deleteStaff(region0 ,3)" required />
+                  </td>
+                  <td class="">
+                    <input type="text" [value]=" CompareStaff.value[3].OPREATION_POS_NAME"
+                      class="form-control form-control-sm" [readonly]="true" required>
+                  </td>
+                  <td class="">
+                    <input type="text" [value]=" CompareStaff.value[3].OPERATION_OFFICE_SHORT_NAME"
+                      class="form-control form-control-sm" [readonly]="true" required>
+                  </td>
+                  <td class="">ผู้เสนอพิจารณาเห็นชอบ<br>ลำดับที่ 1</td>
+                  <td><a *ngIf="CompareStaff.value[3].IS_ACTIVE == 1 && showEditField == false"
+                      href="javaScript:void(0);" class="text-danger" (click)="deleteContri(3)">
+                      <i class="fa fa-trash-o fa-lg"></i></a>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="a-center">2</td>
+                  <td class="">
+                    <ng-template #rt1 let-r="result" let-t="term">
+                      {{ r.TITLE_SHORT_NAME_TH}}{{r.FIRST_NAME}} {{r.LAST_NAME}}
+                    </ng-template>
+                    <input type="text" class="form-control form-control-sm"
+                      [readonly]="CompareStaff.value[0].IS_ACTIVE == 1 || showEditField" [ngbTypeahead]="searchStaff"
+                      [resultTemplate]="rt1" [inputFormatter]="formatterStaff" (selectItem)="selectItemStaff($event, 0)"
+                      [value]="CompareStaff.value[0].FULL_NAME" [ngClass]="{'ng-invalid-req':isReq_Staff0}"
+                      (click)="require('isReq_Staff0')" (keyup)="deleteStaff(region0 ,0)" required />
+                  </td>
+                  <td class="">
+                    <input type="text" [value]=" CompareStaff.value[0].OPREATION_POS_NAME"
+                      class="form-control form-control-sm" [readonly]="true" required>
+                  </td>
+                  <td class="">
+                    <input type="text" [value]=" CompareStaff.value[0].OPERATION_OFFICE_SHORT_NAME"
+                      class="form-control form-control-sm" [readonly]="true" required>
+                  </td>
+                  <td class="">ผู้เสนอพิจารณาเห็นชอบ<br>ลำดับที่ 2</td>
+                  <td><a *ngIf="CompareStaff.value[0].IS_ACTIVE == 1 && showEditField == false"
+                      href="javaScript:void(0);" class="text-danger" (click)="deleteContri(0)">
+                      <i class="fa fa-trash-o fa-lg"></i></a>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="a-center">3</td>
+                  <td class="">
+                    <ng-template #rt2 let-r="result" let-t="term">
+                      {{ r.TITLE_SHORT_NAME_TH}}{{r.FIRST_NAME}} {{r.LAST_NAME}}
+                    </ng-template>
+                    <input type="text" class="form-control form-control-sm"
+                      [readonly]="CompareStaff.value[1].IS_ACTIVE == 1 || showEditField" [ngbTypeahead]="searchStaff"
+                      [resultTemplate]="rt2" [inputFormatter]="formatterStaff" (selectItem)="selectItemStaff($event, 1)"
+                      [value]="CompareStaff.value[1].FULL_NAME" [ngClass]="{'ng-invalid-req':isReq_Staff1}"
+                      (click)="require('isReq_Staff1')" (keyup)="deleteStaff(region1 ,1)" required />
+                  </td>
+                  <td class="">
+                    <input type="text" [value]=" CompareStaff.value[1].OPREATION_POS_NAME"
+                      class="form-control form-control-sm" [readonly]="true" required>
+                  </td>
+                  <td class="">
+                    <input type="text" [value]=" CompareStaff.value[1].OPERATION_OFFICE_SHORT_NAME"
+                      class="form-control form-control-sm" [readonly]="true" required>
+                  </td>
+                  <td class="">ผู้พิจารณาเห็นชอบ</td>
+                  <td><a *ngIf="CompareStaff.value[1].IS_ACTIVE == 1 && showEditField == false"
+                      href="javaScript:void(0);" class="text-danger" (click)="deleteContri(1)">
+                      <i class="fa fa-trash-o fa-lg"></i></a>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="a-center">4</td>
+                  <td class="">
+                    <ng-template #rt3 let-r="result" let-t="term">
+                      {{ r.TITLE_SHORT_NAME_TH}}{{r.FIRST_NAME}} {{r.LAST_NAME}}
+                    </ng-template>
+                    <input type="text" class="form-control form-control-sm" [ngbTypeahead]="searchStaff"
+                      [resultTemplate]="rt3" [readonly]="CompareStaff.value[2].IS_ACTIVE == 1 || showEditField"
+                      [inputFormatter]="formatterStaff" (selectItem)="selectItemStaff($event, 2)"
+                      [value]="CompareStaff.value[2].FULL_NAME" [ngClass]="{'ng-invalid-req':isReq_Staff2}"
+                      (click)="require('isReq_Staff2')" (keyup)="deleteStaff(region2 ,2)" required />
+                  </td>
+                  <td class="">
+                    <input type="text" [value]=" CompareStaff.value[2].OPREATION_POS_NAME"
+                      class="form-control form-control-sm" [readonly]="true" required>
+                  </td>
+                  <td class="">
+                    <input type="text" [value]=" CompareStaff.value[2].OPERATION_OFFICE_SHORT_NAME"
+                      class="form-control form-control-sm" [readonly]="true" required>
+                  </td>
+                  <td class="">ผู้มีอำนาจอนุมัติ</td>
+                  <td><a *ngIf="CompareStaff.value[2].IS_ACTIVE == 1 && showEditField == false"
+                      href="javaScript:void(0);" class="text-danger" (click)="deleteContri(2)">
+                      <i class="fa fa-trash-o fa-lg"></i></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- </div> -->
+      </div>
+
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <div class="col-lg-2 col-4">
+      <button type="submit" [disabled]="showEditField" class="btn btn-block btn-themecolor">ตกลง</button>
+    </div>
+    <div class="col-lg-2 col-4">
+      <button type="button" [disabled]="showEditField" (click)="cancel()"
+        class="btn btn-block button">ยกเลิกแบบอนุมัติ</button>
+    </div>
+  </div>
+</form>

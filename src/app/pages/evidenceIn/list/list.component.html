@@ -1,0 +1,233 @@
+<header class="topbar">
+    <nav class="navbar top-navbar navbar-expand-md navbar-light">
+        <div class="navbar-collapse" style="padding-right: 55px;">
+            <ul class="navbar-nav mr-auto mt-md-0">
+                <li class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickNew()">
+                            สร้างข้อมูล
+                        </a>
+                    </div>
+                </li>
+            </ul>
+            <ul class="navbar-nav my-lg-0">
+                <li class="nav-item col-8">
+                    <form autocomplete="off" class="app-search" #formSearch="ngForm" (ngSubmit)="clickSearch(formSearch.form.value)">
+                        <input type="search" name="TEXT_SEARCH" id="" ngModel class="form-control">
+                        <a href="javaScript:void(0);" (click)="clickSearch(formSearch.form.value)" class="srh-btn">
+                            <i class="ti-search"></i>
+                        </a>
+                    </form>
+                </li>
+                <li class="nav-item col-9">
+                    <a href="javaScript:void(0);" class="btn text-white" (click)="setAdvSearch()">
+                        ค้นหาขั้นสูง
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<ng-template #EvidenceTypeModel let-c="close" let-d="dismiss">
+    <app-evidencetype-modal (c)="modal.close()" (d)="modal.dismiss()" [RevenueID]="RevenueID"></app-evidencetype-modal>
+</ng-template>
+
+<!-- <app-horizontal-timeline></app-horizontal-timeline> -->
+<div *ngIf="advSearch | async" class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius">
+        <app-card-actions-close></app-card-actions-close>
+        <h4 class="card-title m-b-0">ค้นหา</h4>
+    </div>
+
+    <div class="card-body">
+        <form class="form-horizontal" #advForm="ngForm" (ngSubmit)="onAdvSearch(advForm)">
+            <div>
+                <div class="row">
+                    <label for="" class="col-lg-2 col-sm-3 control-label">เลขที่รับ :</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" name="EVIDENCE_IN_CODE" ngModel class="form-control" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <label for="" class="col-lg-2 col-sm-3 control-label">วันที่รับ :</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="input-group form-line">
+                            <div style="width:45%">
+                                <my-date-picker-th name="EVIDENCE_IN_DATE_START" [options]="myDatePickerOptions" (dateChanged)="onSRecvDateChange($event)" [(ngModel)]="EVIDENCE_IN_DATE_START"></my-date-picker-th>
+                            </div>
+
+                            <div style="margin:10px;">
+                                <label for="">&nbsp;ถึง&nbsp;</label>
+                            </div>
+
+                            <div style="width:45%">
+                                <my-date-picker-th name="EVIDENCE_IN_DATE_TO" [options]="myDatePickerOptions" (dateChanged)="onERecvDateChange($event)" [(ngModel)]="EVIDENCE_IN_DATE_TO"></my-date-picker-th>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="" class="col-lg-2 col-sm-3 control-label">ผู้ตรวจรับ :</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" name="RECEIVER_NAME" ngModel class="form-control" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <label for="" class="col-lg-2 col-sm-3 control-label">หน่วยงานตรวจรับ :</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" class="form-control" ngModel name="RECEIVER_OFFICE_NAME">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="" class="col-lg-2 col-sm-3 control-label">ประเภทรายการรับ :</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <select ngModel name="EVIDENCE_IN_TYPE" class="form-control" [disabled]="showEditField">
+                                    <option value="">ไม่เลือกประเภทรายการรับ</option>
+                                    <option value="0">ตรวจรับของกลางจากหน่วยงานภายใน</option>
+                                    <option value="1">ตรวจรับของกลางจากหน่วยงานภายนอก</option>
+                                    <option value="2">ตรวจรับของกลางที่ถูกนำออกไปใช้ในกิจกรรมของทางราชการ</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <label for="" class="col-lg-2 col-sm-3 control-label">เลขหนังสือนำส่ง :</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" name="DELIVERY_NO" ngModel class="form-control" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="" class="col-lg-2 col-sm-3 control-label">วันที่นำส่ง :</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="input-group form-line">
+                            <div style="width:45%">
+                                <my-date-picker-th name="DELIVERY_DATE_START" [options]="myDatePickerOptions" (dateChanged)="onSSendDateChange($event)" [(ngModel)]="DELIVERY_DATE_START"></my-date-picker-th>
+                            </div>
+
+                            <div style="margin:10px;">
+                                <label for="">&nbsp;ถึง&nbsp;</label>
+                            </div>
+
+                            <div style="width:45%">
+                                <my-date-picker-th name="DELIVERY_DATE_TO" [options]="myDatePickerOptions" (dateChanged)="onESendDateChange($event)" [(ngModel)]="DELIVERY_DATE_TO"></my-date-picker-th>
+                            </div>
+                        </div>
+                    </div>
+
+                    <label for="" class="col-lg-2 col-sm-3 control-label">ผู้นำส่ง :</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" name="DELIVER_NAME" ngModel class="form-control" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="" class="col-lg-2 col-sm-3 control-label">หน่วยงานนำส่ง :</label>
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" class="form-control" ngModel name="DELIVER_OFFICE_NAME">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-2 col-sm-3">
+                        <div class="row form-group">
+                            <div class="col">
+                                <input type="checkbox" id="md_checkbox_1" ngModel name="chk1" class="filled-in chk-col-indigo">
+                                <label for="md_checkbox_1">รายการที่ตรวจรับแล้ว</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-7 col-sm-9">
+                        <div class="row form-group">
+                            <div class="col">
+                                <input type="checkbox" id="md_checkbox_2" ngModel name="chk2" class="filled-in chk-col-indigo">
+                                <label for="md_checkbox_2">รายการที่ยังไม่ได้ตรวจรับ</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="IS_RECEIVE" ngModel/>
+                    <input type="hidden" name="ACCOUNT_OFFICE_CODE" ngModel>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-10"></div>
+                    <div class="col-2">
+                        <button type="submit" class="btn btn-block btn-themecolor">ค้นข้อมูล</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<div class="card">
+    <div class="card-body">
+
+        <div class="table-responsive table-striped" style="overflow: hidden;">
+            <table #EvidenceTable class="table">
+                <thead>
+                    <tr>
+                        <th style="text-align: center;width:5%">ลำดับ</th>
+                        <th>เลขที่รับ</th>
+                        <th>วันที่รับ</th>
+                        <th>หน่วยงานตรวจรับ</th>
+                        <th>เลขที่หนังสือนำส่ง</th>
+                        <th>วันที่นำส่ง</th>
+                        <th>หน่วยงานนำส่ง</th>
+                        <th>ประเภทรายการ</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let item of EvidenceInList; let i=index;">
+                        <td style="text-align: center;">{{i + 1}}</td>
+                        <td>{{item.EVIDENCE_IN_CODE}}</td>
+                        <td>{{item.EVIDENCE_IN_DATE}}</td>
+                        <td>{{item.DEPT_NAME_RECV}}</td>
+                        <td>{{item.DELIVERY_NO}}</td>
+                        <td>{{item.DELIVERY_DATE}}</td>
+                        <td>{{item.DEPT_NAME_SEND}}</td>
+                        <td>{{item.EVIDENCE_IN_TYPE_NAME}}</td>
+                        <td class="text-center;">
+                            <a href="javaScript:void(0);" class="text-secondary" (click)="clickView(item.EVIDENCE_IN_ID, item.EVIDENCE_IN_TYPE, item.PROVE_ID)">
+                                <i class="mdi mdi-eye fa-lg"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="card-footer card-footer-unset">
+            <app-pagination-table [TotalItems]="paginage.TotalItems" [CurrentPage]="paginage.CurrentPage" [PageSize]="paginage.PageSize"
+                [RowsPerPageOptions]="paginage.RowsPerPageOptions" (onPageChange)="pageChanges($event)">
+            </app-pagination-table>
+        </div>
+    </div>
+</div>

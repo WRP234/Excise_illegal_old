@@ -1,0 +1,280 @@
+<header class="topbar">
+  <nav class="navbar top-navbar navbar-expand-md navbar-light">
+    <div class="navbar-collapse" style="padding-right: 55px;">
+      <ul class="navbar-nav mr-auto mt-md-0">
+        <li *ngIf="true" class="nav-item">
+          <div class="nav-link text-muted waves-effect waves-dark">
+            <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickNew()">
+              สร้างข้อมูล
+            </a>
+          </div>
+        </li>
+      </ul>
+      <ul *ngIf="true" class="navbar-nav my-lg-0">
+        <li class="nav-item col-8">
+          <form autocomplete="off" class="app-search" #formSearch="ngForm" (ngSubmit)="clickSearch(formSearch.form.value)">
+            <input type="search" name="TEXT_SEARCH" id="" ngModel class="form-control">
+            <a href="javaScript:void(0);" (click)="clickSearch(formSearch.form.value)" class="srh-btn">
+              <i class="ti-search"></i>
+            </a>
+          </form>
+        </li>
+        <li class="nav-item col-9">
+          <a href="javaScript:void(0);" class="btn text-white" (click)="setAdvSearch()">
+            ค้นหาขั้นสูง
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+<div *ngIf="advSearch | async" class="card card-outline-bluish unset-radius">
+  <div class="card-header unset-radius">
+    <app-card-actions-close></app-card-actions-close>
+    <h4 class="card-title m-b-0">ค้นหาขั้นสูง</h4>
+  </div>
+
+  <div class="card-body">
+    <form class="form-horizontal" autocomplete="off" #advForm="ngForm" (ngSubmit)="onAdvSearch(advForm.value)">
+
+      <div class="row">
+        <label  class="col-lg-2 col-sm-3 control-label">เลขที่อ้างอิงของระบบ </label>
+        <div class="col-lg-4 col-md-7 col-sm-9">
+          <div class="form-group">
+            <input class="form-control form-control-sm" type="search" name="REQUEST_CODE" ngModel>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="row">
+            <label class="col-lg-4 col-sm-3 col-md-4 control-label">เลขที่คำร้องขอ </label>
+            <div class="form-group col-md-3">
+              <input class="form-control form-control-sm" type="search" name="REQUEST_NO" ngModel>
+            </div>
+            <label class="col-sm-2 px-0" style="text-align: center">/</label>
+            <div class="col-md-3">
+              <select name="REQUEST_NO_YEAR" class="form-control form-control-sm" ngModel>
+                <option [value]="yyyy_th">{{yyyy_th}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <label  class="col-lg-2 col-sm-3 control-label">ชื่อศาล</label>
+        <div class="col-lg-4 col-md-7 col-sm-9">
+          <div class="form-group">
+            <input class="form-control form-control-sm" type="search" name="PRESENT_COURT_NAME" ngModel>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="row">
+            <label class="col-lg-4 col-sm-3 col-md-4 control-label">วันที่เขียนคำร้องขอ</label>
+            <div class="form-group col-md-3">
+              <my-date-picker-th ngModel name="REQUEST_DATE_FROM" placeholder="" locale="th"
+                                 class="form-control form-control-sm unset-form-control"></my-date-picker-th>
+            </div>
+            <label class="col-sm-2 px-0" style="text-align: center"> เวลา </label>
+            <div class="col-md-3">
+              <input type="text" name="REQUEST_DATE_TIME" class="form-control form-control-sm">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <label  class="col-lg-2 col-sm-3 control-label">เจ้าบ้าน/ผู้ดูแลแทน</label>
+        <div class="col-lg-4 col-md-7 col-sm-9">
+          <div class="form-group">
+            <input class="form-control form-control-sm" type="search" name="PERSON_NAME" ngModel>
+          </div>
+        </div>
+        <label  class="col-lg-2 col-sm-3 control-label">ผู้ร้อง</label>
+        <div class="col-lg-4 col-md-7 col-sm-9">
+          <div class="form-group">
+            <input class="form-control form-control-sm" type="search" name="STAFF_NAME" ngModel>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <label  class="col-lg-2 col-sm-3 control-label">หัวหน้าชุดเข้าตรวจค้น</label>
+        <div class="col-lg-4 col-md-7 col-sm-9">
+          <div class="form-group">
+            <input class="form-control form-control-sm" type="search" name="PERSON_HOST_NAME" ngModel>
+          </div>
+        </div>
+        <label  class="col-lg-2 col-sm-3 control-label">ผู้ยื่นคำร้อง</label>
+        <div class="col-lg-4 col-md-7 col-sm-9">
+          <div class="form-group">
+            <input class="form-control form-control-sm" type="search" name="PERSON_REQUEST_NAME" ngModel>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="row">
+            <label class="col-lg-4 col-sm-3 col-md-4 control-label">หมายเลขคดีดำ </label>
+            <div class="form-group col-md-3">
+              <input class="form-control form-control-sm" type="search" name="CONSIDER_UNDECIDE_NO" ngModel>
+            </div>
+            <label class="col-sm-2 px-0" style="text-align: center">/</label>
+            <div class="col-md-3">
+              <select name="CONSIDER_UNDECIDE_NO_YEAR" class="form-control form-control-sm" ngModel>
+                <option [value]="yyyy_th">{{yyyy_th}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="row">
+            <label class="col-lg-4 col-sm-3 col-md-4 control-label">หมายเลขคดีแดง </label>
+            <div class="form-group col-md-3">
+              <input class="form-control form-control-sm" type="search" name="CONSIDER_DECIDE_NO" ngModel>
+            </div>
+            <label class="col-sm-2 px-0" style="text-align: center">/</label>
+            <div class="col-md-3">
+              <select name="CONSIDER_DECIDE_NO_YEAR" class="form-control form-control-sm" ngModel>
+                <option [value]="yyyy_th">{{yyyy_th}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="row">
+            <label class="col-lg-4 col-sm-3 col-md-4 control-label">วันที่พิจารณา </label>
+            <div class="form-group col-md-3">
+              <my-date-picker-th ngModel name="CONSIDER_DATE_FROM" placeholder="" locale="th"
+                                 class="form-control form-control-sm unset-form-control"></my-date-picker-th>
+            </div>
+            <label class="col-sm-2 px-0" style="text-align: center">ถึง</label>
+            <div class="col-md-3">
+              <my-date-picker-th ngModel name="CONSIDER_DATE_TO" placeholder="" locale="th"
+                                 class="form-control form-control-sm unset-form-control"></my-date-picker-th>
+            </div>
+          </div>
+        </div>
+        <label  class="col-lg-2 col-sm-3 control-label">ผลการพิจารณา</label>
+        <div class="col-lg-4 col-md-7 col-sm-9">
+          <div class="form-group">
+            <select class="form-control form-control-sm" name="IS_APPROVE" ngModel>
+              <option [value]="item.value" *ngFor="let item of IsResultDropDown">
+                {{item.text}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="row">
+            <label class="col-lg-4 col-sm-3 col-md-4 control-label">เลขที่หมายค้น </label>
+            <div class="form-group col-md-3">
+              <input class="form-control form-control-sm" type="search" name="SEARCH_WARRANT_NO" ngModel>
+            </div>
+            <label class="col-sm-2 px-0" style="text-align: center"> /</label>
+            <div class="col-md-3">
+              <select name="SEARCH_WARRANT_NO_YEAR" class="form-control form-control-sm" ngModel>
+                <option [value]="yyyy_th">{{yyyy_th}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="row">
+            <label class="col-lg-4 col-sm-3 col-md-4 control-label">วันที่ออกหมายค้น </label>
+            <div class="form-group col-md-3">
+              <my-date-picker-th ngModel name="SEARCH_WARRANT_DATE_FROM" placeholder="" locale="th"
+                                 class="form-control form-control-sm unset-form-control"></my-date-picker-th>
+            </div>
+            <label class="col-sm-2 px-0" style="text-align: center">ถึง </label>
+            <div class="col-md-3">
+              <my-date-picker-th ngModel name="SEARCH_WARRANT_DATE_TO" placeholder="" locale="th"
+                                 class="form-control form-control-sm unset-form-control"></my-date-picker-th>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <label  class="col-lg-2 col-sm-3 control-label">สถานะการจับกุม</label>
+        <div class="col-lg-4 col-md-7 col-sm-9">
+          <div class="form-group">
+            <select class="form-control form-control-sm" name="IS_ARREST" ngModel>
+              <option [value]="item.value" *ngFor="let item of IsArrestingStatusDropDown">
+                {{item.text}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-10"></div>
+        <div class="col-2">
+          <button type="submit" class="btn btn-block btn-themecolor">ค้นข้อมูล</button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+</div>
+<!--Data Table-->
+<div class="card card-outline-bluish unset-radius">
+  <div class="card-body">
+    <div class="table-responsive table-striped scroll">
+      <table class="table">
+        <thead>
+        <tr>
+          <th class="text-center">ลำดับ</th>
+          <th>เลขที่อ้างอิงของระบบ</th>
+          <th>เลขที่คำร้องขอ</th>
+          <th>ชื่อศาล</th>
+          <th>วันที่เขียนคำร้องขอ</th>
+          <th>เจ้าบ้าน/ผู้ดูแลแทน</th>
+          <th>ผู้ร้อง</th>
+          <th>หัวหน้าชุดเข้าตรวจค้น</th>
+          <th>ผู้ยื่นคำร้อง</th>
+          <th>หมายเลขคดีดำ</th>
+          <th>หมายเลขคดีแดง</th>
+          <th>วันที่พิจารณา</th>
+          <th>ผลการพิจารณา</th>
+          <th>เลขที่หมายค้น</th>
+          <th>วันที่ออกหมายค้น</th>
+          <th>สถานะการจับกุม</th>
+          <th class="last-child text-center">&nbsp;&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr class="table-fix" *ngFor="let item of showDataList; let i=index;">
+            <td style="text-align: center;">{{i + 1}}</td>
+            <td>{{item.REQUEST_CODE}}</td>
+            <td>{{item.REQUEST_NO + '/' + convertYear(item.REQUEST_NO_YEAR)}}</td>
+            <td>{{item.PRESENT_COURT_NAME}}</td>
+            <td>{{convertDate(item.REQUEST_DATE)}}</td>
+            <td>{{item.PERSON_HOST_NAME}}</td>
+            <td>{{item.PERSON_REQUEST_NAME}}</td>
+            <td>{{item.PERSON_HEAD_NAME}}</td>
+            <td>{{item.PERSON_PETITIONER_NAME}}</td>
+            <td>{{item.CONSIDER_UNDECIDE_NO + '/' + convertYear(item.CONSIDER_UNDECIDE_NO_YEAR)}}</td>
+            <td>{{item.CONSIDER_DECIDE_NO + '/' + convertYear(item.CONSIDER_DECIDE_NO_YEAR)}}</td>
+            <td>{{convertDate(item.CONSIDER_DATE)}}</td>
+            <td>{{convertApproveTypesService(item.IS_APPROVE)}}</td>
+            <td>{{item.SEARCH_WARRANT_NO + '/' + convertYear(item.SEARCH_WARRANT_NO_YEAR)}}</td>
+            <td>{{convertDate(item.SEARCH_WARRANT_DATE)}}</td>
+            <td>{{convertArrestTypesService(item.IS_ARREST)}}</td>
+            <td class="last-child text-center">
+              <a href="javaScript:void(0);" class="text-secondary" (click)="clickView(item.REQUEST_ID)">
+                <span><i class="mdi mdi-eye fa-lg"></i></span>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card-footer card-footer-unset">
+    <app-pagination-table [TotalItems]="paginage.TotalItems" [CurrentPage]="paginage.CurrentPage"
+                          [PageSize]="paginage.PageSize" [RowsPerPageOptions]="paginage.RowsPerPageOptions"
+                          (onPageChange)="pageChanges($event)">
+    </app-pagination-table>
+  </div>
+</div>

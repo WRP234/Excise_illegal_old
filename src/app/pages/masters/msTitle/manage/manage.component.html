@@ -1,0 +1,140 @@
+<header class="topbar">
+    <nav class="navbar top-navbar navbar-expand-md navbar-light">
+        <div class="navbar-collapse" style="padding-right: 55px;">
+            <ul class="navbar-nav mr-auto mt-md-0">
+                <li *ngIf="PrintButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="clickPrint()">
+                            พิมพ์
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="EditButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnEdit()">
+                            แก้ไข
+                        </a>
+                    </div>
+                </li>
+                <!-- <li *ngIf="DeleteButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnDelete()" style="background-color: #f47023">
+                            ลบ
+                        </a>
+                    </div>
+                </li> -->
+                <li *ngIf="SaveButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnSave()">
+                            บันทึก
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="CancelButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnCancel()">
+                            ยกเลิก
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+
+<div class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius">
+        <app-card-actions-collapse></app-card-actions-collapse>
+        <h4 class="card-title m-b-0">คำนำหน้านาม</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <label for="" class="col-lg-2 col-sm-4 control-label">Running No</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <input type="text" name="TITLE_ID" [(ngModel)]="TITLE_ID" class="form-control " disabled>
+                </div>
+            </div>
+
+            <!-- <label for="" class="col-lg-2 col-md-4 control-label">รหัสคำนำหน้า :</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <input type="text" name="Accuser" [(ngModel)]="Accuser" class="form-control " readonly>
+                </div>
+            </div> -->
+        </div>
+
+        <div class="row">
+            <label for="" class="col-lg-2 col-md-4 control-label">ประเภท</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group">
+                    <div class="form-line">
+                        <select [(ngModel)]="TITLE_TYPE" name="TITLE_TYPE" class="form-control" [disabled]="showEditField">
+                            <option value="1">บุคคลธรรมดา</option>
+                            <option value="2">นิติบุคคล</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <label for="" class="col-lg-2 col-md-4 control-label is-required">ชื่อภาษาไทย</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <input type="text" name="TITLE_NAME_TH" [(ngModel)]="TITLE_NAME_TH" class="form-control" 
+                        [disabled]="showEditField" [ngClass]="{'ng-touched':isRequired}" (keydown)="isReq_titleNameTH.next(false)">
+                        <div class="alert alert-danger mt-3" role="alert" *ngIf="isReq_titleNameTH.value">
+                            กรุณาระบุข้อมูล "ชื่อภาษาไทย"
+                        </div>
+                    </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="" class="col-lg-2 col-md-4 control-label is-required">ชื่อย่อภาษาไทย</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <input type="text" name="TITLE_SHORT_NAME_TH" [(ngModel)]="TITLE_SHORT_NAME_TH" class="form-control" 
+                        [disabled]="showEditField" [ngClass]="{'ng-touched':isRequired}" (keydown)="isReq_titleShortNameTH.next(false)">
+                        <div class="alert alert-danger mt-3" role="alert" *ngIf="isReq_titleShortNameTH.value">
+                            กรุณาระบุข้อมูล "ชื่อย่อภาษาไทย"
+                        </div>
+                    </div>
+            </div>
+
+            <label for="" class="col-lg-2 col-md-4 control-label is-required">ชื่อภาษาอังกฤษ</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <input type="text" name="TITLE_NAME_EN" [(ngModel)]="TITLE_NAME_EN" class="form-control" 
+                        [disabled]="showEditField" [ngClass]="{'ng-touched':isRequired}"  (keydown)="isReq_titleNameEN.next(false)">
+                        <div class="alert alert-danger mt-3" role="alert" *ngIf="isReq_titleNameEN.value">
+                            กรุณาระบุข้อมูล "ชื่อภาษาอังกฤษ"
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <div class="row">
+            <label for="" class="col-lg-2 col-md-4 control-label is-required">ชื่อย่อภาษาอังกฤษ</label>
+            <div class="col-lg-4 col-md-7 col-sm-8">
+                <div class="form-group ">
+                    <input type="text" name="TITLE_SHORT_NAME_EN" [(ngModel)]="TITLE_SHORT_NAME_EN" class="form-control" 
+                        [disabled]="showEditField" [ngClass]="{'ng-touched':isRequired}" (keydown)="isReq_titleShortNameEN.next(false)">
+                        <div class="alert alert-danger mt-3" role="alert" *ngIf="isReq_titleShortNameEN.value">
+                            กรุณาระบุข้อมูล "ชื่อย่อภาษาอังกฤษ"
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2 col-sm-3">
+                <div class="row form-group">
+                    <div class="col">
+                        <input type="checkbox" id="md_isActive" [(ngModel)]="chk1" name="chk1" class="filled-in chk-col-indigo" 
+                            [disabled]="showEditField" [checked]="IS_ACTIVE=='1'">
+                        <label for="md_isActive">ใช้งาน</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

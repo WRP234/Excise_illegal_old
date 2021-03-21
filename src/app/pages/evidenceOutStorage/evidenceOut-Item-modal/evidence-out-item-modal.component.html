@@ -1,0 +1,174 @@
+<div class="modal-header bg-theme">
+  <div class="row">
+    <div class="col-7">
+      <h4 class="modal-title text-white">ค้นหาของกลาง</h4>
+    </div>
+    <div class="col-lg-4 col-8">
+    </div>
+    <a href="javaScript:void(0);" class="close text-white font-14" aria-label="Close" (click)="dismiss('Save click')">
+      <span aria-hidden="true">
+        <i class=" ti-close"></i>
+      </span>
+    </a>
+  </div>
+</div>
+<h5 class="text-right mt-3 pr-3">ILG60_O_11_01_02_01</h5>
+<div class="modal-body font-14">
+  <div class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius">
+      <h4 class="card-title m-b-0">ค้นหาขั้นสูง</h4>
+    </div>
+    <div class="card-body">
+      <form class="form-horizontal" #advForm="ngForm" (ngSubmit)="onAdvSearch(advForm.value)">
+
+        <div class="row">
+          <label for="" class="col-lg-2 col-sm-3 control-label">เลขคดีรับคำกล่าวโทษ</label>
+          <div class="form-group input-group col-lg-5 col-md-7 col-sm-9">
+            <input type="text" name="LAWSUIT_NO" class="form-control form-control-sm" placeholder="" ngModel
+              [(ngModel)]="TEMP_LAWSUIT_NO">
+            <label for="" class="">&nbsp; / &nbsp;</label>
+            <input type="text" name="LAWSUIT_NO_YEAR" class="form-control form-control-sm" placeholder="" ngModel
+              [(ngModel)]="TEMP_LAWSUIT_NO_YEAR">
+          </div>
+
+          <label for="" class="col-lg-2 col-sm-3 control-label">ประเภทคดี</label>
+          <div class="col-lg-3 col-md-7 col-sm-9">
+            <div class="form-group">
+              <select name="IS_OUTSIDE" class="form-control form-control-sm" ngModel [(ngModel)]="TEMP_IS_OUTSIDE">
+                <option value="">ทั้งหมด</option>
+                <option value="0">คดีในสถานที่ทำการ</option>
+                <option value="1">คดีนอกสถานที่ทำการ</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <label for="" class="col-lg-2 col-sm-3 control-label">วันที่รับคดี</label>
+          <div id="date-picker" class="form-group input-group col-lg-5 col-md-7 col-sm-9">
+            <my-date-picker-th ngModel name="LAWSUIT_DATE_FROM" placeholder="" locale="th" id="LAWSUIT_DATE_FROM"
+              [options]="myDatePickerLawsuitFromOptions" [(ngModel)]="LAWSUIT_DATE_FROM"
+              (dateChanged)="onLawsuitDateFromChanged($event)" class="form-control form-control-sm unset-form-control">
+            </my-date-picker-th>
+            <label for="">&nbsp;ถึง&nbsp;</label>
+            <my-date-picker-th ngModel name="LAWSUIT_DATE_TO" placeholder="" locale="th" id="LAWSUIT_DATE_TO"
+              [options]="myDatePickerLawsuitToOptions" [(ngModel)]="LAWSUIT_DATE_TO"
+              (dateChanged)="onLawsuitDateToChanged($event)" class="form-control form-control-sm unset-form-control">
+            </my-date-picker-th>
+          </div>
+
+          <label for="" class="col-lg-2 col-sm-3 control-label">เลขหนังสือนำส่ง</label>
+          <div class="col-lg-3 col-md-7 col-sm-9">
+            <div class="form-group">
+              <div class="form-line">
+                <input type="text" name="DELIVERY_NO" class="form-control form-control-sm" placeholder=""
+                  [(ngModel)]="TEMP_DELIVERY_NO">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <label for="" class="col-lg-2 col-sm-3 control-label">วันที่นำส่งของกลาง</label>
+          <div id="date-picker" class="form-group input-group col-lg-5 col-md-7 col-sm-9">
+            <my-date-picker-th ngModel name="DELIVERY_DATE_FROM" placeholder="" locale="th" id="DELIVERY_DATE_FROM"
+              [options]="myDatePickerDeliveryFromOptions" [(ngModel)]="DELIVERY_DATE_FROM"
+              (dateChanged)="onDeliveryDateFromChanged($event)" class="form-control form-control-sm unset-form-control">
+            </my-date-picker-th>
+            <label for="">&nbsp;ถึง&nbsp;</label>
+            <my-date-picker-th ngModel name="DELIVERY_DATE_TO" placeholder="" locale="th" id="DELIVERY_DATE_TO"
+              [options]="myDatePickerDeliveryToOptions" [(ngModel)]="DELIVERY_DATE_TO"
+              (dateChanged)="onDeliveryDateToChanged($event)" class="form-control form-control-sm unset-form-control">
+            </my-date-picker-th>
+          </div>
+
+          <label for="" class="col-lg-2 col-sm-3 control-label">วันที่ตรวจรับของกลาง</label>
+          <div id="date-picker" class="form-group input-group col-lg-5 col-md-7 col-sm-9">
+            <my-date-picker-th ngModel name="EVIDENCE_IN_DATE_FROM" placeholder="" locale="th"
+              id="EVIDENCE_IN_DATE_FROM" [options]="myDatePickerEvidenceInFromOptions"
+              [(ngModel)]="EVIDENCE_IN_DATE_FROM" (dateChanged)="onEvidenceInDateFromChanged($event)"
+              class="form-control form-control-sm unset-form-control">
+            </my-date-picker-th>
+            <label for="">&nbsp;ถึง&nbsp;</label>
+            <my-date-picker-th ngModel name="EVIDENCE_IN_DATE_TO" placeholder="" locale="th" id="EVIDENCE_IN_DATE_TO"
+              [options]="myDatePickerEvidenceInToOptions" [(ngModel)]="EVIDENCE_IN_DATE_TO"
+              (dateChanged)="onEvidenceInDateToChanged($event)" class="form-control form-control-sm unset-form-control">
+            </my-date-picker-th>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-8 col-4"></div>
+          <div class="col-lg-2 col-4">
+            <button type="button" class="btn btn-block" (click)="itemSelected()">เลือก</button>
+          </div>
+          <div class="col-lg-2 col-4">
+            <button type="submit" class="btn btn-block">ค้นหาสินค้า</button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <div class="card unset-radius">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table [formGroup]="evidenceInItemFormGroup"  class="table table-sm table-striped">
+          <thead>
+            <tr>
+              <th class="text-center" style="width:5%">
+                <input type="checkbox" id="th" class="filled-in chk-col-indigo" (change)="checkAll()"
+                  [checked]="isCheckAll">
+                <label for="th" class="m-t-10 m-b-0"></label>
+              </th>
+              <th style="width:5%">ลำดับ</th>
+              <th style="width:20%">เลขที่คดี/วันที่รับคดี</th>
+              <th style="width:15%">เลขหนังสือนำส่ง</th>
+              <th style="width:15%">วันที่นำส่งของกลาง</th>
+              <th style="width:15%">วันที่ตรวจรับของกลาง</th>
+              <th style="width:15%">เลขทะเบียนบัญชี</th>
+              <th style="width:15%">ของกลาง</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody formArrayName="EvidenceInItems">
+            <tr *ngFor="let item of EvidenceInItems.controls; let i=index;" [formGroupName]="i">
+              <td class="text-center">
+                <input type="checkbox" formControlName="IsChecked" [id]="'td'+i" class="filled-in chk-col-indigo"
+                  [checked]="isCheckAll">
+                <label [for]="'td'+i" class="m-0"></label>
+              </td>
+              <td class="text-center">{{i + 1}}</td>
+              <td>
+                <p class="m-0" *ngFor="let str of item.get('LAWSUIT_NO').value.split(',')">
+                  <a>{{str}}</a>
+                </p>
+              </td>
+              <td>{{item.get('DELIVERY_NO').value}}</td>
+              <td>{{item.get('DELIVERY_DATE').value}}</td>
+              <td>{{item.get('EVIDENCE_IN_DATE').value}}</td>
+              <td>
+                <p class="m-0" *ngFor="let obj of item.get('EvidenceInItem').value ">
+                  <a>{{obj.EVIDENCE_IN_ITEM_CODE}}</a>
+                </p>
+              </td>
+              <td>
+                <p class="m-0" *ngFor="let obj of item.get('EvidenceInItem').value ">
+                  <a>{{obj.PRODUCT_DESC}}</a>
+                </p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card-footer card-footer-unset">
+      <app-pagination-table [TotalItems]="paginage.TotalItems" [CurrentPage]="paginage.CurrentPage"
+        [PageSize]="paginage.PageSize" [RowsPerPageOptions]="paginage.RowsPerPageOptions"
+        (onPageChange)="pageChanges($event)">
+      </app-pagination-table>
+    </div>
+  </div>
+  <!-- **************************END CREATE PRODUCTS************************** -->
+</div>

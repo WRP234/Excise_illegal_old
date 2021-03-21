@@ -1,0 +1,594 @@
+<header class="topbar">
+    <nav class="navbar top-navbar navbar-expand-md navbar-light">
+        <div class="navbar-collapse" style="padding-right: 55px;">
+            <ul class="navbar-nav mr-auto mt-md-0">
+                <li *ngIf="PrintButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnPrint()">
+                            พิมพ์
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="EditButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnEdit()">
+                            แก้ไข
+                        </a>
+                    </div>
+                </li>
+                <!-- <li *ngIf="DeleteButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnDelete()"
+                            style="background-color: #f47023">
+                            ลบ
+                        </a>
+                    </div>
+                </li> -->
+                <li *ngIf="SaveButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnSave()">
+                            บันทึก
+                        </a>
+                    </div>
+                </li>
+                <li *ngIf="CancelButton | async" class="nav-item">
+                    <div class="nav-link text-muted waves-effect waves-dark">
+                        <a class="btn btn-ghost" href="javascript:void(0)" (click)="OnCancel()">
+                            ยกเลิก
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<ng-template #printDocModal let-c="close" let-d="dismiss">
+    <app-print-doc-modal [RevenueID]="REVENUE_ID" (c)="modal.close()" (d)="modal.dismiss()"></app-print-doc-modal>
+</ng-template>
+
+<app-step-wizard [sectionId]="6" [input]="INPUT_WIZARD"></app-step-wizard>
+
+<div class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius" (click)="toggleCollapse(revenueInfo_collapes)">
+        <div class="card-actions">
+            <a class="">
+                <i class="fa"
+                    [ngClass]="{'fa-chevron-up': (revenueInfo_collapes | async), 'fa-chevron-down': !(revenueInfo_collapes | async)}"></i>
+            </a>
+        </div>
+        <h4 class="card-title m-b-0">รายละเอียดการนำส่งเงินรายได้</h4>
+    </div>
+    <div *ngIf="revenueInfo_collapes | async" class="card-body">
+        <form>
+            <div class="row">
+                <label for="" class="col-lg-2 col-sm-4 control-label">เลขที่นำส่งเงิน</label>
+                <div class="col-lg-4 col-md-7 col-sm-8">
+                    <div class="form-group ">
+                        <input type="text" name="REVENUE_CODE" [(ngModel)]="REVENUE_CODE"
+                            [ngModelOptions]="{standalone: true}" class="form-control form-control-sm" disabled>
+                    </div>
+                </div>
+
+                <label for="" class="col-lg-2 col-md-4 control-label is-required">วันที่นำส่ง</label>
+                <div class="col-lg-4 col-md-7">
+                    <div class="form-group input-group">
+                        <my-date-picker-th name="REVENUE_DATE" [options]="RevenueDateOptions"
+                            class="form-control form-control-sm unset-form-control" [(ngModel)]="REVENUE_DATE"
+                            [ngModelOptions]="{standalone: true}" [disabled]="showEditField"
+                            [ngClass]="{'ng-touched':isRequired}" (dateChanged)="isReq_revDate.next(false)">
+                        </my-date-picker-th>
+                        <label for="" class="">&nbsp; เวลา &nbsp;</label>
+                        <input type="text" name="REVENUE_TIME" class="form-control form-control-sm"
+                            pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" maxlength="5" [(ngModel)]="REVENUE_TIME"
+                            [ngModelOptions]="{standalone: true}" [disabled]="showEditField"
+                            (keyup)="setFormatTime($event); revenueTimeInvalidSet(revanue_time.invalid)"
+                            [ngClass]="{'ng-invalid-req':revanue_time.invalid}" (keypress)="isNumberOnly($event)"
+                            #revanue_time="ngModel">
+                    </div>
+                    <div class="alert alert-danger mt-3" role="alert" *ngIf="revanue_time.invalid;">
+                        กรุณาระบุข้อมูล hh:mm
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <label for="" class="col-lg-2 col-md-4 control-label is-required">เลขที่หนังสือนำส่ง</label>
+                <div class="col-lg-4 col-md-7 col-sm-8">
+                    <div class="form-group">
+                        <input type="text" name="REVENUE_NO" [(ngModel)]="REVENUE_NO"
+                            [ngModelOptions]="{standalone: true}" class="form-control form-control-sm"
+                            [disabled]="showEditField" [ngClass]="{'ng-invalid-req':isReq_revNo.value}"
+                            (keydown)="isReq_revNo.next(false)">
+                    </div>
+                </div>
+
+                <label for="" class="col-lg-2 col-md-4 control-label">เรียน</label>
+                <div class="col-lg-4 col-md-7 col-sm-8">
+                    <div class="form-group ">
+                        <!-- <ng-template #rtInform let-r="result" let-t="term">
+                            {{r.TITLE_SHORT_NAME_TH == null ? '' : r.TITLE_SHORT_NAME_TH}}{{r.FIRST_NAME == null ? '' : r.FIRST_NAME}}
+                            {{r.LAST_NAME == null ? '' : r.LAST_NAME}}
+                        </ng-template>
+                        <input id="typeahead-template" type="text" class="form-control form-control-sm"
+                            [(ngModel)]="STAFF_INFORM_MODEL" [ngModelOptions]="{standalone: true}"
+                            [ngbTypeahead]="searchStaff" [resultTemplate]="rtInform" [inputFormatter]="StaffFormatter"
+                            [value]="STAFF_INFORM_NAME" [disabled]="showEditField"> -->
+                        <input type="text"  class="form-control form-control-sm" [(ngModel)]="STAFF_INFORM_NAME"
+                            [ngModelOptions]="{standalone: true}" [disabled]="showEditField">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <label for="" class="col-lg-2 col-md-4 control-label is-required">สถานที่นำส่งเงิน</label>
+                <div class="col-lg-4 col-md-7 col-sm-8">
+                    <div class="form-group ">
+                        <ng-template #rtStationFrom let-r="result" let-t="term">
+                            {{ r.OFFICE_SHORT_NAME }}
+                        </ng-template>
+                        <input id="typeahead-template" type="text" class="form-control form-control-sm"
+                            [(ngModel)]="STATION_FROM_MODEL" [ngModelOptions]="{standalone: true}"
+                            [ngbTypeahead]="searchOffice" [resultTemplate]="rtStationFrom"
+                            [inputFormatter]="formatter_Office" [value]="FROM_OFFICE_NAME" [disabled]="showEditField"
+                            (selectItem)="StaffStationFromselectItem($event)" (input)="StationFromClear()"
+                            [ngClass]="{'ng-invalid-req':isReq_deliveryOfficeCode.value}"
+                            (keydown)="isReq_deliveryOfficeCode.next(false)">
+                        <!-- <div class="alert alert-danger mt-3" role="alert" *ngIf="isReq_deliveryOfficeCode.value">
+                            กรุณาระบุข้อมูล "สถานที่นำส่งเงิน"
+                        </div> -->
+                    </div>
+                </div>
+                <label for="" class="col-lg-2 col-md-4 control-label">สถานะนำส่งเงิน</label>
+                <div class="col-lg-4 col-md-7 col-sm-8">
+                    <div class="form-group ">
+                        <input type="text" name="REVENUE_STATUS" [(ngModel)]="REVENUE_STATUS_TEXT"
+                            [ngModelOptions]="{standalone: true}" class="form-control form-control-sm" disabled>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <label for="" class="col-lg-2 col-md-4 control-label is-required">ชื่อผู้นำส่งเงิน</label>
+                <div class="col-lg-4 col-md-7 col-sm-8">
+                    <div class="form-group ">
+                        <ng-template #rtSend let-r="result" let-t="term">
+                            {{r.TITLE_SHORT_NAME_TH == null ? '' : r.TITLE_SHORT_NAME_TH}}{{r.FIRST_NAME == null ? '' :
+                            r.FIRST_NAME}}
+                            {{r.LAST_NAME == null ? '' : r.LAST_NAME}}
+                        </ng-template>
+                        <input id="typeahead-template" type="text" class="form-control form-control-sm"
+                            [(ngModel)]="STAFF_SEND_MODEL" [ngModelOptions]="{standalone: true}"
+                            [ngbTypeahead]="searchStaff" [resultTemplate]="rtSend" [inputFormatter]="StaffFormatter"
+                            [value]="STAFF_SEND_NAME" [disabled]="showEditField"
+                            (selectItem)="StaffSendselectItem($event)"
+                            [ngClass]="{'ng-invalid-req':isReq_staffSend.value}" (input)="StaffSendClear()"
+                            (keydown)="isReq_staffSend.next(false)">
+                    </div>
+                </div>
+                <label for="" class="col-lg-2 col-md-4 control-label is-required">ชื่อผู้มีอำนาจลงนาม</label>
+                <div class="col-lg-4 col-md-7 col-sm-8">
+                    <div class="form-group ">
+                        <ng-template #rt let-r="result" let-t="term">
+                            {{r.TITLE_SHORT_NAME_TH == null ? '' : r.TITLE_SHORT_NAME_TH}}{{r.FIRST_NAME == null ? '' :
+                            r.FIRST_NAME}}
+                            {{r.LAST_NAME == null ? '' : r.LAST_NAME}}
+                        </ng-template>
+                        <input id="typeahead-template" type="text" class="form-control form-control-sm"
+                            [(ngModel)]="STAFF_SIGN_MODEL" [ngModelOptions]="{standalone: true}"
+                            [ngbTypeahead]="searchStaff" [resultTemplate]="rt" [inputFormatter]="StaffFormatter"
+                            [value]="STAFF_SIGN_NAME" [disabled]="showEditField"
+                            (selectItem)="StaffSignselectItem($event)" (input)="StaffSignClear()"
+                            [ngClass]="{'ng-invalid-req':isReq_staffSign.value}"
+                            (keydown)="isReq_staffSign.next(false)">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <label for="" class="col-lg-2 col-md-4 control-label">ตำแหน่ง</label>
+                <div class="col-lg-4 col-md-7 col-sm-8">
+                    <div class="form-group ">
+                        <input type="text" name="STAFF_SEND_POS_NAME" [(ngModel)]="STAFF_SEND_POS_NAME"
+                            [ngModelOptions]="{standalone: true}" class="form-control form-control-sm" disabled>
+                    </div>
+                </div>
+                <label for="" class="col-lg-2 col-md-4 control-label">ตำแหน่ง</label>
+                <div class="col-lg-4 col-md-7 col-sm-8">
+                    <div class="form-group ">
+                        <input type="text" name="STAFF_SIGN_POS_NAME" [(ngModel)]="STAFF_SIGN_POS_NAME"
+                            [ngModelOptions]="{standalone: true}" class="form-control form-control-sm" disabled>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <label for="" class="col-lg-2 col-md-4 control-label">หน่วยงาน</label>
+                <div class="col-lg-4 col-md-7 col-sm-8">
+                    <div class="form-group ">
+                        <input type="text" name="STAFF_SEND_OFFICE_NAME" [(ngModel)]="STAFF_SEND_OFFICE_NAME"
+                            [ngModelOptions]="{standalone: true}" class="form-control form-control-sm" disabled>
+                    </div>
+                </div>
+                <label for="" class="col-lg-2 col-md-4 control-label">หน่วยงาน</label>
+                <div class="col-lg-4 col-md-7 col-sm-8">
+                    <div class="form-group ">
+                        <input type="text" name="STAFF_SIGN_OFFICE_NAME" [(ngModel)]="STAFF_SIGN_OFFICE_NAME"
+                            [ngModelOptions]="{standalone: true}" class="form-control form-control-sm" disabled>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <label for="" class="col-lg-2 col-md-4 control-label">หน่วยงานปลายทาง</label>
+                <div class="col-lg-4 col-md-7 col-sm-8">
+                    <div class="form-group ">
+                        <ng-template #rtStationTo let-r="result" let-t="term">
+                            {{ r.OFFICE_SHORT_NAME }}
+                        </ng-template>
+                        <input id="typeahead-template" type="text" class="form-control form-control-sm"
+                            [(ngModel)]="STATION_TO_MODEL" [ngModelOptions]="{standalone: true}"
+                            [ngbTypeahead]="searchOffice" [resultTemplate]="rtStationTo"
+                            [inputFormatter]="formatter_Office" [value]="TO_OFFICE_NAME" [disabled]="showEditField"
+                            (selectItem)="StaffStationToselectItem($event)" (input)="StationToClear()"
+                            [ngClass]="{'ng-touched':isRequired}" (keydown)="isReq_receiveOfficeCode.next(false)">
+                        <div class="alert alert-danger mt-3" role="alert" *ngIf="isReq_receiveOfficeCode.value">
+                            กรุณาระบุข้อมูล "หน่วยงานปลายทาง"
+                        </div>
+                    </div>
+                </div>
+                <label for="" class="col-lg-2 col-md-4 control-label">เลขอ้างอิงระบบรายได้</label>
+                <div class="col-lg-4 col-md-7 col-sm-8">
+                    <div class="form-group ">
+                        <input type="text" name="RECEIVE_REF_NO" [(ngModel)]="RECEIVE_REF_NO"
+                            class="form-control form-control-sm" disabled>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- <div class="row">
+            <div class="col-lg-10 col-md-7 col-sm-8">
+            </div>
+
+            <div class="form-group col-lg-2 col-md-7 col-sm-8">
+                <button type="button" (click)="ShowRevenueCompare()" class="btn btn-block btn-themecolor" [disabled]="showEditField">รายงานที่ยังไม่นำส่งเงิน</button>
+            </div>
+        </div> -->
+        </form>
+    </div>
+</div>
+
+<!-- คดีเปรียบเทียบ -->
+<div class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius" (click)="toggleCollapse(revenueCompare_collapes)">
+        <div class="card-actions">
+            <a class="">
+                <i class="fa"
+                    [ngClass]="{'fa-chevron-up': (revenueCompare_collapes | async), 'fa-chevron-down': !(revenueCompare_collapes | async)}"></i>
+            </a>
+        </div>
+        <h4 class="card-title m-b-0">คดีเปรียบเทียบ</h4>
+    </div>
+    <!-- รายการ -->
+    <div *ngIf="revenueCompare_collapes | async" class="card-body">
+        <div class="table-responsive table-sm table-striped overflow_y_hidden">
+            <table class="table" style="width: 150%; max-width: unset;">
+                <thead>
+                    <tr>
+                        <th style="width: 2%;">
+                            <input type="checkbox" id="H_0" class="filled-in chk-col-indigo" name="selectAllChb"
+                                [(ngModel)]="selectAllChb" (change)="selectedChkAll();" [disabled]="showEditField">
+                            <label for="H_0" class="m-0"></label>
+                        </th>
+                        <th style="text-align: center;width:3%">ลำดับ</th>
+                        <!-- 
+                            <i class="mdi mdi-filter-variant fa-lg" style="margin-left: 5px;cursor: pointer;"
+                                (click)="SortBy('Compare', isSortCompareAsc)"></i>
+                        -->
+                        <th style="width: 8%;">เลขคดีเปรียบเทียบ</th>
+                        <th style="width: 6%;">ใบเสร็จเลขที่</th>
+                        <th style="width: 8%;">ประเภทการชำระเงิน</th>
+                        <th style="width: 10%;">หมายเลขอ้างอิง</th>
+                        <th style="width: 13%;">ธนาคาร</th>
+                        <th style="width: 14%;">ผู้ต้องหา</th>
+                        <th style="width: 7%;">วันที่ชำระ</th>
+                        <th style="width: 10%;">ของกลาง</th>
+                        <th style="text-align: right; width: 5%">ค่าปรับรวม</th>
+                        <th style="text-align: right; width: 5%">เงินสินบน</th>
+                        <th style="text-align: right; width: 5%">เงินรางวัล</th>
+                        <th style="text-align: right; width: 5%">เงินส่งคลัง</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of ListRevenueCompare; let $i=index;">
+                        <td>
+                            <input type="checkbox" class="filled-in chk-col-indigo" [id]="'td'+$i" name="ListChK{{$i}}"
+                                [(ngModel)]="item.IsCheck"
+                                (change)="toggleRevenueCompareChk($i,item.IsCheck); checkIfAllChbSelected();"
+                                [ngClass]="{'ng-touched':isRequired}" [disabled]="showEditField">
+                            <label [for]="'td'+$i" class="m-0"></label>
+                        </td>
+                        <td style="text-align: center;">{{$i + 1}}</td>
+                        <td>{{item.COMPARE_NO}}</td>
+                        <td>
+                            <ng-container *ngFor="let rcd of item.RevenueCompareDetail; let i=index;">
+                                <p class="mb-1">
+                                    {{rcd.RECEIPT_BOOK_NO}}
+                                </p>
+                                <p class="mb-1" *ngFor="let rp of rcd.RevenuePayment; let i=index;"
+                                    style="opacity: 0%;">
+                                    <span *ngIf="i != 0">rowspan</span>
+                                </p>
+                            </ng-container>
+                        </td>
+                        <td>
+                            <ng-container *ngFor="let rcd of item.RevenueCompareDetail; let i=index;">
+                                <p class="mb-1" *ngFor="let rp of rcd.RevenuePayment;">
+                                    {{getPaymentChannelText(rp.PAYMENT_CHANNEL)}}
+                                </p>
+                            </ng-container>
+                        </td>
+                        <td>
+                            <ng-container *ngFor="let rcd of item.RevenueCompareDetail; let i=index;">
+                                <p class="mb-1" *ngFor="let rp of rcd.RevenuePayment;">
+                                    {{rp.PAYMENT_REF_NO || '&nbsp;'}}
+                                </p>
+                            </ng-container>
+                        </td>
+                        <td>
+                            <ng-container *ngFor="let rcd of item.RevenueCompareDetail; let i=index;">
+                                <p class="mb-1" *ngFor="let rp of rcd.RevenuePayment;">
+                                    {{getPaymentBankText(rp.PAYMENT_BANK) || '&nbsp;'}}
+                                </p>
+                            </ng-container>
+                        </td>
+                        <td>
+                            <ng-container *ngFor="let rcd of item.RevenueCompareDetail; let i=index;">
+                                <p class="mb-1">
+                                    {{rcd.LAWBREAKER_NAME}}
+                                </p>
+                                <p class="mb-1" *ngFor="let rp of rcd.RevenuePayment; let i=index;"
+                                    style="opacity: 0%;">
+                                    <span *ngIf="i != 0">rowspan</span>
+                                </p>
+                            </ng-container>
+                        </td>
+                        <td>
+                            <ng-container *ngFor="let rcd of item.RevenueCompareDetail; let i=index;">
+                                <p class="mb-1">
+                                    {{rcd.PAYMENT_DATE}}
+                                </p>
+                                <p class="mb-1" *ngFor="let rp of rcd.RevenuePayment; let i=index;"
+                                    style="opacity: 0%;">
+                                    <span *ngIf="i != 0">rowspan</span>
+                                </p>
+                            </ng-container>
+                        </td>
+                        <td>
+                            <ng-container *ngFor="let rcd of item.RevenueCompareDetail; let i2=index;">
+                                <ng-container class="mb-1" *ngIf="rcd['IS_PROVE'] == '1'  && i2 == '0'">
+                                    <span>{{rcd.PRODUCT_DESC}}</span>
+                                </ng-container>
+                                <ng-container class="mb-1" *ngIf="rcd['IS_PROVE'] == '0'">
+                                    <span *ngIf="rcd['IS_PROD_LENGTH'] == '1' && i2 == '0'">
+                                        {{rcd.PRODUCT_DESC}}
+                                    </span>
+                                    <span *ngIf="rcd['IS_PROD_LENGTH'] != '1' && i2 == '0'">
+                                        <div class="form-line">
+                                            <select #pGroupId class="form-control form-control-sm text-truncate"
+                                                [(ngModel)]="rcd['PRODUCT_GROUP_ID_TEMP']" data-toggle="tooltip"
+                                                title="{{getProductNameSelecterByID(pGroupId.value)}}"
+                                                (change)="autoSetProductgroupcodeCaseNoProve_selected(pGroupId.value)"
+                                                [ngClass]="{'ng-invalid-req': setReqCaseNoProve(item.IsCheck, rcd['PRODUCT_GROUP_ID_TEMP'])}"
+                                                [attr.disabled]="showEditField ? '' : null">
+                                                <option value="0" selected disabled>กรุณาเลือกหมวดของกลาง</option>
+                                                <option *ngFor="let item of ProductGroup_illg_sys;"
+                                                    [value]="item.PRODUCT_GROUP_ID">{{item.PRODUCT_GROUP_NAME}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </span>
+                                </ng-container>
+
+                                <p class="mb-1" *ngFor="let rp of rcd.RevenuePayment; let i=index;"
+                                    style="opacity: 0%;">
+                                    <span *ngIf="i != 0">rowspan</span>
+                                </p>
+                            </ng-container>
+                        </td>
+                        <td style="text-align: right;">
+                            <ng-container *ngFor="let rcd of item.RevenueCompareDetail; let i=index;">
+                                <span class="mb-1">
+                                    {{rcd.PAYMENT_FINE | number:'1.2-2'}}
+                                </span>
+                                <p class="mb-1" *ngFor="let rp of rcd.RevenuePayment; let i=index;"
+                                    style="opacity: 0%;">
+                                    <span *ngIf="i != 0">rowspan</span>
+                                </p>
+                            </ng-container>
+                        </td>
+                        <td style="text-align: right;">
+                            <ng-container *ngFor="let rcd of item.RevenueCompareDetail; let i=index;">
+                                <span class="mb-1">
+                                    {{rcd.BRIBE_MONEY | number:'1.2-2'}}
+                                </span>
+                                <p class="mb-1" *ngFor="let rp of rcd.RevenuePayment; let i=index;"
+                                    style="opacity: 0%;">
+                                    <span *ngIf="i != 0">rowspan</span>
+                                </p>
+                            </ng-container>
+                        </td>
+                        <td style="text-align: right;">
+                            <ng-container *ngFor="let rcd of item.RevenueCompareDetail; let i=index;">
+                                <span class="mb-1">
+                                    {{rcd.REWARD_MONEY | number:'1.2-2'}}
+                                </span>
+                                <p class="mb-1" *ngFor="let rp of rcd.RevenuePayment; let i=index;"
+                                    style="opacity: 0%;">
+                                    <span *ngIf="i != 0">rowspan</span>
+                                </p>
+                            </ng-container>
+                        </td>
+                        <td style="text-align: right;">
+                            <ng-container *ngFor="let rcd of item.RevenueCompareDetail; let i=index;">
+                                <span class="mb-1">
+                                    {{rcd.TREASURY_MONEY | number:'1.2-2'}}
+                                </span>
+                                <p class="mb-1" *ngFor="let rp of rcd.RevenuePayment; let i=index;"
+                                    style="opacity: 0%;">
+                                    <span *ngIf="i != 0">rowspan</span>
+                                </p>
+                            </ng-container>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="10" style="text-align: right; font-weight: bold">ผลรวมเฉพาะรายการที่เลือก : </td>
+                        <td style="text-align: right;">{{PAYMENT_FINE_TOTAL | number:'1.2-2'}}</td>
+                        <td style="text-align: right;">{{BRIBE_MONEY_TOTAL | number:'1.2-2'}}</td>
+                        <td style="text-align: right;">{{REWARD_MONEY_TOTAL | number:'1.2-2'}}</td>
+                        <td style="text-align: right;">{{TREASURY_MONEY_TOTAL | number:'1.2-2'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- <div class="card-footer card-footer-unset">
+                <app-pagination-table [TotalItems]="paginage.TotalItems" [CurrentPage]="paginage.CurrentPage" [PageSize]="paginage.PageSize"
+                    [RowsPerPageOptions]="paginage.RowsPerPageOptions" (onPageChange)="pageChanges($event)">
+                </app-pagination-table>
+            </div> -->
+        </div>
+    </div>
+</div>
+
+<!-- คดีฟ้องศาลที่ยังไม่นำส่งเงิน -->
+<div class="card card-outline-bluish unset-radius">
+    <div class="card-header unset-radius" (click)="toggleCollapse(revenueLawsuit_collapes)">
+        <div class="card-actions">
+            <a class="">
+                <i class="fa"
+                    [ngClass]="{'fa-chevron-up': (revenueLawsuit_collapes | async), 'fa-chevron-down': !(revenueLawsuit_collapes | async)}"></i>
+            </a>
+        </div>
+        <h4 class="card-title m-b-0">คดีส่งฟ้องศาล</h4>
+    </div>
+    <div *ngIf="revenueLawsuit_collapes | async" class="card-body">
+        <div class="table-responsive table-sm table-striped overflow_y_hidden">
+            <table class="table" style="width: 128%; max-width: unset;">
+                <thead>
+                    <tr>
+                        <th style="width: 3%;">
+                            <input type="checkbox" id="H_1" class="filled-in chk-col-indigo" name="courtSelectAllChb"
+                                [(ngModel)]="courtSelectAllChb" (change)="selectedCourtChkAll();"
+                                [disabled]="showEditField">
+                            <label for="H_1" class="m-0"></label>
+                        </th>
+                        <th style="text-align: center; width: 3%;">ลำดับ</th>
+                        <th style="width: 6%;">เลขที่คดี</th>
+                        <th style="width: 11%;">ประเภทการชำระเงิน</th>
+                        <th style="width: 10%;">หมายเลขอ้างอิง</th>
+                        <th style="width: 15%;">ธนาคาร</th>
+                        <th style="width: 17%;">ผู้ต้องหา</th>
+                        <th style="width: 10%;">งวดที่/งวดทั้งหมด</th>
+                        <th style="text-align: right;">มูลค่าเซ็ค</th>
+                        <th style="text-align: right;">เงินสินบน</th>
+                        <th style="text-align: right;">เงินรางวัล</th>
+                        <th style="text-align: right;">เงินส่งคลัง</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of ListRevenueCourt; let i=index;">
+                        <td>
+                            <input type="checkbox" class="filled-in chk-col-indigo" [id]="'tdC'+i"
+                                name="ListChKCourt{{i}}" [(ngModel)]="item.IsCheck"
+                                (change)="checkIfAllCourtChbSelected();" [ngClass]="{'ng-touched':isRequired}"
+                                [disabled]="showEditField">
+                            <label [for]="'tdC'+i" class="m-0"></label>
+                        </td>
+                        <td style="text-align: center;">{{i + 1}}</td>
+                        <td>{{item.LAWSUIT_NO}}</td>
+                        <td>
+                            <ng-container *ngFor="let ld of item.LawsuiltDetail; let i=index;">
+                                <p class="mb-1" *ngFor="let pm of ld.Payment;">
+                                    <span>{{pm.PAYMENT_CHANNEL_NAME}}</span>
+                                </p>
+                            </ng-container>
+                        </td>
+                        <td>
+                            <ng-container *ngFor="let ld of item.LawsuiltDetail; let i=index;">
+                                <p class="mb-1" *ngFor="let pm of ld.Payment;">
+                                    <span>{{pm.PAYMENT_REF_NO}}</span>
+                                </p>
+                            </ng-container>
+                        </td>
+                        <td>
+                            <ng-container *ngFor="let ld of item.LawsuiltDetail; let i=index;">
+                                <p class="mb-1" *ngFor="let pm of ld.Payment;">
+                                    <span>{{getPaymentBankText(pm.PAYMENT_BANK) || '&nbsp;'}}</span>
+                                </p>
+                            </ng-container>
+                        </td>
+                        <td>
+                            <ng-container *ngFor="let ld of item.LawsuiltDetail; let i=index;">
+                                <p class="mb-1">
+                                    {{ld.LAWBREAKER_NAME}}
+                                </p>
+                                <!-- <p class="mb-1" *ngFor="let pm of ld.Payment;" style="opacity: 0%;">
+                                    <span>rowspan</span>
+                                </p> -->
+                            </ng-container>
+                        </td>
+                        <td>
+                            <ng-container *ngFor="let ld of item.LawsuiltDetail; let i=index;">
+                                <p class="mb-1" *ngFor="let pm of ld.Payment;">
+                                    <span>{{pm.PAYMENT_PAY}}</span>
+                                </p>
+                            </ng-container>
+                        </td>
+                        <td style="text-align: right;">
+                            <ng-container *ngFor="let ld of item.LawsuiltDetail; let i=index;">
+                                <p class="mb-1" *ngFor="let pm of ld.Payment;">
+                                    <span>{{pm.FINE | number:'1.2-2'}}</span>
+                                </p>
+                            </ng-container>
+                        </td>
+                        <td style="text-align: right;">
+                            <ng-container *ngFor="let ld of item.LawsuiltDetail; let i=index;">
+                                <p class="mb-1" *ngFor="let pm of ld.Payment;">
+                                    <span>{{pm.BRIBE_MONEY | number:'1.2-2'}}</span>
+                                </p>
+                            </ng-container>
+                        </td>
+                        <td style="text-align: right;">
+                            <ng-container *ngFor="let ld of item.LawsuiltDetail; let i=index;">
+                                <p class="mb-1" *ngFor="let pm of ld.Payment;">
+                                    <span>{{pm.REWARD_MONEY | number:'1.2-2'}}</span>
+                                </p>
+                            </ng-container>
+                        </td>
+                        <td style="text-align: right;">
+                            <ng-container *ngFor="let ld of item.LawsuiltDetail; let i=index;">
+                                <p class="mb-1" *ngFor="let pm of ld.Payment;">
+                                    <span>{{0 | number:'1.2-2'}}</span>
+                                </p>
+                            </ng-container>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="8" style="text-align: right; font-weight: bold">รวม : </td>
+                        <td style="text-align: right;">{{COURT_CHECK_MONEY_TOTAL | number:'1.2-2'}}</td>
+                        <td style="text-align: right;">{{COURT_BRIBE_MONEY_TOTAL | number:'1.2-2'}}</td>
+                        <td style="text-align: right;">{{COURT_REWARD_MONEY_TOTAL | number:'1.2-2'}}</td>
+                        <td style="text-align: right;">{{0 | number:'1.2-2'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- <div class="card-footer card-footer-unset">
+                <app-pagination-table [TotalItems]="courtpaginage.TotalItems" [CurrentPage]="courtpaginage.CurrentPage" [PageSize]="courtpaginage.PageSize"
+                    [RowsPerPageOptions]="courtpaginage.RowsPerPageOptions" (onPageChange)="courtPageChanges($event)">
+                </app-pagination-table>
+            </div> -->
+        </div>
+    </div>
+</div>
