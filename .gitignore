@@ -40,9 +40,9 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
-src/app/pages/prove/prove.service.ts
-src/app/app.config.ts
-package-lock.json
-package.json
-src/app/pages/notices/notice.service.ts
-src/app/pages/notices/notice-document.ts
+# src/app/pages/prove/prove.service.ts
+# src/app/app.config.ts
+# package-lock.json
+# package.json
+# src/app/pages/notices/notice.service.ts
+# src/app/pages/notices/notice-document.ts
