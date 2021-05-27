@@ -16,13 +16,13 @@ export enum host {
   /** ==>> DEV COLOCATION_SERVER <<== */
   // api = "103.233.193.62", //api_score
   // api = "localhost",
-  api = "10.11.1.116", //api_pcc
-  // api = "192.168.112.31", //api_rd_uat
+  // api = "10.11.1.116", //api_pcc
+  api = "192.168.112.31", //api_rd_uat
   // api = "edrac12-scan.excise.go.th", //api_rd_uat2
   // api = "192.168.109.52", //api_rd_production
   // report = "scorexcsilg.thddns.net:8000",
-  // report = "192.168.112.32", //report_rd_uat
-  report = "172.29.60.13", //report_rd_pcc
+  report = "192.168.112.32", //report_rd_uat
+  // report = "172.29.60.13", //report_rd_pcc
   xcs_dns_service = 'http://webtest.excise.go.th/EDRestServicesUAT',
   xcs_ip_service = 'http://192.168.103.10/EDRestServicesUAT',
   oag_service = 'http://oag1.uat.excise.go.th',

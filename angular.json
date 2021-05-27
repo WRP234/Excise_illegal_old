@@ -139,7 +139,8 @@
   "cli": {
     "warnings": {
       "typescriptMismatch": false
-    }
+    },
+    "analytics": "79e666c6-cc93-4915-be55-65ae71038e08"
   },
   "schematics": {
     "@schematics/angular:class": {
